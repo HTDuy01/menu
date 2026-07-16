@@ -3,159 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#6F4E37">
+  <meta name="theme-color" content="#161412">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Thực Đơn Số</title>
+  <title>Thực Đơn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --brown: #6F4E37;
-      --cream: #FAF8F5;
+      --ink: #161412;
+      --cream: #EFECE4;
+      --card: #ffffff;
+      --accent: #F2610D;
+      --muted: #9C968C;
+      --line: #E7E2D8;
     }
+    html { height: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'Helvetica Neue', Arial, sans-serif;
+      font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Arial, sans-serif;
       background: var(--cream);
-      color: #1e293b;
+      color: var(--ink);
       min-height: 100vh;
       -webkit-tap-highlight-color: transparent;
     }
-    .header {
-      background: linear-gradient(135deg, #3d1f0f 0%, #6F4E37 55%, #8B6349 100%);
-      color: white;
-      padding: 20px 16px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 20px rgba(111,78,55,0.35);
+    .hidden { display: none !important; }
+
+    /* ============ WELCOME / LANGUAGE SCREEN ============ */
+    .welcome { min-height: 100vh; padding: 12px; display: flex; }
+    .welcome-card {
+      background: var(--card);
+      border-radius: 26px;
+      flex: 1;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 44px 30px;
+      display: flex; flex-direction: column; justify-content: center;
+      box-shadow: 0 20px 50px rgba(20,18,15,0.07);
     }
-    .header-top {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 14px;
+    .w-store { font-size: 14px; font-weight: 600; color: #4d4841; margin-bottom: 14px; }
+    .w-title { font-size: 36px; font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
+    .w-title.vi { color: var(--accent); }
+    .w-sub { margin-top: 22px; font-size: 12.5px; color: var(--muted); font-weight: 500; line-height: 1.65; }
+    .lang-choices { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
+    .lang-choice {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card);
+      border: 1px solid #efebe2;
+      border-radius: 16px;
+      padding: 15px 16px;
+      box-shadow: 0 10px 24px rgba(20,18,15,0.06);
+      cursor: pointer; width: 100%; text-align: left;
+      font-family: inherit; color: var(--ink);
+      transition: transform 0.12s;
     }
-    .logo-circle {
-      width: 50px; height: 50px; border-radius: 14px;
-      background: rgba(255,255,255,0.18);
-      border: 2px solid rgba(255,255,255,0.3);
+    .lang-choice:active { transform: scale(0.98); }
+    .lang-badge {
+      width: 38px; height: 38px; border-radius: 10px;
+      border: 1px solid #e7e3da; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; flex-shrink: 0; overflow: hidden;
+      font-weight: 700; font-size: 12px; color: #4d4841;
     }
-    .logo-circle img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .store-name { font-size: 18px; font-weight: 800; line-height: 1.2; }
-    .store-addr { font-size: 11px; opacity: 0.75; margin-top: 2px; font-weight: 500; }
-    .table-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 9px; font-weight: 900;
-      background: #f59e0b; color: white;
-      padding: 2px 8px; border-radius: 10px;
-      margin-top: 4px;
+    .lang-texts { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .lang-title { font-size: 14px; font-weight: 700; }
+    .lang-sub { font-size: 10.5px; color: var(--muted); font-weight: 500; }
+    .lang-arrow { margin-left: auto; color: var(--accent); font-size: 19px; font-weight: 700; }
+
+    /* ============ MENU SCREEN ============ */
+    #screen-menu { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+    .m-header {
+      background: var(--ink); color: #fff;
+      padding: 16px 18px 22px;
+      position: sticky; top: 0; z-index: 100;
+      border-radius: 0 0 4px 4px;
     }
-    .lang-bar {
-      display: flex; gap: 6px;
-      overflow-x: auto; scrollbar-width: none; padding: 2px 0;
-    }
-    .lang-bar::-webkit-scrollbar { display: none; }
-    .lang-btn {
-      display: flex; align-items: center; gap: 4px;
-      padding: 5px 11px; border-radius: 20px;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.85);
-      font-size: 11px; font-weight: 700;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.18s;
+    .m-top { display: flex; align-items: center; gap: 11px; margin-bottom: 18px; }
+    .back-btn {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: #2b2823; border: 1px solid #403c35;
+      color: #fff; font-size: 15px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
       font-family: inherit;
     }
-    .lang-btn:active { transform: scale(0.95); }
-    .lang-btn.active {
-      background: rgba(255,255,255,0.95);
-      color: var(--brown); border-color: transparent;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    .m-store { font-size: 15px; font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .table-chip {
+      font-size: 9px; font-weight: 700; color: #fff;
+      background: var(--accent);
+      padding: 2px 8px; border-radius: 9px;
+      flex-shrink: 0;
     }
-    .cat-bar {
-      display: flex; gap: 8px;
-      overflow-x: auto; scrollbar-width: none;
-      padding: 12px 14px 10px;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
-      position: sticky; top: 122px; z-index: 90;
+    .lang-pills { margin-left: auto; display: flex; gap: 6px; flex-shrink: 0; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 11px; border-radius: 18px;
+      border: 1px solid #403c35; background: transparent;
+      color: #d9d4cb; font-size: 10.5px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
     }
-    .cat-bar::-webkit-scrollbar { display: none; }
+    .pill .mini { font-size: 8px; font-weight: 700; opacity: 0.75; }
+    .pill.active { background: #fff; color: var(--ink); border-color: #fff; }
+    .m-heading {
+      font-size: 28px; font-weight: 700; line-height: 1.12;
+      letter-spacing: -0.02em; max-width: 280px; margin-bottom: 18px;
+    }
+    .search-wrap { position: relative; }
+    .search-icon {
+      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+      width: 17px; height: 17px; border: 2px solid #c9c4bb; border-radius: 50%;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%; height: 46px; border-radius: 14px; border: none;
+      background: #fff; padding: 0 16px 0 44px;
+      font-size: 13px; font-family: inherit; font-weight: 500;
+      outline: none; color: var(--ink);
+    }
+    .search-input::placeholder { color: #b3ada2; }
+
+    .cat-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 16px 4px; }
     .cat-btn {
-      padding: 5px 13px; border-radius: 18px;
-      border: 1.5px solid #e2e8f0; background: white;
-      color: #64748b; font-size: 11.5px; font-weight: 700;
-      cursor: pointer; white-space: nowrap;
-      transition: all 0.18s; font-family: inherit;
+      padding: 8px 16px; border-radius: 20px;
+      border: 1px solid var(--line); background: #fff;
+      color: var(--ink); font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
     }
     .cat-btn:active { transform: scale(0.95); }
-    .cat-btn.active {
-      background: var(--brown); color: white;
-      border-color: var(--brown);
-      box-shadow: 0 3px 10px rgba(111,78,55,0.25);
+    .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .count { padding: 12px 18px 2px; font-size: 10.5px; color: var(--muted); font-weight: 600; }
+
+    .list { padding: 8px 12px 60px; display: flex; flex-direction: column; gap: 10px; }
+    .dish {
+      position: relative;
+      display: flex; align-items: center; gap: 12px;
+      background: #fff; border-radius: 18px; padding: 12px;
+      box-shadow: 0 2px 10px rgba(20,18,15,0.04);
     }
-    .content { padding: 12px 10px 80px; }
-    .section-title {
-      font-size: 11px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--brown); padding: 8px 4px 8px;
-    }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 9px;
-    }
-    @media (min-width: 460px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-    .product-card {
-      background: white; border-radius: 14px; overflow: hidden;
-      border: 1px solid #f1f5f9;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-    }
-    .product-card:active { transform: scale(0.97); }
-    .product-img-wrap {
-      width: 100%; aspect-ratio: 4/3;
-      background: linear-gradient(135deg, #fdf6ee, #f5e6d3);
+    .dish-img {
+      width: 58px; height: 58px; border-radius: 12px; flex-shrink: 0;
+      overflow: hidden;
       display: flex; align-items: center; justify-content: center;
-      font-size: 34px; overflow: hidden;
+      background: repeating-linear-gradient(45deg, #efe9df, #efe9df 4px, #e7e0d3 4px, #e7e0d3 8px);
     }
-    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .product-info { padding: 8px 9px 10px; }
-    .product-name {
-      font-size: 12px; font-weight: 800; color: #1e293b;
-      line-height: 1.3; margin-bottom: 4px; min-height: 30px;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
+    .dish-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .dish-emoji { font-size: 24px; }
+    .dish-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .dish-name { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+    .dish-desc {
+      font-size: 10.5px; color: var(--muted); font-weight: 500; line-height: 1.45;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    .product-price { font-size: 13px; font-weight: 900; color: var(--brown); }
-    .product-desc {
-      font-size: 10px; color: #94a3b8; font-weight: 500;
-      line-height: 1.4; margin-bottom: 4px;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .product-card { position: relative; }
-    .product-card.sold-out { opacity: 0.55; }
-    .product-card.sold-out .product-img-wrap { filter: grayscale(1); }
+    .dish-price { font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 2px; }
+    .dish-cat { font-size: 9px; color: #c2bcb1; font-weight: 600; align-self: flex-start; margin-top: 2px; white-space: nowrap; }
+    .dish.soldout { opacity: 0.55; }
+    .dish.soldout .dish-img { filter: grayscale(1); }
     .sold-badge {
-      position: absolute; top: 6px; right: 6px; z-index: 5;
-      background: #e11d48; color: white;
-      font-size: 8.5px; font-weight: 900;
-      padding: 2px 7px; border-radius: 9px;
-      box-shadow: 0 2px 6px rgba(225,29,72,0.35);
-      text-transform: uppercase; letter-spacing: 0.03em;
+      position: absolute; top: 9px; right: 11px;
+      background: #e11d48; color: #fff;
+      font-size: 8px; font-weight: 700; letter-spacing: 0.04em;
+      padding: 2px 8px; border-radius: 8px; text-transform: uppercase;
     }
+
+    .m-footer { text-align: center; padding: 6px 16px 26px; font-size: 10px; color: #b8b2a6; font-weight: 600; }
     .empty-state {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 50vh; gap: 10px; color: #94a3b8;
-      font-size: 13px; font-weight: 600;
-      text-align: center;
-      padding: 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 40vh; gap: 10px; color: var(--muted); font-size: 12.5px; font-weight: 600;
+      text-align: center; line-height: 1.7; padding: 0 24px;
     }
     .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid #f1f5f9;
-      border-top-color: var(--brown);
+      width: 30px; height: 30px;
+      border: 3px solid #e5e0d6; border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
@@ -163,289 +183,408 @@
     .toast {
       display: none;
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: #1e293b; color: white;
+      background: var(--ink); color: #fff;
       padding: 9px 18px; border-radius: 22px;
-      font-size: 11.5px; font-weight: 700;
+      font-size: 11px; font-weight: 700;
       box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      z-index: 999; gap: 7px; align-items: center; white-space: nowrap;
+      z-index: 999; gap: 8px; align-items: center; white-space: nowrap;
     }
     .toast.visible { display: flex; }
-    .footer {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(250,248,245,0.93);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-top: 1px solid #f1f5f9;
-      padding: 9px 16px; text-align: center;
-      font-size: 10px; color: #94a3b8; font-weight: 600;
-    }
   </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-top">
-    <div class="logo-circle" id="logo-wrap">☕</div>
-    <div>
-      <div class="store-name" id="store-name">Thực Đơn</div>
-      <div class="store-addr" id="store-addr"></div>
-      <div class="table-badge" id="table-badge" style="display:none">Bàn...</div>
+<!-- ============ WELCOME / LANGUAGE SELECT ============ -->
+<div id="screen-welcome" class="welcome hidden">
+  <div class="welcome-card">
+    <div class="w-store" id="w-store">☕</div>
+    <div class="w-title">Welcome!</div>
+    <div class="w-title vi">Xin chào!</div>
+    <div class="w-sub">Choose your language<br>Chọn ngôn ngữ của bạn</div>
+    <div class="lang-choices">
+      <button type="button" class="lang-choice" onclick="chooseLang('en')">
+        <span class="lang-badge">GB</span>
+        <span class="lang-texts">
+          <span class="lang-title">English</span>
+          <span class="lang-sub">View the menu in English</span>
+        </span>
+        <span class="lang-arrow">→</span>
+      </button>
+      <button type="button" class="lang-choice" onclick="chooseLang('vi')">
+        <span class="lang-badge">VN</span>
+        <span class="lang-texts">
+          <span class="lang-title">Tiếng Việt</span>
+          <span class="lang-sub">Xem menu bằng tiếng Việt</span>
+        </span>
+        <span class="lang-arrow">→</span>
+      </button>
     </div>
   </div>
-  <div class="lang-bar">
-    <button class="lang-btn active" data-lang="vi" onclick="switchLang('vi')">🇻🇳 Việt</button>
-    <button class="lang-btn" data-lang="en" onclick="switchLang('en')">🇺🇸 EN</button>
-    <button class="lang-btn" data-lang="zh-CN" onclick="switchLang('zh-CN')">🇨🇳 中文</button>
-    <button class="lang-btn" data-lang="ko" onclick="switchLang('ko')">🇰🇷 한국어</button>
-    <button class="lang-btn" data-lang="ja" onclick="switchLang('ja')">🇯🇵 日本語</button>
-    <button class="lang-btn" data-lang="fr" onclick="switchLang('fr')">🇫🇷 FR</button>
-    <button class="lang-btn" data-lang="ru" onclick="switchLang('ru')">🇷🇺 RU</button>
-  </div>
-</header>
+</div>
 
-<div class="cat-bar" id="cat-bar"></div>
-<div class="content" id="content">
-  <div class="empty-state"><div class="spinner"></div><span>Đang tải thực đơn từ đám mây...</span></div>
+<!-- ============ MENU ============ -->
+<div id="screen-menu" class="hidden">
+  <header class="m-header">
+    <div class="m-top">
+      <button type="button" class="back-btn" onclick="showWelcome()" aria-label="Back">←</button>
+      <div class="m-store" id="m-store">☕</div>
+      <span class="table-chip hidden" id="table-chip"></span>
+      <div class="lang-pills">
+        <button type="button" class="pill" data-lang="en" onclick="setLang('en')"><span class="mini">GB</span>EN</button>
+        <button type="button" class="pill" data-lang="vi" onclick="setLang('vi')"><span class="mini">VN</span>VI</button>
+      </div>
+    </div>
+    <h1 class="m-heading" id="m-heading">Hôm nay bạn muốn dùng gì?</h1>
+    <div class="search-wrap">
+      <span class="search-icon"></span>
+      <input type="search" class="search-input" id="search-input" placeholder="Tìm món ăn, đồ uống..." autocomplete="off">
+    </div>
+  </header>
+
+  <div class="cat-bar" id="cat-bar"></div>
+  <div class="count" id="count"></div>
+  <div class="list" id="list">
+    <div class="empty-state"><div class="spinner"></div><span id="loading-text">Đang tải thực đơn...</span></div>
+  </div>
+  <div class="m-footer" id="m-footer"></div>
 </div>
 
 <div class="toast" id="toast">
-  <div class="spinner" style="width:14px;height:14px;border-width:2px;border-top-color:white"></div>
-  <span id="toast-text">Đang dịch...</span>
+  <div class="spinner" style="width:13px;height:13px;border-width:2px;border-top-color:#fff;border-color:rgba(255,255,255,0.3)"></div>
+  <span id="toast-text">Translating...</span>
 </div>
 
-<footer class="footer" id="footer"></footer>
-
 <script>
-// ---- OFFLINE PWA CACHING FOR CLOUD MENU ----
+// =============== STATE ===============
 let allProducts = [];
 let allCategories = [];
 let storeInfo = {};
-let currentLang = localStorage.getItem('gm_lang') || 'vi';
+let posPublicUrl = '';       // POS tunnel URL published inside menu.json
+let sameOriginLive = false;  // true when this page is served by the POS server itself
+let currentLang = localStorage.getItem('gm_lang2') || '';
 let currentCat = 'all';
+let searchQuery = '';
 let transCache = {};
-try { transCache = JSON.parse(localStorage.getItem('gm_trans') || '{}'); } catch(e) {}
-let tNames = {}, tCats = {};
+try { transCache = JSON.parse(localStorage.getItem('gm_trans2') || '{}'); } catch(e) {}
+let tNames = {}, tCats = {}, tDescs = {};
 
-// Parse URL Parameters
+// =============== UI TEXTS (vi / en) ===============
+const UI = {
+  vi: {
+    heading: 'Hôm nay bạn muốn dùng gì?',
+    search: 'Tìm món ăn, đồ uống...',
+    dishes: 'món',
+    all: 'Tất cả',
+    soldout: 'Hết món',
+    empty: 'Không tìm thấy món nào phù hợp',
+    loading: 'Đang tải thực đơn...',
+    loadError: 'Không thể tải thực đơn.\nVui lòng kiểm tra kết nối mạng và thử lại.',
+    translating: 'Đang xử lý...'
+  },
+  en: {
+    heading: 'What are you craving today?',
+    search: 'Search dishes, drinks...',
+    dishes: 'dishes',
+    all: 'All',
+    soldout: 'Sold out',
+    empty: 'No dishes match your search',
+    loading: 'Loading menu...',
+    loadError: 'Could not load the menu.\nPlease check your connection and try again.',
+    translating: 'Translating...'
+  }
+};
+function T() { return UI[currentLang] || UI.vi; }
+
+// =============== URL PARAMS ===============
 const urlParams = new URLSearchParams(window.location.search);
-const blobId = urlParams.get('id');
 const tableName = urlParams.get('table');
-
 if (tableName) {
-  const tb = document.getElementById('table-badge');
-  tb.textContent = '📍 ' + decodeURIComponent(tableName);
-  tb.style.display = 'inline-flex';
+  const chip = document.getElementById('table-chip');
+  chip.textContent = '📍 ' + decodeURIComponent(tableName);
+  chip.classList.remove('hidden');
 }
 
-// Live-data source: the POS server's public tunnel URL, published inside the blob.
-// When the POS machine is online we read fresh data straight from it; the blob
-// is the fallback snapshot for when the POS is switched off.
-let posPublicUrl = '';
-
-function applyMenuData(data) {
-  const changed =
-    JSON.stringify(data.products) !== JSON.stringify(allProducts) ||
-    JSON.stringify(data.categories) !== JSON.stringify(allCategories) ||
-    JSON.stringify(data.store) !== JSON.stringify(storeInfo);
-  if (!changed) return;
-  allProducts = data.products || [];
-  allCategories = data.categories || [];
-  storeInfo = data.store || storeInfo;
-  if (currentCat !== 'all' && !allProducts.some(p => p.category === currentCat)) currentCat = 'all';
-  init();
-}
-
-async function tryFreshFromPos() {
-  if (!posPublicUrl) return;
-  try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 6000);
-    const r = await fetch(posPublicUrl.replace(/\/+$/, '') + '/api/public-menu', { signal: ctrl.signal, cache: 'no-store' });
-    clearTimeout(timer);
-    if (!r.ok) return;
-    applyMenuData(await r.json());
-  } catch(e) { /* POS offline: blob snapshot stays on screen */ }
-}
-
-function bootWithData(data) {
-  allProducts = data.products || [];
-  allCategories = data.categories || [];
-  storeInfo = data.store || {};
-  posPublicUrl = data.publicUrl || '';
-  init();
-  // Upgrade to live POS data when available, then keep it fresh
-  tryFreshFromPos();
-  setInterval(tryFreshFromPos, 60000);
-}
-
-function showLoadError() {
-  document.getElementById('content').innerHTML = `
-    <div class="empty-state">
-      ⚠️ <strong>Lỗi tải thực đơn</strong><br>
-      Không thể tải dữ liệu thực đơn. Vui lòng kiểm tra lại kết nối mạng và thử lại.
-    </div>
-  `;
-}
-
-async function loadInitialData() {
-  // Primary source: menu.json deployed next to this page (GitHub Pages).
-  // The POS pushes it automatically on every menu change.
-  try {
-    const r = await fetch('./menu.json?v=' + Date.now(), { cache: 'no-store' });
-    if (r.ok) {
-      bootWithData(await r.json());
-      return;
-    }
-  } catch(e) { /* fall through to legacy source */ }
-
-  // Legacy fallback: JSONBlob snapshot addressed by ?id= (old printed QR codes)
-  if (blobId) {
-    try {
-      const r = await fetch(`https://api.jsonblob.com/api/jsonBlob/${blobId}`);
-      if (r.ok) {
-        bootWithData(await r.json());
-        return;
-      }
-    } catch(e) { /* fall through to error state */ }
-  }
-
-  showLoadError();
-}
-
-loadInitialData();
-
-function init() {
-  const s = storeInfo;
-  document.getElementById('store-name').textContent = s.name || 'Thực Đơn';
-  document.getElementById('store-addr').textContent = s.address || '';
-  const lw = document.getElementById('logo-wrap');
-  if (s.logoUrl) {
-    lw.innerHTML = '<img src="' + s.logoUrl + '" alt="logo" onerror="this.parentNode.textContent=\'☕\'">';
-  } else {
-    lw.textContent = s.logoEmoji || '☕';
-  }
-  const phone = s.phone ? ' • ☎ ' + s.phone : '';
-  document.getElementById('footer').textContent = s.name + phone;
-  document.title = s.name + ' - Thực Đơn';
-
-  allProducts.forEach(p => { tNames[p.id] = p.name; });
-  allCategories.forEach(c => { tCats[c] = c; });
-
-  document.querySelectorAll('.lang-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.lang === currentLang));
-
-  if (currentLang !== 'vi') {
-    applyTranslation(currentLang);
-  } else {
-    renderCategories();
-    renderProducts();
-  }
-}
-
-function fmt(p) { return p.toLocaleString('vi-VN') + 'đ'; }
-
-function renderCategories() {
-  const used = [...new Set(allProducts.map(p => p.category))];
-  const all_labels = { vi:'Tất cả', en:'All', 'zh-CN':'全部', ko:'전체', ja:'すべて', fr:'Tout', ru:'Все' };
-  let html = '<button class="cat-btn ' + (currentCat==='all'?'active':'') + '" onclick="filterCat(\'all\')">' + (all_labels[currentLang]||'Tất cả') + '</button>';
-  used.forEach(c => {
-    html += '<button class="cat-btn ' + (currentCat===c?'active':'') + '" onclick="filterCat(\'' + c + '\')">' + (tCats[c]||c) + '</button>';
-  });
-  document.getElementById('cat-bar').innerHTML = html;
-}
-
-function filterCat(cat) { currentCat = cat; renderCategories(); renderProducts(); }
-
-function renderProducts() {
-  const list = currentCat === 'all' ? allProducts : allProducts.filter(p => p.category === currentCat);
-  if (!list.length) {
-    document.getElementById('content').innerHTML = '<div class="empty-state">🍽️ Không có món nào</div>';
-    return;
-  }
-  let html = '';
-  if (currentCat === 'all') {
-    const grouped = {};
-    list.forEach(p => { (grouped[p.category] = grouped[p.category]||[]).push(p); });
-    Object.keys(grouped).forEach(cat => {
-      html += '<div class="section-title">' + (tCats[cat]||cat) + '</div>';
-      html += '<div class="product-grid">' + grouped[cat].map(card).join('') + '</div><div style="height:16px"></div>';
-    });
-  } else {
-    html = '<div class="product-grid">' + list.map(card).join('') + '</div>';
-  }
-  document.getElementById('content').innerHTML = html;
-}
-
-const SOLD_OUT_LABELS = { vi:'Hết món', en:'Sold out', 'zh-CN':'售罄', ko:'품절', ja:'売り切れ', fr:'Épuisé', ru:'Продано' };
-
+// =============== HELPERS ===============
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+function fmt(p) { return p.toLocaleString('vi-VN') + 'đ'; }
+// Diacritics-insensitive matcher so "ca phe" finds "cà phê"
+function norm(s) {
+  return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
+}
 
-function card(p) {
+// =============== SCREENS ===============
+function showWelcome() {
+  document.getElementById('screen-welcome').classList.remove('hidden');
+  document.getElementById('screen-menu').classList.add('hidden');
+}
+function showMenu() {
+  document.getElementById('screen-welcome').classList.add('hidden');
+  document.getElementById('screen-menu').classList.remove('hidden');
+}
+function chooseLang(lang) {
+  setLang(lang);
+  showMenu();
+}
+async function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('gm_lang2', lang);
+  document.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  document.getElementById('m-heading').textContent = T().heading;
+  document.getElementById('search-input').placeholder = T().search;
+  if (lang === 'en') {
+    await translateMenu();
+  } else {
+    resetTranslations();
+  }
+  renderAll();
+}
+
+// =============== TRANSLATION (vi -> en) ===============
+function resetTranslations() {
+  allProducts.forEach(p => { tNames[p.id] = p.name; tDescs[p.id] = p.description || ''; });
+  allCategories.forEach(c => { tCats[c] = c; });
+}
+async function translateBatch(texts) {
+  if (!transCache.en) transCache.en = {};
+  const need = texts.filter(t => t && !transCache.en[t]);
+  if (need.length) {
+    try {
+      const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=vi&tl=en&dt=t&q=' + encodeURIComponent(need.join('\n'));
+      const data = await (await fetch(url)).json();
+      let out = '';
+      if (data && data[0]) data[0].forEach(x => { if (x[0]) out += x[0]; });
+      const lines = out.split('\n');
+      need.forEach((t, i) => { transCache.en[t] = (lines[i] || t).trim(); });
+      localStorage.setItem('gm_trans2', JSON.stringify(transCache));
+    } catch(e) {
+      need.forEach(t => { transCache.en[t] = t; });
+    }
+  }
+  return texts.map(t => t ? (transCache.en[t] || t) : '');
+}
+async function translateMenu() {
+  // Dish names stay in Vietnamese (proper nouns); only descriptions
+  // and category labels are translated for English visitors.
+  showToast(T().translating);
+  const descs = allProducts.map(p => p.description || '');
+  const cats = [...new Set(allProducts.map(p => p.category))];
+  const all = await translateBatch([...descs, ...cats]);
+  allProducts.forEach((p, i) => {
+    tNames[p.id] = p.name;
+    tDescs[p.id] = all[i] || '';
+  });
+  cats.forEach((c, i) => { tCats[c] = all[descs.length + i] || c; });
+  hideToast();
+}
+
+// =============== RENDERING ===============
+function renderAll() {
+  renderHeader();
+  renderCategories();
+  renderList();
+}
+function renderHeader() {
+  const s = storeInfo;
+  document.getElementById('m-store').textContent = s.name || 'Thực Đơn';
+  document.getElementById('w-store').textContent = s.name || '☕';
+  const phone = s.phone ? ' • ☎ ' + s.phone : '';
+  document.getElementById('m-footer').textContent = (s.name || '') + phone;
+  document.title = (s.name ? s.name + ' - ' : '') + 'Thực Đơn';
+}
+function renderCategories() {
+  const used = allCategories.filter(c => allProducts.some(p => p.category === c));
+  allProducts.forEach(p => { if (!used.includes(p.category)) used.push(p.category); });
+  let html = '<button type="button" class="cat-btn ' + (currentCat === 'all' ? 'active' : '') + '" onclick="filterCat(\'all\')">' + esc(T().all) + '</button>';
+  used.forEach(c => {
+    html += '<button type="button" class="cat-btn ' + (currentCat === c ? 'active' : '') + '" onclick="filterCat(\'' + esc(c).replace(/'/g, "\\'") + '\')">' + esc(tCats[c] || c) + '</button>';
+  });
+  document.getElementById('cat-bar').innerHTML = html;
+}
+function filterCat(cat) {
+  currentCat = cat;
+  renderCategories();
+  renderList();
+}
+function getFilteredProducts() {
+  let list = currentCat === 'all' ? allProducts.slice() : allProducts.filter(p => p.category === currentCat);
+  if (searchQuery) {
+    const q = norm(searchQuery);
+    list = list.filter(p =>
+      norm(p.name).includes(q) ||
+      norm(tNames[p.id] || '').includes(q) ||
+      norm(p.description || '').includes(q) ||
+      norm(tDescs[p.id] || '').includes(q)
+    );
+  }
+  // Keep the category order from menu management, alphabetical within
+  const catOrder = {};
+  allCategories.forEach((c, i) => { catOrder[c] = i; });
+  list.sort((a, b) => {
+    const ca = catOrder[a.category] !== undefined ? catOrder[a.category] : 999;
+    const cb = catOrder[b.category] !== undefined ? catOrder[b.category] : 999;
+    if (ca !== cb) return ca - cb;
+    return (tNames[a.id] || a.name).localeCompare(tNames[b.id] || b.name);
+  });
+  return list;
+}
+function dishCard(p) {
   const name = tNames[p.id] || p.name;
-  const em = p.emoji || '🍽️';
+  const desc = currentLang === 'en' ? (tDescs[p.id] || '') : (p.description || '');
   const soldOut = p.available === false;
   const img = p.image
-    ? '<img src="' + p.image + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">' +
-      '<span style="display:none;align-items:center;justify-content:center;width:100%;height:100%;font-size:32px">' + em + '</span>'
-    : '<span style="font-size:32px">' + em + '</span>';
-  const desc = p.description ? '<div class="product-desc">' + esc(p.description) + '</div>' : '';
-  const badge = soldOut ? '<div class="sold-badge">' + (SOLD_OUT_LABELS[currentLang] || SOLD_OUT_LABELS.vi) + '</div>' : '';
-  return '<div class="product-card' + (soldOut ? ' sold-out' : '') + '">' + badge +
-    '<div class="product-img-wrap">' + img + '</div>' +
-    '<div class="product-info"><div class="product-name">' + name + '</div>' + desc +
-    '<div class="product-price">' + fmt(p.price) + '</div></div></div>';
+    ? '<img src="' + esc(p.image) + '" alt="" loading="lazy" onerror="this.parentNode.innerHTML=\'<span class=&quot;dish-emoji&quot;>' + esc(p.emoji || '🍽️') + '</span>\'">'
+    : '<span class="dish-emoji">' + esc(p.emoji || '🍽️') + '</span>';
+  return '<div class="dish' + (soldOut ? ' soldout' : '') + '">' +
+    (soldOut ? '<span class="sold-badge">' + esc(T().soldout) + '</span>' : '') +
+    '<div class="dish-img">' + img + '</div>' +
+    '<div class="dish-info">' +
+      '<div class="dish-name">' + esc(name) + '</div>' +
+      (desc ? '<div class="dish-desc">' + esc(desc) + '</div>' : '') +
+      '<div class="dish-price">' + fmt(p.price) + '</div>' +
+    '</div>' +
+    (soldOut ? '' : '<span class="dish-cat">' + esc(tCats[p.category] || p.category) + '</span>') +
+  '</div>';
 }
-
-function switchLang(lang) {
-  if (lang === currentLang) return;
-  currentLang = lang;
-  localStorage.setItem('gm_lang', lang);
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-  if (lang === 'vi') {
-    allProducts.forEach(p => { tNames[p.id] = p.name; });
-    allCategories.forEach(c => { tCats[c] = c; });
-    renderCategories(); renderProducts();
+function renderList() {
+  const list = getFilteredProducts();
+  document.getElementById('count').textContent = list.length + ' ' + T().dishes;
+  if (!list.length) {
+    document.getElementById('list').innerHTML = '<div class="empty-state">🍽️<br>' + esc(T().empty) + '</div>';
     return;
   }
-  applyTranslation(lang);
+  document.getElementById('list').innerHTML = list.map(dishCard).join('');
 }
 
-async function translateBatch(texts, lang) {
-  if (!transCache[lang]) transCache[lang] = {};
-  const need = texts.filter(t => !transCache[lang][t]);
-  if (!need.length) return texts.map(t => transCache[lang][t] || t);
-  try {
-    const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=vi&tl=' + lang + '&dt=t&q=' + encodeURIComponent(need.join('\\n'));
-    const data = await (await fetch(url)).json();
-    let out = '';
-    if (data && data[0]) data[0].forEach(x => { if (x[0]) out += x[0]; });
-    const lines = out.split('\\n');
-    need.forEach((t, i) => { transCache[lang][t] = (lines[i]||t).trim(); });
-    localStorage.setItem('gm_trans', JSON.stringify(transCache));
-  } catch(e) {
-    need.forEach(t => { transCache[lang][t] = t; });
-  }
-  return texts.map(t => transCache[lang][t] || t);
-}
+// =============== SEARCH ===============
+document.getElementById('search-input').addEventListener('input', function() {
+  searchQuery = this.value.trim();
+  renderList();
+});
 
-async function applyTranslation(lang) {
-  const msgs = { en:'Translating...', 'zh-CN':'翻译中...', ko:'번역 중...', ja:'翻訳中...', fr:'Traduction...', ru:'Перевод...' };
-  showToast(msgs[lang] || 'Translating...');
-  const names = allProducts.map(p => p.name);
-  const cats = [...new Set(allProducts.map(p => p.category))];
-  const all = await translateBatch([...names, ...cats], lang);
-  allProducts.forEach((p, i) => { tNames[p.id] = all[i] || p.name; });
-  cats.forEach((c, i) => { tCats[c] = all[names.length + i] || c; });
-  hideToast();
-  renderCategories(); renderProducts();
-}
-
+// =============== TOAST ===============
 function showToast(msg) {
   document.getElementById('toast-text').textContent = msg;
   document.getElementById('toast').classList.add('visible');
 }
 function hideToast() { document.getElementById('toast').classList.remove('visible'); }
+
+// =============== DATA LOADING ===============
+// Sources, in order:
+//   1. /api/public-menu on this origin  (page served by the POS server: LAN or tunnel)
+//   2. ./menu.json next to this page    (GitHub Pages; POS pushes it on every change)
+//   3. localStorage snapshot            (offline re-open)
+// After boot the data keeps refreshing so admins' menu edits appear live.
+async function fetchJson(url, timeoutMs) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs || 8000);
+  try {
+    const r = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+    clearTimeout(timer);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e) {
+    clearTimeout(timer);
+    return null;
+  }
+}
+
+function applyMenuData(data, save) {
+  if (!data || !Array.isArray(data.products)) return false;
+  const changed =
+    JSON.stringify(data.products) !== JSON.stringify(allProducts) ||
+    JSON.stringify(data.categories) !== JSON.stringify(allCategories) ||
+    JSON.stringify(data.store) !== JSON.stringify(storeInfo);
+  posPublicUrl = data.publicUrl || posPublicUrl;
+  if (save) {
+    try { localStorage.setItem('gm_menu_cache', JSON.stringify(data)); } catch(e) {}
+  }
+  if (!changed) return true;
+  allProducts = data.products || [];
+  allCategories = data.categories || [];
+  storeInfo = data.store || storeInfo;
+  if (currentCat !== 'all' && !allProducts.some(p => p.category === currentCat)) currentCat = 'all';
+  resetTranslations();
+  if (currentLang === 'en') {
+    translateMenu().then(renderAll);
+  } else {
+    renderAll();
+  }
+  return true;
+}
+
+async function refreshMenuData() {
+  if (sameOriginLive) {
+    const data = await fetchJson('/api/public-menu', 8000);
+    if (data) { applyMenuData(data, true); return; }
+  }
+  if (posPublicUrl) {
+    const data = await fetchJson(posPublicUrl.replace(/\/+$/, '') + '/api/public-menu', 6000);
+    if (data) { applyMenuData(data, true); return; }
+  }
+  const data = await fetchJson('./menu.json?v=' + Date.now(), 8000);
+  if (data) applyMenuData(data, true);
+}
+
+async function loadInitialData() {
+  // 1. Same-origin POS server
+  let data = await fetchJson('/api/public-menu', 5000);
+  if (data && Array.isArray(data.products)) {
+    sameOriginLive = true;
+    applyMenuData(data, true);
+    return true;
+  }
+  // 2. Static menu.json (GitHub Pages)
+  data = await fetchJson('./menu.json?v=' + Date.now(), 8000);
+  if (data && Array.isArray(data.products)) {
+    applyMenuData(data, true);
+    // Try to upgrade to live POS data right away
+    refreshMenuData();
+    return true;
+  }
+  // 3. Offline snapshot
+  try {
+    const cached = JSON.parse(localStorage.getItem('gm_menu_cache') || 'null');
+    if (cached && Array.isArray(cached.products)) {
+      applyMenuData(cached, false);
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+// =============== SERVICE WORKER (offline, when served by the POS server) ===============
+if ('serviceWorker' in navigator && (location.pathname === '/qr-menu' || location.pathname === '/menu')) {
+  navigator.serviceWorker.register('/qr-menu-sw.js', { scope: '/' }).catch(() => {});
+}
+
+// =============== BOOT ===============
+(async function boot() {
+  // Returning visitors go straight to the menu in their saved language
+  if (currentLang === 'vi' || currentLang === 'en') {
+    showMenu();
+    document.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+    document.getElementById('m-heading').textContent = T().heading;
+    document.getElementById('search-input').placeholder = T().search;
+  } else {
+    currentLang = 'vi';
+    showWelcome();
+  }
+  document.getElementById('loading-text').textContent = T().loading;
+
+  const ok = await loadInitialData();
+  if (!ok) {
+    document.getElementById('list').innerHTML =
+      '<div class="empty-state">⚠️<br>' + esc(T().loadError).replace(/\n/g, '<br>') + '</div>';
+    return;
+  }
+  if (currentLang === 'en') {
+    await translateMenu();
+  }
+  renderAll();
+  setInterval(refreshMenuData, 30000);
+})();
 </script>
 </body>
 </html>
