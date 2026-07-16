@@ -78,7 +78,17 @@
       position: sticky; top: 0; z-index: 100;
       border-radius: 0 0 4px 4px;
     }
-    .m-top { display: flex; align-items: center; gap: 11px; margin-bottom: 18px; }
+    .m-top {
+      display: flex; align-items: center; gap: 11px; margin-bottom: 18px;
+      max-height: 40px; overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease, margin-bottom 0.25s ease;
+    }
+    /* Collapsed-on-scroll state: only the search bar stays visible */
+    .m-header.collapsed { padding-top: 12px; padding-bottom: 14px; }
+    .m-header.collapsed .m-top,
+    .m-header.collapsed .m-heading {
+      max-height: 0; opacity: 0; margin-bottom: 0; pointer-events: none;
+    }
     .back-btn {
       width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
       background: #2b2823; border: 1px solid #403c35;
@@ -107,6 +117,8 @@
     .m-heading {
       font-size: 28px; font-weight: 700; line-height: 1.12;
       letter-spacing: -0.02em; max-width: 280px; margin-bottom: 18px;
+      max-height: 90px; overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease, margin-bottom 0.25s ease;
     }
     .search-wrap { position: relative; }
     .search-icon {
@@ -462,6 +474,36 @@ document.getElementById('search-input').addEventListener('input', function() {
   searchQuery = this.value.trim();
   renderList();
 });
+
+// =============== COLLAPSING HEADER ===============
+// Scrolling down collapses the header to just the search bar;
+// any upward scroll brings the full header back.
+(function() {
+  const headerEl = document.querySelector('.m-header');
+  let lastY = window.scrollY;
+  let guardUntil = 0; // absorb the scroll adjustment caused by the height change itself
+
+  function setCollapsed(on) {
+    if (headerEl.classList.contains('collapsed') === on) return;
+    headerEl.classList.toggle('collapsed', on);
+    guardUntil = Date.now() + 400;
+  }
+
+  window.addEventListener('scroll', function() {
+    const y = Math.max(0, window.scrollY);
+    if (Date.now() < guardUntil) { lastY = y; return; }
+    const delta = y - lastY;
+    if (Math.abs(delta) < 8) return; // ignore jitter
+    lastY = y;
+    if (y < 60) {
+      setCollapsed(false);
+    } else if (delta > 0 && y > 120) {
+      setCollapsed(true);
+    } else if (delta < 0) {
+      setCollapsed(false);
+    }
+  }, { passive: true });
+})();
 
 // =============== TOAST ===============
 function showToast(msg) {
