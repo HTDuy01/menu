@@ -1,1 +1,1 @@
-{"products":[],"categories":[],"store":{"name":"Test Caf�","address":"Test Address","phone":"0905 123 456","logoEmoji":"☕","logoUrl":""},"publicUrl":"https://cod-discovered-receivers-pills.trycloudflare.com","updatedAt":"2026-07-27T11:24:11.313Z"}
+{"products":[{"price":1000,"category":"Test","name":"Test","id":1,"emoji":"??"}],"categories":["Test"],"store":{"name":"Test Caf�","address":"Test","phone":"0905","logoEmoji":"☕","logoUrl":""},"publicUrl":"https://cod-discovered-receivers-pills.trycloudflare.com","updatedAt":"2026-07-27T11:25:36.324Z"}
