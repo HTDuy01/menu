@@ -1,632 +1,1420 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en" data-theme="light" data-style="eco">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#161412">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Thực Đơn</title>
+  <meta name="theme-color" content="#10B981">
+  <meta name="description" content="Good Morning Cafe & Breakfast - Digital E-Menu for international tourists and expats.">
+  <title>Good Morning Cafe | E-Menu Tự Nhiên Compact</title>
+  
+  <!-- Typography: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink: #161412;
-      --cream: #EFECE4;
-      --card: #ffffff;
-      --accent: #F2610D;
-      --muted: #9C968C;
-      --line: #E7E2D8;
+    /* ==========================================================================
+       DESIGN SYSTEM: NATURAL ECO MINT & FRESH GREEN THEME (COMPACT LAYOUT)
+       ========================================================================== */
+    :root, html[data-style="eco"] {
+      --primary: #10B981;          /* Fresh Mint Leaf Green */
+      --primary-dark: #059669;     /* Deep Forest Green */
+      --primary-light: #D1FAE5;    /* Eco Tint */
+      --primary-subtle: #ECFDF5;   /* Lightest Mint Surface */
+      
+      --bg-main: #FAFAF9;          /* Crisp Warm Off-White */
+      --bg-card: #FFFFFF;          /* Pure White Card */
+      --bg-subtle: #F3F4F6;        /* Light Gray Fill */
+      --header-bg: #FFFFFF;
+      --bottom-bar-bg: rgba(255, 255, 255, 0.96);
+      --popover-bg: #FFFFFF;
+      
+      --text-main: #0F172A;        /* Deep Charcoal / Dark Slate */
+      --text-secondary: #475569;   /* Muted Slate Body */
+      --text-muted: #94A3B8;       /* Subtle Gray */
+      
+      --status-out-bg: #FEE2E2;    /* Soft Red Out of Stock Fill */
+      --status-out-text: #DC2626;  /* Soft Red Out of Stock Text */
+      --border-color: #E2E8F0;     /* Border Divider */
+      
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --shadow-sticky: 0 -4px 20px rgba(15, 23, 42, 0.08);
+      
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
     }
-    html { height: 100%; }
-    body {
-      font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Arial, sans-serif;
-      background: var(--cream);
-      color: var(--ink);
-      min-height: 100vh;
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
       -webkit-tap-highlight-color: transparent;
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
     }
+
+    ::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: 14.5px;
+      line-height: 1.45;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background-color: var(--bg-main);
+      position: relative;
+      padding-bottom: 85px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    }
+
     .hidden { display: none !important; }
 
-    /* ============ WELCOME / LANGUAGE SCREEN ============ */
-    .welcome { min-height: 100vh; padding: 12px; display: flex; }
-    .welcome-card {
-      background: var(--card);
-      border-radius: 26px;
-      flex: 1;
-      max-width: 430px;
-      margin: 0 auto;
-      padding: 44px 30px;
-      display: flex; flex-direction: column; justify-content: center;
-      box-shadow: 0 20px 50px rgba(20,18,15,0.07);
+    /* ==========================================================================
+       TOP BRAND HEADER (NON-STICKY - SCROLLS AWAY ON SCROLL DOWN)
+       ========================================================================== */
+    .top-brand-header {
+      position: relative; /* Normal document flow: rolls off screen when scrolling down */
+      background-color: var(--header-bg);
+      border-bottom: 1px solid var(--border-color);
     }
-    .w-store { font-size: 14px; font-weight: 600; color: #4d4841; margin-bottom: 14px; }
-    .w-title { font-size: 36px; font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
-    .w-title.vi { color: var(--accent); }
-    .w-sub { margin-top: 22px; font-size: 12.5px; color: var(--muted); font-weight: 500; line-height: 1.65; }
-    .lang-choices { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
-    .lang-choice {
-      display: flex; align-items: center; gap: 14px;
-      background: var(--card);
-      border: 1px solid #efebe2;
-      border-radius: 16px;
-      padding: 15px 16px;
-      box-shadow: 0 10px 24px rgba(20,18,15,0.06);
-      cursor: pointer; width: 100%; text-align: left;
-      font-family: inherit; color: var(--ink);
-      transition: transform 0.12s;
-    }
-    .lang-choice:active { transform: scale(0.98); }
-    .lang-badge {
-      width: 38px; height: 38px; border-radius: 10px;
-      border: 1px solid #e7e3da; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 12px; color: #4d4841;
-    }
-    .lang-texts { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .lang-title { font-size: 14px; font-weight: 700; }
-    .lang-sub { font-size: 10.5px; color: var(--muted); font-weight: 500; }
-    .lang-arrow { margin-left: auto; color: var(--accent); font-size: 19px; font-weight: 700; }
 
-    /* ============ MENU SCREEN ============ */
-    #screen-menu { max-width: 520px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
-    .m-header {
-      background: var(--ink); color: #fff;
-      padding: 16px 18px 22px;
-      position: sticky; top: 0; z-index: 100;
-      border-radius: 0 0 4px 4px;
+    .top-header {
+      padding: 12px 14px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .m-top {
-      display: flex; align-items: center; gap: 11px; margin-bottom: 18px;
-      max-height: 40px; overflow: hidden;
-      transition: max-height 0.25s ease, opacity 0.2s ease, margin-bottom 0.25s ease;
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    /* Collapsed-on-scroll state: only the search bar stays visible */
-    .m-header.collapsed { padding-top: 12px; padding-bottom: 14px; }
-    .m-header.collapsed .m-top,
-    .m-header.collapsed .m-heading {
-      max-height: 0; opacity: 0; margin-bottom: 0; pointer-events: none;
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
     }
-    .back-btn {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-      background: #2b2823; border: 1px solid #403c35;
-      color: #fff; font-size: 15px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .table-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: var(--radius-full);
+      margin-top: 1px;
+      width: fit-content;
+    }
+
+    .table-pill::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--primary-dark);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-switcher-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 5px 10px;
       font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
     }
-    .m-store { font-size: 15px; font-weight: 700; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .table-chip {
-      font-size: 9px; font-weight: 700; color: #fff;
-      background: var(--accent);
-      padding: 2px 8px; border-radius: 9px;
-      flex-shrink: 0;
+
+    .flag-icon {
+      width: 18px;
+      height: 13px;
+      border-radius: 2px;
+      object-fit: cover;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
     }
-    .lang-pills { margin-left: auto; display: flex; gap: 6px; flex-shrink: 0; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 11px; border-radius: 18px;
-      border: 1px solid #403c35; background: transparent;
-      color: #d9d4cb; font-size: 10.5px; font-weight: 700;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.15s;
+
+    /* Search Bar */
+    .search-container {
+      padding: 2px 14px 10px;
     }
-    .pill .mini { font-size: 8px; font-weight: 700; opacity: 0.75; }
-    .pill.active { background: #fff; color: var(--ink); border-color: #fff; }
-    .m-heading {
-      font-size: 28px; font-weight: 700; line-height: 1.12;
-      letter-spacing: -0.02em; max-width: 280px; margin-bottom: 18px;
-      max-height: 90px; overflow: hidden;
-      transition: max-height 0.25s ease, opacity 0.2s ease, margin-bottom 0.25s ease;
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
     }
-    .search-wrap { position: relative; }
+
     .search-icon {
-      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-      width: 17px; height: 17px; border: 2px solid #c9c4bb; border-radius: 50%;
+      position: absolute;
+      left: 12px;
+      color: var(--text-muted);
       pointer-events: none;
     }
+
     .search-input {
-      width: 100%; height: 46px; border-radius: 14px; border: none;
-      background: #fff; padding: 0 16px 0 44px;
-      font-size: 13px; font-family: inherit; font-weight: 500;
-      outline: none; color: var(--ink);
-    }
-    .search-input::placeholder { color: #b3ada2; }
-
-    .cat-bar { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 16px 4px; }
-    .cat-btn {
-      padding: 8px 16px; border-radius: 20px;
-      border: 1px solid var(--line); background: #fff;
-      color: var(--ink); font-size: 12px; font-weight: 600;
-      cursor: pointer; font-family: inherit;
-      transition: all 0.15s;
-    }
-    .cat-btn:active { transform: scale(0.95); }
-    .cat-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    .count { padding: 12px 18px 2px; font-size: 10.5px; color: var(--muted); font-weight: 600; }
-
-    .list { padding: 8px 12px 60px; display: flex; flex-direction: column; gap: 10px; }
-    .dish {
-      position: relative;
-      display: flex; align-items: center; gap: 12px;
-      background: #fff; border-radius: 18px; padding: 12px;
-      box-shadow: 0 2px 10px rgba(20,18,15,0.04);
-    }
-    .dish-img {
-      width: 58px; height: 58px; border-radius: 12px; flex-shrink: 0;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      background: repeating-linear-gradient(45deg, #efe9df, #efe9df 4px, #e7e0d3 4px, #e7e0d3 8px);
-    }
-    .dish-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .dish-emoji { font-size: 24px; }
-    .dish-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-    .dish-name { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
-    .dish-desc {
-      font-size: 10.5px; color: var(--muted); font-weight: 500; line-height: 1.45;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .dish-price { font-size: 13px; font-weight: 700; color: var(--accent); margin-top: 2px; }
-    .dish-cat { font-size: 9px; color: #c2bcb1; font-weight: 600; align-self: flex-start; margin-top: 2px; white-space: nowrap; }
-    .dish.soldout { opacity: 0.55; }
-    .dish.soldout .dish-img { filter: grayscale(1); }
-    .sold-badge {
-      position: absolute; top: 9px; right: 11px;
-      background: #e11d48; color: #fff;
-      font-size: 8px; font-weight: 700; letter-spacing: 0.04em;
-      padding: 2px 8px; border-radius: 8px; text-transform: uppercase;
+      width: 100%;
+      height: 38px;
+      padding: 0 34px 0 38px;
+      background-color: var(--bg-subtle);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
     }
 
-    .m-footer { text-align: center; padding: 6px 16px 26px; font-size: 10px; color: #b8b2a6; font-weight: 600; }
-    .empty-state {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 40vh; gap: 10px; color: var(--muted); font-size: 12.5px; font-weight: 600;
-      text-align: center; line-height: 1.7; padding: 0 24px;
+    .search-input:focus {
+      background-color: var(--bg-card);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
     }
-    .spinner {
-      width: 30px; height: 30px;
-      border: 3px solid #e5e0d6; border-top-color: var(--accent);
+
+    .search-clear-btn {
+      position: absolute;
+      right: 10px;
+      background: var(--text-muted);
+      color: white;
+      border: none;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .toast {
       display: none;
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--ink); color: #fff;
-      padding: 9px 18px; border-radius: 22px;
-      font-size: 11px; font-weight: 700;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-      z-index: 999; gap: 8px; align-items: center; white-space: nowrap;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      cursor: pointer;
     }
-    .toast.visible { display: flex; }
+
+    /* ==========================================================================
+       STICKY CATEGORY BAR (ALWAYS PINNED TO TOP OF SCREEN AT top: 0 ON SCROLL)
+       ========================================================================== */
+    .sticky-category-bar {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background-color: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .active-cat-indicator-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      background-color: var(--primary-subtle);
+    }
+
+    .indicator-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .btn-quick-menu-trigger {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-quick-menu-trigger:active {
+      transform: scale(0.95);
+    }
+
+    /* ==========================================================================
+       MAIN MENU CONTENT (COMPACT DENSE LIST VIEW - 5 to 6 ITEMS PER SCREEN)
+       ========================================================================== */
+    .menu-content {
+      padding: 12px 14px;
+    }
+
+    .category-section {
+      margin-bottom: 18px;
+      scroll-margin-top: 55px;
+    }
+
+    .category-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .category-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: var(--border-color);
+    }
+
+    .dish-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px; /* Tinh gọn khoảng cách giữa các món */
+    }
+
+    /* Dish Card - Compact 70px Thumbnail Height */
+    .dish-card {
+      background-color: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 9px 11px; /* Tinh gọn padding */
+      display: flex;
+      gap: 10px; /* Tinh gọn khoảng cách hình và nội dung */
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .dish-card.out-of-stock {
+      opacity: 0.65;
+      background-color: #FAF9F8;
+    }
+
+    .dish-thumb-wrapper {
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background-color: var(--bg-subtle);
+    }
+
+    .dish-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .dish-card.out-of-stock .dish-thumb {
+      filter: grayscale(80%);
+    }
+
+    .badge-sold-out {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 9.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px;
+      text-align: center;
+    }
+
+    .dish-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .dish-header {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .dish-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    /* Tags / Badges */
+    .dish-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2px;
+    }
+
+    .tag-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-subtle);
+      color: var(--primary-dark);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .tag-badge.spicy {
+      background-color: #FEF2F2;
+      color: #EF4444;
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .tag-badge.chef {
+      background-color: #FFFBEB;
+      color: #D97706;
+      border-color: rgba(217, 119, 6, 0.2);
+    }
+
+    .dish-ingredients {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      margin-top: 3px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .dish-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .dish-price {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.01em;
+    }
+
+    .dish-card.out-of-stock .dish-price {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .stock-badge-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background-color: var(--status-out-bg);
+      color: var(--status-out-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* No search results state */
+    .no-results {
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--text-secondary);
+    }
+
+    .no-results-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    /* ==========================================================================
+       CATEGORY POPOVER SELECTION GRID (CLICK 'DANH MỤC' TO OPEN)
+       ========================================================================== */
+    .category-popover-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background-color: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .category-popover-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .category-popover-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--popover-bg);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 18px 24px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .category-popover-overlay.active .category-popover-card {
+      transform: translateY(0);
+    }
+
+    .popover-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .popover-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-close-popover {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: none;
+      color: var(--text-secondary);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popover-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-height: 55vh;
+      overflow-y: auto;
+      padding-bottom: 6px;
+    }
+
+    .popover-cat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      background-color: var(--bg-main);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .popover-cat-item:active { transform: scale(0.97); }
+
+    .popover-cat-item.active {
+      border-color: var(--primary);
+      background-color: var(--primary-subtle);
+    }
+
+    .popover-cat-icon { font-size: 20px; flex-shrink: 0; }
+
+    .popover-cat-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .popover-cat-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .popover-cat-count {
+      font-size: 10.5px;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+
+    .popover-cat-item.full-width {
+      grid-column: span 2;
+      background-color: var(--primary-subtle);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    /* ==========================================================================
+       STICKY BOTTOM BAR (READ-ONLY)
+       ========================================================================== */
+    .sticky-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      z-index: 95;
+      padding: 10px 14px;
+      background: var(--bottom-bar-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sticky);
+    }
+
+    .bottom-cta-box {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+    }
+
+    .bell-icon-pulse {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+
+    .cta-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cta-heading {
+      font-size: 12.5px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .cta-subtext {
+      font-size: 10.5px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    /* Onboarding Language Selector Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background-color: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      background-color: var(--popover-bg);
+      border-radius: 24px 24px 0 0;
+      padding: 22px 18px 28px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-drag-handle {
+      width: 34px;
+      height: 4px;
+      background-color: var(--border-color);
+      border-radius: 2px;
+      margin: 0 auto 14px;
+    }
+
+    .modal-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .modal-subtitle {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .lang-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 20px;
+      max-height: 55vh;
+      overflow-y: auto;
+    }
+
+    .lang-option-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background-color: var(--bg-main);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-option-card.selected {
+      border-color: var(--primary);
+      background-color: var(--primary-subtle);
+    }
+
+    .lang-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-native-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .lang-english-name {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-option-card.selected .radio-circle {
+      border-color: var(--primary);
+      background-color: var(--primary);
+    }
+
+    .radio-circle::after {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: white;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+    }
+
+    .lang-option-card.selected .radio-circle::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btn-confirm-lang {
+      width: 100%;
+      height: 46px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 18px rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
   </style>
 </head>
 <body>
 
-<!-- ============ WELCOME / LANGUAGE SELECT ============ -->
-<div id="screen-welcome" class="welcome hidden">
-  <div class="welcome-card">
-    <div class="w-store" id="w-store">☕</div>
-    <div class="w-title">Welcome!</div>
-    <div class="w-title vi">Xin chào!</div>
-    <div class="w-sub">Choose your language<br>Chọn ngôn ngữ của bạn</div>
-    <div class="lang-choices">
-      <button type="button" class="lang-choice" onclick="chooseLang('en')">
-        <span class="lang-badge">GB</span>
-        <span class="lang-texts">
-          <span class="lang-title">English</span>
-          <span class="lang-sub">View the menu in English</span>
-        </span>
-        <span class="lang-arrow">→</span>
-      </button>
-      <button type="button" class="lang-choice" onclick="chooseLang('vi')">
-        <span class="lang-badge">VN</span>
-        <span class="lang-texts">
-          <span class="lang-title">Tiếng Việt</span>
-          <span class="lang-sub">Xem menu bằng tiếng Việt</span>
-        </span>
-        <span class="lang-arrow">→</span>
-      </button>
-    </div>
-  </div>
-</div>
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         TOP BRAND HEADER (NON-STICKY - ROLLS OFF SCREEN ON SCROLL DOWN)
+         ========================================================================== -->
+    <header class="top-brand-header">
+      <div class="top-header">
+        <div class="brand-group">
+          <div class="brand-logo" id="brand-logo-icon">☕</div>
+          <div class="brand-meta">
+            <h1 class="brand-title" id="store-title">Good Morning Café</h1>
+            <span class="table-pill" id="table-display">Table 05</span>
+          </div>
+        </div>
 
-<!-- ============ MENU ============ -->
-<div id="screen-menu" class="hidden">
-  <header class="m-header">
-    <div class="m-top">
-      <button type="button" class="back-btn" onclick="showWelcome()" aria-label="Back">←</button>
-      <div class="m-store" id="m-store">☕</div>
-      <span class="table-chip hidden" id="table-chip"></span>
-      <div class="lang-pills">
-        <button type="button" class="pill" data-lang="en" onclick="setLang('en')"><span class="mini">GB</span>EN</button>
-        <button type="button" class="pill" data-lang="vi" onclick="setLang('vi')"><span class="mini">VN</span>VI</button>
+        <div class="header-actions">
+          <!-- Language Switcher Button -->
+          <button class="lang-switcher-btn" id="open-lang-btn" aria-label="Change Language">
+            <img src="https://flagcdn.com/w40/gb.png" alt="Flag" class="flag-icon" id="current-flag-img">
+            <span id="current-lang-code">EN</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          </span>
+          <input type="text" class="search-input" id="search-input" placeholder="Search menu..." autocomplete="off">
+          <button class="search-clear-btn" id="search-clear-btn">✕</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         STICKY CATEGORY BAR (ALWAYS PINNED TO TOP OF SCREEN AT top: 0 ON SCROLL)
+         ========================================================================== -->
+    <nav class="sticky-category-bar">
+      <div class="active-cat-indicator-bar">
+        <div class="indicator-left">
+          <span id="active-cat-icon">✨</span>
+          <span id="active-cat-name">All Items</span>
+        </div>
+        <button class="btn-quick-menu-trigger" id="top-quick-menu-btn">
+          <span id="top-cat-label">Danh mục</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ==========================================================================
+         MAIN MENU CONTENT AREA (COMPACT 5-6 ITEMS PER SCREEN)
+         ========================================================================== -->
+    <main class="menu-content" id="menu-content">
+      <!-- Categories and Dish cards rendered dynamically -->
+    </main>
+
+    <!-- Category Quick Jump Popover Overlay (Triggers when tapping 'Danh mục' button) -->
+    <div class="category-popover-overlay" id="cat-popover-modal">
+      <div class="category-popover-card">
+        <div class="popover-header">
+          <h2 class="popover-title" id="popover-title-text">
+            <span>📋</span>
+            <span>Chọn Danh Mục</span>
+          </h2>
+          <button class="btn-close-popover" id="btn-close-popover">✕</button>
+        </div>
+
+        <div class="popover-grid" id="popover-grid-container">
+          <!-- Category Quick Items Rendered Dynamically -->
+        </div>
       </div>
     </div>
-    <h1 class="m-heading" id="m-heading">Hôm nay bạn muốn dùng gì?</h1>
-    <div class="search-wrap">
-      <span class="search-icon"></span>
-      <input type="search" class="search-input" id="search-input" placeholder="Tìm món ăn, đồ uống..." autocomplete="off">
+
+    <!-- Sticky Bottom Bar (Read-Only) -->
+    <aside class="sticky-bottom-bar">
+      <div class="bottom-cta-box">
+        <div class="bell-icon-pulse">🛎️</div>
+        <div class="cta-text-group">
+          <span class="cta-heading" id="cta-heading-text">Vui lòng gọi nhân viên khi bạn sẵn sàng gọi món</span>
+          <span class="cta-subtext" id="cta-subtext-text">Read-Only Menu · Server will take your order</span>
+        </div>
+      </div>
+    </aside>
+
+  </div> <!-- /.app-container -->
+
+  <!-- Onboarding Language Selector Modal -->
+  <div class="modal-overlay" id="lang-modal">
+    <div class="modal-card">
+      <div class="modal-drag-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title-text">Select Your Language</h2>
+        <p class="modal-subtitle" id="modal-subtitle-text">Choose your preferred menu language</p>
+      </div>
+
+      <div class="lang-list" id="lang-list-container"></div>
+
+      <button class="btn-confirm-lang" id="btn-confirm-lang">
+        <span id="btn-confirm-text">Explore Menu</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
     </div>
-  </header>
-
-  <div class="cat-bar" id="cat-bar"></div>
-  <div class="count" id="count"></div>
-  <div class="list" id="list">
-    <div class="empty-state"><div class="spinner"></div><span id="loading-text">Đang tải thực đơn...</span></div>
   </div>
-  <div class="m-footer" id="m-footer"></div>
-</div>
 
-<div class="toast" id="toast">
-  <div class="spinner" style="width:13px;height:13px;border-width:2px;border-top-color:#fff;border-color:rgba(255,255,255,0.3)"></div>
-  <span id="toast-text">Translating...</span>
-</div>
+  <script>
+    const LANGUAGES = [
+      { code: 'vi', native: 'Tiếng Việt', english: 'Vietnamese', flag: 'https://flagcdn.com/w40/vn.png' },
+      { code: 'en', native: 'English', english: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
+      { code: 'ru', native: 'Русский', english: 'Russian', flag: 'https://flagcdn.com/w40/ru.png' },
+      { code: 'fr', native: 'Français', english: 'French', flag: 'https://flagcdn.com/w40/fr.png' },
+      { code: 'zh', native: '中文', english: 'Chinese', flag: 'https://flagcdn.com/w40/cn.png' }
+    ];
 
-<script>
-// =============== STATE ===============
-let allProducts = [];
-let allCategories = [];
-let storeInfo = {};
-let posPublicUrl = '';       // POS tunnel URL published inside menu.json
-let sameOriginLive = false;  // true when this page is served by the POS server itself
-let currentLang = localStorage.getItem('gm_lang2') || '';
-let currentCat = 'all';
-let searchQuery = '';
-let transCache = {};
-try { transCache = JSON.parse(localStorage.getItem('gm_trans2') || '{}'); } catch(e) {}
-let tNames = {}, tCats = {}, tDescs = {};
+    const UI_TRANSLATIONS = {
+      vi: {
+        modalTitle: "Chọn Ngôn Ngữ Của Bạn",
+        modalSubtitle: "Vui lòng chọn ngôn ngữ để xem thực đơn",
+        confirmBtn: "Xem Thực Đơn",
+        searchPlaceholder: "Tìm món ăn...",
+        outOfStockBadge: "Hết Hàng",
+        ctaText: "Vui lòng gọi nhân viên khi bạn sẵn sàng gọi món",
+        ctaSubtext: "Thực đơn xem nhanh · Nhân viên sẽ ghi nhận món",
+        noResults: "Không tìm thấy món nào phù hợp",
+        catBtnLabel: "Danh mục",
+        popoverTitle: "Chọn Danh Mục",
+        allCategory: "Tất Cả Món"
+      },
+      en: {
+        modalTitle: "Select Your Language",
+        modalSubtitle: "Choose your preferred language for the menu",
+        confirmBtn: "Explore Menu",
+        searchPlaceholder: "Search dishes...",
+        outOfStockBadge: "Sold Out",
+        ctaText: "Please call a server when ready to order",
+        ctaSubtext: "Read-Only Menu · Server will take your order",
+        noResults: "No matching dishes found",
+        catBtnLabel: "Categories",
+        popoverTitle: "Select Category",
+        allCategory: "All Items"
+      },
+      ru: {
+        modalTitle: "Выберите ваш язык",
+        modalSubtitle: "Выберите предпочитаемый язык меню",
+        confirmBtn: "Открыть меню",
+        searchPlaceholder: "Поиск блюд...",
+        outOfStockBadge: "Распродано",
+        ctaText: "Позовите официанта, когда будете готовы сделать заказ",
+        ctaSubtext: "Меню для просмотра · Официант примет заказ",
+        noResults: "Блюда не найдены",
+        catBtnLabel: "Категории",
+        popoverTitle: "Выберите категорию",
+        allCategory: "Все блюда"
+      },
+      fr: {
+        modalTitle: "Choisissez votre langue",
+        modalSubtitle: "Sélectionnez votre langue pour consulter le menu",
+        confirmBtn: "Afficher le Menu",
+        searchPlaceholder: "Rechercher des plats...",
+        outOfStockBadge: "Épuisé",
+        ctaText: "Veuillez appeler un serveur lorsque vous êtes prêt",
+        ctaSubtext: "Menu en lecture seule · Commande auprès du serveur",
+        noResults: "Aucun plat trouvé",
+        catBtnLabel: "Catégories",
+        popoverTitle: "Sélectionner une catégorie",
+        allCategory: "Tous les plats"
+      },
+      zh: {
+        modalTitle: "选择您的语言",
+        modalSubtitle: "请选择您偏好的菜单语言",
+        confirmBtn: "查看菜单",
+        searchPlaceholder: "搜索菜品...",
+        outOfStockBadge: "已售罄",
+        ctaText: "当您准备好点餐时，请呼叫服务员",
+        ctaSubtext: "仅供浏览菜单 · 服务员为您点餐",
+        noResults: "未找到相关菜品",
+        catBtnLabel: "分类菜单",
+        popoverTitle: "选择菜品分类",
+        allCategory: "全部菜品"
+      }
+    };
 
-// =============== UI TEXTS (vi / en) ===============
-const UI = {
-  vi: {
-    heading: 'Hôm nay bạn muốn dùng gì?',
-    search: 'Tìm món ăn, đồ uống...',
-    dishes: 'món',
-    all: 'Tất cả',
-    soldout: 'Hết món',
-    empty: 'Không tìm thấy món nào phù hợp',
-    loading: 'Đang tải thực đơn...',
-    loadError: 'Không thể tải thực đơn.\nVui lòng kiểm tra kết nối mạng và thử lại.',
-    translating: 'Đang xử lý...'
-  },
-  en: {
-    heading: 'What are you craving today?',
-    search: 'Search dishes, drinks...',
-    dishes: 'dishes',
-    all: 'All',
-    soldout: 'Sold out',
-    empty: 'No dishes match your search',
-    loading: 'Loading menu...',
-    loadError: 'Could not load the menu.\nPlease check your connection and try again.',
-    translating: 'Translating...'
-  }
-};
-function T() { return UI[currentLang] || UI.vi; }
+    let activeMenuPayload = { store: {}, categories: [], dishes: [] };
+    let currentLang = localStorage.getItem('gm_menu_lang') || 'en';
+    let selectedModalLang = currentLang;
+    let currentCategory = 'all';
+    let searchQuery = '';
 
-// =============== URL PARAMS ===============
-const urlParams = new URLSearchParams(window.location.search);
-const tableName = urlParams.get('table');
-if (tableName) {
-  const chip = document.getElementById('table-chip');
-  chip.textContent = '📍 ' + decodeURIComponent(tableName);
-  chip.classList.remove('hidden');
-}
+    const langModal = document.getElementById('lang-modal');
+    const openLangBtn = document.getElementById('open-lang-btn');
+    const btnConfirmLang = document.getElementById('btn-confirm-lang');
+    const langListContainer = document.getElementById('lang-list-container');
+    
+    const currentFlagImg = document.getElementById('current-flag-img');
+    const currentLangCode = document.getElementById('current-lang-code');
+    const searchInput = document.getElementById('search-input');
+    const searchClearBtn = document.getElementById('search-clear-btn');
+    const menuContent = document.getElementById('menu-content');
+    
+    const catPopoverModal = document.getElementById('cat-popover-modal');
+    const btnClosePopover = document.getElementById('btn-close-popover');
+    const popoverGridContainer = document.getElementById('popover-grid-container');
+    const popoverTitleText = document.getElementById('popover-title-text');
+    const topQuickMenuBtn = document.getElementById('top-quick-menu-btn');
+    const activeCatIcon = document.getElementById('active-cat-icon');
+    const activeCatName = document.getElementById('active-cat-name');
+    const topCatLabel = document.getElementById('top-cat-label');
+    
+    const modalTitleText = document.getElementById('modal-title-text');
+    const modalSubtitleText = document.getElementById('modal-subtitle-text');
+    const btnConfirmText = document.getElementById('btn-confirm-text');
+    const ctaHeadingText = document.getElementById('cta-heading-text');
+    const ctaSubtextText = document.getElementById('cta-subtext-text');
 
-// =============== HELPERS ===============
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function fmt(p) { return p.toLocaleString('vi-VN') + 'đ'; }
-// Diacritics-insensitive matcher so "ca phe" finds "cà phê"
-function norm(s) {
-  return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd');
-}
+    async function init() {
+      // Check URL Table Query Param e.g. /menu?table=08
+      const urlParams = new URLSearchParams(window.location.search);
+      const tableQuery = urlParams.get('table');
+      if (tableQuery) {
+        document.getElementById('table-display').textContent = `Table ${tableQuery.padStart(2, '0')}`;
+      }
 
-// =============== SCREENS ===============
-function showWelcome() {
-  document.getElementById('screen-welcome').classList.remove('hidden');
-  document.getElementById('screen-menu').classList.add('hidden');
-}
-function showMenu() {
-  document.getElementById('screen-welcome').classList.add('hidden');
-  document.getElementById('screen-menu').classList.remove('hidden');
-}
-function chooseLang(lang) {
-  setLang(lang);
-  showMenu();
-}
-async function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('gm_lang2', lang);
-  document.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-  document.getElementById('m-heading').textContent = T().heading;
-  document.getElementById('search-input').placeholder = T().search;
-  if (lang === 'en') {
-    await translateMenu();
-  } else {
-    resetTranslations();
-  }
-  renderAll();
-}
+      await fetchLivePosData();
 
-// =============== TRANSLATION (vi -> en) ===============
-function resetTranslations() {
-  allProducts.forEach(p => { tNames[p.id] = p.name; tDescs[p.id] = p.description || ''; });
-  allCategories.forEach(c => { tCats[c] = c; });
-}
-async function translateBatch(texts) {
-  if (!transCache.en) transCache.en = {};
-  const need = texts.filter(t => t && !transCache.en[t]);
-  if (need.length) {
-    try {
-      const url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=vi&tl=en&dt=t&q=' + encodeURIComponent(need.join('\n'));
-      const data = await (await fetch(url)).json();
-      let out = '';
-      if (data && data[0]) data[0].forEach(x => { if (x[0]) out += x[0]; });
-      const lines = out.split('\n');
-      need.forEach((t, i) => { transCache.en[t] = (lines[i] || t).trim(); });
-      localStorage.setItem('gm_trans2', JSON.stringify(transCache));
-    } catch(e) {
-      need.forEach(t => { transCache.en[t] = t; });
+      const hasChosenLang = localStorage.getItem('gm_menu_lang_chosen');
+      if (!hasChosenLang) showModal();
+
+      updateUIStrings();
+      renderMenu();
+
+      openLangBtn.addEventListener('click', showModal);
+      btnConfirmLang.addEventListener('click', confirmLanguageSelection);
+
+      topQuickMenuBtn.addEventListener('click', showPopover);
+      btnClosePopover.addEventListener('click', hidePopover);
+      catPopoverModal.addEventListener('click', (e) => { if (e.target === catPopoverModal) hidePopover(); });
+
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim().toLowerCase();
+        searchClearBtn.style.display = searchQuery ? 'flex' : 'none';
+        renderMenu();
+      });
+
+      searchClearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        searchClearBtn.style.display = 'none';
+        renderMenu();
+      });
+
+      // Auto-poll live POS database every 3 seconds for instant Hết món / Còn hàng updates
+      setInterval(async () => {
+        await fetchLivePosData();
+        renderMenu();
+      }, 3000);
     }
-  }
-  return texts.map(t => t ? (transCache.en[t] || t) : '');
-}
-async function translateMenu() {
-  // Dish names stay in Vietnamese (proper nouns); only descriptions
-  // and category labels are translated for English visitors.
-  showToast(T().translating);
-  const descs = allProducts.map(p => p.description || '');
-  const cats = [...new Set(allProducts.map(p => p.category))];
-  const all = await translateBatch([...descs, ...cats]);
-  allProducts.forEach((p, i) => {
-    tNames[p.id] = p.name;
-    tDescs[p.id] = all[i] || '';
-  });
-  cats.forEach((c, i) => { tCats[c] = all[descs.length + i] || c; });
-  hideToast();
-}
 
-// =============== RENDERING ===============
-function renderAll() {
-  renderHeader();
-  renderCategories();
-  renderList();
-}
-function renderHeader() {
-  const s = storeInfo;
-  document.getElementById('m-store').textContent = s.name || 'Thực Đơn';
-  document.getElementById('w-store').textContent = s.name || '☕';
-  const phone = s.phone ? ' • ☎ ' + s.phone : '';
-  document.getElementById('m-footer').textContent = (s.name || '') + phone;
-  document.title = (s.name ? s.name + ' - ' : '') + 'Thực Đơn';
-}
-function renderCategories() {
-  const used = allCategories.filter(c => allProducts.some(p => p.category === c));
-  allProducts.forEach(p => { if (!used.includes(p.category)) used.push(p.category); });
-  let html = '<button type="button" class="cat-btn ' + (currentCat === 'all' ? 'active' : '') + '" onclick="filterCat(\'all\')">' + esc(T().all) + '</button>';
-  used.forEach(c => {
-    html += '<button type="button" class="cat-btn ' + (currentCat === c ? 'active' : '') + '" onclick="filterCat(\'' + esc(c).replace(/'/g, "\\'") + '\')">' + esc(tCats[c] || c) + '</button>';
-  });
-  document.getElementById('cat-bar').innerHTML = html;
-}
-function filterCat(cat) {
-  currentCat = cat;
-  renderCategories();
-  renderList();
-}
-function getFilteredProducts() {
-  let list = currentCat === 'all' ? allProducts.slice() : allProducts.filter(p => p.category === currentCat);
-  if (searchQuery) {
-    const q = norm(searchQuery);
-    list = list.filter(p =>
-      norm(p.name).includes(q) ||
-      norm(tNames[p.id] || '').includes(q) ||
-      norm(p.description || '').includes(q) ||
-      norm(tDescs[p.id] || '').includes(q)
-    );
-  }
-  // Keep the category order from menu management, alphabetical within
-  const catOrder = {};
-  allCategories.forEach((c, i) => { catOrder[c] = i; });
-  list.sort((a, b) => {
-    const ca = catOrder[a.category] !== undefined ? catOrder[a.category] : 999;
-    const cb = catOrder[b.category] !== undefined ? catOrder[b.category] : 999;
-    if (ca !== cb) return ca - cb;
-    return (tNames[a.id] || a.name).localeCompare(tNames[b.id] || b.name);
-  });
-  return list;
-}
-function dishCard(p) {
-  const name = tNames[p.id] || p.name;
-  const desc = currentLang === 'en' ? (tDescs[p.id] || '') : (p.description || '');
-  const soldOut = p.available === false;
-  const img = p.image
-    ? '<img src="' + esc(p.image) + '" alt="" loading="lazy" onerror="this.parentNode.innerHTML=\'<span class=&quot;dish-emoji&quot;>' + esc(p.emoji || '🍽️') + '</span>\'">'
-    : '<span class="dish-emoji">' + esc(p.emoji || '🍽️') + '</span>';
-  return '<div class="dish' + (soldOut ? ' soldout' : '') + '">' +
-    (soldOut ? '<span class="sold-badge">' + esc(T().soldout) + '</span>' : '') +
-    '<div class="dish-img">' + img + '</div>' +
-    '<div class="dish-info">' +
-      '<div class="dish-name">' + esc(name) + '</div>' +
-      (desc ? '<div class="dish-desc">' + esc(desc) + '</div>' : '') +
-      '<div class="dish-price">' + fmt(p.price) + '</div>' +
-    '</div>' +
-    (soldOut ? '' : '<span class="dish-cat">' + esc(tCats[p.category] || p.category) + '</span>') +
-  '</div>';
-}
-function renderList() {
-  const list = getFilteredProducts();
-  document.getElementById('count').textContent = list.length + ' ' + T().dishes;
-  if (!list.length) {
-    document.getElementById('list').innerHTML = '<div class="empty-state">🍽️<br>' + esc(T().empty) + '</div>';
-    return;
-  }
-  document.getElementById('list').innerHTML = list.map(dishCard).join('');
-}
-
-// =============== SEARCH ===============
-document.getElementById('search-input').addEventListener('input', function() {
-  searchQuery = this.value.trim();
-  renderList();
-});
-
-// =============== COLLAPSING HEADER ===============
-// Scrolling down collapses the header to just the search bar;
-// any upward scroll brings the full header back.
-(function() {
-  const headerEl = document.querySelector('.m-header');
-  let lastY = window.scrollY;
-  let guardUntil = 0; // absorb the scroll adjustment caused by the height change itself
-
-  function setCollapsed(on) {
-    if (headerEl.classList.contains('collapsed') === on) return;
-    headerEl.classList.toggle('collapsed', on);
-    guardUntil = Date.now() + 400;
-  }
-
-  window.addEventListener('scroll', function() {
-    const y = Math.max(0, window.scrollY);
-    if (Date.now() < guardUntil) { lastY = y; return; }
-    const delta = y - lastY;
-    if (Math.abs(delta) < 8) return; // ignore jitter
-    lastY = y;
-    if (y < 60) {
-      setCollapsed(false);
-    } else if (delta > 0 && y > 120) {
-      setCollapsed(true);
-    } else if (delta < 0) {
-      setCollapsed(false);
+    /* Live POS Data Integration Logic (Direct database integration) */
+    async function fetchLivePosData() {
+      const endpoints = ['/api/public-menu', 'http://localhost:3000/api/public-menu'];
+      for (const ep of endpoints) {
+        try {
+          const res = await fetch(ep);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && (data.products || data.dishes)) {
+              normalizePosData(data);
+              return;
+            }
+          }
+        } catch (err) {}
+      }
     }
-  }, { passive: true });
-})();
 
-// =============== TOAST ===============
-function showToast(msg) {
-  document.getElementById('toast-text').textContent = msg;
-  document.getElementById('toast').classList.add('visible');
-}
-function hideToast() { document.getElementById('toast').classList.remove('visible'); }
+    function normalizePosData(data) {
+      const rawStore = data.store || {};
+      const rawCategories = data.categories || [];
+      const rawProducts = data.products || data.dishes || [];
 
-// =============== DATA LOADING ===============
-// Sources, in order:
-//   1. /api/public-menu on this origin  (page served by the POS server: LAN or tunnel)
-//   2. ./menu.json next to this page    (GitHub Pages; POS pushes it on every change)
-//   3. localStorage snapshot            (offline re-open)
-// After boot the data keeps refreshing so admins' menu edits appear live.
-async function fetchJson(url, timeoutMs) {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), timeoutMs || 8000);
-  try {
-    const r = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
-    clearTimeout(timer);
-    if (!r.ok) return null;
-    return await r.json();
-  } catch(e) {
-    clearTimeout(timer);
-    return null;
-  }
-}
+      if (rawStore.name) {
+        document.getElementById('store-title').textContent = rawStore.name;
+      }
+      if (rawStore.logoEmoji) {
+        document.getElementById('brand-logo-icon').textContent = rawStore.logoEmoji;
+      }
 
-function applyMenuData(data, save) {
-  if (!data || !Array.isArray(data.products)) return false;
-  const changed =
-    JSON.stringify(data.products) !== JSON.stringify(allProducts) ||
-    JSON.stringify(data.categories) !== JSON.stringify(allCategories) ||
-    JSON.stringify(data.store) !== JSON.stringify(storeInfo);
-  posPublicUrl = data.publicUrl || posPublicUrl;
-  if (save) {
-    try { localStorage.setItem('gm_menu_cache', JSON.stringify(data)); } catch(e) {}
-  }
-  if (!changed) return true;
-  allProducts = data.products || [];
-  allCategories = data.categories || [];
-  storeInfo = data.store || storeInfo;
-  if (currentCat !== 'all' && !allProducts.some(p => p.category === currentCat)) currentCat = 'all';
-  resetTranslations();
-  if (currentLang === 'en') {
-    translateMenu().then(renderAll);
-  } else {
-    renderAll();
-  }
-  return true;
-}
+      const categoryIconMap = {
+        'coffee': '☕', 'cà phê': '☕', 'tea': '🍵', 'trà': '🍵',
+        'milk tea': '🧋', 'trà sữa': '🧋', 'juice': '🍊', 'nước ép': '🍊',
+        'breakfast': '🥐', 'ăn sáng': '🥐', 'sandwich': '🥪', 'bánh mì': '🥪', 'combo': '⭐'
+      };
 
-async function refreshMenuData() {
-  if (sameOriginLive) {
-    const data = await fetchJson('/api/public-menu', 8000);
-    if (data) { applyMenuData(data, true); return; }
-  }
-  if (posPublicUrl) {
-    const data = await fetchJson(posPublicUrl.replace(/\/+$/, '') + '/api/public-menu', 6000);
-    if (data) { applyMenuData(data, true); return; }
-  }
-  const data = await fetchJson('./menu.json?v=' + Date.now(), 8000);
-  if (data) applyMenuData(data, true);
-}
+      const categories = rawCategories.map(cat => {
+        if (typeof cat === 'string') {
+          const lowerName = cat.toLowerCase();
+          return {
+            id: cat,
+            name: { vi: cat, en: cat, ru: cat, fr: cat, zh: cat },
+            icon: categoryIconMap[lowerName] || '🍽️'
+          };
+        }
+        let nameObj = cat.name;
+        if (typeof nameObj === 'string') {
+          nameObj = { vi: nameObj, en: nameObj, ru: nameObj, fr: nameObj, zh: nameObj };
+        }
+        return {
+          id: cat.id || cat.dish_id || String(cat.name).toLowerCase(),
+          name: nameObj || { vi: "Danh mục", en: "Category" },
+          icon: cat.icon || categoryIconMap[String(cat.name).toLowerCase()] || '🍽️'
+        };
+      });
 
-async function loadInitialData() {
-  // 1. Same-origin POS server
-  let data = await fetchJson('/api/public-menu', 5000);
-  if (data && Array.isArray(data.products)) {
-    sameOriginLive = true;
-    applyMenuData(data, true);
-    return true;
-  }
-  // 2. Static menu.json (GitHub Pages)
-  data = await fetchJson('./menu.json?v=' + Date.now(), 8000);
-  if (data && Array.isArray(data.products)) {
-    applyMenuData(data, true);
-    // Try to upgrade to live POS data right away
-    refreshMenuData();
-    return true;
-  }
-  // 3. Offline snapshot
-  try {
-    const cached = JSON.parse(localStorage.getItem('gm_menu_cache') || 'null');
-    if (cached && Array.isArray(cached.products)) {
-      applyMenuData(cached, false);
-      return true;
+      const dishes = rawProducts.map(p => {
+        let nameObj = p.dish_name || p.name;
+        if (typeof nameObj === 'string') {
+          nameObj = { vi: nameObj, en: nameObj, ru: nameObj, fr: nameObj, zh: nameObj };
+        }
+
+        let ingrObj = p.ingredients || p.description || p.note || "";
+        if (typeof ingrObj === 'string') {
+          ingrObj = { vi: ingrObj, en: ingrObj, ru: ingrObj, fr: ingrObj, zh: ingrObj };
+        }
+
+        const isAvailable = p.available !== undefined ? Boolean(p.available) : (p.is_available !== undefined ? Boolean(p.is_available) : !p.outOfStock);
+
+        return {
+          dish_id: p.id || p.dish_id,
+          category: p.category || (categories[0] ? categories[0].id : 'general'),
+          price: p.price || 0,
+          image_url: p.image || p.image_url || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+          is_available: isAvailable,
+          tags: p.tags || (p.emoji ? [p.emoji] : (p.category === 'Combo' ? ["Combo"] : [])),
+          dish_name: nameObj,
+          ingredients: ingrObj
+        };
+      });
+
+      activeMenuPayload = {
+        store: rawStore,
+        categories: categories,
+        dishes: dishes
+      };
     }
-  } catch(e) {}
-  return false;
-}
 
-// =============== SERVICE WORKER (offline, when served by the POS server) ===============
-if ('serviceWorker' in navigator && (location.pathname === '/qr-menu' || location.pathname === '/menu')) {
-  navigator.serviceWorker.register('/qr-menu-sw.js', { scope: '/' }).catch(() => {});
-}
+    /* Language Modal Controls */
+    function showModal() {
+      selectedModalLang = currentLang;
+      renderLangOptions();
+      langModal.classList.add('active');
+    }
 
-// =============== BOOT ===============
-(async function boot() {
-  // Returning visitors go straight to the menu in their saved language
-  if (currentLang === 'vi' || currentLang === 'en') {
-    showMenu();
-    document.querySelectorAll('.pill').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
-    document.getElementById('m-heading').textContent = T().heading;
-    document.getElementById('search-input').placeholder = T().search;
-  } else {
-    currentLang = 'vi';
-    showWelcome();
-  }
-  document.getElementById('loading-text').textContent = T().loading;
+    function hideModal() { langModal.classList.remove('active'); }
 
-  const ok = await loadInitialData();
-  if (!ok) {
-    document.getElementById('list').innerHTML =
-      '<div class="empty-state">⚠️<br>' + esc(T().loadError).replace(/\n/g, '<br>') + '</div>';
-    return;
-  }
-  if (currentLang === 'en') {
-    await translateMenu();
-  }
-  renderAll();
-  setInterval(refreshMenuData, 30000);
-})();
-</script>
+    function renderLangOptions() {
+      const t = UI_TRANSLATIONS[selectedModalLang] || UI_TRANSLATIONS.en;
+      modalTitleText.textContent = t.modalTitle;
+      modalSubtitleText.textContent = t.modalSubtitle;
+      btnConfirmText.textContent = t.confirmBtn;
+
+      langListContainer.innerHTML = LANGUAGES.map(lang => {
+        const isSelected = lang.code === selectedModalLang;
+        return `
+          <div class="lang-option-card ${isSelected ? 'selected' : ''}" onclick="selectModalLang('${lang.code}')">
+            <div class="lang-left">
+              <img src="${lang.flag}" alt="${lang.native}" class="lang-flag">
+              <div class="lang-label-group">
+                <span class="lang-native-name">${lang.native}</span>
+                <span class="lang-english-name">${lang.english}</span>
+              </div>
+            </div>
+            <div class="radio-circle"></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.selectModalLang = function(code) {
+      selectedModalLang = code;
+      renderLangOptions();
+    };
+
+    function confirmLanguageSelection() {
+      currentLang = selectedModalLang;
+      localStorage.setItem('gm_menu_lang', currentLang);
+      localStorage.setItem('gm_menu_lang_chosen', 'true');
+      
+      updateUIStrings();
+      renderMenu();
+      hideModal();
+    }
+
+    function updateUIStrings() {
+      const langObj = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[1];
+      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
+
+      currentFlagImg.src = langObj.flag;
+      currentLangCode.textContent = langObj.code.toUpperCase();
+      searchInput.placeholder = t.searchPlaceholder;
+      ctaHeadingText.textContent = t.ctaText;
+      ctaSubtextText.textContent = t.ctaSubtext;
+      topCatLabel.textContent = t.catBtnLabel;
+
+      popoverTitleText.innerHTML = `<span>📋</span><span>${t.popoverTitle}</span>`;
+      updateActiveCategoryIndicator();
+    }
+
+    /* Category Popover Controls (Triggered by 'Danh mục' button in sticky bar) */
+    function showPopover() {
+      renderPopoverCategories();
+      catPopoverModal.classList.add('active');
+    }
+
+    function hidePopover() { catPopoverModal.classList.remove('active'); }
+
+    function renderPopoverCategories() {
+      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
+      const totalDishes = activeMenuPayload.dishes.length;
+
+      let html = `
+        <div class="popover-cat-item full-width ${currentCategory === 'all' ? 'active' : ''}" onclick="selectCategoryFromPopover('all')">
+          <span class="popover-cat-icon">✨</span>
+          <div class="popover-cat-details">
+            <span class="popover-cat-name">${t.allCategory}</span>
+            <span class="popover-cat-count">${totalDishes} items</span>
+          </div>
+        </div>
+      `;
+
+      activeMenuPayload.categories.forEach(cat => {
+        const name = (cat.name && (cat.name[currentLang] || cat.name.vi || cat.name.en)) || cat.id;
+        const count = activeMenuPayload.dishes.filter(d => d.category === cat.id).length;
+        const isActive = currentCategory === cat.id;
+
+        html += `
+          <div class="popover-cat-item ${isActive ? 'active' : ''}" onclick="selectCategoryFromPopover('${cat.id}')">
+            <span class="popover-cat-icon">${cat.icon}</span>
+            <div class="popover-cat-details">
+              <span class="popover-cat-name">${name}</span>
+              <span class="popover-cat-count">${count} items</span>
+            </div>
+          </div>
+        `;
+      });
+
+      popoverGridContainer.innerHTML = html;
+    }
+
+    window.selectCategoryFromPopover = function(catId) {
+      currentCategory = catId;
+      hidePopover();
+      updateActiveCategoryIndicator();
+
+      if (catId === 'all') {
+        renderMenu();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        renderMenu();
+        setTimeout(() => {
+          const targetSection = document.getElementById(`cat-sec-${encodeURIComponent(catId)}`);
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 50);
+      }
+    };
+
+    function updateActiveCategoryIndicator() {
+      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
+      if (currentCategory === 'all') {
+        activeCatIcon.textContent = '✨';
+        activeCatName.textContent = t.allCategory;
+      } else {
+        const catObj = activeMenuPayload.categories.find(c => c.id === currentCategory);
+        if (catObj) {
+          activeCatIcon.textContent = catObj.icon;
+          activeCatName.textContent = (catObj.name && (catObj.name[currentLang] || catObj.name.vi || catObj.name.en)) || catObj.id;
+        }
+      }
+    }
+
+    /* Menu Renderer - Compact Layout (5 to 6 items per screen) */
+    function renderMenu() {
+      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
+      let categoriesToDisplay = activeMenuPayload.categories;
+
+      if (currentCategory !== 'all') {
+        categoriesToDisplay = categoriesToDisplay.filter(c => c.id === currentCategory);
+      }
+
+      let hasAnyDishes = false;
+      let html = '';
+
+      categoriesToDisplay.forEach(cat => {
+        let dishes = activeMenuPayload.dishes.filter(d => d.category === cat.id);
+
+        if (searchQuery) {
+          dishes = dishes.filter(d => {
+            const nameStr = typeof d.dish_name === 'object' ? (d.dish_name[currentLang] || d.dish_name.vi || d.dish_name.en || '') : String(d.dish_name);
+            const ingrStr = typeof d.ingredients === 'object' ? (d.ingredients[currentLang] || d.ingredients.vi || d.ingredients.en || '') : String(d.ingredients);
+            return nameStr.toLowerCase().includes(searchQuery) || ingrStr.toLowerCase().includes(searchQuery);
+          });
+        }
+
+        if (dishes.length === 0) return;
+
+        hasAnyDishes = true;
+        const catName = (cat.name && (cat.name[currentLang] || cat.name.vi || cat.name.en)) || cat.id;
+
+        html += `
+          <section class="category-section" id="cat-sec-${encodeURIComponent(cat.id)}">
+            <h2 class="category-title">
+              <span>${cat.icon}</span>
+              <span>${catName}</span>
+            </h2>
+            <div class="dish-list">
+              ${dishes.map(dish => renderDishCard(dish, t)).join('')}
+            </div>
+          </section>
+        `;
+      });
+
+      if (!hasAnyDishes) {
+        html = `
+          <div class="no-results">
+            <div class="no-results-icon">🔍</div>
+            <p>${t.noResults}</p>
+          </div>
+        `;
+      }
+
+      menuContent.innerHTML = html;
+    }
+
+    function renderDishCard(dish, t) {
+      let name = typeof dish.dish_name === 'object' ? (dish.dish_name[currentLang] || dish.dish_name.vi || dish.dish_name.en) : dish.dish_name;
+      // Strip any emoji icons from dish name
+      name = String(name).replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+
+      const ingredients = typeof dish.ingredients === 'object' ? (dish.ingredients[currentLang] || dish.ingredients.vi || dish.ingredients.en || '') : dish.ingredients;
+      const formattedPrice = new Intl.NumberFormat('vi-VN').format(dish.price) + ' ₫';
+      const isAvailable = dish.is_available;
+
+      return `
+        <article class="dish-card ${!isAvailable ? 'out-of-stock' : ''}">
+          <div class="dish-thumb-wrapper">
+            <img src="${dish.image_url}" alt="${name}" class="dish-thumb" loading="lazy">
+            ${!isAvailable ? `<div class="badge-sold-out">${t.outOfStockBadge}</div>` : ''}
+          </div>
+
+          <div class="dish-details">
+            <div class="dish-header">
+              <div class="dish-title-row">
+                <h3 class="dish-name">${name}</h3>
+              </div>
+
+              ${ingredients ? `<p class="dish-ingredients">${ingredients}</p>` : ''}
+            </div>
+
+            <div class="dish-footer">
+              <span class="dish-price">${formattedPrice}</span>
+              ${!isAvailable ? `<span class="stock-badge-pill">${t.outOfStockBadge}</span>` : ''}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
