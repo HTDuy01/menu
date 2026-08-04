@@ -690,7 +690,7 @@
     </div>
 
     <!-- SCREEN 4: SEARCH SCREEN -->
-    <div id="screen-search-view" class="screen-search-wrapper hidden">
+    <div id="screen-search-wrapper" class="screen-search-wrapper hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
         <h2 class="nav-title-text" id="ui-search-nav-title">Tìm kiếm</h2>
@@ -1063,9 +1063,21 @@
       openLangBtn.addEventListener('click', showModal);
       btnConfirmLang.addEventListener('click', confirmLanguageSelection);
       btnStayMenu.addEventListener('click', hideExitModal);
+      
+      // BULLETPROOF EXIT BUTTON ACTION THAT RELIABLY EXITS THE MENU
       btnConfirmExit.addEventListener('click', () => {
         hideExitModal();
-        window.history.go(-3); // Force exit browser history stack
+        try { window.close(); } catch(e) {}
+        try {
+          if (window.history.length > 2) {
+            window.history.go(-window.history.length);
+          } else {
+            window.location.href = "about:blank";
+          }
+        } catch(e) {
+          window.location.href = "about:blank";
+        }
+        setTimeout(() => { window.location.href = "about:blank"; }, 120);
       });
 
       // SEARCH FIELD EVENT HANDLER
