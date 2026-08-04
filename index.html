@@ -586,38 +586,6 @@
     .lang-option-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-glass); border-radius: 12px; cursor: pointer; }
     .lang-option-card.selected { background: #DCD3C5; color: var(--text-main); font-weight: 800; }
     .btn-confirm-lang { width: 100%; height: 46px; background: var(--text-main); color: #FFF; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; }
-
-    /* EXIT CONFIRMATION MODAL SYSTEM */
-    .exit-modal-card {
-      text-align: center;
-    }
-    .exit-btn-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .btn-stay-menu {
-      flex: 1;
-      height: 46px;
-      background: var(--text-main);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 99px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .btn-confirm-exit {
-      flex: 1;
-      height: 46px;
-      background: rgba(255, 255, 255, 0.85);
-      color: #D93838;
-      border: 1px solid rgba(217, 56, 56, 0.3);
-      border-radius: 99px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -756,18 +724,6 @@
     </div>
   </div>
 
-  <!-- Exit Confirmation Modal Overlay -->
-  <div class="modal-overlay" id="exit-modal">
-    <div class="modal-card exit-modal-card">
-      <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800; margin-bottom:8px;" id="ui-exit-modal-title">Xác nhận thoát Menu</h2>
-      <p style="font-size:13px; color:var(--text-body); font-weight:600; line-height:1.4;" id="ui-exit-modal-msg">Bạn có chắc chắn muốn rời khỏi Thực đơn không?</p>
-      <div class="exit-btn-row">
-        <button class="btn-stay-menu" id="btn-stay-menu">Ở lại Menu</button>
-        <button class="btn-confirm-exit" id="btn-confirm-exit">Thoát ngay</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     // ==========================================================================
     // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE
@@ -811,11 +767,7 @@
         recentlyViewedTitle: 'ĐÃ XEM GẦN ĐÂY',
         tabMenu: 'Thực đơn',
         tabSearch: 'Tìm kiếm',
-        tabAbout: 'Chi tiết',
-        exitTitle: 'Xác nhận thoát Menu',
-        exitMsg: 'Bạn có chắc chắn muốn rời khỏi Thực đơn không?',
-        btnStay: 'Ở lại Menu',
-        btnExit: 'Thoát ngay'
+        tabAbout: 'Chi tiết'
       },
       en: {
         pillCode: 'EN',
@@ -836,11 +788,7 @@
         recentlyViewedTitle: 'RECENTLY VIEWED',
         tabMenu: 'Menu',
         tabSearch: 'Search',
-        tabAbout: 'Detail',
-        exitTitle: 'Exit Menu Confirmation',
-        exitMsg: 'Are you sure you want to leave the Digital Menu?',
-        btnStay: 'Stay on Menu',
-        btnExit: 'Exit Now'
+        tabAbout: 'Detail'
       },
       fr: {
         pillCode: 'FR',
@@ -861,11 +809,7 @@
         recentlyViewedTitle: 'RÉCEMMENT CONSULTÉS',
         tabMenu: 'Menu',
         tabSearch: 'Rechercher',
-        tabAbout: 'Détail',
-        exitTitle: 'Quitter le Menu',
-        exitMsg: 'Êtes-vous sûr de vouloir quitter le Menu Digital ?',
-        btnStay: 'Rester',
-        btnExit: 'Quitter'
+        tabAbout: 'Détail'
       },
       ru: {
         pillCode: 'RU',
@@ -884,13 +828,9 @@
         searchResultsTitle: 'РЕЗУЛЬТАТЫ ПОИСКА',
         popularSearchesTitle: 'ПОПУЛЯРНЫЕ ЗАПРОСЫ',
         recentlyViewedTitle: 'НЕДАВНО ПРОСМОТРЕННЫЕ',
-        tabMenu: 'amp;МЕНЮ',
+        tabMenu: 'Меню',
         tabSearch: 'Поиск',
-        tabAbout: 'Детали',
-        exitTitle: 'Выход из меню',
-        exitMsg: 'Вы уверены, что хотите покинуть цифровое меню?',
-        btnStay: 'Остаться',
-        btnExit: 'Выйти'
+        tabAbout: 'Детали'
       }
     };
 
@@ -992,11 +932,8 @@
     let searchDebounceTimer = null;
 
     const langModal = document.getElementById('lang-modal');
-    const exitModal = document.getElementById('exit-modal');
     const openLangBtn = document.getElementById('open-lang-btn');
     const btnConfirmLang = document.getElementById('btn-confirm-lang');
-    const btnStayMenu = document.getElementById('btn-stay-menu');
-    const btnConfirmExit = document.getElementById('btn-confirm-exit');
     const langListContainer = document.getElementById('lang-list-container');
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
@@ -1032,39 +969,25 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // STRICT USER DIRECTIVE: SHOW EXIT MODAL WHEN AND ONLY WHEN GUEST SWIPES BACK ON THE MAIN MENU (COLLECTIONS) SCREEN!
+    // CLEAN STANDARD HISTORY BACK NAVIGATION
     window.addEventListener('popstate', (e) => {
       const state = e.state;
-
-      if (currentActiveScreen === 'collections') {
-        // Guest is on the Main Menu interface and swiped back gesture!
-        // Show exit confirmation modal strictly as requested!
-        history.pushState({ screen: 'collections' }, '', '#menu');
-        showExitModal();
-      } else {
-        // Guest is on any other screen (detail, listing, search) -> Simply navigate back inside menu WITHOUT exit modal
-        if (state && state.screen) {
-          if (state.screen === 'detail' && state.dishId) {
-            openProductDetail(state.dishId, false);
-          } else if (state.screen === 'listing' && state.catId) {
-            openCategoryCollection(state.catId, state.catName, false);
-          } else if (state.screen === 'search') {
-            switchOliveScreen('search', false);
-          } else {
-            switchOliveScreen('collections', false);
-          }
+      if (state && state.screen) {
+        if (state.screen === 'detail' && state.dishId) {
+          openProductDetail(state.dishId, false);
+        } else if (state.screen === 'listing' && state.catId) {
+          openCategoryCollection(state.catId, state.catName, false);
+        } else if (state.screen === 'search') {
+          switchOliveScreen('search', false);
         } else {
           switchOliveScreen('collections', false);
         }
+      } else {
+        switchOliveScreen('collections', false);
       }
     });
 
     async function init() {
-      // Set clean initial state on page load without auto-triggering modal
-      if (!history.state) {
-        history.replaceState({ screen: 'collections' }, '', '#menu');
-      }
-
       normalizePosData(FALLBACK_POS_DATA);
       applyTranslations();
       switchOliveScreen('collections', false);
@@ -1076,22 +999,6 @@
 
       openLangBtn.addEventListener('click', showModal);
       btnConfirmLang.addEventListener('click', confirmLanguageSelection);
-      btnStayMenu.addEventListener('click', hideExitModal);
-      
-      btnConfirmExit.addEventListener('click', () => {
-        hideExitModal();
-        try { window.close(); } catch(e) {}
-        try {
-          if (window.history.length > 1) {
-            window.history.back();
-          } else {
-            window.location.href = "about:blank";
-          }
-        } catch(e) {
-          window.location.href = "about:blank";
-        }
-        setTimeout(() => { window.location.href = "about:blank"; }, 100);
-      });
 
       searchInputField.addEventListener('input', (e) => {
         const query = e.target.value.trim();
@@ -1182,15 +1089,6 @@
 
       const tabAbout = document.getElementById('ui-tab-about-label');
       if (tabAbout) tabAbout.textContent = t.tabAbout;
-
-      const uiExitModalTitle = document.getElementById('ui-exit-modal-title');
-      if (uiExitModalTitle) uiExitModalTitle.textContent = t.exitTitle;
-
-      const uiExitModalMsg = document.getElementById('ui-exit-modal-msg');
-      if (uiExitModalMsg) uiExitModalMsg.textContent = t.exitMsg;
-
-      if (btnStayMenu) btnStayMenu.textContent = t.btnStay;
-      if (btnConfirmExit) btnConfirmExit.textContent = t.btnExit;
 
       if (rawPosData) {
         normalizePosData(rawPosData);
@@ -1403,9 +1301,6 @@
 
     function showModal() { renderLangOptions(); langModal.classList.add('active'); }
     function hideModal() { langModal.classList.remove('active'); }
-
-    function showExitModal() { exitModal.classList.add('active'); }
-    function hideExitModal() { exitModal.classList.remove('active'); }
 
     function renderLangOptions() {
       langListContainer.innerHTML = LANGUAGES.map(lang => `
