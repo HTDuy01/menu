@@ -624,7 +624,7 @@
 
   <div class="app-container">
 
-    <!-- SCREEN 1: MAIN MENU & COLLECTIONS (ALWAYS VISIBLE BY DEFAULT) -->
+    <!-- SCREEN 1: MAIN MENU & COLLECTIONS -->
     <div id="screen-collections-view" class="screen-main-collections">
       <div class="brand-header-row">
         <!-- Olive Leaf SVG logo -->
@@ -770,7 +770,7 @@
 
   <script>
     // ==========================================================================
-    // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE (NEVER BLANK AGAIN!)
+    // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE
     // ==========================================================================
     const FALLBACK_POS_DATA = {
       store: { name: "Good Morning Café" },
@@ -884,7 +884,7 @@
         searchResultsTitle: 'РЕЗУЛЬТАТЫ ПОИСКА',
         popularSearchesTitle: 'ПОПУЛЯРНЫЕ ЗАПРОСЫ',
         recentlyViewedTitle: 'НЕДАВНО ПРОСМОТРЕННЫЕ',
-        tabMenu: 'Меню',
+        tabMenu: 'amp;МЕНЮ',
         tabSearch: 'Поиск',
         tabAbout: 'Детали',
         exitTitle: 'Выход из меню',
@@ -990,7 +990,16 @@
     let currentActiveScreen = 'collections';
     let activeDishId = null;
     let searchDebounceTimer = null;
-    let hasUserNavigated = false;
+
+    const langModal = document.getElementById('lang-modal');
+    const exitModal = document.getElementById('exit-modal');
+    const openLangBtn = document.getElementById('open-lang-btn');
+    const btnConfirmLang = document.getElementById('btn-confirm-lang');
+    const btnStayMenu = document.getElementById('btn-stay-menu');
+    const btnConfirmExit = document.getElementById('btn-confirm-exit');
+    const langListContainer = document.getElementById('lang-list-container');
+    const searchInputField = document.getElementById('search-input-field');
+    const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
     // SWITCH SCREEN SYSTEM
     window.switchOliveScreen = function(screenKey, pushHistory = true) {
@@ -1017,31 +1026,33 @@
       }
 
       if (pushHistory && prevScreen !== screenKey) {
-        hasUserNavigated = true;
         history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // HANDLE ANDROID SWIPE BACK GESTURES SAFELY
+    // STRICT USER DIRECTIVE: SHOW EXIT MODAL WHEN AND ONLY WHEN GUEST SWIPES BACK ON THE MAIN MENU (COLLECTIONS) SCREEN!
     window.addEventListener('popstate', (e) => {
       const state = e.state;
-      
-      if (state && state.screen) {
-        if (state.screen === 'detail' && state.dishId) {
-          openProductDetail(state.dishId, false);
-        } else if (state.screen === 'listing' && state.catId) {
-          openCategoryCollection(state.catId, state.catName, false);
-        } else if (state.screen === 'search') {
-          switchOliveScreen('search', false);
-        } else {
-          switchOliveScreen('collections', false);
-        }
+
+      if (currentActiveScreen === 'collections') {
+        // Guest is on the Main Menu interface and swiped back gesture!
+        // Show exit confirmation modal strictly as requested!
+        history.pushState({ screen: 'collections' }, '', '#menu');
+        showExitModal();
       } else {
-        // Back to root screen
-        if (currentActiveScreen === 'collections' && hasUserNavigated) {
-          showExitModal();
+        // Guest is on any other screen (detail, listing, search) -> Simply navigate back inside menu WITHOUT exit modal
+        if (state && state.screen) {
+          if (state.screen === 'detail' && state.dishId) {
+            openProductDetail(state.dishId, false);
+          } else if (state.screen === 'listing' && state.catId) {
+            openCategoryCollection(state.catId, state.catName, false);
+          } else if (state.screen === 'search') {
+            switchOliveScreen('search', false);
+          } else {
+            switchOliveScreen('collections', false);
+          }
         } else {
           switchOliveScreen('collections', false);
         }
@@ -1049,12 +1060,15 @@
     });
 
     async function init() {
-      // 1. RENDER FALLBACK DATA INSTANTLY ON FIRST FRAME
+      // Set clean initial state on page load without auto-triggering modal
+      if (!history.state) {
+        history.replaceState({ screen: 'collections' }, '', '#menu');
+      }
+
       normalizePosData(FALLBACK_POS_DATA);
       applyTranslations();
       switchOliveScreen('collections', false);
 
-      // 2. FETCH LIVE POS API IN BACKGROUND
       await fetchLivePosData();
       applyTranslations();
 
