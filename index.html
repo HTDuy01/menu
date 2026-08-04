@@ -624,7 +624,7 @@
 
   <div class="app-container">
 
-    <!-- SCREEN 1: MAIN MENU & COLLECTIONS -->
+    <!-- SCREEN 1: MAIN MENU & COLLECTIONS (ALWAYS VISIBLE BY DEFAULT) -->
     <div id="screen-collections-view" class="screen-main-collections">
       <div class="brand-header-row">
         <!-- Olive Leaf SVG logo -->
@@ -982,7 +982,7 @@
     ];
 
     let activeMenuPayload = { store: {}, categories: [], dishes: [] };
-    let rawPosData = FALLBACK_POS_DATA; // INSTANT DEFAULT POS DATA
+    let rawPosData = FALLBACK_POS_DATA;
     let currentLang = localStorage.getItem('gm_menu_lang') || 'vi';
     let selectedCategory = 'all';
     let selectedCategoryNameRaw = '';
@@ -990,22 +990,9 @@
     let currentActiveScreen = 'collections';
     let activeDishId = null;
     let searchDebounceTimer = null;
+    let hasUserNavigated = false;
 
-    const langModal = document.getElementById('lang-modal');
-    const exitModal = document.getElementById('exit-modal');
-    const openLangBtn = document.getElementById('open-lang-btn');
-    const btnConfirmLang = document.getElementById('btn-confirm-lang');
-    const btnStayMenu = document.getElementById('btn-stay-menu');
-    const btnConfirmExit = document.getElementById('btn-confirm-exit');
-    const langListContainer = document.getElementById('lang-list-container');
-    const searchInputField = document.getElementById('search-input-field');
-    const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
-
-    function setupHistoryGuard() {
-      history.pushState({ screen: 'collections_guard' }, '', '#main');
-      history.pushState({ screen: 'collections' }, '', '#menu');
-    }
-
+    // SWITCH SCREEN SYSTEM
     window.switchOliveScreen = function(screenKey, pushHistory = true) {
       const prevScreen = currentActiveScreen;
       currentActiveScreen = screenKey;
@@ -1030,16 +1017,18 @@
       }
 
       if (pushHistory && prevScreen !== screenKey) {
+        hasUserNavigated = true;
         history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    // HANDLE ANDROID SWIPE BACK GESTURES SAFELY
     window.addEventListener('popstate', (e) => {
       const state = e.state;
       
-      if (state && state.screen && state.screen !== 'collections_guard') {
+      if (state && state.screen) {
         if (state.screen === 'detail' && state.dishId) {
           openProductDetail(state.dishId, false);
         } else if (state.screen === 'listing' && state.catId) {
@@ -1050,20 +1039,22 @@
           switchOliveScreen('collections', false);
         }
       } else {
-        history.pushState({ screen: 'collections' }, '', '#menu');
-        switchOliveScreen('collections', false);
-        showExitModal();
+        // Back to root screen
+        if (currentActiveScreen === 'collections' && hasUserNavigated) {
+          showExitModal();
+        } else {
+          switchOliveScreen('collections', false);
+        }
       }
     });
 
     async function init() {
-      setupHistoryGuard();
-
-      // RENDER BUILT-IN FALLBACK INSTANTLY SO PAGE IS NEVER EMPTY/BLANK
+      // 1. RENDER FALLBACK DATA INSTANTLY ON FIRST FRAME
       normalizePosData(FALLBACK_POS_DATA);
       applyTranslations();
+      switchOliveScreen('collections', false);
 
-      // THEN FETCH LIVE POS API DATA
+      // 2. FETCH LIVE POS API IN BACKGROUND
       await fetchLivePosData();
       applyTranslations();
 
@@ -1077,15 +1068,15 @@
         hideExitModal();
         try { window.close(); } catch(e) {}
         try {
-          if (window.history.length > 2) {
-            window.history.go(-window.history.length);
+          if (window.history.length > 1) {
+            window.history.back();
           } else {
             window.location.href = "about:blank";
           }
         } catch(e) {
           window.location.href = "about:blank";
         }
-        setTimeout(() => { window.location.href = "about:blank"; }, 120);
+        setTimeout(() => { window.location.href = "about:blank"; }, 100);
       });
 
       searchInputField.addEventListener('input', (e) => {
