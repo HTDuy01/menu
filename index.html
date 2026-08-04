@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#EAE4DC">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="Olive & Sage - Natural Flavors Digital Menu">
-  <title>Olive & Sage | Digital Menu</title>
+  <meta name="description" content="Digital E-Menu">
+  <title>Digital Menu</title>
   
   <!-- Typography: Playfair Display + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
   
   <style>
     /* ==========================================================================
-       OLIVE & SAGE — 100% GUARANTEED BROWSER-VISIBLE BLURRED PHOTO BACKGROUND
+       DYNAMIC STORE SETTINGS DRIVEN GLASSMORPHISM SYSTEM
        ========================================================================== */
     :root {
       --bg-card-glass: rgba(255, 255, 255, 0.68);
@@ -67,7 +67,7 @@
       position: relative;
     }
 
-    /* 1. FULL-SCREEN ARTISTIC BLURRED PHOTO WALLPAPER DIRECTLY ON BODY PSEUDO-ELEMENT */
+    /* FULL-SCREEN ARTISTIC BLURRED PHOTO WALLPAPER DIRECTLY ON BODY PSEUDO-ELEMENT */
     body::before {
       content: '';
       position: fixed;
@@ -171,7 +171,7 @@
       box-shadow: var(--shadow-glass);
     }
 
-    /* MAIN TITLE MENU (EXACT THIN SERIF FONT) */
+    /* MAIN TITLE MENU */
     .menu-serif-headline {
       font-family: var(--font-serif);
       font-size: 44px;
@@ -183,6 +183,7 @@
       text-shadow: 0 1px 3px rgba(255,255,255,0.6);
     }
 
+    /* DYNAMIC STORE NAME SUBTITLE */
     .menu-welcome-text {
       font-family: var(--font-sans);
       font-size: 13.5px;
@@ -300,7 +301,6 @@
       gap: 14px;
     }
 
-    /* TRANSLUCENT WHITE FROSTED GLASS DISH CARDS FLOATING OVER BLURRED PHOTO WALLPAPER */
     .dish-glass-card {
       background: rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(24px);
@@ -410,29 +410,20 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    .detail-description-body {
-      font-family: var(--font-sans);
-      font-size: 13px;
-      color: var(--text-body);
-      line-height: 1.6;
-      margin-bottom: 22px;
-      font-weight: 500;
+      margin-bottom: 8px;
     }
 
     .detail-bullet-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      margin-bottom: 24px;
+      gap: 6px;
+      margin-bottom: 28px;
     }
 
     .detail-bullet-list li {
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-body);
       display: flex;
       align-items: center;
@@ -539,7 +530,7 @@
       overflow: hidden;
     }
 
-    /* FROSTED GLASS BOTTOM NAV BAR MATCHING MOCKUP IMAGE */
+    /* FROSTED GLASS BOTTOM NAV BAR */
     .frosted-glass-bottom-nav-bar {
       position: fixed;
       bottom: 0;
@@ -595,16 +586,48 @@
     .lang-option-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-glass); border-radius: 12px; cursor: pointer; }
     .lang-option-card.selected { background: #DCD3C5; color: var(--text-main); font-weight: 800; }
     .btn-confirm-lang { width: 100%; height: 46px; background: var(--text-main); color: #FFF; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; }
+
+    /* EXIT CONFIRMATION MODAL SYSTEM */
+    .exit-modal-card {
+      text-align: center;
+    }
+    .exit-btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .btn-stay-menu {
+      flex: 1;
+      height: 46px;
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn-confirm-exit {
+      flex: 1;
+      height: 46px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #D93838;
+      border: 1px solid rgba(217, 56, 56, 0.3);
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- SCREEN 1: MAIN MENU & COLLECTIONS (MATCHING TOP-LEFT PHONE IN MOCKUP) -->
+    <!-- SCREEN 1: MAIN MENU & COLLECTIONS -->
     <div id="screen-collections-view" class="screen-main-collections">
       <div class="brand-header-row">
-        <!-- Exact Olive Leaf SVG logo matching top-left screen of mockup image -->
+        <!-- Olive Leaf SVG logo -->
         <svg class="olive-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/>
           <circle cx="12" cy="12" r="3" fill="currentColor"/>
@@ -612,27 +635,28 @@
 
         <div class="header-right-btns">
           <button class="lang-pill-btn" id="open-lang-btn">
-            🌐 <span id="current-lang-code">EN/VN/FR...</span>
+            🌐 <span id="current-lang-code">VN</span>
           </button>
           <div class="search-circle-icon-btn" onclick="switchOliveScreen('search')">🔍</div>
         </div>
       </div>
 
-      <h1 class="menu-serif-headline">MENU</h1>
-      <p class="menu-welcome-text">Welcome to Olive & Sage. Explore our natural flavors.</p>
+      <h1 class="menu-serif-headline" id="ui-menu-title">THỰC ĐƠN</h1>
+      <!-- DYNAMIC SUBTITLE READ FROM POS STORE SETTINGS AND LOCALIZED -->
+      <p class="menu-welcome-text" id="menu-welcome-text-element">Chào mừng bạn. Khám phá hương vị tự nhiên độc đáo.</p>
 
-      <div class="collections-label-title">OUR COLLECTIONS</div>
+      <div class="collections-label-title" id="ui-collections-title">BỘ SƯU TẬP</div>
 
       <div class="collections-grid-2col" id="collections-grid-container">
         <!-- 2-Column Collection Tiles Rendered Dynamically -->
       </div>
     </div>
 
-    <!-- SCREEN 2: CATEGORY LISTING (MATCHING TOP-RIGHT PHONE IN MOCKUP) -->
+    <!-- SCREEN 2: CATEGORY LISTING -->
     <div id="screen-listing-view" class="screen-category-listing hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
-        <h2 class="nav-title-text" id="listing-category-title">Breakfast & Brunch</h2>
+        <h2 class="nav-title-text" id="listing-category-title">Điểm Tâm & Ăn Sáng</h2>
       </div>
 
       <div class="dishes-vertical-list" id="category-dishes-container">
@@ -640,11 +664,11 @@
       </div>
     </div>
 
-    <!-- SCREEN 3: PRODUCT DETAIL (MATCHING BOTTOM-LEFT PHONE IN MOCKUP) -->
+    <!-- SCREEN 3: PRODUCT DETAIL -->
     <div id="screen-detail-view" class="screen-product-detail hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('listing')">←</button>
-        <h2 class="nav-title-text">Product Detail</h2>
+        <h2 class="nav-title-text" id="ui-product-detail-nav-title">Chi tiết món ăn</h2>
       </div>
 
       <div class="detail-photo-glass-frame">
@@ -654,89 +678,285 @@
       <h1 class="detail-title-heading" id="detail-title-target">Signature Acai Bowl</h1>
       <div class="detail-price-heading" id="detail-price-target">210.000<u>đ</u></div>
 
-      <div class="detail-section-label-text">DESCRIPTION</div>
-      <p class="detail-description-body" id="detail-desc-target">
-        A refreshing blend of organic acai berries, banana, and almond milk, topped with house-made granola, fresh seasonal fruits, chia seeds, and a drizzle of local honey. Rich in antioxidants and natural energy.
-      </p>
-
-      <div class="detail-section-label-text">INGREDIENTS</div>
+      <!-- INGREDIENTS SECTION -->
+      <div class="detail-section-label-text" id="ui-ingredients-title">THÀNH PHẦN</div>
       <ul class="detail-bullet-list" id="detail-ingredients-list-target">
-        <li>Organic Acai</li>
-        <li>Banana</li>
-        <li>Almond Milk</li>
-        <li>Granola (Oats, Nuts, Seeds)</li>
-        <li>Strawberry</li>
-        <li>Blueberry</li>
-        <li>Kiwi</li>
-        <li>Chia Seeds</li>
-        <li>Honey</li>
+        <!-- Ingredients parsed from POS API rendered line by line -->
       </ul>
 
-      <button style="width:100%; height:48px; background:var(--text-main); color:#FFF; border:none; border-radius:99px; font-family:var(--font-sans); font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 8px 24px rgba(44,40,37,0.25);" onclick="switchOliveScreen('collections')">
+      <button style="width:100%; height:48px; background:var(--text-main); color:#FFF; border:none; border-radius:99px; font-family:var(--font-sans); font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 8px 24px rgba(44,40,37,0.25);" id="ui-call-staff-btn" onclick="switchOliveScreen('collections')">
         Vui lòng gọi nhân viên khi bạn sẵn sàng
       </button>
     </div>
 
-    <!-- SCREEN 4: SEARCH SCREEN (MATCHING BOTTOM-RIGHT PHONE IN MOCKUP) -->
+    <!-- SCREEN 4: SEARCH SCREEN -->
     <div id="screen-search-view" class="screen-search-wrapper hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
-        <h2 class="nav-title-text">Search</h2>
+        <h2 class="nav-title-text" id="ui-search-nav-title">Tìm kiếm</h2>
       </div>
 
       <div class="search-pill-container">
         <span style="color:var(--text-muted); font-size:16px;">🔍</span>
-        <input type="text" class="search-input-element" id="search-input-field" placeholder="Search dishes or ingredients..." autocomplete="off">
+        <input type="text" class="search-input-element" id="search-input-field" placeholder="Tìm tên món ăn..." autocomplete="off">
       </div>
 
-      <div class="detail-section-label-text">POPULAR SEARCHES</div>
-      <div class="popular-tags-row">
-        <span class="tag-pill-btn" onclick="searchTag('Coffee')">Coffee</span>
-        <span class="tag-pill-btn" onclick="searchTag('Avocado')">Avocado</span>
-        <span class="tag-pill-btn" onclick="searchTag('Granola')">Granola</span>
-        <span class="tag-pill-btn" onclick="searchTag('Vegan')">Vegan</span>
-        <span class="tag-pill-btn" onclick="searchTag('Gluten-Free')">Gluten-Free</span>
+      <!-- LIVE SEARCH RESULTS RENDERED DIRECTLY INSIDE SEARCH SCREEN -->
+      <div id="search-results-section" class="hidden">
+        <div class="detail-section-label-text" id="ui-search-results-title">KẾT QUẢ TÌM KIẾM</div>
+        <div class="dishes-vertical-list" id="search-results-container" style="margin-bottom: 24px;"></div>
       </div>
 
-      <div class="detail-section-label-text">RECENTLY VIEWED</div>
-      <div class="recently-viewed-track" id="recently-viewed-container">
-        <!-- Rendered Dynamically -->
+      <div id="search-default-suggestions">
+        <div class="detail-section-label-text" id="ui-popular-searches-title">TÌM KIẾM PHỔ BIẾN</div>
+        <div class="popular-tags-row">
+          <span class="tag-pill-btn" onclick="searchTag('Coffee')">Coffee</span>
+          <span class="tag-pill-btn" onclick="searchTag('Avocado')">Avocado</span>
+          <span class="tag-pill-btn" onclick="searchTag('Mocha')">Mocha</span>
+          <span class="tag-pill-btn" onclick="searchTag('Tea')">Tea</span>
+          <span class="tag-pill-btn" onclick="searchTag('Juice')">Juice</span>
+        </div>
+
+        <div class="detail-section-label-text" id="ui-recently-viewed-title">ĐÃ XEM GẦN ĐÂY</div>
+        <div class="recently-viewed-track" id="recently-viewed-container">
+          <!-- Rendered Dynamically -->
+        </div>
       </div>
     </div>
 
-    <!-- FROSTED GLASS BOTTOM NAV BAR MATCHING MOCKUP IMAGE -->
+    <!-- FROSTED GLASS BOTTOM NAV BAR -->
     <nav class="frosted-glass-bottom-nav-bar">
       <a href="#" class="frosted-tab-item active" onclick="switchOliveScreen('collections'); return false;">
         <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <span>Menu</span>
+        <span id="ui-tab-menu-label">Thực đơn</span>
       </a>
       <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('search'); return false;">
         <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <span>Search</span>
+        <span id="ui-tab-search-label">Tìm kiếm</span>
       </a>
       <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('detail'); return false;">
         <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        <span>About</span>
+        <span id="ui-tab-about-label">Chi tiết</span>
       </a>
     </nav>
 
   </div>
 
-  <!-- Modal Overlay -->
+  <!-- Language Selection Modal Overlay -->
   <div class="modal-overlay" id="lang-modal">
     <div class="modal-card">
       <div style="text-align:center; margin-bottom:16px;">
-        <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800;" id="modal-title-text">Select Language</h2>
-        <p style="font-size:12px; color:var(--text-body);" id="modal-subtitle-text">Choose your language</p>
+        <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800;" id="modal-title-text">Chọn ngôn ngữ</h2>
+        <p style="font-size:12px; color:var(--text-body);" id="modal-subtitle-text">Vui lòng chọn ngôn ngữ của bạn</p>
       </div>
       <div class="lang-list" id="lang-list-container"></div>
       <button class="btn-confirm-lang" id="btn-confirm-lang">
-        <span id="btn-confirm-text">Explore Menu</span>
+        <span id="btn-confirm-text">Khám phá thực đơn</span>
       </button>
     </div>
   </div>
 
+  <!-- Exit Confirmation Modal Overlay -->
+  <div class="modal-overlay" id="exit-modal">
+    <div class="modal-card exit-modal-card">
+      <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800; margin-bottom:8px;" id="ui-exit-modal-title">Xác nhận thoát Menu</h2>
+      <p style="font-size:13px; color:var(--text-body); font-weight:600; line-height:1.4;" id="ui-exit-modal-msg">Bạn có chắc chắn muốn rời khỏi Thực đơn không?</p>
+      <div class="exit-btn-row">
+        <button class="btn-stay-menu" id="btn-stay-menu">Ở lại Menu</button>
+        <button class="btn-confirm-exit" id="btn-confirm-exit">Thoát ngay</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ==========================================================================
+    // MULTI-LANGUAGE TRANSLATION DICTIONARY FOR UI & POS DATA (VI / EN / FR / RU)
+    // ==========================================================================
+    const TRANSLATIONS = {
+      vi: {
+        pillCode: 'VN',
+        modalTitle: 'Chọn ngôn ngữ',
+        modalSubtitle: 'Vui lòng chọn ngôn ngữ của bạn',
+        btnConfirm: 'Khám phá thực đơn',
+        menuTitle: 'THỰC ĐƠN',
+        welcomePrefix: 'Chào mừng đến với',
+        welcomeSuffix: 'Khám phá hương vị tự nhiên độc đáo.',
+        collectionsTitle: 'BỘ SƯU TẬP',
+        productDetailNav: 'Chi tiết món ăn',
+        ingredientsTitle: 'THÀNH PHẦN',
+        callStaffBtn: 'Vui lòng gọi nhân viên khi bạn sẵn sàng',
+        searchNavTitle: 'Tìm kiếm',
+        searchPlaceholder: 'Tìm tên món ăn...',
+        searchResultsTitle: 'KẾT QUẢ TÌM KIẾM',
+        popularSearchesTitle: 'TÌM KIẾM PHỔ BIẾN',
+        recentlyViewedTitle: 'ĐÃ XEM GẦN ĐÂY',
+        tabMenu: 'Thực đơn',
+        tabSearch: 'Tìm kiếm',
+        tabAbout: 'Chi tiết',
+        exitTitle: 'Xác nhận thoát Menu',
+        exitMsg: 'Bạn có chắc chắn muốn rời khỏi Thực đơn không?',
+        btnStay: 'Ở lại Menu',
+        btnExit: 'Thoát ngay'
+      },
+      en: {
+        pillCode: 'EN',
+        modalTitle: 'Select Language',
+        modalSubtitle: 'Choose your preferred language',
+        btnConfirm: 'Explore Menu',
+        menuTitle: 'MENU',
+        welcomePrefix: 'Welcome to',
+        welcomeSuffix: 'Explore our natural flavors.',
+        collectionsTitle: 'OUR COLLECTIONS',
+        productDetailNav: 'Product Detail',
+        ingredientsTitle: 'INGREDIENTS',
+        callStaffBtn: 'Please call staff when ready',
+        searchNavTitle: 'Search',
+        searchPlaceholder: 'Search dish name...',
+        searchResultsTitle: 'SEARCH RESULTS',
+        popularSearchesTitle: 'POPULAR SEARCHES',
+        recentlyViewedTitle: 'RECENTLY VIEWED',
+        tabMenu: 'Menu',
+        tabSearch: 'Search',
+        tabAbout: 'Detail',
+        exitTitle: 'Exit Menu Confirmation',
+        exitMsg: 'Are you sure you want to leave the Digital Menu?',
+        btnStay: 'Stay on Menu',
+        btnExit: 'Exit Now'
+      },
+      fr: {
+        pillCode: 'FR',
+        modalTitle: 'Choisir la langue',
+        modalSubtitle: 'Choisissez votre langue préférée',
+        btnConfirm: 'Explorer le menu',
+        menuTitle: 'MENU',
+        welcomePrefix: 'Bienvenue chez',
+        welcomeSuffix: 'Découvrez nos saveurs naturelles.',
+        collectionsTitle: 'NOS COLLECTIONS',
+        productDetailNav: 'Détail du produit',
+        ingredientsTitle: 'INGRÉDIENTS',
+        callStaffBtn: 'Veuillez appeler le serveur quand vous êtes prêt',
+        searchNavTitle: 'Recherche',
+        searchPlaceholder: 'Rechercher un plat...',
+        searchResultsTitle: 'RÉSULTATS DE RECHERCHE',
+        popularSearchesTitle: 'RECHERCHES POPULAIRES',
+        recentlyViewedTitle: 'RÉCEMMENT CONSULTÉS',
+        tabMenu: 'Menu',
+        tabSearch: 'Rechercher',
+        tabAbout: 'Détail',
+        exitTitle: 'Quitter le Menu',
+        exitMsg: 'Êtes-vous sûr de vouloir quitter le Menu Digital ?',
+        btnStay: 'Rester',
+        btnExit: 'Quitter'
+      },
+      ru: {
+        pillCode: 'RU',
+        modalTitle: 'Выберите язык',
+        modalSubtitle: 'Выберите предпочитаемый язык',
+        btnConfirm: 'Исследовать меню',
+        menuTitle: 'МЕНЮ',
+        welcomePrefix: 'Добро пожаловать в',
+        welcomeSuffix: 'Откройте для себя наши натуральные вкусы.',
+        collectionsTitle: 'НАШИ КОЛЛЕКЦИИ',
+        productDetailNav: 'Детали блюда',
+        ingredientsTitle: 'ИНГРЕДИЕНТЫ',
+        callStaffBtn: 'Пожалуйста, вызовите официанта, когда будете готовы',
+        searchNavTitle: 'Поиск',
+        searchPlaceholder: 'Поиск блюда...',
+        searchResultsTitle: 'РЕЗУЛЬТАТЫ ПОИСКА',
+        popularSearchesTitle: 'ПОПУЛЯРНЫЕ ЗАПРОСЫ',
+        recentlyViewedTitle: 'НЕДАВНО ПРОСМОТРЕННЫЕ',
+        tabMenu: 'Меню',
+        tabSearch: 'Поиск',
+        tabAbout: 'Детали',
+        exitTitle: 'Выход из меню',
+        exitMsg: 'Вы уверены, что хотите покинуть цифровое меню?',
+        btnStay: 'Остаться',
+        btnExit: 'Выйти'
+      }
+    };
+
+    const CATEGORY_DEFAULT_INGREDIENTS = {
+      "coffee": "Espresso shot, steamed milk, coffee beans",
+      "tea": "Premium tea leaves, hot water",
+      "milk tea": "Black tea, fresh milk, tapioca pearls",
+      "juice": "100% fresh squeezed fruit juice",
+      "breakfast": "Butter, flour, eggs, fresh milk",
+      "sandwich": "Sliced bread, ham, cheese, lettuce, tomato",
+      "combo": "Selected dish, fresh drink, dessert"
+    };
+
+    const TERM_DICTIONARY = {
+      // POS Categories
+      "coffee": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
+      "cà phê": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
+      "tea": { vi: "Trà", en: "Tea", fr: "Thé", ru: "Чай" },
+      "trà": { vi: "Trà", en: "Tea", fr: "Thé", ru: "Чай" },
+      "milk tea": { vi: "Trà Sữa", en: "Milk Tea", fr: "Thé au Lait", ru: "Чай с Молоком" },
+      "trà sữa": { vi: "Trà Sữa", en: "Milk Tea", fr: "Thé au Lait", ru: "Чай с Молоком" },
+      "juice": { vi: "Nước Ép", en: "Fresh Juice", fr: "Jus Frais", ru: "Сок" },
+      "nước ép": { vi: "Nước Ép", en: "Fresh Juice", fr: "Jus Frais", ru: "Сок" },
+      "breakfast": { vi: "Điểm Tâm", en: "Breakfast", fr: "Petit-Déjeuner", ru: "Завтрак" },
+      "điểm tâm": { vi: "Điểm Tâm", en: "Breakfast", fr: "Petit-Déjeuner", ru: "Завтрак" },
+      "sandwich": { vi: "Bánh Mì Kẹp", en: "Sandwich", fr: "Sandwich", ru: "Сэндвич" },
+      "bánh mì kẹp": { vi: "Bánh Mì Kẹp", en: "Sandwich", fr: "Sandwich", ru: "Сэндвич" },
+      "combo": { vi: "Combo Tiết Kiệm", en: "Special Combo", fr: "Offre Combo", ru: "Комбо Набор" },
+
+      // Legacy fallback Categories
+      "specialty coffee": { vi: "Cà Phê Đặc Sản", en: "Specialty Coffee", fr: "Cafés Spécialisés", ru: "Особый Кофе" },
+      "breakfast & brunch": { vi: "Điểm Tâm & Ăn Sáng", en: "Breakfast & Brunch", fr: "Petit-Déjeuner & Brunch", ru: "Завтрак и Бранч" },
+      "healthy bowls": { vi: "Tô Dinh Dưỡng", en: "Healthy Bowls", fr: "Bols Santé", ru: "Полезные Боулы" },
+      "fresh juices & smoothies": { vi: "Nước Ép & Sinh Tố", en: "Fresh Juices & Smoothies", fr: "Jus Frais & Smoothies", ru: "Свежие Соки и Смузи" },
+      "pastries & desserts": { vi: "Bánh Ngọt & Tráng Miệng", en: "Pastries & Desserts", fr: "Pâtisseries & Desserts", ru: "Выпечка и Десерты" },
+      "seasonal specials": { vi: "Món Đặc Biệt Theo Mùa", en: "Seasonal Specials", fr: "Spécialités de Saison", ru: "Сезонные Блюда" },
+
+      // Dish Names
+      "mocha": { vi: "Cà Phê Mocha", en: "Mocha Coffee", fr: "Café Mocha", ru: "Кофе Мокка" },
+      "espresso": { vi: "Cà Phê Espresso", en: "Espresso", fr: "Café Espresso", ru: "Эспрессо" },
+      "cappuccino": { vi: "Cà Phê Cappuccino", en: "Cappuccino", fr: "Cappuccino", ru: "Капучино" },
+      "latte": { vi: "Cà Phê Latte", en: "Latte Coffee", fr: "Café Latte", ru: "Кофе Латте" },
+      "americano": { vi: "Cà Phê Americano", en: "Americano Coffee", fr: "Café Américain", ru: "Кофе Американо" },
+      "matcha latte": { vi: "Trà Xanh Matcha Latte", en: "Matcha Latte", fr: "Latte au Matcha", ru: "Матча Латте" },
+      "orange juice": { vi: "Nước Ép Cam Tươi", en: "Fresh Orange Juice", fr: "Jus d'Orange Frais", ru: "Свежевыжатый Апельсиновый Сок" },
+      "croissant": { vi: "Bánh Sừng Bò (Croissant)", en: "Butter Croissant", fr: "Croissant au Beurre", ru: "Масляный Круассан" },
+      "pancake": { vi: "Bánh Kếp Pancake", en: "Fluffy Pancakes", fr: "Pancakes Moelleux", ru: "Панкейки" },
+      "combo breakfast": { vi: "Combo Điểm Tâm Sáng", en: "Breakfast Combo", fr: "Combo Petit-Déjeuner", ru: "Завтрак Комбо" },
+
+      // Ingredients
+      "cacao": { vi: "Bột Ca-cao nguyên chất", en: "Pure Cocoa", fr: "Cacao pur", ru: "Какао" },
+      "condantion milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
+      "condensed milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
+      "expresso": { vi: "Cốt cà phê Espresso đậm vị", en: "Rich Espresso Shot", fr: "Shot d'Espresso intense", ru: "Крепкий эспрессо" },
+      "espresso shot": { vi: "Cốt cà phê Espresso đậm vị", en: "Rich Espresso Shot", fr: "Shot d'Espresso intense", ru: "Крепкий эспрессо" },
+      "steamed milk": { vi: "Sữa tươi đánh nóng", en: "Steamed milk", fr: "Lait chaud moussé", ru: "Вспененное молоко" },
+      "coffee beans": { vi: "Hạt cà phê nguyên chất", en: "Coffee beans", fr: "Grains de café", ru: "Кофейные зерна" },
+      "sourdough": { vi: "Bánh mì men tự nhiên (Sourdough)", en: "Sourdough bread", fr: "Pain au levain", ru: "Хлеб на закваске" },
+      "ripe avocado": { vi: "Bơ dốt chín tới", en: "Ripe avocado", fr: "Avocat mûr", ru: "Спелое авокадо" },
+      "poached farm egg": { vi: "Trứng gà chèn lòng đào", en: "Poached farm egg", fr: "Œuf poché de ferme", ru: "Яйцо пашот" }
+    };
+
+    function translateTerm(str, lang) {
+      if (!str) return '';
+      if (typeof str === 'object') {
+        return str[lang] || str.vi || str.en || Object.values(str)[0] || '';
+      }
+      const rawStr = String(str).trim();
+      const key = rawStr.toLowerCase();
+
+      if (TERM_DICTIONARY[key] && TERM_DICTIONARY[key][lang]) {
+        return TERM_DICTIONARY[key][lang];
+      }
+
+      for (const dictKey in TERM_DICTIONARY) {
+        if (key.includes(dictKey) || dictKey.includes(key)) {
+          if (TERM_DICTIONARY[dictKey][lang]) {
+            return TERM_DICTIONARY[dictKey][lang];
+          }
+        }
+      }
+
+      return rawStr;
+    }
+
     const LANGUAGES = [
       { code: 'vi', native: 'Tiếng Việt', english: 'Vietnamese' },
       { code: 'en', native: 'English', english: 'English' },
@@ -744,17 +964,45 @@
       { code: 'ru', native: 'Русский', english: 'Russian' }
     ];
 
+    const DEFAULT_CAT_IMAGES = [
+      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600',
+      'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600',
+      'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600',
+      'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600',
+      'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600',
+      'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600'
+    ];
+
     let activeMenuPayload = { store: {}, categories: [], dishes: [] };
-    let currentLang = localStorage.getItem('gm_menu_lang') || 'en';
+    let rawPosData = null;
+    let currentLang = localStorage.getItem('gm_menu_lang') || 'vi';
     let selectedCategory = 'all';
+    let selectedCategoryNameRaw = '';
+    
+    let currentActiveScreen = 'collections';
+    let activeDishId = null;
+    let searchDebounceTimer = null;
+    let isInternalNavigation = false;
 
     const langModal = document.getElementById('lang-modal');
+    const exitModal = document.getElementById('exit-modal');
     const openLangBtn = document.getElementById('open-lang-btn');
     const btnConfirmLang = document.getElementById('btn-confirm-lang');
+    const btnStayMenu = document.getElementById('btn-stay-menu');
+    const btnConfirmExit = document.getElementById('btn-confirm-exit');
     const langListContainer = document.getElementById('lang-list-container');
     const searchInputField = document.getElementById('search-input-field');
+    const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    window.switchOliveScreen = function(screenKey) {
+    // SWITCH SCREEN WITH INTEGRATED HTML5 HISTORY API FOR ANDROID SWIPE BACK GESTURES
+    window.switchOliveScreen = function(screenKey, pushHistory = true) {
+      const prevScreen = currentActiveScreen;
+      currentActiveScreen = screenKey;
+      
+      if (screenKey !== 'detail') {
+        activeDishId = null;
+      }
+
       document.getElementById('screen-collections-view').classList.add('hidden');
       document.getElementById('screen-listing-view').classList.add('hidden');
       document.getElementById('screen-detail-view').classList.add('hidden');
@@ -770,23 +1018,69 @@
         document.getElementById('screen-collections-view').classList.remove('hidden');
       }
 
+      // Push history state if navigate internally so Android swipe back works naturally
+      if (pushHistory && prevScreen !== screenKey) {
+        history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    async function init() {
-      await fetchLivePosData();
-      if (!localStorage.getItem('gm_menu_lang_chosen')) showModal();
+    // HANDLE ANDROID SWIPE BACK GESTURES & BROWSER POPSTATE
+    window.addEventListener('popstate', (e) => {
+      const state = e.state;
+      
+      if (state && state.screen) {
+        if (state.screen === 'detail' && state.dishId) {
+          openProductDetail(state.dishId, false);
+        } else if (state.screen === 'listing' && state.catId) {
+          openCategoryCollection(state.catId, state.catName, false);
+        } else {
+          switchOliveScreen(state.screen, false);
+        }
+      } else {
+        // User is at root main screen (collections) and swiped back gesture!
+        if (currentActiveScreen === 'collections') {
+          // Re-push root state to prevent instant browser exit and show Exit Confirmation Modal
+          history.pushState({ screen: 'collections' }, '', '#collections');
+          showExitModal();
+        } else {
+          switchOliveScreen('collections', false);
+        }
+      }
+    });
 
-      renderCollections();
-      renderCategoryListing();
-      renderRecentlyViewed();
+    async function init() {
+      // Set initial root history state
+      if (!history.state) {
+        history.replaceState({ screen: 'collections' }, '', '#collections');
+      }
+
+      await fetchLivePosData();
+      applyTranslations();
+
+      if (!localStorage.getItem('gm_menu_lang_chosen')) showModal();
 
       openLangBtn.addEventListener('click', showModal);
       btnConfirmLang.addEventListener('click', confirmLanguageSelection);
+      btnStayMenu.addEventListener('click', hideExitModal);
+      btnConfirmExit.addEventListener('click', () => {
+        hideExitModal();
+        window.history.go(-2); // Exit back to previous site or page
+      });
 
+      // SEARCH FIELD EVENT HANDLER
       searchInputField.addEventListener('input', (e) => {
-        const query = e.target.value.trim().toLowerCase();
-        filterDishes(query);
+        const query = e.target.value.trim();
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+          if (query.length >= 1) {
+            renderSearchInlineResults(query.toLowerCase());
+          } else {
+            document.getElementById('search-results-section').classList.add('hidden');
+            document.getElementById('search-default-suggestions').classList.remove('hidden');
+          }
+        }, 150);
       });
     }
 
@@ -798,6 +1092,7 @@
           if (res.ok) {
             const data = await res.json();
             if (data && (data.products || data.dishes)) {
+              rawPosData = data;
               normalizePosData(data);
               return;
             }
@@ -806,29 +1101,144 @@
       }
     }
 
+    function applyTranslations() {
+      const t = TRANSLATIONS[currentLang] || TRANSLATIONS['vi'];
+
+      const langPillCode = document.getElementById('current-lang-code');
+      if (langPillCode) langPillCode.textContent = t.pillCode;
+
+      const mTitle = document.getElementById('modal-title-text');
+      if (mTitle) mTitle.textContent = t.modalTitle;
+
+      const mSubtitle = document.getElementById('modal-subtitle-text');
+      if (mSubtitle) mSubtitle.textContent = t.modalSubtitle;
+
+      const btnConfirmText = document.getElementById('btn-confirm-text');
+      if (btnConfirmText) btnConfirmText.textContent = t.btnConfirm;
+
+      const uiMenuTitle = document.getElementById('ui-menu-title');
+      if (uiMenuTitle) uiMenuTitle.textContent = t.menuTitle;
+
+      const storeName = (activeMenuPayload.store && activeMenuPayload.store.name) || "Good Morning Café";
+      if (menuWelcomeTextElement) {
+        menuWelcomeTextElement.textContent = `${t.welcomePrefix} ${storeName}. ${t.welcomeSuffix}`;
+      }
+
+      const uiCollectionsTitle = document.getElementById('ui-collections-title');
+      if (uiCollectionsTitle) uiCollectionsTitle.textContent = t.collectionsTitle;
+
+      const uiProductDetailNavTitle = document.getElementById('ui-product-detail-nav-title');
+      if (uiProductDetailNavTitle) uiProductDetailNavTitle.textContent = t.productDetailNav;
+
+      const uiIngredientsTitle = document.getElementById('ui-ingredients-title');
+      if (uiIngredientsTitle) uiIngredientsTitle.textContent = t.ingredientsTitle;
+
+      const uiCallStaffBtn = document.getElementById('ui-call-staff-btn');
+      if (uiCallStaffBtn) uiCallStaffBtn.textContent = t.callStaffBtn;
+
+      const uiSearchNavTitle = document.getElementById('ui-search-nav-title');
+      if (uiSearchNavTitle) uiSearchNavTitle.textContent = t.searchNavTitle;
+
+      if (searchInputField) searchInputField.placeholder = t.searchPlaceholder;
+
+      const uiSearchResultsTitle = document.getElementById('ui-search-results-title');
+      if (uiSearchResultsTitle) uiSearchResultsTitle.textContent = t.searchResultsTitle;
+
+      const uiPopularSearchesTitle = document.getElementById('ui-popular-searches-title');
+      if (uiPopularSearchesTitle) uiPopularSearchesTitle.textContent = t.popularSearchesTitle;
+
+      const uiRecentlyViewedTitle = document.getElementById('ui-recently-viewed-title');
+      if (uiRecentlyViewedTitle) uiRecentlyViewedTitle.textContent = t.recentlyViewedTitle;
+
+      const tabMenu = document.getElementById('ui-tab-menu-label');
+      if (tabMenu) tabMenu.textContent = t.tabMenu;
+
+      const tabSearch = document.getElementById('ui-tab-search-label');
+      if (tabSearch) tabSearch.textContent = t.tabSearch;
+
+      const tabAbout = document.getElementById('ui-tab-about-label');
+      if (tabAbout) tabAbout.textContent = t.tabAbout;
+
+      // Exit Confirmation Modal Text
+      const uiExitModalTitle = document.getElementById('ui-exit-modal-title');
+      if (uiExitModalTitle) uiExitModalTitle.textContent = t.exitTitle;
+
+      const uiExitModalMsg = document.getElementById('ui-exit-modal-msg');
+      if (uiExitModalMsg) uiExitModalMsg.textContent = t.exitMsg;
+
+      if (btnStayMenu) btnStayMenu.textContent = t.btnStay;
+      if (btnConfirmExit) btnConfirmExit.textContent = t.btnExit;
+
+      if (rawPosData) {
+        normalizePosData(rawPosData);
+      }
+      renderCollections();
+
+      if (selectedCategoryNameRaw) {
+        document.getElementById('listing-category-title').textContent = translateTerm(selectedCategoryNameRaw, currentLang);
+      }
+      renderCategoryListing();
+      renderRecentlyViewed();
+
+      if (currentActiveScreen === 'detail' && activeDishId) {
+        openProductDetail(activeDishId, false);
+      } else {
+        switchOliveScreen(currentActiveScreen, false);
+      }
+    }
+
     function normalizePosData(data) {
       const rawStore = data.store || {};
       const rawCategories = data.categories || [];
       const rawProducts = data.products || data.dishes || [];
 
-      const collections = [
-        { id: 'coffee', name: 'Specialty Coffee', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600' },
-        { id: 'breakfast', name: 'Breakfast & Brunch', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600' },
-        { id: 'healthy', name: 'Healthy Bowls', img: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600' },
-        { id: 'juices', name: 'Fresh Juices & Smoothies', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600' },
-        { id: 'pastries', name: 'Pastries & Desserts', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600' },
-        { id: 'specials', name: 'Seasonal Specials', img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600' }
-      ];
+      const storeName = rawStore.name || "Good Morning Café";
+      document.title = `${storeName} | E-Menu`;
+
+      let collections = [];
+      if (rawCategories && rawCategories.length > 0) {
+        collections = rawCategories.map((cat, idx) => {
+          const origName = typeof cat.name === 'object' ? (cat.name[currentLang] || cat.name.vi || cat.name.en) : (cat.name || cat);
+          const translatedCatName = translateTerm(origName, currentLang);
+          const catId = cat.id || cat.slug || String(origName).toLowerCase().replace(/\s+/g, '-');
+          const matchingDish = rawProducts.find(p => String(p.category).toLowerCase() === String(catId).toLowerCase() || String(p.category).toLowerCase() === String(origName).toLowerCase());
+          const catImg = cat.image || cat.image_url || (matchingDish ? (matchingDish.image || matchingDish.image_url) : null) || DEFAULT_CAT_IMAGES[idx % DEFAULT_CAT_IMAGES.length];
+          return {
+            id: catId,
+            rawName: origName,
+            name: translatedCatName,
+            img: catImg
+          };
+        });
+      } else {
+        collections = [
+          { id: 'Coffee', rawName: 'Coffee', name: translateTerm('Coffee', currentLang), img: DEFAULT_CAT_IMAGES[0] },
+          { id: 'Tea', rawName: 'Tea', name: translateTerm('Tea', currentLang), img: DEFAULT_CAT_IMAGES[1] },
+          { id: 'Milk Tea', rawName: 'Milk Tea', name: translateTerm('Milk Tea', currentLang), img: DEFAULT_CAT_IMAGES[2] },
+          { id: 'Juice', rawName: 'Juice', name: translateTerm('Juice', currentLang), img: DEFAULT_CAT_IMAGES[3] },
+          { id: 'Breakfast', rawName: 'Breakfast', name: translateTerm('Breakfast', currentLang), img: DEFAULT_CAT_IMAGES[4] },
+          { id: 'Combo', rawName: 'Combo', name: translateTerm('Combo', currentLang), img: DEFAULT_CAT_IMAGES[5] }
+        ];
+      }
 
       const dishes = rawProducts.map(p => {
-        const nameStr = typeof p.name === 'string' ? p.name : (typeof p.dish_name === 'object' ? (p.dish_name[currentLang] || p.dish_name.vi || p.dish_name.en) : p.dish_name);
-        const ingrStr = typeof p.ingredients === 'string' ? p.ingredients : (typeof p.ingredients === 'object' ? (p.ingredients[currentLang] || p.ingredients.vi || p.ingredients.en) : (p.description || "Sourdough, ripe avocado, poached farm egg, chili flakes, microgreens"));
+        const nameObj = typeof p.name === 'object' ? p.name : (typeof p.dish_name === 'object' ? p.dish_name : null);
+        const nameStr = nameObj ? (nameObj[currentLang] || nameObj.vi || nameObj.en) : (p.name || p.dish_name);
+        const translatedDishName = translateTerm(nameStr, currentLang);
+
+        const rawCategoryKey = String(p.category || '').toLowerCase();
+        const fallbackIngr = CATEGORY_DEFAULT_INGREDIENTS[rawCategoryKey] || "Butter, flour, fresh milk";
+
+        const ingrObj = typeof p.ingredients === 'object' ? p.ingredients : null;
+        const ingrStr = ingrObj ? (ingrObj[currentLang] || ingrObj.vi || ingrObj.en) : (p.ingredients || p.description || fallbackIngr);
+
         return {
           dish_id: p.id || p.dish_id,
-          category: p.category || 'breakfast',
+          category: p.category || 'Breakfast',
           price: p.price || 185000,
-          image_url: p.image || p.image_url || "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500",
-          dish_name: nameStr,
+          image_url: p.image || p.image_url || DEFAULT_CAT_IMAGES[1],
+          dish_name: translatedDishName,
+          rawName: nameStr,
           ingredients: ingrStr
         };
       });
@@ -839,7 +1249,7 @@
     function renderCollections() {
       const container = document.getElementById('collections-grid-container');
       container.innerHTML = activeMenuPayload.categories.map(cat => `
-        <div class="collection-tile-card" onclick="openCategoryCollection('${cat.id}', '${cat.name}')">
+        <div class="collection-tile-card" onclick="openCategoryCollection('${cat.id}', '${cat.rawName || cat.name}')">
           <img src="${cat.img}" alt="${cat.name}" class="collection-tile-img">
           <div class="collection-tile-glass-overlay">
             <h3 class="collection-tile-title">${cat.name}</h3>
@@ -848,44 +1258,70 @@
       `).join('');
     }
 
-    window.openCategoryCollection = function(catId, catName) {
+    window.openCategoryCollection = function(catId, rawCatName, pushHistory = true) {
       selectedCategory = catId;
-      document.getElementById('listing-category-title').textContent = catName;
+      selectedCategoryNameRaw = rawCatName || catId;
+      const translatedTitle = translateTerm(selectedCategoryNameRaw, currentLang);
+      document.getElementById('listing-category-title').textContent = translatedTitle;
       renderCategoryListing();
-      switchOliveScreen('listing');
+      switchOliveScreen('listing', pushHistory);
     };
 
     function renderCategoryListing() {
       const container = document.getElementById('category-dishes-container');
       let dishes = activeMenuPayload.dishes;
 
-      container.innerHTML = dishes.map(dish => `
-        <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
-          <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
-          <div class="dish-card-content">
-            <div>
-              <h3 class="dish-card-name-title">${dish.dish_name}</h3>
-              <p class="dish-card-ingr-text">${dish.ingredients}</p>
+      if (selectedCategory && selectedCategory !== 'all') {
+        const filtered = dishes.filter(d => 
+          String(d.category).toLowerCase() === String(selectedCategory).toLowerCase() ||
+          String(d.category).toLowerCase().includes(String(selectedCategory).toLowerCase()) ||
+          String(selectedCategory).toLowerCase().includes(String(d.category).toLowerCase())
+        );
+        if (filtered.length > 0) dishes = filtered;
+      }
+
+      container.innerHTML = dishes.map(dish => {
+        const rawIngr = dish.ingredients || "";
+        const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
+        const translatedIngrText = ingrArray.map(item => translateTerm(item, currentLang)).join(', ');
+
+        return `
+          <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
+            <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
+            <div class="dish-card-content">
+              <div>
+                <h3 class="dish-card-name-title">${dish.dish_name}</h3>
+                <p class="dish-card-ingr-text">${translatedIngrText}</p>
+              </div>
+              <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
             </div>
-            <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
-          </div>
-        </article>
-      `).join('');
+          </article>
+        `;
+      }).join('');
     }
 
-    window.openProductDetail = function(dishId) {
+    window.openProductDetail = function(dishId, pushHistory = true) {
+      activeDishId = dishId;
       const dish = activeMenuPayload.dishes.find(d => String(d.dish_id) === String(dishId));
       if (!dish) return;
 
       document.getElementById('detail-photo-target').src = dish.image_url;
       document.getElementById('detail-title-target').textContent = dish.dish_name;
       document.getElementById('detail-price-target').innerHTML = new Intl.NumberFormat('vi-VN').format(dish.price) + '<u>đ</u>';
-      document.getElementById('detail-desc-target').textContent = dish.ingredients;
 
-      const ingrArray = dish.ingredients.split(',').map(s => s.trim());
-      document.getElementById('detail-ingredients-list-target').innerHTML = ingrArray.map(item => `<li>${item}</li>`).join('');
+      const rawIngr = dish.ingredients || "";
+      const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
+      
+      const listTarget = document.getElementById('detail-ingredients-list-target');
+      if (listTarget) {
+        if (ingrArray.length > 0) {
+          listTarget.innerHTML = ingrArray.map(item => `<li>${translateTerm(item, currentLang)}</li>`).join('');
+        } else {
+          listTarget.innerHTML = `<li>${dish.dish_name}</li>`;
+        }
+      }
 
-      switchOliveScreen('detail');
+      switchOliveScreen('detail', pushHistory);
     };
 
     function renderRecentlyViewed() {
@@ -902,34 +1338,51 @@
 
     window.searchTag = function(tag) {
       searchInputField.value = tag;
-      filterDishes(tag.toLowerCase());
+      renderSearchInlineResults(tag.toLowerCase());
     };
 
-    function filterDishes(query) {
-      const container = document.getElementById('category-dishes-container');
-      const filtered = activeMenuPayload.dishes.filter(d => 
-        d.dish_name.toLowerCase().includes(query) || d.ingredients.toLowerCase().includes(query)
-      );
+    function renderSearchInlineResults(query) {
+      const resultsSection = document.getElementById('search-results-section');
+      const resultsContainer = document.getElementById('search-results-container');
+      const defaultSuggestions = document.getElementById('search-default-suggestions');
 
-      document.getElementById('listing-category-title').textContent = `Kết quả: ${query}`;
-      container.innerHTML = filtered.map(dish => `
-        <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
-          <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
-          <div class="dish-card-content">
-            <div>
-              <h3 class="dish-card-name-title">${dish.dish_name}</h3>
-              <p class="dish-card-ingr-text">${dish.ingredients}</p>
-            </div>
-            <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
-          </div>
-        </article>
-      `).join('');
+      const filtered = activeMenuPayload.dishes.filter(d => {
+        const localizedNameLower = String(d.dish_name || '').toLowerCase();
+        return localizedNameLower.includes(query);
+      });
 
-      switchOliveScreen('listing');
+      if (filtered.length > 0) {
+        resultsContainer.innerHTML = filtered.map(dish => {
+          const rawIngr = dish.ingredients || "";
+          const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
+          const translatedIngrText = ingrArray.map(item => translateTerm(item, currentLang)).join(', ');
+
+          return `
+            <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
+              <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
+              <div class="dish-card-content">
+                <div>
+                  <h3 class="dish-card-name-title">${dish.dish_name}</h3>
+                  <p class="dish-card-ingr-text">${translatedIngrText}</p>
+                </div>
+                <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } else {
+        resultsContainer.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-weight:600;">Không tìm thấy món ăn phù hợp.</div>`;
+      }
+
+      resultsSection.classList.remove('hidden');
+      defaultSuggestions.classList.add('hidden');
     }
 
     function showModal() { renderLangOptions(); langModal.classList.add('active'); }
     function hideModal() { langModal.classList.remove('active'); }
+
+    function showExitModal() { exitModal.classList.add('active'); }
+    function hideExitModal() { exitModal.classList.remove('active'); }
 
     function renderLangOptions() {
       langListContainer.innerHTML = LANGUAGES.map(lang => `
@@ -944,10 +1397,14 @@
       currentLang = code;
       localStorage.setItem('gm_menu_lang', currentLang);
       localStorage.setItem('gm_menu_lang_chosen', 'true');
+      applyTranslations();
       hideModal();
     };
 
-    function confirmLanguageSelection() { hideModal(); }
+    function confirmLanguageSelection() { 
+      applyTranslations();
+      hideModal(); 
+    }
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
