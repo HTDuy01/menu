@@ -657,8 +657,8 @@
       </button>
     </div>
 
-    <!-- SCREEN 4: SEARCH SCREEN -->
-    <div id="screen-search-wrapper" class="screen-search-wrapper hidden">
+    <!-- SCREEN 4: SEARCH SCREEN (FIXED MATCHING ID) -->
+    <div id="screen-search-view" class="screen-search-wrapper hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
         <h2 class="nav-title-text" id="ui-search-nav-title">Tìm kiếm</h2>
@@ -938,35 +938,44 @@
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    // SWITCH SCREEN SYSTEM
+    // SWITCH SCREEN SYSTEM WITH ERROR BOUNDARY
     window.switchOliveScreen = function(screenKey, pushHistory = true) {
-      const prevScreen = currentActiveScreen;
-      currentActiveScreen = screenKey;
-      
-      if (screenKey !== 'detail') {
-        activeDishId = null;
+      try {
+        const prevScreen = currentActiveScreen;
+        currentActiveScreen = screenKey;
+        
+        if (screenKey !== 'detail') {
+          activeDishId = null;
+        }
+
+        const scCol = document.getElementById('screen-collections-view');
+        const scList = document.getElementById('screen-listing-view');
+        const scDet = document.getElementById('screen-detail-view');
+        const scSrc = document.getElementById('screen-search-view');
+
+        if (scCol) scCol.classList.add('hidden');
+        if (scList) scList.classList.add('hidden');
+        if (scDet) scDet.classList.add('hidden');
+        if (scSrc) scSrc.classList.add('hidden');
+
+        if (screenKey === 'listing' && scList) {
+          scList.classList.remove('hidden');
+        } else if (screenKey === 'detail' && scDet) {
+          scDet.classList.remove('hidden');
+        } else if (screenKey === 'search' && scSrc) {
+          scSrc.classList.remove('hidden');
+        } else if (scCol) {
+          scCol.classList.remove('hidden');
+        }
+
+        if (pushHistory && prevScreen !== screenKey) {
+          history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch(err) {
+        console.error("switchOliveScreen Error:", err);
       }
-
-      document.getElementById('screen-collections-view').classList.add('hidden');
-      document.getElementById('screen-listing-view').classList.add('hidden');
-      document.getElementById('screen-detail-view').classList.add('hidden');
-      document.getElementById('screen-search-view').classList.add('hidden');
-
-      if (screenKey === 'listing') {
-        document.getElementById('screen-listing-view').classList.remove('hidden');
-      } else if (screenKey === 'detail') {
-        document.getElementById('screen-detail-view').classList.remove('hidden');
-      } else if (screenKey === 'search') {
-        document.getElementById('screen-search-view').classList.remove('hidden');
-      } else {
-        document.getElementById('screen-collections-view').classList.remove('hidden');
-      }
-
-      if (pushHistory && prevScreen !== screenKey) {
-        history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
-      }
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // CLEAN STANDARD HISTORY BACK NAVIGATION
@@ -988,30 +997,36 @@
     });
 
     async function init() {
-      normalizePosData(FALLBACK_POS_DATA);
-      applyTranslations();
-      switchOliveScreen('collections', false);
+      try {
+        normalizePosData(FALLBACK_POS_DATA);
+        applyTranslations();
+        switchOliveScreen('collections', false);
 
-      await fetchLivePosData();
-      applyTranslations();
+        await fetchLivePosData();
+        applyTranslations();
 
-      if (!localStorage.getItem('gm_menu_lang_chosen')) showModal();
+        if (openLangBtn) openLangBtn.addEventListener('click', showModal);
+        if (btnConfirmLang) btnConfirmLang.addEventListener('click', confirmLanguageSelection);
 
-      openLangBtn.addEventListener('click', showModal);
-      btnConfirmLang.addEventListener('click', confirmLanguageSelection);
-
-      searchInputField.addEventListener('input', (e) => {
-        const query = e.target.value.trim();
-        clearTimeout(searchDebounceTimer);
-        searchDebounceTimer = setTimeout(() => {
-          if (query.length >= 1) {
-            renderSearchInlineResults(query.toLowerCase());
-          } else {
-            document.getElementById('search-results-section').classList.add('hidden');
-            document.getElementById('search-default-suggestions').classList.remove('hidden');
-          }
-        }, 150);
-      });
+        if (searchInputField) {
+          searchInputField.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+              if (query.length >= 1) {
+                renderSearchInlineResults(query.toLowerCase());
+              } else {
+                const sSection = document.getElementById('search-results-section');
+                const sSuggest = document.getElementById('search-default-suggestions');
+                if (sSection) sSection.classList.add('hidden');
+                if (sSuggest) sSuggest.classList.remove('hidden');
+              }
+            }, 150);
+          });
+        }
+      } catch(err) {
+        console.error("Init Error:", err);
+      }
     }
 
     async function fetchLivePosData() {
@@ -1096,7 +1111,8 @@
       renderCollections();
 
       if (selectedCategoryNameRaw) {
-        document.getElementById('listing-category-title').textContent = translateTerm(selectedCategoryNameRaw, currentLang);
+        const catTitleEl = document.getElementById('listing-category-title');
+        if (catTitleEl) catTitleEl.textContent = translateTerm(selectedCategoryNameRaw, currentLang);
       }
       renderCategoryListing();
       renderRecentlyViewed();
@@ -1169,6 +1185,7 @@
 
     function renderCollections() {
       const container = document.getElementById('collections-grid-container');
+      if (!container) return;
       container.innerHTML = activeMenuPayload.categories.map(cat => `
         <div class="collection-tile-card" onclick="openCategoryCollection('${cat.id}', '${cat.rawName || cat.name}')">
           <img src="${cat.img}" alt="${cat.name}" class="collection-tile-img">
@@ -1183,13 +1200,15 @@
       selectedCategory = catId;
       selectedCategoryNameRaw = rawCatName || catId;
       const translatedTitle = translateTerm(selectedCategoryNameRaw, currentLang);
-      document.getElementById('listing-category-title').textContent = translatedTitle;
+      const catTitleEl = document.getElementById('listing-category-title');
+      if (catTitleEl) catTitleEl.textContent = translatedTitle;
       renderCategoryListing();
       switchOliveScreen('listing', pushHistory);
     };
 
     function renderCategoryListing() {
       const container = document.getElementById('category-dishes-container');
+      if (!container) return;
       let dishes = activeMenuPayload.dishes;
 
       if (selectedCategory && selectedCategory !== 'all') {
@@ -1226,9 +1245,13 @@
       const dish = activeMenuPayload.dishes.find(d => String(d.dish_id) === String(dishId));
       if (!dish) return;
 
-      document.getElementById('detail-photo-target').src = dish.image_url;
-      document.getElementById('detail-title-target').textContent = dish.dish_name;
-      document.getElementById('detail-price-target').innerHTML = new Intl.NumberFormat('vi-VN').format(dish.price) + '<u>đ</u>';
+      const pPhoto = document.getElementById('detail-photo-target');
+      const pTitle = document.getElementById('detail-title-target');
+      const pPrice = document.getElementById('detail-price-target');
+
+      if (pPhoto) pPhoto.src = dish.image_url;
+      if (pTitle) pTitle.textContent = dish.dish_name;
+      if (pPrice) pPrice.innerHTML = new Intl.NumberFormat('vi-VN').format(dish.price) + '<u>đ</u>';
 
       const rawIngr = dish.ingredients || "";
       const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
@@ -1247,6 +1270,7 @@
 
     function renderRecentlyViewed() {
       const container = document.getElementById('recently-viewed-container');
+      if (!container) return;
       const recent = activeMenuPayload.dishes.slice(0, 4);
 
       container.innerHTML = recent.map(dish => `
@@ -1258,7 +1282,7 @@
     }
 
     window.searchTag = function(tag) {
-      searchInputField.value = tag;
+      if (searchInputField) searchInputField.value = tag;
       renderSearchInlineResults(tag.toLowerCase());
     };
 
@@ -1266,6 +1290,7 @@
       const resultsSection = document.getElementById('search-results-section');
       const resultsContainer = document.getElementById('search-results-container');
       const defaultSuggestions = document.getElementById('search-default-suggestions');
+      if (!resultsSection || !resultsContainer) return;
 
       const filtered = activeMenuPayload.dishes.filter(d => {
         const localizedNameLower = String(d.dish_name || '').toLowerCase();
@@ -1296,13 +1321,14 @@
       }
 
       resultsSection.classList.remove('hidden');
-      defaultSuggestions.classList.add('hidden');
+      if (defaultSuggestions) defaultSuggestions.classList.add('hidden');
     }
 
-    function showModal() { renderLangOptions(); langModal.classList.add('active'); }
-    function hideModal() { langModal.classList.remove('active'); }
+    function showModal() { renderLangOptions(); if (langModal) langModal.classList.add('active'); }
+    function hideModal() { if (langModal) langModal.classList.remove('active'); }
 
     function renderLangOptions() {
+      if (!langListContainer) return;
       langListContainer.innerHTML = LANGUAGES.map(lang => `
         <div class="lang-option-card ${lang.code === currentLang ? 'selected' : ''}" onclick="selectLang('${lang.code}')">
           <span>${lang.native}</span>
