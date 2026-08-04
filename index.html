@@ -1,51 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-style="eco">
+<html lang="vi" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#10B981">
-  <meta name="description" content="Good Morning Cafe & Breakfast - Digital E-Menu for international tourists and expats.">
-  <title>Good Morning Cafe | E-Menu Tự Nhiên Compact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#EAE4DC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Olive & Sage - Natural Flavors Digital Menu">
+  <title>Olive & Sage | Digital Menu</title>
   
-  <!-- Typography: Plus Jakarta Sans -->
+  <!-- Typography: Playfair Display + Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     /* ==========================================================================
-       DESIGN SYSTEM: NATURAL ECO MINT & FRESH GREEN THEME (COMPACT LAYOUT)
+       OLIVE & SAGE — 100% GUARANTEED BROWSER-VISIBLE BLURRED PHOTO BACKGROUND
        ========================================================================== */
-    :root, html[data-style="eco"] {
-      --primary: #10B981;          /* Fresh Mint Leaf Green */
-      --primary-dark: #059669;     /* Deep Forest Green */
-      --primary-light: #D1FAE5;    /* Eco Tint */
-      --primary-subtle: #ECFDF5;   /* Lightest Mint Surface */
+    :root {
+      --bg-card-glass: rgba(255, 255, 255, 0.68);
+      --glass-border: rgba(255, 255, 255, 0.95);
       
-      --bg-main: #FAFAF9;          /* Crisp Warm Off-White */
-      --bg-card: #FFFFFF;          /* Pure White Card */
-      --bg-subtle: #F3F4F6;        /* Light Gray Fill */
-      --header-bg: #FFFFFF;
-      --bottom-bar-bg: rgba(255, 255, 255, 0.96);
-      --popover-bg: #FFFFFF;
+      --text-main: #2C2825;          /* Warm Dark Charcoal */
+      --text-body: #4A443E;          /* Rich Body Text */
+      --text-muted: #7E776E;         /* Muted Gray-Brown */
+      --accent-olive: #4A5B3D;       /* Olive Green */
       
-      --text-main: #0F172A;        /* Deep Charcoal / Dark Slate */
-      --text-secondary: #475569;   /* Muted Slate Body */
-      --text-muted: #94A3B8;       /* Subtle Gray */
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
       
-      --status-out-bg: #FEE2E2;    /* Soft Red Out of Stock Fill */
-      --status-out-text: #DC2626;  /* Soft Red Out of Stock Text */
-      --border-color: #E2E8F0;     /* Border Divider */
-      
-      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
-      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
-      --shadow-sticky: 0 -4px 20px rgba(15, 23, 42, 0.08);
-      
-      --radius-sm: 6px;
-      --radius-md: 12px;
-      --radius-lg: 14px;
-      --radius-full: 9999px;
+      --shadow-glass: 
+        inset 0 1.5px 1px rgba(255, 255, 255, 0.95), 
+        inset 0 -1px 1px rgba(0, 0, 0, 0.03),
+        0 10px 28px rgba(160, 150, 135, 0.18);
     }
 
     *, *::before, *::after {
@@ -53,341 +41,292 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      -ms-overflow-style: none !important;
       scrollbar-width: none !important;
     }
 
-    ::-webkit-scrollbar {
-      display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-    }
+    ::-webkit-scrollbar { display: none !important; }
 
-    html, body {
+    html {
       width: 100%;
       height: 100%;
-      background-color: var(--bg-main);
+      background-color: #EAE4DC;
+    }
+
+    /* BODY HAS TRANSPARENT BACKGROUND SO THE PSEUDO-ELEMENT PHOTO WALLPAPER IS 100% VISIBLE */
+    body {
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      background: transparent !important;
       color: var(--text-main);
-      font-family: var(--font-family);
-      font-size: 14.5px;
+      font-family: var(--font-sans);
+      font-size: 14px;
       line-height: 1.45;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      scroll-behavior: smooth;
+      position: relative;
+    }
+
+    /* 1. FULL-SCREEN ARTISTIC BLURRED PHOTO WALLPAPER DIRECTLY ON BODY PSEUDO-ELEMENT */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -10%;
+      width: 120%;
+      height: 120vh;
+      z-index: -1;
+      background: 
+        linear-gradient(rgba(234, 228, 220, 0.42), rgba(234, 228, 220, 0.42)),
+        url('https://images.unsplash.com/photo-1541167760496-1628856ab772?w=1600') center/cover no-repeat;
+      filter: blur(18px) brightness(0.95) contrast(1.05);
+      -webkit-filter: blur(18px) brightness(0.95) contrast(1.05);
+      transform: scale(1.05) translateZ(0);
+      -webkit-transform: scale(1.05) translateZ(0);
+      pointer-events: none;
+    }
+
+    /* Specular Lens Flare Beam (Bottom Right Corner) */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -15%;
+      right: -15%;
+      width: 480px;
+      height: 480px;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0) 70%);
+      filter: blur(35px);
+      -webkit-filter: blur(35px);
+      pointer-events: none;
     }
 
     .app-container {
       max-width: 480px;
       margin: 0 auto;
-      min-height: 100vh;
-      background-color: var(--bg-main);
+      min-height: 100dvh;
       position: relative;
-      padding-bottom: 85px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+      padding-bottom: 90px;
     }
 
     .hidden { display: none !important; }
 
     /* ==========================================================================
-       TOP BRAND HEADER (NON-STICKY - SCROLLS AWAY ON SCROLL DOWN)
+       SCREEN 1: MAIN MENU & COLLECTIONS
        ========================================================================== */
-    .top-brand-header {
-      position: relative; /* Normal document flow: rolls off screen when scrolling down */
-      background-color: var(--header-bg);
-      border-bottom: 1px solid var(--border-color);
+    .screen-main-collections {
+      padding: 24px 20px 30px;
     }
 
-    .top-header {
-      padding: 12px 14px 8px;
+    .brand-header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 24px;
     }
 
-    .brand-group {
+    .olive-logo-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--accent-olive);
+    }
+
+    .header-right-btns {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .brand-logo {
+    .lang-pill-btn {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-glass);
+    }
+
+    .search-circle-icon-btn {
       width: 36px;
       height: 36px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 20px;
-      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
-    }
-
-    .brand-meta {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand-title {
-      font-size: 16px;
-      font-weight: 800;
       color: var(--text-main);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-    }
-
-    .table-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background-color: var(--primary-light);
-      color: var(--primary-dark);
-      font-size: 10.5px;
-      font-weight: 700;
-      padding: 1px 7px;
-      border-radius: var(--radius-full);
-      margin-top: 1px;
-      width: fit-content;
-    }
-
-    .table-pill::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: var(--primary-dark);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-switcher-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-full);
-      padding: 5px 10px;
-      font-family: inherit;
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--text-main);
+      font-size: 14px;
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-glass);
     }
 
-    .flag-icon {
-      width: 18px;
-      height: 13px;
-      border-radius: 2px;
-      object-fit: cover;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
-    }
-
-    /* Search Bar */
-    .search-container {
-      padding: 2px 14px 10px;
-    }
-
-    .search-box {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      height: 38px;
-      padding: 0 34px 0 38px;
-      background-color: var(--bg-subtle);
-      border: 1.5px solid transparent;
-      border-radius: var(--radius-md);
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 500;
+    /* MAIN TITLE MENU (EXACT THIN SERIF FONT) */
+    .menu-serif-headline {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      font-weight: 400;
       color: var(--text-main);
-      outline: none;
-      transition: all 0.2s ease;
-    }
-
-    .search-input:focus {
-      background-color: var(--bg-card);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
-    }
-
-    .search-clear-btn {
-      position: absolute;
-      right: 10px;
-      background: var(--text-muted);
-      color: white;
-      border: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      cursor: pointer;
-    }
-
-    /* ==========================================================================
-       STICKY CATEGORY BAR (ALWAYS PINNED TO TOP OF SCREEN AT top: 0 ON SCROLL)
-       ========================================================================== */
-    .sticky-category-bar {
-      position: sticky;
-      top: 0;
-      z-index: 90;
-      background-color: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    }
-
-    .active-cat-indicator-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 14px;
-      background-color: var(--primary-subtle);
-    }
-
-    .indicator-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13.5px;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .btn-quick-menu-trigger {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 5px 12px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .btn-quick-menu-trigger:active {
-      transform: scale(0.95);
-    }
-
-    /* ==========================================================================
-       MAIN MENU CONTENT (COMPACT DENSE LIST VIEW - 5 to 6 ITEMS PER SCREEN)
-       ========================================================================== */
-    .menu-content {
-      padding: 12px 14px;
-    }
-
-    .category-section {
-      margin-bottom: 18px;
-      scroll-margin-top: 55px;
-    }
-
-    .category-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
       letter-spacing: -0.01em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 3px rgba(255,255,255,0.6);
     }
 
-    .category-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background-color: var(--border-color);
+    .menu-welcome-text {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.45;
+      margin-bottom: 24px;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
     }
 
-    .dish-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px; /* Tinh gọn khoảng cách giữa các món */
+    .collections-label-title {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      margin-bottom: 14px;
     }
 
-    /* Dish Card - Compact 70px Thumbnail Height */
-    .dish-card {
-      background-color: var(--bg-card);
-      border-radius: var(--radius-md);
-      padding: 9px 11px; /* Tinh gọn padding */
-      display: flex;
-      gap: 10px; /* Tinh gọn khoảng cách hình và nội dung */
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
+    /* 2-COLUMN COLLECTION TILES */
+    .collections-grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .collection-tile-card {
+      height: 145px;
+      border-radius: 20px;
       position: relative;
       overflow: hidden;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-glass);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .dish-card.out-of-stock {
-      opacity: 0.65;
-      background-color: #FAF9F8;
-    }
+    .collection-tile-card:active { transform: scale(0.97); }
 
-    .dish-thumb-wrapper {
-      width: 70px;
-      height: 70px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      background-color: var(--bg-subtle);
-    }
-
-    .dish-thumb {
+    .collection-tile-img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      filter: brightness(0.82) blur(1.5px);
+      transition: transform 0.4s ease;
     }
 
-    .dish-card.out-of-stock .dish-thumb {
-      filter: grayscale(80%);
+    .collection-tile-card:hover .collection-tile-img {
+      transform: scale(1.08);
+      filter: brightness(0.88) blur(0px);
     }
 
-    .badge-sold-out {
+    .collection-tile-glass-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(2px);
+      background: linear-gradient(180deg, rgba(30, 26, 22, 0.08) 0%, rgba(30, 26, 22, 0.62) 100%);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 16px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .collection-tile-title {
+      font-family: var(--font-serif);
+      font-size: 18.5px;
+      font-weight: 400;
+      color: #FFFFFF;
+      line-height: 1.18;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* ==========================================================================
+       SCREEN 2: CATEGORY LISTING
+       ========================================================================== */
+    .screen-category-listing { padding: 20px; }
+
+    .nav-header-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 9.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 2px;
-      text-align: center;
+      color: var(--text-main);
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: var(--shadow-glass);
     }
 
-    .dish-details {
+    .nav-title-text {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .dishes-vertical-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* TRANSLUCENT WHITE FROSTED GLASS DISH CARDS FLOATING OVER BLURRED PHOTO WALLPAPER */
+    .dish-glass-card {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 14px;
+      display: flex;
+      gap: 14px;
+      box-shadow: var(--shadow-glass);
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dish-glass-card:active { transform: scale(0.98); }
+
+    .dish-card-thumb-img {
+      width: 88px;
+      height: 88px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .dish-card-content {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -395,237 +334,213 @@
       min-width: 0;
     }
 
-    .dish-header {
+    .dish-card-name-title {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+
+    .dish-card-ingr-text {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      color: var(--text-body);
+      line-height: 1.4;
+      margin-top: 3px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-weight: 500;
+    }
+
+    .dish-card-price-tag {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-align: right;
+      margin-top: 6px;
+    }
+
+    /* SCREEN 3: PRODUCT DETAIL */
+    .screen-product-detail { padding: 20px; }
+
+    .detail-photo-glass-frame {
+      width: 100%;
+      height: 240px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      padding: 12px;
+      box-shadow: var(--shadow-glass);
+      margin-bottom: 22px;
+    }
+
+    .detail-photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .detail-title-heading {
+      font-family: var(--font-sans);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .detail-price-heading {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 18px;
+    }
+
+    .detail-section-label-text {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .detail-description-body {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .detail-bullet-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 5px;
+      margin-bottom: 24px;
     }
 
-    .dish-name {
-      font-size: 14.5px;
-      font-weight: 700;
+    .detail-bullet-list li {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-body);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .detail-bullet-list li::before {
+      content: '•';
       color: var(--text-main);
-      line-height: 1.2;
+      font-size: 16px;
     }
 
-    /* Tags / Badges */
-    .dish-tags {
+    /* SCREEN 4: SEARCH SCREEN */
+    .screen-search-wrapper { padding: 20px; }
+
+    .search-pill-container {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 4px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-glass);
+      margin-bottom: 24px;
+    }
+
+    .search-input-element {
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .search-input-element::placeholder { color: var(--text-muted); font-weight: 500; }
+
+    .popular-tags-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 3px;
-      margin-top: 2px;
+      gap: 8px;
+      margin-bottom: 28px;
     }
 
-    .tag-badge {
-      font-size: 9.5px;
+    .tag-pill-btn {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-family: var(--font-sans);
+      font-size: 12px;
       font-weight: 700;
-      padding: 1px 6px;
-      border-radius: var(--radius-sm);
-      background-color: var(--primary-subtle);
-      color: var(--primary-dark);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: var(--text-body);
+      cursor: pointer;
+      box-shadow: var(--shadow-glass);
     }
 
-    .tag-badge.spicy {
-      background-color: #FEF2F2;
-      color: #EF4444;
-      border-color: rgba(239, 68, 68, 0.2);
+    .recently-viewed-track {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
     }
 
-    .tag-badge.chef {
-      background-color: #FFFBEB;
-      color: #D97706;
-      border-color: rgba(217, 119, 6, 0.2);
+    .recent-card-item {
+      width: 130px;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: var(--shadow-glass);
+      cursor: pointer;
     }
 
-    .dish-ingredients {
+    .recent-card-thumb {
+      width: 100%;
+      height: 90px;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 6px;
+    }
+
+    .recent-card-name {
+      font-family: var(--font-sans);
       font-size: 11.5px;
-      color: var(--text-secondary);
-      line-height: 1.35;
-      margin-top: 3px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    .dish-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 6px;
-    }
-
-    .dish-price {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--primary-dark);
-      letter-spacing: -0.01em;
-    }
-
-    .dish-card.out-of-stock .dish-price {
-      color: var(--text-muted);
-      text-decoration: line-through;
-    }
-
-    .stock-badge-pill {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: var(--radius-full);
-      background-color: var(--status-out-bg);
-      color: var(--status-out-text);
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    /* No search results state */
-    .no-results {
-      text-align: center;
-      padding: 36px 16px;
-      color: var(--text-secondary);
-    }
-
-    .no-results-icon {
-      font-size: 36px;
-      margin-bottom: 8px;
-    }
-
-    /* ==========================================================================
-       CATEGORY POPOVER SELECTION GRID (CLICK 'DANH MỤC' TO OPEN)
-       ========================================================================== */
-    .category-popover-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background-color: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .category-popover-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .category-popover-card {
-      width: 100%;
-      max-width: 480px;
-      background: var(--popover-bg);
-      border-radius: 24px 24px 0 0;
-      padding: 20px 18px 24px;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .category-popover-overlay.active .category-popover-card {
-      transform: translateY(0);
-    }
-
-    .popover-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .popover-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-close-popover {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--bg-subtle);
-      border: none;
-      color: var(--text-secondary);
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .popover-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      max-height: 55vh;
-      overflow-y: auto;
-      padding-bottom: 6px;
-    }
-
-    .popover-cat-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 12px;
-      background-color: var(--bg-main);
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-    }
-
-    .popover-cat-item:active { transform: scale(0.97); }
-
-    .popover-cat-item.active {
-      border-color: var(--primary);
-      background-color: var(--primary-subtle);
-    }
-
-    .popover-cat-icon { font-size: 20px; flex-shrink: 0; }
-
-    .popover-cat-details {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .popover-cat-name {
-      font-size: 13px;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .popover-cat-count {
-      font-size: 10.5px;
-      color: var(--text-secondary);
-      margin-top: 1px;
-    }
-
-    .popover-cat-item.full-width {
-      grid-column: span 2;
-      background-color: var(--primary-subtle);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-
-    /* ==========================================================================
-       STICKY BOTTOM BAR (READ-ONLY)
-       ========================================================================== */
-    .sticky-bottom-bar {
+    /* FROSTED GLASS BOTTOM NAV BAR MATCHING MOCKUP IMAGE */
+    .frosted-glass-bottom-nav-bar {
       position: fixed;
       bottom: 0;
       left: 50%;
@@ -633,478 +548,248 @@
       width: 100%;
       max-width: 480px;
       z-index: 95;
-      padding: 10px 14px;
-      background: var(--bottom-bar-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-top: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sticky);
-    }
-
-    .bottom-cta-box {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
+      background: rgba(234, 228, 220, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: white;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+      justify-content: space-around;
+      padding: 10px 0 12px;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 -4px 24px rgba(160, 150, 135, 0.15);
+      font-family: var(--font-sans);
     }
 
-    .bell-icon-pulse {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-    }
-
-    .cta-text-group {
+    .frosted-tab-item {
       display: flex;
       flex-direction: column;
-    }
-
-    .cta-heading {
-      font-size: 12.5px;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .cta-subtext {
+      align-items: center;
+      gap: 3px;
+      color: var(--text-muted);
       font-size: 10.5px;
-      opacity: 0.9;
-      font-weight: 500;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
     }
 
-    /* Onboarding Language Selector Modal */
+    .frosted-tab-item.active { color: var(--text-main); }
+    .nav-icon-svg { width: 20px; height: 20px; stroke-width: 1.8; }
+
+    /* Modal Overlay */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background-color: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(44, 40, 37, 0.5); backdrop-filter: blur(8px);
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
     }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
     .modal-card {
-      width: 100%;
-      max-width: 480px;
-      background-color: var(--popover-bg);
-      border-radius: 24px 24px 0 0;
-      padding: 22px 18px 28px;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%; max-width: 480px; background: #EAE4DC;
+      border-radius: 28px 28px 0 0; padding: 24px 20px 30px;
+      transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      border-top: 1px solid var(--glass-border);
+      font-family: var(--font-sans);
     }
-
-    .modal-overlay.active .modal-card {
-      transform: translateY(0);
-    }
-
-    .modal-header {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .modal-drag-handle {
-      width: 34px;
-      height: 4px;
-      background-color: var(--border-color);
-      border-radius: 2px;
-      margin: 0 auto 14px;
-    }
-
-    .modal-title {
-      font-size: 19px;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .modal-subtitle {
-      font-size: 12.5px;
-      color: var(--text-secondary);
-      margin-top: 3px;
-    }
-
-    .lang-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-bottom: 20px;
-      max-height: 55vh;
-      overflow-y: auto;
-    }
-
-    .lang-option-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 14px;
-      background-color: var(--bg-main);
-      border: 2px solid var(--border-color);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .lang-option-card.selected {
-      border-color: var(--primary);
-      background-color: var(--primary-subtle);
-    }
-
-    .lang-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .lang-native-name {
-      font-size: 14.5px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .lang-english-name {
-      font-size: 11.5px;
-      color: var(--text-secondary);
-    }
-
-    .radio-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lang-option-card.selected .radio-circle {
-      border-color: var(--primary);
-      background-color: var(--primary);
-    }
-
-    .radio-circle::after {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: white;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.2s ease;
-    }
-
-    .lang-option-card.selected .radio-circle::after {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .btn-confirm-lang {
-      width: 100%;
-      height: 46px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      border: none;
-      border-radius: var(--radius-md);
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 5px 18px rgba(16, 185, 129, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
+    .modal-overlay.active .modal-card { transform: translateY(0); }
+    .lang-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0 20px; }
+    .lang-option-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-glass); border-radius: 12px; cursor: pointer; }
+    .lang-option-card.selected { background: #DCD3C5; color: var(--text-main); font-weight: 800; }
+    .btn-confirm-lang { width: 100%; height: 46px; background: var(--text-main); color: #FFF; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    
-    <!-- ==========================================================================
-         TOP BRAND HEADER (NON-STICKY - ROLLS OFF SCREEN ON SCROLL DOWN)
-         ========================================================================== -->
-    <header class="top-brand-header">
-      <div class="top-header">
-        <div class="brand-group">
-          <div class="brand-logo" id="brand-logo-icon">☕</div>
-          <div class="brand-meta">
-            <h1 class="brand-title" id="store-title">Good Morning Café</h1>
-            <span class="table-pill" id="table-display">Table 05</span>
-          </div>
-        </div>
 
-        <div class="header-actions">
-          <!-- Language Switcher Button -->
-          <button class="lang-switcher-btn" id="open-lang-btn" aria-label="Change Language">
-            <img src="https://flagcdn.com/w40/gb.png" alt="Flag" class="flag-icon" id="current-flag-img">
-            <span id="current-lang-code">EN</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    <!-- SCREEN 1: MAIN MENU & COLLECTIONS (MATCHING TOP-LEFT PHONE IN MOCKUP) -->
+    <div id="screen-collections-view" class="screen-main-collections">
+      <div class="brand-header-row">
+        <!-- Exact Olive Leaf SVG logo matching top-left screen of mockup image -->
+        <svg class="olive-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/>
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        </svg>
+
+        <div class="header-right-btns">
+          <button class="lang-pill-btn" id="open-lang-btn">
+            🌐 <span id="current-lang-code">EN/VN/FR...</span>
           </button>
+          <div class="search-circle-icon-btn" onclick="switchOliveScreen('search')">🔍</div>
         </div>
       </div>
 
-      <!-- Quick Search Bar -->
-      <div class="search-container">
-        <div class="search-box">
-          <span class="search-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          </span>
-          <input type="text" class="search-input" id="search-input" placeholder="Search menu..." autocomplete="off">
-          <button class="search-clear-btn" id="search-clear-btn">✕</button>
-        </div>
-      </div>
-    </header>
+      <h1 class="menu-serif-headline">MENU</h1>
+      <p class="menu-welcome-text">Welcome to Olive & Sage. Explore our natural flavors.</p>
 
-    <!-- ==========================================================================
-         STICKY CATEGORY BAR (ALWAYS PINNED TO TOP OF SCREEN AT top: 0 ON SCROLL)
-         ========================================================================== -->
-    <nav class="sticky-category-bar">
-      <div class="active-cat-indicator-bar">
-        <div class="indicator-left">
-          <span id="active-cat-icon">✨</span>
-          <span id="active-cat-name">All Items</span>
-        </div>
-        <button class="btn-quick-menu-trigger" id="top-quick-menu-btn">
-          <span id="top-cat-label">Danh mục</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-      </div>
-    </nav>
+      <div class="collections-label-title">OUR COLLECTIONS</div>
 
-    <!-- ==========================================================================
-         MAIN MENU CONTENT AREA (COMPACT 5-6 ITEMS PER SCREEN)
-         ========================================================================== -->
-    <main class="menu-content" id="menu-content">
-      <!-- Categories and Dish cards rendered dynamically -->
-    </main>
-
-    <!-- Category Quick Jump Popover Overlay (Triggers when tapping 'Danh mục' button) -->
-    <div class="category-popover-overlay" id="cat-popover-modal">
-      <div class="category-popover-card">
-        <div class="popover-header">
-          <h2 class="popover-title" id="popover-title-text">
-            <span>📋</span>
-            <span>Chọn Danh Mục</span>
-          </h2>
-          <button class="btn-close-popover" id="btn-close-popover">✕</button>
-        </div>
-
-        <div class="popover-grid" id="popover-grid-container">
-          <!-- Category Quick Items Rendered Dynamically -->
-        </div>
+      <div class="collections-grid-2col" id="collections-grid-container">
+        <!-- 2-Column Collection Tiles Rendered Dynamically -->
       </div>
     </div>
 
-    <!-- Sticky Bottom Bar (Read-Only) -->
-    <aside class="sticky-bottom-bar">
-      <div class="bottom-cta-box">
-        <div class="bell-icon-pulse">🛎️</div>
-        <div class="cta-text-group">
-          <span class="cta-heading" id="cta-heading-text">Vui lòng gọi nhân viên khi bạn sẵn sàng gọi món</span>
-          <span class="cta-subtext" id="cta-subtext-text">Read-Only Menu · Server will take your order</span>
-        </div>
+    <!-- SCREEN 2: CATEGORY LISTING (MATCHING TOP-RIGHT PHONE IN MOCKUP) -->
+    <div id="screen-listing-view" class="screen-category-listing hidden">
+      <div class="nav-header-row">
+        <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
+        <h2 class="nav-title-text" id="listing-category-title">Breakfast & Brunch</h2>
       </div>
-    </aside>
 
-  </div> <!-- /.app-container -->
+      <div class="dishes-vertical-list" id="category-dishes-container">
+        <!-- White Frosted Glass Dish Cards Rendered Dynamically -->
+      </div>
+    </div>
 
-  <!-- Onboarding Language Selector Modal -->
+    <!-- SCREEN 3: PRODUCT DETAIL (MATCHING BOTTOM-LEFT PHONE IN MOCKUP) -->
+    <div id="screen-detail-view" class="screen-product-detail hidden">
+      <div class="nav-header-row">
+        <button class="back-btn-circle" onclick="switchOliveScreen('listing')">←</button>
+        <h2 class="nav-title-text">Product Detail</h2>
+      </div>
+
+      <div class="detail-photo-glass-frame">
+        <img src="https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800" alt="Signature Acai Bowl" class="detail-photo-img" id="detail-photo-target">
+      </div>
+
+      <h1 class="detail-title-heading" id="detail-title-target">Signature Acai Bowl</h1>
+      <div class="detail-price-heading" id="detail-price-target">210.000<u>đ</u></div>
+
+      <div class="detail-section-label-text">DESCRIPTION</div>
+      <p class="detail-description-body" id="detail-desc-target">
+        A refreshing blend of organic acai berries, banana, and almond milk, topped with house-made granola, fresh seasonal fruits, chia seeds, and a drizzle of local honey. Rich in antioxidants and natural energy.
+      </p>
+
+      <div class="detail-section-label-text">INGREDIENTS</div>
+      <ul class="detail-bullet-list" id="detail-ingredients-list-target">
+        <li>Organic Acai</li>
+        <li>Banana</li>
+        <li>Almond Milk</li>
+        <li>Granola (Oats, Nuts, Seeds)</li>
+        <li>Strawberry</li>
+        <li>Blueberry</li>
+        <li>Kiwi</li>
+        <li>Chia Seeds</li>
+        <li>Honey</li>
+      </ul>
+
+      <button style="width:100%; height:48px; background:var(--text-main); color:#FFF; border:none; border-radius:99px; font-family:var(--font-sans); font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 8px 24px rgba(44,40,37,0.25);" onclick="switchOliveScreen('collections')">
+        Vui lòng gọi nhân viên khi bạn sẵn sàng
+      </button>
+    </div>
+
+    <!-- SCREEN 4: SEARCH SCREEN (MATCHING BOTTOM-RIGHT PHONE IN MOCKUP) -->
+    <div id="screen-search-view" class="screen-search-wrapper hidden">
+      <div class="nav-header-row">
+        <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
+        <h2 class="nav-title-text">Search</h2>
+      </div>
+
+      <div class="search-pill-container">
+        <span style="color:var(--text-muted); font-size:16px;">🔍</span>
+        <input type="text" class="search-input-element" id="search-input-field" placeholder="Search dishes or ingredients..." autocomplete="off">
+      </div>
+
+      <div class="detail-section-label-text">POPULAR SEARCHES</div>
+      <div class="popular-tags-row">
+        <span class="tag-pill-btn" onclick="searchTag('Coffee')">Coffee</span>
+        <span class="tag-pill-btn" onclick="searchTag('Avocado')">Avocado</span>
+        <span class="tag-pill-btn" onclick="searchTag('Granola')">Granola</span>
+        <span class="tag-pill-btn" onclick="searchTag('Vegan')">Vegan</span>
+        <span class="tag-pill-btn" onclick="searchTag('Gluten-Free')">Gluten-Free</span>
+      </div>
+
+      <div class="detail-section-label-text">RECENTLY VIEWED</div>
+      <div class="recently-viewed-track" id="recently-viewed-container">
+        <!-- Rendered Dynamically -->
+      </div>
+    </div>
+
+    <!-- FROSTED GLASS BOTTOM NAV BAR MATCHING MOCKUP IMAGE -->
+    <nav class="frosted-glass-bottom-nav-bar">
+      <a href="#" class="frosted-tab-item active" onclick="switchOliveScreen('collections'); return false;">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Menu</span>
+      </a>
+      <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('search'); return false;">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Search</span>
+      </a>
+      <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('detail'); return false;">
+        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span>About</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Modal Overlay -->
   <div class="modal-overlay" id="lang-modal">
     <div class="modal-card">
-      <div class="modal-drag-handle"></div>
-      <div class="modal-header">
-        <h2 class="modal-title" id="modal-title-text">Select Your Language</h2>
-        <p class="modal-subtitle" id="modal-subtitle-text">Choose your preferred menu language</p>
+      <div style="text-align:center; margin-bottom:16px;">
+        <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800;" id="modal-title-text">Select Language</h2>
+        <p style="font-size:12px; color:var(--text-body);" id="modal-subtitle-text">Choose your language</p>
       </div>
-
       <div class="lang-list" id="lang-list-container"></div>
-
       <button class="btn-confirm-lang" id="btn-confirm-lang">
         <span id="btn-confirm-text">Explore Menu</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
   </div>
 
   <script>
     const LANGUAGES = [
-      { code: 'vi', native: 'Tiếng Việt', english: 'Vietnamese', flag: 'https://flagcdn.com/w40/vn.png' },
-      { code: 'en', native: 'English', english: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
-      { code: 'ru', native: 'Русский', english: 'Russian', flag: 'https://flagcdn.com/w40/ru.png' },
-      { code: 'fr', native: 'Français', english: 'French', flag: 'https://flagcdn.com/w40/fr.png' },
-      { code: 'zh', native: '中文', english: 'Chinese', flag: 'https://flagcdn.com/w40/cn.png' }
+      { code: 'vi', native: 'Tiếng Việt', english: 'Vietnamese' },
+      { code: 'en', native: 'English', english: 'English' },
+      { code: 'fr', native: 'Français', english: 'French' },
+      { code: 'ru', native: 'Русский', english: 'Russian' }
     ];
-
-    const UI_TRANSLATIONS = {
-      vi: {
-        modalTitle: "Chọn Ngôn Ngữ Của Bạn",
-        modalSubtitle: "Vui lòng chọn ngôn ngữ để xem thực đơn",
-        confirmBtn: "Xem Thực Đơn",
-        searchPlaceholder: "Tìm món ăn...",
-        outOfStockBadge: "Hết Hàng",
-        ctaText: "Vui lòng gọi nhân viên khi bạn sẵn sàng gọi món",
-        ctaSubtext: "Thực đơn xem nhanh · Nhân viên sẽ ghi nhận món",
-        noResults: "Không tìm thấy món nào phù hợp",
-        catBtnLabel: "Danh mục",
-        popoverTitle: "Chọn Danh Mục",
-        allCategory: "Tất Cả Món"
-      },
-      en: {
-        modalTitle: "Select Your Language",
-        modalSubtitle: "Choose your preferred language for the menu",
-        confirmBtn: "Explore Menu",
-        searchPlaceholder: "Search dishes...",
-        outOfStockBadge: "Sold Out",
-        ctaText: "Please call a server when ready to order",
-        ctaSubtext: "Read-Only Menu · Server will take your order",
-        noResults: "No matching dishes found",
-        catBtnLabel: "Categories",
-        popoverTitle: "Select Category",
-        allCategory: "All Items"
-      },
-      ru: {
-        modalTitle: "Выберите ваш язык",
-        modalSubtitle: "Выберите предпочитаемый язык меню",
-        confirmBtn: "Открыть меню",
-        searchPlaceholder: "Поиск блюд...",
-        outOfStockBadge: "Распродано",
-        ctaText: "Позовите официанта, когда будете готовы сделать заказ",
-        ctaSubtext: "Меню для просмотра · Официант примет заказ",
-        noResults: "Блюда не найдены",
-        catBtnLabel: "Категории",
-        popoverTitle: "Выберите категорию",
-        allCategory: "Все блюда"
-      },
-      fr: {
-        modalTitle: "Choisissez votre langue",
-        modalSubtitle: "Sélectionnez votre langue pour consulter le menu",
-        confirmBtn: "Afficher le Menu",
-        searchPlaceholder: "Rechercher des plats...",
-        outOfStockBadge: "Épuisé",
-        ctaText: "Veuillez appeler un serveur lorsque vous êtes prêt",
-        ctaSubtext: "Menu en lecture seule · Commande auprès du serveur",
-        noResults: "Aucun plat trouvé",
-        catBtnLabel: "Catégories",
-        popoverTitle: "Sélectionner une catégorie",
-        allCategory: "Tous les plats"
-      },
-      zh: {
-        modalTitle: "选择您的语言",
-        modalSubtitle: "请选择您偏好的菜单语言",
-        confirmBtn: "查看菜单",
-        searchPlaceholder: "搜索菜品...",
-        outOfStockBadge: "已售罄",
-        ctaText: "当您准备好点餐时，请呼叫服务员",
-        ctaSubtext: "仅供浏览菜单 · 服务员为您点餐",
-        noResults: "未找到相关菜品",
-        catBtnLabel: "分类菜单",
-        popoverTitle: "选择菜品分类",
-        allCategory: "全部菜品"
-      }
-    };
 
     let activeMenuPayload = { store: {}, categories: [], dishes: [] };
     let currentLang = localStorage.getItem('gm_menu_lang') || 'en';
-    let selectedModalLang = currentLang;
-    let currentCategory = 'all';
-    let searchQuery = '';
+    let selectedCategory = 'all';
 
     const langModal = document.getElementById('lang-modal');
     const openLangBtn = document.getElementById('open-lang-btn');
     const btnConfirmLang = document.getElementById('btn-confirm-lang');
     const langListContainer = document.getElementById('lang-list-container');
-    
-    const currentFlagImg = document.getElementById('current-flag-img');
-    const currentLangCode = document.getElementById('current-lang-code');
-    const searchInput = document.getElementById('search-input');
-    const searchClearBtn = document.getElementById('search-clear-btn');
-    const menuContent = document.getElementById('menu-content');
-    
-    const catPopoverModal = document.getElementById('cat-popover-modal');
-    const btnClosePopover = document.getElementById('btn-close-popover');
-    const popoverGridContainer = document.getElementById('popover-grid-container');
-    const popoverTitleText = document.getElementById('popover-title-text');
-    const topQuickMenuBtn = document.getElementById('top-quick-menu-btn');
-    const activeCatIcon = document.getElementById('active-cat-icon');
-    const activeCatName = document.getElementById('active-cat-name');
-    const topCatLabel = document.getElementById('top-cat-label');
-    
-    const modalTitleText = document.getElementById('modal-title-text');
-    const modalSubtitleText = document.getElementById('modal-subtitle-text');
-    const btnConfirmText = document.getElementById('btn-confirm-text');
-    const ctaHeadingText = document.getElementById('cta-heading-text');
-    const ctaSubtextText = document.getElementById('cta-subtext-text');
+    const searchInputField = document.getElementById('search-input-field');
 
-    async function init() {
-      // Check URL Table Query Param e.g. /menu?table=08
-      const urlParams = new URLSearchParams(window.location.search);
-      const tableQuery = urlParams.get('table');
-      if (tableQuery) {
-        document.getElementById('table-display').textContent = `Table ${tableQuery.padStart(2, '0')}`;
+    window.switchOliveScreen = function(screenKey) {
+      document.getElementById('screen-collections-view').classList.add('hidden');
+      document.getElementById('screen-listing-view').classList.add('hidden');
+      document.getElementById('screen-detail-view').classList.add('hidden');
+      document.getElementById('screen-search-view').classList.add('hidden');
+
+      if (screenKey === 'listing') {
+        document.getElementById('screen-listing-view').classList.remove('hidden');
+      } else if (screenKey === 'detail') {
+        document.getElementById('screen-detail-view').classList.remove('hidden');
+      } else if (screenKey === 'search') {
+        document.getElementById('screen-search-view').classList.remove('hidden');
+      } else {
+        document.getElementById('screen-collections-view').classList.remove('hidden');
       }
 
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    async function init() {
       await fetchLivePosData();
+      if (!localStorage.getItem('gm_menu_lang_chosen')) showModal();
 
-      const hasChosenLang = localStorage.getItem('gm_menu_lang_chosen');
-      if (!hasChosenLang) showModal();
-
-      updateUIStrings();
-      renderMenu();
+      renderCollections();
+      renderCategoryListing();
+      renderRecentlyViewed();
 
       openLangBtn.addEventListener('click', showModal);
       btnConfirmLang.addEventListener('click', confirmLanguageSelection);
 
-      topQuickMenuBtn.addEventListener('click', showPopover);
-      btnClosePopover.addEventListener('click', hidePopover);
-      catPopoverModal.addEventListener('click', (e) => { if (e.target === catPopoverModal) hidePopover(); });
-
-      searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.trim().toLowerCase();
-        searchClearBtn.style.display = searchQuery ? 'flex' : 'none';
-        renderMenu();
+      searchInputField.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        filterDishes(query);
       });
-
-      searchClearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        searchQuery = '';
-        searchClearBtn.style.display = 'none';
-        renderMenu();
-      });
-
-      // Auto-poll live POS database every 3 seconds for instant Hết món / Còn hàng updates
-      setInterval(async () => {
-        await fetchLivePosData();
-        renderMenu();
-      }, 3000);
     }
 
-    /* Live POS Data Integration Logic (Direct database integration) */
     async function fetchLivePosData() {
       const endpoints = ['/api/public-menu', 'http://localhost:3000/api/public-menu'];
       for (const ep of endpoints) {
@@ -1126,293 +811,143 @@
       const rawCategories = data.categories || [];
       const rawProducts = data.products || data.dishes || [];
 
-      if (rawStore.name) {
-        document.getElementById('store-title').textContent = rawStore.name;
-      }
-      if (rawStore.logoEmoji) {
-        document.getElementById('brand-logo-icon').textContent = rawStore.logoEmoji;
-      }
-
-      const categoryIconMap = {
-        'coffee': '☕', 'cà phê': '☕', 'tea': '🍵', 'trà': '🍵',
-        'milk tea': '🧋', 'trà sữa': '🧋', 'juice': '🍊', 'nước ép': '🍊',
-        'breakfast': '🥐', 'ăn sáng': '🥐', 'sandwich': '🥪', 'bánh mì': '🥪', 'combo': '⭐'
-      };
-
-      const categories = rawCategories.map(cat => {
-        if (typeof cat === 'string') {
-          const lowerName = cat.toLowerCase();
-          return {
-            id: cat,
-            name: { vi: cat, en: cat, ru: cat, fr: cat, zh: cat },
-            icon: categoryIconMap[lowerName] || '🍽️'
-          };
-        }
-        let nameObj = cat.name;
-        if (typeof nameObj === 'string') {
-          nameObj = { vi: nameObj, en: nameObj, ru: nameObj, fr: nameObj, zh: nameObj };
-        }
-        return {
-          id: cat.id || cat.dish_id || String(cat.name).toLowerCase(),
-          name: nameObj || { vi: "Danh mục", en: "Category" },
-          icon: cat.icon || categoryIconMap[String(cat.name).toLowerCase()] || '🍽️'
-        };
-      });
+      const collections = [
+        { id: 'coffee', name: 'Specialty Coffee', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600' },
+        { id: 'breakfast', name: 'Breakfast & Brunch', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600' },
+        { id: 'healthy', name: 'Healthy Bowls', img: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600' },
+        { id: 'juices', name: 'Fresh Juices & Smoothies', img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600' },
+        { id: 'pastries', name: 'Pastries & Desserts', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600' },
+        { id: 'specials', name: 'Seasonal Specials', img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600' }
+      ];
 
       const dishes = rawProducts.map(p => {
-        let nameObj = p.dish_name || p.name;
-        if (typeof nameObj === 'string') {
-          nameObj = { vi: nameObj, en: nameObj, ru: nameObj, fr: nameObj, zh: nameObj };
-        }
-
-        let ingrObj = p.ingredients || p.description || p.note || "";
-        if (typeof ingrObj === 'string') {
-          ingrObj = { vi: ingrObj, en: ingrObj, ru: ingrObj, fr: ingrObj, zh: ingrObj };
-        }
-
-        const isAvailable = p.available !== undefined ? Boolean(p.available) : (p.is_available !== undefined ? Boolean(p.is_available) : !p.outOfStock);
-
+        const nameStr = typeof p.name === 'string' ? p.name : (typeof p.dish_name === 'object' ? (p.dish_name[currentLang] || p.dish_name.vi || p.dish_name.en) : p.dish_name);
+        const ingrStr = typeof p.ingredients === 'string' ? p.ingredients : (typeof p.ingredients === 'object' ? (p.ingredients[currentLang] || p.ingredients.vi || p.ingredients.en) : (p.description || "Sourdough, ripe avocado, poached farm egg, chili flakes, microgreens"));
         return {
           dish_id: p.id || p.dish_id,
-          category: p.category || (categories[0] ? categories[0].id : 'general'),
-          price: p.price || 0,
-          image_url: p.image || p.image_url || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
-          is_available: isAvailable,
-          tags: p.tags || (p.emoji ? [p.emoji] : (p.category === 'Combo' ? ["Combo"] : [])),
-          dish_name: nameObj,
-          ingredients: ingrObj
+          category: p.category || 'breakfast',
+          price: p.price || 185000,
+          image_url: p.image || p.image_url || "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500",
+          dish_name: nameStr,
+          ingredients: ingrStr
         };
       });
 
-      activeMenuPayload = {
-        store: rawStore,
-        categories: categories,
-        dishes: dishes
-      };
+      activeMenuPayload = { store: rawStore, categories: collections, dishes: dishes };
     }
 
-    /* Language Modal Controls */
-    function showModal() {
-      selectedModalLang = currentLang;
-      renderLangOptions();
-      langModal.classList.add('active');
+    function renderCollections() {
+      const container = document.getElementById('collections-grid-container');
+      container.innerHTML = activeMenuPayload.categories.map(cat => `
+        <div class="collection-tile-card" onclick="openCategoryCollection('${cat.id}', '${cat.name}')">
+          <img src="${cat.img}" alt="${cat.name}" class="collection-tile-img">
+          <div class="collection-tile-glass-overlay">
+            <h3 class="collection-tile-title">${cat.name}</h3>
+          </div>
+        </div>
+      `).join('');
     }
 
+    window.openCategoryCollection = function(catId, catName) {
+      selectedCategory = catId;
+      document.getElementById('listing-category-title').textContent = catName;
+      renderCategoryListing();
+      switchOliveScreen('listing');
+    };
+
+    function renderCategoryListing() {
+      const container = document.getElementById('category-dishes-container');
+      let dishes = activeMenuPayload.dishes;
+
+      container.innerHTML = dishes.map(dish => `
+        <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
+          <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
+          <div class="dish-card-content">
+            <div>
+              <h3 class="dish-card-name-title">${dish.dish_name}</h3>
+              <p class="dish-card-ingr-text">${dish.ingredients}</p>
+            </div>
+            <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    window.openProductDetail = function(dishId) {
+      const dish = activeMenuPayload.dishes.find(d => String(d.dish_id) === String(dishId));
+      if (!dish) return;
+
+      document.getElementById('detail-photo-target').src = dish.image_url;
+      document.getElementById('detail-title-target').textContent = dish.dish_name;
+      document.getElementById('detail-price-target').innerHTML = new Intl.NumberFormat('vi-VN').format(dish.price) + '<u>đ</u>';
+      document.getElementById('detail-desc-target').textContent = dish.ingredients;
+
+      const ingrArray = dish.ingredients.split(',').map(s => s.trim());
+      document.getElementById('detail-ingredients-list-target').innerHTML = ingrArray.map(item => `<li>${item}</li>`).join('');
+
+      switchOliveScreen('detail');
+    };
+
+    function renderRecentlyViewed() {
+      const container = document.getElementById('recently-viewed-container');
+      const recent = activeMenuPayload.dishes.slice(0, 4);
+
+      container.innerHTML = recent.map(dish => `
+        <div class="recent-card-item" onclick="openProductDetail('${dish.dish_id}')">
+          <img src="${dish.image_url}" alt="${dish.dish_name}" class="recent-card-thumb">
+          <div class="recent-card-name">${dish.dish_name}</div>
+        </div>
+      `).join('');
+    }
+
+    window.searchTag = function(tag) {
+      searchInputField.value = tag;
+      filterDishes(tag.toLowerCase());
+    };
+
+    function filterDishes(query) {
+      const container = document.getElementById('category-dishes-container');
+      const filtered = activeMenuPayload.dishes.filter(d => 
+        d.dish_name.toLowerCase().includes(query) || d.ingredients.toLowerCase().includes(query)
+      );
+
+      document.getElementById('listing-category-title').textContent = `Kết quả: ${query}`;
+      container.innerHTML = filtered.map(dish => `
+        <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
+          <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
+          <div class="dish-card-content">
+            <div>
+              <h3 class="dish-card-name-title">${dish.dish_name}</h3>
+              <p class="dish-card-ingr-text">${dish.ingredients}</p>
+            </div>
+            <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
+          </div>
+        </article>
+      `).join('');
+
+      switchOliveScreen('listing');
+    }
+
+    function showModal() { renderLangOptions(); langModal.classList.add('active'); }
     function hideModal() { langModal.classList.remove('active'); }
 
     function renderLangOptions() {
-      const t = UI_TRANSLATIONS[selectedModalLang] || UI_TRANSLATIONS.en;
-      modalTitleText.textContent = t.modalTitle;
-      modalSubtitleText.textContent = t.modalSubtitle;
-      btnConfirmText.textContent = t.confirmBtn;
-
-      langListContainer.innerHTML = LANGUAGES.map(lang => {
-        const isSelected = lang.code === selectedModalLang;
-        return `
-          <div class="lang-option-card ${isSelected ? 'selected' : ''}" onclick="selectModalLang('${lang.code}')">
-            <div class="lang-left">
-              <img src="${lang.flag}" alt="${lang.native}" class="lang-flag">
-              <div class="lang-label-group">
-                <span class="lang-native-name">${lang.native}</span>
-                <span class="lang-english-name">${lang.english}</span>
-              </div>
-            </div>
-            <div class="radio-circle"></div>
-          </div>
-        `;
-      }).join('');
+      langListContainer.innerHTML = LANGUAGES.map(lang => `
+        <div class="lang-option-card ${lang.code === currentLang ? 'selected' : ''}" onclick="selectLang('${lang.code}')">
+          <span>${lang.native}</span>
+          <span>${lang.code === currentLang ? '✓' : ''}</span>
+        </div>
+      `).join('');
     }
 
-    window.selectModalLang = function(code) {
-      selectedModalLang = code;
-      renderLangOptions();
-    };
-
-    function confirmLanguageSelection() {
-      currentLang = selectedModalLang;
+    window.selectLang = function(code) {
+      currentLang = code;
       localStorage.setItem('gm_menu_lang', currentLang);
       localStorage.setItem('gm_menu_lang_chosen', 'true');
-      
-      updateUIStrings();
-      renderMenu();
       hideModal();
-    }
-
-    function updateUIStrings() {
-      const langObj = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[1];
-      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
-
-      currentFlagImg.src = langObj.flag;
-      currentLangCode.textContent = langObj.code.toUpperCase();
-      searchInput.placeholder = t.searchPlaceholder;
-      ctaHeadingText.textContent = t.ctaText;
-      ctaSubtextText.textContent = t.ctaSubtext;
-      topCatLabel.textContent = t.catBtnLabel;
-
-      popoverTitleText.innerHTML = `<span>📋</span><span>${t.popoverTitle}</span>`;
-      updateActiveCategoryIndicator();
-    }
-
-    /* Category Popover Controls (Triggered by 'Danh mục' button in sticky bar) */
-    function showPopover() {
-      renderPopoverCategories();
-      catPopoverModal.classList.add('active');
-    }
-
-    function hidePopover() { catPopoverModal.classList.remove('active'); }
-
-    function renderPopoverCategories() {
-      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
-      const totalDishes = activeMenuPayload.dishes.length;
-
-      let html = `
-        <div class="popover-cat-item full-width ${currentCategory === 'all' ? 'active' : ''}" onclick="selectCategoryFromPopover('all')">
-          <span class="popover-cat-icon">✨</span>
-          <div class="popover-cat-details">
-            <span class="popover-cat-name">${t.allCategory}</span>
-            <span class="popover-cat-count">${totalDishes} items</span>
-          </div>
-        </div>
-      `;
-
-      activeMenuPayload.categories.forEach(cat => {
-        const name = (cat.name && (cat.name[currentLang] || cat.name.vi || cat.name.en)) || cat.id;
-        const count = activeMenuPayload.dishes.filter(d => d.category === cat.id).length;
-        const isActive = currentCategory === cat.id;
-
-        html += `
-          <div class="popover-cat-item ${isActive ? 'active' : ''}" onclick="selectCategoryFromPopover('${cat.id}')">
-            <span class="popover-cat-icon">${cat.icon}</span>
-            <div class="popover-cat-details">
-              <span class="popover-cat-name">${name}</span>
-              <span class="popover-cat-count">${count} items</span>
-            </div>
-          </div>
-        `;
-      });
-
-      popoverGridContainer.innerHTML = html;
-    }
-
-    window.selectCategoryFromPopover = function(catId) {
-      currentCategory = catId;
-      hidePopover();
-      updateActiveCategoryIndicator();
-
-      if (catId === 'all') {
-        renderMenu();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        renderMenu();
-        setTimeout(() => {
-          const targetSection = document.getElementById(`cat-sec-${encodeURIComponent(catId)}`);
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 50);
-      }
     };
 
-    function updateActiveCategoryIndicator() {
-      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
-      if (currentCategory === 'all') {
-        activeCatIcon.textContent = '✨';
-        activeCatName.textContent = t.allCategory;
-      } else {
-        const catObj = activeMenuPayload.categories.find(c => c.id === currentCategory);
-        if (catObj) {
-          activeCatIcon.textContent = catObj.icon;
-          activeCatName.textContent = (catObj.name && (catObj.name[currentLang] || catObj.name.vi || catObj.name.en)) || catObj.id;
-        }
-      }
-    }
-
-    /* Menu Renderer - Compact Layout (5 to 6 items per screen) */
-    function renderMenu() {
-      const t = UI_TRANSLATIONS[currentLang] || UI_TRANSLATIONS.en;
-      let categoriesToDisplay = activeMenuPayload.categories;
-
-      if (currentCategory !== 'all') {
-        categoriesToDisplay = categoriesToDisplay.filter(c => c.id === currentCategory);
-      }
-
-      let hasAnyDishes = false;
-      let html = '';
-
-      categoriesToDisplay.forEach(cat => {
-        let dishes = activeMenuPayload.dishes.filter(d => d.category === cat.id);
-
-        if (searchQuery) {
-          dishes = dishes.filter(d => {
-            const nameStr = typeof d.dish_name === 'object' ? (d.dish_name[currentLang] || d.dish_name.vi || d.dish_name.en || '') : String(d.dish_name);
-            const ingrStr = typeof d.ingredients === 'object' ? (d.ingredients[currentLang] || d.ingredients.vi || d.ingredients.en || '') : String(d.ingredients);
-            return nameStr.toLowerCase().includes(searchQuery) || ingrStr.toLowerCase().includes(searchQuery);
-          });
-        }
-
-        if (dishes.length === 0) return;
-
-        hasAnyDishes = true;
-        const catName = (cat.name && (cat.name[currentLang] || cat.name.vi || cat.name.en)) || cat.id;
-
-        html += `
-          <section class="category-section" id="cat-sec-${encodeURIComponent(cat.id)}">
-            <h2 class="category-title">
-              <span>${cat.icon}</span>
-              <span>${catName}</span>
-            </h2>
-            <div class="dish-list">
-              ${dishes.map(dish => renderDishCard(dish, t)).join('')}
-            </div>
-          </section>
-        `;
-      });
-
-      if (!hasAnyDishes) {
-        html = `
-          <div class="no-results">
-            <div class="no-results-icon">🔍</div>
-            <p>${t.noResults}</p>
-          </div>
-        `;
-      }
-
-      menuContent.innerHTML = html;
-    }
-
-    function renderDishCard(dish, t) {
-      let name = typeof dish.dish_name === 'object' ? (dish.dish_name[currentLang] || dish.dish_name.vi || dish.dish_name.en) : dish.dish_name;
-      // Strip any emoji icons from dish name
-      name = String(name).replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
-
-      const ingredients = typeof dish.ingredients === 'object' ? (dish.ingredients[currentLang] || dish.ingredients.vi || dish.ingredients.en || '') : dish.ingredients;
-      const formattedPrice = new Intl.NumberFormat('vi-VN').format(dish.price) + ' ₫';
-      const isAvailable = dish.is_available;
-
-      return `
-        <article class="dish-card ${!isAvailable ? 'out-of-stock' : ''}">
-          <div class="dish-thumb-wrapper">
-            <img src="${dish.image_url}" alt="${name}" class="dish-thumb" loading="lazy">
-            ${!isAvailable ? `<div class="badge-sold-out">${t.outOfStockBadge}</div>` : ''}
-          </div>
-
-          <div class="dish-details">
-            <div class="dish-header">
-              <div class="dish-title-row">
-                <h3 class="dish-name">${name}</h3>
-              </div>
-
-              ${ingredients ? `<p class="dish-ingredients">${ingredients}</p>` : ''}
-            </div>
-
-            <div class="dish-footer">
-              <span class="dish-price">${formattedPrice}</span>
-              ${!isAvailable ? `<span class="stock-badge-pill">${t.outOfStockBadge}</span>` : ''}
-            </div>
-          </div>
-        </article>
-      `;
-    }
+    function confirmLanguageSelection() { hideModal(); }
 
     document.addEventListener('DOMContentLoaded', init);
   </script>
