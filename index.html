@@ -586,6 +586,38 @@
     .lang-option-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-glass); border-radius: 12px; cursor: pointer; }
     .lang-option-card.selected { background: #DCD3C5; color: var(--text-main); font-weight: 800; }
     .btn-confirm-lang { width: 100%; height: 46px; background: var(--text-main); color: #FFF; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; }
+
+    /* EXIT CONFIRMATION MODAL SYSTEM */
+    .exit-modal-card {
+      text-align: center;
+    }
+    .exit-btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .btn-stay-menu {
+      flex: 1;
+      height: 46px;
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn-confirm-exit {
+      flex: 1;
+      height: 46px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #D93838;
+      border: 1px solid rgba(217, 56, 56, 0.3);
+      border-radius: 99px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -657,7 +689,7 @@
       </button>
     </div>
 
-    <!-- SCREEN 4: SEARCH SCREEN (FIXED MATCHING ID) -->
+    <!-- SCREEN 4: SEARCH SCREEN -->
     <div id="screen-search-view" class="screen-search-wrapper hidden">
       <div class="nav-header-row">
         <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
@@ -724,6 +756,18 @@
     </div>
   </div>
 
+  <!-- Exit Confirmation Modal Overlay -->
+  <div class="modal-overlay" id="exit-modal">
+    <div class="modal-card exit-modal-card">
+      <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800; margin-bottom:8px;" id="ui-exit-modal-title">Xác nhận thoát Menu</h2>
+      <p style="font-size:13px; color:var(--text-body); font-weight:600; line-height:1.4;" id="ui-exit-modal-msg">Bạn có chắc chắn muốn rời khỏi Thực đơn không?</p>
+      <div class="exit-btn-row">
+        <button class="btn-stay-menu" id="btn-stay-menu">Ở lại Menu</button>
+        <button class="btn-confirm-exit" id="btn-confirm-exit">Thoát ngay</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ==========================================================================
     // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE
@@ -767,7 +811,11 @@
         recentlyViewedTitle: 'ĐÃ XEM GẦN ĐÂY',
         tabMenu: 'Thực đơn',
         tabSearch: 'Tìm kiếm',
-        tabAbout: 'Chi tiết'
+        tabAbout: 'Chi tiết',
+        exitTitle: 'Xác nhận thoát Menu',
+        exitMsg: 'Bạn có chắc chắn muốn rời khỏi Thực đơn không?',
+        btnStay: 'Ở lại Menu',
+        btnExit: 'Thoát ngay'
       },
       en: {
         pillCode: 'EN',
@@ -788,7 +836,11 @@
         recentlyViewedTitle: 'RECENTLY VIEWED',
         tabMenu: 'Menu',
         tabSearch: 'Search',
-        tabAbout: 'Detail'
+        tabAbout: 'Detail',
+        exitTitle: 'Exit Menu Confirmation',
+        exitMsg: 'Are you sure you want to leave the Digital Menu?',
+        btnStay: 'Stay on Menu',
+        btnExit: 'Exit Now'
       },
       fr: {
         pillCode: 'FR',
@@ -809,7 +861,11 @@
         recentlyViewedTitle: 'RÉCEMMENT CONSULTÉS',
         tabMenu: 'Menu',
         tabSearch: 'Rechercher',
-        tabAbout: 'Détail'
+        tabAbout: 'Détail',
+        exitTitle: 'Quitter le Menu',
+        exitMsg: 'Êtes-vous sûr de vouloir quitter le Menu Digital ?',
+        btnStay: 'Rester',
+        btnExit: 'Quitter'
       },
       ru: {
         pillCode: 'RU',
@@ -830,7 +886,11 @@
         recentlyViewedTitle: 'НЕДАВНО ПРОСМОТРЕННЫЕ',
         tabMenu: 'Меню',
         tabSearch: 'Поиск',
-        tabAbout: 'Детали'
+        tabAbout: 'Детали',
+        exitTitle: 'Выход из меню',
+        exitMsg: 'Вы уверены, что хотите покинуть цифровое меню?',
+        btnStay: 'Остаться',
+        btnExit: 'Выйти'
       }
     };
 
@@ -932,11 +992,21 @@
     let searchDebounceTimer = null;
 
     const langModal = document.getElementById('lang-modal');
+    const exitModal = document.getElementById('exit-modal');
     const openLangBtn = document.getElementById('open-lang-btn');
     const btnConfirmLang = document.getElementById('btn-confirm-lang');
+    const btnStayMenu = document.getElementById('btn-stay-menu');
+    const btnConfirmExit = document.getElementById('btn-confirm-exit');
     const langListContainer = document.getElementById('lang-list-container');
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
+
+    function setupHistoryGuard() {
+      try {
+        history.pushState({ screen: 'collections_guard' }, '', '#main');
+        history.pushState({ screen: 'collections' }, '', '#menu');
+      } catch(e) {}
+    }
 
     // SWITCH SCREEN SYSTEM WITH ERROR BOUNDARY
     window.switchOliveScreen = function(screenKey, pushHistory = true) {
@@ -978,26 +1048,41 @@
       }
     };
 
-    // CLEAN STANDARD HISTORY BACK NAVIGATION
+    // STRICT USER DIRECTIVE: WHEN AND ONLY WHEN GUEST SWIPES BACK ON MAIN MENU (COLLECTIONS) SCREEN -> SHOW EXIT CONFIRMATION NOTIFICATION!
     window.addEventListener('popstate', (e) => {
-      const state = e.state;
-      if (state && state.screen) {
-        if (state.screen === 'detail' && state.dishId) {
-          openProductDetail(state.dishId, false);
-        } else if (state.screen === 'listing' && state.catId) {
-          openCategoryCollection(state.catId, state.catName, false);
-        } else if (state.screen === 'search') {
-          switchOliveScreen('search', false);
+      try {
+        const state = e.state;
+
+        if (currentActiveScreen === 'collections') {
+          // Guest is on the Main Menu interface and swiped back gesture!
+          // No matter how deep the history stack is, lock history and show exit confirmation modal strictly as requested!
+          history.pushState({ screen: 'collections' }, '', '#menu');
+          showExitModal();
         } else {
-          switchOliveScreen('collections', false);
+          // Guest is on any other screen (detail, listing, search) -> Simply navigate back inside menu WITHOUT showing exit modal
+          if (state && state.screen && state.screen !== 'collections_guard') {
+            if (state.screen === 'detail' && state.dishId) {
+              openProductDetail(state.dishId, false);
+            } else if (state.screen === 'listing' && state.catId) {
+              openCategoryCollection(state.catId, state.catName, false);
+            } else if (state.screen === 'search') {
+              switchOliveScreen('search', false);
+            } else {
+              switchOliveScreen('collections', false);
+            }
+          } else {
+            switchOliveScreen('collections', false);
+          }
         }
-      } else {
-        switchOliveScreen('collections', false);
+      } catch(err) {
+        console.error("Popstate Error:", err);
       }
     });
 
     async function init() {
       try {
+        setupHistoryGuard();
+
         normalizePosData(FALLBACK_POS_DATA);
         applyTranslations();
         switchOliveScreen('collections', false);
@@ -1007,6 +1092,23 @@
 
         if (openLangBtn) openLangBtn.addEventListener('click', showModal);
         if (btnConfirmLang) btnConfirmLang.addEventListener('click', confirmLanguageSelection);
+        if (btnStayMenu) btnStayMenu.addEventListener('click', hideExitModal);
+        if (btnConfirmExit) {
+          btnConfirmExit.addEventListener('click', () => {
+            hideExitModal();
+            try { window.close(); } catch(e) {}
+            try {
+              if (window.history.length > 1) {
+                window.history.go(-window.history.length);
+              } else {
+                window.location.href = "about:blank";
+              }
+            } catch(e) {
+              window.location.href = "about:blank";
+            }
+            setTimeout(() => { window.location.href = "about:blank"; }, 100);
+          });
+        }
 
         if (searchInputField) {
           searchInputField.addEventListener('input', (e) => {
@@ -1104,6 +1206,15 @@
 
       const tabAbout = document.getElementById('ui-tab-about-label');
       if (tabAbout) tabAbout.textContent = t.tabAbout;
+
+      const uiExitModalTitle = document.getElementById('ui-exit-modal-title');
+      if (uiExitModalTitle) uiExitModalTitle.textContent = t.exitTitle;
+
+      const uiExitModalMsg = document.getElementById('ui-exit-modal-msg');
+      if (uiExitModalMsg) uiExitModalMsg.textContent = t.exitMsg;
+
+      if (btnStayMenu) btnStayMenu.textContent = t.btnStay;
+      if (btnConfirmExit) btnConfirmExit.textContent = t.btnExit;
 
       if (rawPosData) {
         normalizePosData(rawPosData);
@@ -1326,6 +1437,9 @@
 
     function showModal() { renderLangOptions(); if (langModal) langModal.classList.add('active'); }
     function hideModal() { if (langModal) langModal.classList.remove('active'); }
+
+    function showExitModal() { if (exitModal) exitModal.classList.add('active'); }
+    function hideExitModal() { if (exitModal) exitModal.classList.remove('active'); }
 
     function renderLangOptions() {
       if (!langListContainer) return;
