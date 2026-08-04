@@ -770,8 +770,27 @@
 
   <script>
     // ==========================================================================
-    // MULTI-LANGUAGE TRANSLATION DICTIONARY FOR UI & POS DATA (VI / EN / FR / RU)
+    // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE (NEVER BLANK AGAIN!)
     // ==========================================================================
+    const FALLBACK_POS_DATA = {
+      store: { name: "Good Morning Café" },
+      categories: ["Coffee", "Tea", "Milk Tea", "Juice", "Breakfast", "Sandwich", "Combo"],
+      products: [
+        { id: 1, name: "Latte", price: 55000, category: "Coffee", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600" },
+        { id: 2, name: "Cappuccino", price: 60000, category: "Coffee", image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600" },
+        { id: 3, name: "Americano", price: 45000, category: "Coffee", image: "https://images.unsplash.com/photo-1551046713-b45fdb3799d5?w=600" },
+        { id: 4, name: "Espresso", price: 40000, category: "Coffee", image: "https://images.unsplash.com/photo-1510707572719-ddb8775f0b7b?w=600" },
+        { id: 5, name: "Mocha", price: 65000, category: "Coffee", description: "Cacao, Condensed Milk, Espresso", image: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600" },
+        { id: 6, name: "Matcha Latte", price: 60000, category: "Tea", image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600" },
+        { id: 7, name: "Milk Tea", price: 50000, category: "Milk Tea", image: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=600" },
+        { id: 8, name: "Orange Juice", price: 45000, category: "Juice", image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600" },
+        { id: 9, name: "Croissant", price: 35000, category: "Breakfast", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600" },
+        { id: 10, name: "Pancake", price: 70000, category: "Breakfast", image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600" },
+        { id: 11, name: "Sandwich", price: 65000, category: "Sandwich", image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600" },
+        { id: 12, name: "Combo Breakfast", price: 120000, category: "Combo", image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600" }
+      ]
+    };
+
     const TRANSLATIONS = {
       vi: {
         pillCode: 'VN',
@@ -886,7 +905,6 @@
     };
 
     const TERM_DICTIONARY = {
-      // POS Categories
       "coffee": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
       "cà phê": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
       "tea": { vi: "Trà", en: "Tea", fr: "Thé", ru: "Чай" },
@@ -901,15 +919,6 @@
       "bánh mì kẹp": { vi: "Bánh Mì Kẹp", en: "Sandwich", fr: "Sandwich", ru: "Сэндвич" },
       "combo": { vi: "Combo Tiết Kiệm", en: "Special Combo", fr: "Offre Combo", ru: "Комбо Набор" },
 
-      // Legacy fallback Categories
-      "specialty coffee": { vi: "Cà Phê Đặc Sản", en: "Specialty Coffee", fr: "Cafés Spécialisés", ru: "Особый Кофе" },
-      "breakfast & brunch": { vi: "Điểm Tâm & Ăn Sáng", en: "Breakfast & Brunch", fr: "Petit-Déjeuner & Brunch", ru: "Завтрак и Бранч" },
-      "healthy bowls": { vi: "Tô Dinh Dưỡng", en: "Healthy Bowls", fr: "Bols Santé", ru: "Полезные Боулы" },
-      "fresh juices & smoothies": { vi: "Nước Ép & Sinh Tố", en: "Fresh Juices & Smoothies", fr: "Jus Frais & Smoothies", ru: "Свежие Соки и Смузи" },
-      "pastries & desserts": { vi: "Bánh Ngọt & Tráng Miệng", en: "Pastries & Desserts", fr: "Pâtisseries & Desserts", ru: "Выпечка và Tráng Miệng" },
-      "seasonal specials": { vi: "Món Đặc Biệt Theo Mùa", en: "Seasonal Specials", fr: "Spécialités de Saison", ru: "Сезонные Блюда" },
-
-      // Dish Names
       "mocha": { vi: "Cà Phê Mocha", en: "Mocha Coffee", fr: "Café Mocha", ru: "Кофе Мокка" },
       "espresso": { vi: "Cà Phê Espresso", en: "Espresso", fr: "Café Espresso", ru: "Эспрессо" },
       "cappuccino": { vi: "Cà Phê Cappuccino", en: "Cappuccino", fr: "Cappuccino", ru: "Капучино" },
@@ -921,7 +930,6 @@
       "pancake": { vi: "Bánh Kếp Pancake", en: "Fluffy Pancakes", fr: "Pancakes Moelleux", ru: "Панкейки" },
       "combo breakfast": { vi: "Combo Điểm Tâm Sáng", en: "Breakfast Combo", fr: "Combo Petit-Déjeuner", ru: "Завтрак Комбо" },
 
-      // Ingredients
       "cacao": { vi: "Bột Ca-cao nguyên chất", en: "Pure Cocoa", fr: "Cacao pur", ru: "Какао" },
       "condantion milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
       "condensed milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
@@ -974,7 +982,7 @@
     ];
 
     let activeMenuPayload = { store: {}, categories: [], dishes: [] };
-    let rawPosData = null;
+    let rawPosData = FALLBACK_POS_DATA; // INSTANT DEFAULT POS DATA
     let currentLang = localStorage.getItem('gm_menu_lang') || 'vi';
     let selectedCategory = 'all';
     let selectedCategoryNameRaw = '';
@@ -993,13 +1001,11 @@
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    // SETUP DOUBLE HISTORY STACK GUARD TO 100% TRAP AND INTERCEPT ANDROID BACK SWIPE GESTURES
     function setupHistoryGuard() {
       history.pushState({ screen: 'collections_guard' }, '', '#main');
       history.pushState({ screen: 'collections' }, '', '#menu');
     }
 
-    // SWITCH SCREEN WITH INTEGRATED HTML5 HISTORY API FOR ANDROID SWIPE BACK GESTURES
     window.switchOliveScreen = function(screenKey, pushHistory = true) {
       const prevScreen = currentActiveScreen;
       currentActiveScreen = screenKey;
@@ -1030,7 +1036,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // GUARANTEED ANDROID SWIPE BACK GESTURE INTERCEPTION
     window.addEventListener('popstate', (e) => {
       const state = e.state;
       
@@ -1045,7 +1050,6 @@
           switchOliveScreen('collections', false);
         }
       } else {
-        // Intercept back gesture on root screen: Lock history and show exit confirmation modal
         history.pushState({ screen: 'collections' }, '', '#menu');
         switchOliveScreen('collections', false);
         showExitModal();
@@ -1055,6 +1059,11 @@
     async function init() {
       setupHistoryGuard();
 
+      // RENDER BUILT-IN FALLBACK INSTANTLY SO PAGE IS NEVER EMPTY/BLANK
+      normalizePosData(FALLBACK_POS_DATA);
+      applyTranslations();
+
+      // THEN FETCH LIVE POS API DATA
       await fetchLivePosData();
       applyTranslations();
 
@@ -1064,7 +1073,6 @@
       btnConfirmLang.addEventListener('click', confirmLanguageSelection);
       btnStayMenu.addEventListener('click', hideExitModal);
       
-      // BULLETPROOF EXIT BUTTON ACTION THAT RELIABLY EXITS THE MENU
       btnConfirmExit.addEventListener('click', () => {
         hideExitModal();
         try { window.close(); } catch(e) {}
@@ -1080,7 +1088,6 @@
         setTimeout(() => { window.location.href = "about:blank"; }, 120);
       });
 
-      // SEARCH FIELD EVENT HANDLER
       searchInputField.addEventListener('input', (e) => {
         const query = e.target.value.trim();
         clearTimeout(searchDebounceTimer);
@@ -1096,7 +1103,8 @@
     }
 
     async function fetchLivePosData() {
-      const endpoints = ['/api/public-menu', 'http://localhost:3000/api/public-menu'];
+      const originEp = window.location.origin + '/api/public-menu';
+      const endpoints = [originEp, '/api/public-menu', 'http://localhost:5000/api/public-menu', 'http://localhost:3000/api/public-menu'];
       for (const ep of endpoints) {
         try {
           const res = await fetch(ep);
@@ -1170,7 +1178,6 @@
       const tabAbout = document.getElementById('ui-tab-about-label');
       if (tabAbout) tabAbout.textContent = t.tabAbout;
 
-      // Exit Confirmation Modal Text
       const uiExitModalTitle = document.getElementById('ui-exit-modal-title');
       if (uiExitModalTitle) uiExitModalTitle.textContent = t.exitTitle;
 
