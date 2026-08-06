@@ -1001,11 +1001,20 @@
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    // UNCONDITIONAL DOUBLE HISTORY GUARD ON MAIN MENU SCREEN
+    // UNCONDITIONAL MULTI-LAYERED HISTORY GUARD ON MAIN MENU SCREEN
     function setupHistoryGuard() {
       try {
         history.replaceState({ screen: 'collections_base' }, '', '#main');
+        history.pushState({ screen: 'collections_guard' }, '', '#guard');
         history.pushState({ screen: 'collections' }, '', '#menu');
+      } catch(e) {}
+    }
+
+    function rearmExitGuard() {
+      try {
+        if (currentActiveScreen === 'collections' && location.hash !== '#menu') {
+          history.pushState({ screen: 'collections' }, '', '#menu');
+        }
       } catch(e) {}
     }
 
@@ -1042,7 +1051,6 @@
         if (pushHistory && prevScreen !== screenKey) {
           history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
         } else if (screenKey === 'collections') {
-          // Re-arm history stack guard when on collections
           setupHistoryGuard();
         }
 
@@ -1059,12 +1067,14 @@
 
         if (currentActiveScreen === 'collections') {
           // Guest is on the Main Menu interface and swiped back gesture!
-          // Re-arm history state to trap gesture, and pop up exit confirmation modal!
+          // Lock history state immediately to trap gesture, and pop up exit confirmation modal!
           history.pushState({ screen: 'collections' }, '', '#menu');
-          showExitModal();
+          setTimeout(() => {
+            showExitModal();
+          }, 10);
         } else {
           // Guest is on any other screen (detail, listing, search) -> Simply navigate back inside menu WITHOUT showing exit modal
-          if (state && state.screen && state.screen !== 'collections_base') {
+          if (state && state.screen && state.screen !== 'collections_base' && state.screen !== 'collections_guard') {
             if (state.screen === 'detail' && state.dishId) {
               openProductDetail(state.dishId, false);
             } else if (state.screen === 'listing' && state.catId) {
@@ -1083,15 +1093,14 @@
       }
     });
 
-    // Touch gesture listener to pre-arm history if user touches screen edges on collections screen
-    window.addEventListener('touchstart', (e) => {
-      if (currentActiveScreen === 'collections') {
-        const x = e.touches[0].clientX;
-        if (x < 35 || x > window.innerWidth - 35) {
-          try { history.pushState({ screen: 'collections' }, '', '#menu'); } catch(err) {}
+    // Touch / Pointer gesture listener to re-arm history guard on ANY user interaction on collections screen
+    ['touchstart', 'pointerdown', 'click'].forEach(evtType => {
+      window.addEventListener(evtType, () => {
+        if (currentActiveScreen === 'collections') {
+          rearmExitGuard();
         }
-      }
-    }, { passive: true });
+      }, { passive: true });
+    });
 
     async function init() {
       try {
