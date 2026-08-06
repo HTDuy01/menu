@@ -1092,8 +1092,8 @@
       }
     });
 
-    // Touch / Pointer gesture listener to re-arm history guard on ANY user interaction on collections screen
-    ['touchstart', 'pointerdown', 'click'].forEach(evtType => {
+    // Touch / Pointer / Scroll gesture listener to re-arm history guard on ANY user interaction on collections screen
+    ['touchstart', 'pointerdown', 'click', 'scroll'].forEach(evtType => {
       window.addEventListener(evtType, () => {
         if (currentActiveScreen === 'collections') {
           rearmExitGuard();
