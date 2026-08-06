@@ -624,15 +624,17 @@
       position: fixed;
       bottom: 72px;
       left: 50%;
-      transform: translateX(-50%) translateY(160%);
+      transform: translateX(-50%) translateY(300%);
+      opacity: 0;
       width: calc(100% - 32px);
       max-width: 440px;
       z-index: 99;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
       pointer-events: none;
     }
     .welcome-back-toast.active {
       transform: translateX(-50%) translateY(0);
+      opacity: 1;
       pointer-events: auto;
     }
     .welcome-back-card {
@@ -1083,7 +1085,10 @@
 
     function showWelcomeToast() { 
       if (welcomeBackToast) {
-        welcomeBackToast.classList.add('active'); 
+        welcomeBackToast.style.display = 'block';
+        setTimeout(() => {
+          welcomeBackToast.classList.add('active');
+        }, 10);
         clearTimeout(welcomeToastTimer);
         welcomeToastTimer = setTimeout(() => {
           hideWelcomeToast();
@@ -1093,7 +1098,12 @@
 
     function hideWelcomeToast() { 
       if (welcomeBackToast) {
-        welcomeBackToast.classList.remove('active'); 
+        welcomeBackToast.classList.remove('active');
+        setTimeout(() => {
+          if (!welcomeBackToast.classList.contains('active')) {
+            welcomeBackToast.style.display = 'none';
+          }
+        }, 360);
       }
     }
 
