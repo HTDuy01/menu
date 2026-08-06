@@ -618,6 +618,53 @@
       font-size: 14px;
       cursor: pointer;
     }
+
+    /* WELCOME BACK TOAST FOR W3C UNIVERSAL REPEAT SCANS */
+    .welcome-back-toast {
+      position: fixed;
+      bottom: 72px;
+      left: 50%;
+      transform: translateX(-50%) translateY(160%);
+      width: calc(100% - 32px);
+      max-width: 440px;
+      z-index: 99;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .welcome-back-toast.active {
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .welcome-back-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-glass);
+      font-family: var(--font-sans);
+    }
+    .welcome-back-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-welcome-explore {
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 99px;
+      padding: 8px 16px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(44, 40, 37, 0.25);
+    }
   </style>
 </head>
 <body>
@@ -768,6 +815,20 @@
     </div>
   </div>
 
+  <!-- Welcome Back Toast for W3C Universal Repeat Scans -->
+  <div class="welcome-back-toast" id="welcome-back-toast">
+    <div class="welcome-back-card">
+      <div class="welcome-back-info">
+        <span style="font-size: 18px;">👋</span>
+        <div>
+          <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main);" id="ui-welcome-back-title">Chào mừng bạn quay lại!</div>
+          <div style="font-size: 11.5px; color: var(--text-body); font-weight: 500;" id="ui-welcome-back-desc">Chạm để xem thực đơn</div>
+        </div>
+      </div>
+      <button class="btn-welcome-explore" id="btn-welcome-explore">Xem thực đơn</button>
+    </div>
+  </div>
+
   <script>
     // ==========================================================================
     // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE
@@ -815,7 +876,10 @@
         exitTitle: 'Xác nhận thoát Menu',
         exitMsg: 'Bạn có chắc chắn muốn rời khỏi Thực đơn không?',
         btnStay: 'Ở lại Menu',
-        btnExit: 'Thoát ngay'
+        btnExit: 'Thoát ngay',
+        welcomeBackTitle: 'Chào mừng bạn quay lại!',
+        welcomeBackDesc: 'Chạm để xem thực đơn',
+        btnExplore: 'Xem thực đơn'
       },
       en: {
         pillCode: 'EN',
@@ -840,7 +904,10 @@
         exitTitle: 'Exit Menu Confirmation',
         exitMsg: 'Are you sure you want to leave the Digital Menu?',
         btnStay: 'Stay on Menu',
-        btnExit: 'Exit Now'
+        btnExit: 'Exit Now',
+        welcomeBackTitle: 'Welcome back!',
+        welcomeBackDesc: 'Tap to explore menu',
+        btnExplore: 'Explore menu'
       },
       fr: {
         pillCode: 'FR',
@@ -865,7 +932,10 @@
         exitTitle: 'Quitter le Menu',
         exitMsg: 'Êtes-vous sûr de vouloir quitter le Menu Digital ?',
         btnStay: 'Rester',
-        btnExit: 'Quitter'
+        btnExit: 'Quitter',
+        welcomeBackTitle: 'Bon retour !',
+        welcomeBackDesc: 'Appuyez pour explorer le menu',
+        btnExplore: 'Explorer'
       },
       ru: {
         pillCode: 'RU',
@@ -890,7 +960,10 @@
         exitTitle: 'Выход из меню',
         exitMsg: 'Вы уверены, что хотите покинуть цифровое меню?',
         btnStay: 'Остаться',
-        btnExit: 'Выйти'
+        btnExit: 'Выйти',
+        welcomeBackTitle: 'С возвращением!',
+        welcomeBackDesc: 'Нажмите, чтобы открыть меню',
+        btnExplore: 'В меню'
       }
     };
 
@@ -993,6 +1066,8 @@
 
     const langModal = document.getElementById('lang-modal');
     const exitModal = document.getElementById('exit-modal');
+    const welcomeBackToast = document.getElementById('welcome-back-toast');
+    const btnWelcomeExplore = document.getElementById('btn-welcome-explore');
     const openLangBtn = document.getElementById('open-lang-btn');
     const btnConfirmLang = document.getElementById('btn-confirm-lang');
     const btnStayMenu = document.getElementById('btn-stay-menu');
@@ -1001,21 +1076,25 @@
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    // UNCONDITIONAL HISTORY GUARD ON MAIN MENU SCREEN
-    function setupHistoryGuard() {
+    function showWelcomeToast() { if (welcomeBackToast) welcomeBackToast.classList.add('active'); }
+    function hideWelcomeToast() { if (welcomeBackToast) welcomeBackToast.classList.remove('active'); }
+
+    function activateUniversalHistoryGuard() {
       try {
         if (location.hash !== '#menu') {
           history.pushState({ screen: 'collections' }, '', '#menu');
         }
       } catch(e) {}
+      hideWelcomeToast();
+    }
+
+    // UNCONDITIONAL HISTORY GUARD ON MAIN MENU SCREEN
+    function setupHistoryGuard() {
+      activateUniversalHistoryGuard();
     }
 
     function rearmExitGuard() {
-      try {
-        if (currentActiveScreen === 'collections' && location.hash !== '#menu') {
-          history.pushState({ screen: 'collections' }, '', '#menu');
-        }
-      } catch(e) {}
+      activateUniversalHistoryGuard();
     }
 
     // SWITCH SCREEN SYSTEM WITH ERROR BOUNDARY
@@ -1093,10 +1172,10 @@
     });
 
     // Touch / Pointer / Scroll gesture listener to re-arm history guard on ANY user interaction on collections screen
-    ['touchstart', 'pointerdown', 'click', 'scroll'].forEach(evtType => {
+    ['touchstart', 'pointerdown', 'click', 'scroll', 'touchmove'].forEach(evtType => {
       window.addEventListener(evtType, () => {
         if (currentActiveScreen === 'collections') {
-          rearmExitGuard();
+          activateUniversalHistoryGuard();
         }
       }, { passive: true });
     });
@@ -1116,7 +1195,15 @@
             showModal();
           }, 150);
         } else {
-          setupHistoryGuard();
+          setTimeout(() => {
+            showWelcomeToast();
+          }, 250);
+        }
+
+        if (btnWelcomeExplore) {
+          btnWelcomeExplore.addEventListener('click', () => {
+            activateUniversalHistoryGuard();
+          });
         }
 
         if (openLangBtn) openLangBtn.addEventListener('click', showModal);
@@ -1244,6 +1331,14 @@
 
       if (btnStayMenu) btnStayMenu.textContent = t.btnStay;
       if (btnConfirmExit) btnConfirmExit.textContent = t.btnExit;
+
+      const uiWelcomeTitle = document.getElementById('ui-welcome-back-title');
+      if (uiWelcomeTitle) uiWelcomeTitle.textContent = t.welcomeBackTitle;
+
+      const uiWelcomeDesc = document.getElementById('ui-welcome-back-desc');
+      if (uiWelcomeDesc) uiWelcomeDesc.textContent = t.welcomeBackDesc;
+
+      if (btnWelcomeExplore) btnWelcomeExplore.textContent = t.btnExplore;
 
       if (rawPosData) {
         normalizePosData(rawPosData);
