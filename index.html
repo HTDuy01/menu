@@ -825,7 +825,10 @@
           <div style="font-size: 11.5px; color: var(--text-body); font-weight: 500;" id="ui-welcome-back-desc">Chạm để xem thực đơn</div>
         </div>
       </div>
-      <button class="btn-welcome-explore" id="btn-welcome-explore">Xem thực đơn</button>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button class="btn-welcome-explore" id="btn-welcome-explore">Xem thực đơn</button>
+        <button style="background: transparent; border: none; font-size: 16px; color: var(--text-muted); cursor: pointer; padding: 4px;" onclick="activateUniversalHistoryGuard()">✕</button>
+      </div>
     </div>
   </div>
 
@@ -1076,17 +1079,32 @@
     const searchInputField = document.getElementById('search-input-field');
     const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
 
-    function showWelcomeToast() { if (welcomeBackToast) welcomeBackToast.classList.add('active'); }
-    function hideWelcomeToast() { if (welcomeBackToast) welcomeBackToast.classList.remove('active'); }
+    let welcomeToastTimer = null;
 
-    function activateUniversalHistoryGuard() {
+    function showWelcomeToast() { 
+      if (welcomeBackToast) {
+        welcomeBackToast.classList.add('active'); 
+        clearTimeout(welcomeToastTimer);
+        welcomeToastTimer = setTimeout(() => {
+          hideWelcomeToast();
+        }, 3200);
+      }
+    }
+
+    function hideWelcomeToast() { 
+      if (welcomeBackToast) {
+        welcomeBackToast.classList.remove('active'); 
+      }
+    }
+
+    window.activateUniversalHistoryGuard = function() {
       try {
         if (location.hash !== '#menu') {
           history.pushState({ screen: 'collections' }, '', '#menu');
         }
       } catch(e) {}
       hideWelcomeToast();
-    }
+    };
 
     // UNCONDITIONAL HISTORY GUARD ON MAIN MENU SCREEN
     function setupHistoryGuard() {
