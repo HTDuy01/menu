@@ -1104,14 +1104,21 @@
 
     async function init() {
       try {
-        setupHistoryGuard();
-
         normalizePosData(FALLBACK_POS_DATA);
         applyTranslations();
         switchOliveScreen('collections', false);
 
         await fetchLivePosData();
         applyTranslations();
+
+        const isLangChosen = localStorage.getItem('gm_menu_lang_chosen');
+        if (!isLangChosen) {
+          setTimeout(() => {
+            showModal();
+          }, 150);
+        } else {
+          setupHistoryGuard();
+        }
 
         if (openLangBtn) openLangBtn.addEventListener('click', showModal);
         if (btnConfirmLang) btnConfirmLang.addEventListener('click', confirmLanguageSelection);
@@ -1479,11 +1486,14 @@
       localStorage.setItem('gm_menu_lang', currentLang);
       localStorage.setItem('gm_menu_lang_chosen', 'true');
       applyTranslations();
+      setupHistoryGuard();
       hideModal();
     };
 
     function confirmLanguageSelection() { 
+      localStorage.setItem('gm_menu_lang_chosen', 'true');
       applyTranslations();
+      setupHistoryGuard();
       hideModal(); 
     }
 
