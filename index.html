@@ -795,24 +795,34 @@
 
     function applyTranslations() {
       const t = getT();
-      document.getElementById('ui-greeting').innerText = t.greeting;
-      document.getElementById('ui-table-badge').innerText = getTableLabel();
-      document.getElementById('input-search').placeholder = t.searchPlaceholder;
-      document.getElementById('label-section-products').innerText = t.featuredTitle;
+      const elGreeting = document.getElementById('ui-greeting');
+      if (elGreeting) elGreeting.innerText = t.greeting;
+      const elTableBadge = document.getElementById('ui-table-badge');
+      if (elTableBadge) elTableBadge.innerText = getTableLabel();
+      const elSearch = document.getElementById('input-search');
+      if (elSearch) elSearch.placeholder = t.searchPlaceholder;
+      const elSecProd = document.getElementById('label-section-products');
+      if (elSecProd) elSecProd.innerText = t.featuredTitle;
       const btnV = document.getElementById('btn-view-all-featured');
       if (btnV) btnV.innerText = t.viewAll;
-      document.getElementById('label-section-forfait').innerText = t.comboSectionTitle;
+      const elSecForfait = document.getElementById('label-section-forfait');
+      if (elSecForfait) elSecForfait.innerText = t.comboSectionTitle;
       const btnViewCombo = document.getElementById('btn-view-all-combo');
       if (btnViewCombo) btnViewCombo.innerText = t.viewAll;
-      document.getElementById('label-section-all').innerText = t.allMenuTitle;
-      document.getElementById('label-help-title').innerText = t.helpTitle;
-      document.getElementById('label-help-desc').innerText = t.helpDesc;
+      const elSecAll = document.getElementById('label-section-all');
+      if (elSecAll) elSecAll.innerText = t.allMenuTitle;
+      const elHelpTitle = document.getElementById('label-help-title');
+      if (elHelpTitle) elHelpTitle.innerText = t.helpTitle;
+      const elHelpDesc = document.getElementById('label-help-desc');
+      if (elHelpDesc) elHelpDesc.innerText = t.helpDesc;
       const uiNavHome = document.getElementById('ui-nav-home');
       if (uiNavHome) uiNavHome.innerText = t.navHome;
       const uiNavSearch = document.getElementById('ui-nav-search');
       if (uiNavSearch) uiNavSearch.innerText = t.navSearch;
-      document.getElementById('ui-modal-price-label').innerText = t.priceLabel;
-      document.getElementById('btn-detail-close-action').innerText = t.closeBtn;
+      const elModalPrice = document.getElementById('ui-modal-price-label');
+      if (elModalPrice) elModalPrice.innerText = t.priceLabel;
+      const btnDetailClose = document.getElementById('btn-detail-close-action');
+      if (btnDetailClose) btnDetailClose.innerText = t.closeBtn;
       renderComboBanners();
     }
 
