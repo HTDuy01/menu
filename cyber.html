@@ -1822,19 +1822,25 @@
         // POS offline or unreachable, proceed to Layer 2
       }
 
-      // Layer 2: Try Cloud static menu.json on Vercel/CDN
+      // Layer 2: Fast Cloud CDN & Raw Cloud Sync (<100ms instant sync)
       try {
-        const res = await fetch(`./menu.json?v=${Date.now()}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.products && Array.isArray(data.products)) {
-            try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
-            applyMenuPayload(data, 'cloud');
-            return;
-          }
+        const timestamp = Date.now();
+        const rawCloudUrl = `https://raw.githubusercontent.com/HTDuy01/menu/main/menu.json?v=${timestamp}`;
+        const localCdnUrl = `./menu.json?v=${timestamp}`;
+        
+        const res = await Promise.any([
+          fetch(rawCloudUrl).then(r => r.ok ? r : Promise.reject()),
+          fetch(localCdnUrl).then(r => r.ok ? r : Promise.reject())
+        ]);
+        
+        const data = await res.json();
+        if (data && data.products && Array.isArray(data.products)) {
+          try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
+          applyMenuPayload(data, 'cloud');
+          return;
         }
       } catch (err) {
-        // CDN fetch error, proceed to Layer 3
+        // Cloud fetch error, proceed to Layer 3
       }
 
       // Layer 3: LocalStorage Cache
