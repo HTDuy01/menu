@@ -205,8 +205,8 @@
           </div>
         </div>
 
-        <!-- Touch & Auto-scroll Infinite Loop Carousel Container -->
-        <div id="featured-products-carousel" class="flex items-stretch gap-3 overflow-x-auto no-scrollbar py-1 px-0.5 select-none">
+        <!-- Touch & Auto-scroll Infinite Loop Carousel Container (Exactly 2 items per view) -->
+        <div id="featured-products-carousel" class="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory py-1 px-0 select-none">
           <!-- Injected via JS -->
         </div>
 
@@ -443,9 +443,11 @@
     let POS_PRODUCTS = [
       {
         id: 1,
+        name: 'Latte',
         nameVi: 'Cà Phê Latte',
         nameEn: 'Caffè Latte',
         nameFr: 'Café Latte',
+        badge: '☕ Đậm Vị',
         badgeVi: '☕ Đậm Vị',
         badgeEn: '☕ Signature',
         badgeFr: '☕ Signature',
@@ -457,6 +459,7 @@
         emoji: '☕',
         image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: true,
         descVi: 'Cà phê Latte thơm béo với shot Espresso Arabica Cầu Đất hòa quyện lớp sữa tươi nóng đánh bọt mịn.',
         descEn: 'Silky smooth espresso with freshly steamed whole milk and a delicate layer of velvety microfoam.',
         descFr: 'Expresso velouté pur Arabica mélangé à du lait chaud onctueux et recouvert d’une fine mousse de lait.',
@@ -466,9 +469,11 @@
       },
       {
         id: 2,
+        name: 'Cappuccino',
         nameVi: 'Cà Phê Cappuccino',
         nameEn: 'Italian Cappuccino',
         nameFr: 'Cappuccino Italien',
+        badge: '☕ Bọt Mịn',
         badgeVi: '☕ Bọt Mịn',
         badgeEn: '☕ Thick Foam',
         badgeFr: '☕ Mousse Épaisse',
@@ -480,6 +485,7 @@
         emoji: '☕',
         image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: true,
         descVi: 'Cà phê Cappuccino truyền thống với tỷ lệ cân bằng hoàn hảo giữa Espresso, sữa nóng và bọt sữa dày rắc bột cacao.',
         descEn: 'Classic Italian cappuccino with equal parts espresso, steamed milk, and rich thick foam dusted with cacao.',
         descFr: 'Cappuccino traditionnel à base d’expresso, de lait chaud et d’une épaisse couche de mousse saupoudrée de cacao.',
@@ -489,9 +495,11 @@
       },
       {
         id: 3,
+        name: 'Americano',
         nameVi: 'Cà Phê Americano',
         nameEn: 'Caffè Americano',
         nameFr: 'Café Americano',
+        badge: '☕ Thanh Nhẹ',
         badgeVi: '☕ Thanh Nhẹ',
         badgeEn: '☕ Clean Roast',
         badgeFr: '☕ Léger',
@@ -503,6 +511,7 @@
         emoji: '☕',
         image: 'https://images.unsplash.com/photo-1551046713-b45fdb3799d5?w=300&auto=format&fit=crop&q=80',
         available: false, // SOLD OUT IN POS
+        isFeatured: false,
         descVi: 'Cà phê Americano thanh tao, chiết xuất từ 2 shot Espresso đậm đà pha loãng với nước nóng tinh khiết.',
         descEn: 'Double shot of espresso diluted with hot filtered mineral water for a clean, rich coffee finish.',
         descFr: 'Double shot d’expresso allongé à l’eau minérale chaude pour une dégustation équilibrée et légère.',
@@ -512,9 +521,11 @@
       },
       {
         id: 4,
+        name: 'Espresso',
         nameVi: 'Cà Phê Espresso',
         nameEn: 'Single Origin Espresso',
         nameFr: 'Expresso Pur Origine',
+        badge: '☕ Đậm Đặc',
         badgeVi: '☕ Đậm Đặc',
         badgeEn: '☕ Pure Roast',
         badgeFr: '☕ Intense',
@@ -526,6 +537,7 @@
         emoji: '☕',
         image: 'https://images.unsplash.com/photo-1510707572719-ddb8775f0b7b?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Shot cà phê Espresso chiết xuất áp suất cao, lưu giữ trọn vẹn lớp crema vàng óng và hương thơm nồng nàn.',
         descEn: 'Intense and concentrated single espresso shot extracted under high pressure with golden crema.',
         descFr: 'Expresso concentré extrait à haute pression avec une crema dorée et des arômes intenses.',
@@ -535,9 +547,11 @@
       },
       {
         id: 5,
+        name: 'Mocha',
         nameVi: 'Cà Phê Mocha',
         nameEn: 'Caffè Mocha Signature',
         nameFr: 'Café Mocha Chocolat',
+        badge: '⭐ Bán Chạy',
         badgeVi: '⭐ Bán Chạy',
         badgeEn: '⭐ Best Seller',
         badgeFr: '⭐ Populaire',
@@ -549,6 +563,7 @@
         emoji: '☕',
         image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: true,
         descVi: 'Sự hòa quyện tuyệt hảo giữa sốt socola Cacao đen, sữa đặc ngọt ngào và shot cà phê Espresso đậm vị.',
         descEn: 'A luscious blend of premium dark cacao chocolate, condensed milk, fresh milk, and bold espresso.',
         descFr: 'Harmonie gourmande entre chocolat noir cacao pur, lait concentré onctueux et shot d’expresso corsé.',
@@ -558,9 +573,11 @@
       },
       {
         id: 6,
+        name: 'Matcha Latte',
         nameVi: 'Trà Xanh Matcha Latte',
         nameEn: 'Uji Matcha Green Tea Latte',
         nameFr: 'Matcha Latte Uji Bio',
+        badge: '🍵 Uji Kyoto',
         badgeVi: '🍵 Uji Kyoto',
         badgeEn: '🍵 Uji Kyoto',
         badgeFr: '🍵 Uji Kyoto',
@@ -572,6 +589,7 @@
         emoji: '🍵',
         image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: true,
         descVi: 'Bột trà xanh Matcha Uji thượng hạng từ Nhật Bản đánh tay truyền thống, kết hợp sữa tươi thanh trùng béo ngậy.',
         descEn: 'Authentic ceremonial Japanese green tea matcha whisked with fresh whole milk and a touch of sweetness.',
         descFr: 'Matcha traditionnel d’Uji Kyoto fouetté à la main, associé au lait frais entier doux và onctueux.',
@@ -581,9 +599,11 @@
       },
       {
         id: 7,
+        name: 'Milk Tea',
         nameVi: 'Trà Sữa Truyền Thống',
         nameEn: 'Classic Ceylon Milk Tea',
         nameFr: 'Thé au Lait Ceylon',
+        badge: '🧋 Truyền Thống',
         badgeVi: '🧋 Truyền Thống',
         badgeEn: '🧋 Ceylon Brew',
         badgeFr: '🧋 Ceylon Pur',
@@ -595,6 +615,7 @@
         emoji: '🧋',
         image: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Trà sữa truyền thống đậm vị trà đen Ceylon, hậu ngọt thanh mát và vị béo thơm đặc trưng của sữa.',
         descEn: 'Classic brew of premium Ceylon black tea blended smoothly with rich dairy milk.',
         descFr: 'Infusion classique de thé noir de Ceylan combinée délicatement au lait riche et parfumé.',
@@ -604,9 +625,11 @@
       },
       {
         id: 8,
+        name: 'Orange Juice',
         nameVi: 'Nước Cam Tươi',
         nameEn: 'Fresh Squeezed Orange Juice',
         nameFr: 'Jus d’Orange Pressé Frais',
+        badge: '🌿 100% Tươi',
         badgeVi: '🌿 100% Tươi',
         badgeEn: '🌿 100% Fresh',
         badgeFr: '🌿 100% Frais',
@@ -618,6 +641,7 @@
         emoji: '🍊',
         image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: true,
         descVi: '100% Nước cam sành tươi mọng nước vắt trực tiếp theo đơn, giữ trọn vẹn vitamin C tự nhiên.',
         descEn: '100% Pure freshly squeezed orange juice, full of natural vitamins with no added preservatives.',
         descFr: 'Jus d’orange 100% pur pressé minute à la commande, riche en vitamines sans conservateurs.',
@@ -627,9 +651,11 @@
       },
       {
         id: 9,
+        name: 'Croissant',
         nameVi: 'Bánh Sừng Bò Croissant',
         nameEn: 'French Butter Croissant',
         nameFr: 'Croissant Pur Beurre',
+        badge: '🥐 Bơ Pháp',
         badgeVi: '🥐 Bơ Pháp',
         badgeEn: '🥐 French Butter',
         badgeFr: '🥐 Pur Beurre',
@@ -641,6 +667,7 @@
         emoji: '🥐',
         image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Bánh sừng bò bơ Pháp ngàn lớp vàng ươm, vỏ giòn rụm và ruột mềm xốp thơm ngậy mùi bơ.',
         descEn: 'Traditional French golden croissant with crisp flaky layers baked freshly with pure butter.',
         descFr: 'Croissant feuilleté doré au beurre d’Isigny AOP, croustillant à l’extérieur et aéré à l’intérieur.',
@@ -650,9 +677,11 @@
       },
       {
         id: 10,
+        name: 'Pancake',
         nameVi: 'Bánh Kếp Mật Ong Pancake',
         nameEn: 'Honey Butter Pancakes',
         nameFr: 'Pancakes au Miel & Beurre',
+        badge: '🥞 Mật Ong',
         badgeVi: '🥞 Mật Ong',
         badgeEn: '🥞 Honey Butter',
         badgeFr: '🥞 Miel Pur',
@@ -664,6 +693,7 @@
         emoji: '🥞',
         image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Bánh kếp mềm xốp vàng ươm xếp lớp, phủ miếng bơ lạt béo ngậy và rưới mật ong hoa rừng ngọt dịu.',
         descEn: 'Stack of fluffy golden buttermilk pancakes served with butter and pure natural forest honey.',
         descFr: 'Moelleux pancakes dorés superposés, servis avec une noisette de beurre doux et miel sauvage.',
@@ -673,9 +703,11 @@
       },
       {
         id: 11,
+        name: 'Sandwich',
         nameVi: 'Bánh Mì Kẹp Sandwich',
         nameEn: 'Gourmet Ham & Cheese Sandwich',
         nameFr: 'Sandwich Gourmet Jambon Fromage',
+        badge: '🥪 Nóng Giòn',
         badgeVi: '🥪 Nóng Giòn',
         badgeEn: '🥪 Crispy Toasted',
         badgeFr: '🥪 Grillé',
@@ -687,6 +719,7 @@
         emoji: '🥪',
         image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Bánh mì sandwich nướng giòn rụm kẹp thịt nguội cao cấp, phô mai Cheddar tan chảy, xà lách và cà chua tươi.',
         descEn: 'Toasted gourmet sandwich with smoked ham, melted cheddar cheese, crisp lettuce and fresh tomato.',
         descFr: 'Sandwich grillé croustillant garni de jambon fumé, cheddar fondant, laitue croquante et tomates fraîches.',
@@ -696,9 +729,11 @@
       },
       {
         id: 12,
+        name: 'Combo Breakfast',
         nameVi: 'Combo Bữa Sáng Đặc Biệt',
         nameEn: 'Good Morning Breakfast Combo',
         nameFr: 'Forfait Petit-Déjeuner Origine',
+        badge: '⭐ Combo Hot',
         badgeVi: '⭐ Combo Hot',
         badgeEn: '⭐ Best Combo',
         badgeFr: '⭐ Formule Vedette',
@@ -710,6 +745,7 @@
         emoji: '⭐',
         image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
         available: true,
+        isFeatured: false,
         descVi: 'Combo bữa sáng hoàn hảo bán chạy nhất: 1 Bánh Sandwich / Croissant thơm ngon + 1 Ly Cà phê / Trà / Nước ép tùy chọn.',
         descEn: 'Best-selling breakfast set: Choice of 1 fresh Sandwich or Croissant + 1 Coffee or Fresh Fruit Juice.',
         descFr: 'Formule petit-déjeuner vedette: 1 Sandwich ou Croissant au choix + 1 Café d’exception ou Jus de fruits pressé.',
@@ -998,29 +1034,88 @@
       }).join('');
     }
 
+    let featuredAutoSlideTimer = null;
+    let userIdleResumeTimer = null;
+    let isUserInteractingWithCarousel = false;
+    let isProgrammaticScrolling = false;
+    let currentFeaturedIndex = 0;
+    let lastFeaturedFingerprint = '';
+
     function getFeaturedItems() {
       // 1. Prioritize dishes explicitly marked as isFeatured in POS!
-      const featured = POS_PRODUCTS.filter(i => i.isFeatured === true);
+      const featured = POS_PRODUCTS.filter(i => i.isFeatured === true && i.available !== false);
       if (featured.length > 0) return featured;
 
       // 2. Fallback to signature dishes
       const signatureIds = [5, 1, 6, 9, 10, 8];
-      const items = POS_PRODUCTS.filter(i => signatureIds.includes(i.id));
-      return items.length > 0 ? items : POS_PRODUCTS.slice(0, 6);
+      const items = POS_PRODUCTS.filter(i => signatureIds.includes(i.id) && i.available !== false);
+      return items.length > 0 ? items : POS_PRODUCTS.filter(i => i.available !== false).slice(0, 6);
     }
 
-    function renderFeaturedCarousel() {
+    function getSlideStep() {
+      const container = document.getElementById('featured-products-carousel');
+      if (!container) return 170;
+      const firstCard = container.querySelector('.featured-slide-card');
+      if (firstCard && firstCard.offsetWidth > 0) {
+        return firstCard.offsetWidth + 12; // 12px gap-3
+      }
+      return (container.offsetWidth - 12) / 2 + 12;
+    }
+
+    function renderFeaturedCarousel(force = false) {
       const container = document.getElementById('featured-products-carousel');
       const dotsContainer = document.getElementById('featured-carousel-dots');
       if (!container) return;
 
       const featured = getFeaturedItems();
-      if (featured.length === 0) return;
+      if (featured.length === 0) {
+        container.innerHTML = '';
+        if (dotsContainer) dotsContainer.innerHTML = '';
+        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
+        return;
+      }
 
-      // Render 4 sets of items for 100% seamless circular infinite loop (không bao giờ giật ngược)
-      const loopedItems = [...featured, ...featured, ...featured, ...featured];
+      // Compute fingerprint to avoid unnecessary DOM recreation during 4s sync polling
+      const currentFingerprint = JSON.stringify(featured.map(i => [
+        i.id, i.price, i.name || i.nameVi, i.image, i.badge || '', i.badgeVi || '',
+        i.badgeEn || '', i.badgeFr || '', i.available, currentLanguage, currentCurrency
+      ]));
+      if (!force && currentFingerprint === lastFeaturedFingerprint && container.children.length > 0) {
+        return; // Data hasn't changed, keep current carousel and scroll position intact!
+      }
+      lastFeaturedFingerprint = currentFingerprint;
 
-      // Render Slide Cards with Badges (Compact height, sleek 3D food photo)
+      if (featured.length === 1) {
+        // Single featured item: display full width without infinite clone loop or dots
+        const item = featured[0];
+        const title = getItemName(item);
+        const sub = getItemCategoryName(item);
+        const badge = getItemBadge(item);
+
+        container.innerHTML = `
+          <article onclick="openDishDetail(${item.id})" class="featured-slide-card group w-full bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+            <div class="floating-dish-wrapper w-full h-28 p-1 mb-1 flex items-center justify-center relative">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
+              <div class="floating-ground-shadow"></div>
+              ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs border border-gray-200/60 font-mono z-10">${badge}</span>` : ''}
+            </div>
+            <div class="space-y-0.5 mt-0.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] font-bold text-gray-400 font-mono uppercase tracking-wider truncate max-w-[120px]">${sub}</span>
+                <span class="text-[12px] font-black text-black font-mono">${formatPrice(item.price)}</span>
+              </div>
+              <h3 class="text-sm font-black text-black tracking-tight truncate leading-tight">${title}</h3>
+            </div>
+          </article>
+        `;
+        if (dotsContainer) dotsContainer.innerHTML = '';
+        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
+        return;
+      }
+
+      // Render 3 buffer sets: Set 0 (left), Set 1 (middle active), Set 2 (right)
+      const loopedItems = [...featured, ...featured, ...featured];
+
       container.innerHTML = loopedItems.map((item, idx) => {
         const title = getItemName(item);
         const sub = getItemCategoryName(item);
@@ -1028,7 +1123,7 @@
         const realIdx = idx % featured.length;
 
         return `
-          <article onclick="openDishDetail(${item.id})" data-real-index="${realIdx}" class="featured-slide-card group w-[calc(50%-6px)] shrink-0 bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+          <article onclick="openDishDetail(${item.id})" data-real-index="${realIdx}" class="featured-slide-card snap-start snap-always group w-[calc(50%-6px)] min-w-[calc(50%-6px)] max-w-[calc(50%-6px)] shrink-0 bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
             <!-- 3D Floating Cutout Compact Wrapper -->
             <div class="floating-dish-wrapper w-full h-24 p-1 mb-1 flex items-center justify-center relative">
               <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
@@ -1049,75 +1144,102 @@
       }).join('');
 
       // Render Pagination Dots (for the unique items)
+      currentFeaturedIndex = currentFeaturedIndex % featured.length;
       if (dotsContainer) {
         dotsContainer.innerHTML = featured.map((_, idx) => `
           <button onclick="goToFeaturedSlide(${idx})" aria-label="Slide ${idx + 1}" class="carousel-dot-btn transition-all duration-300 cursor-pointer ${
-            idx === 0 ? 'w-5 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
+            idx === currentFeaturedIndex ? 'w-5 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
           }"></button>
         `).join('');
       }
 
-      // Initialize scroll position to the 2nd set (smooth middle buffer)
+      // Initialize scroll position to the 2nd set (middle buffer) at currentFeaturedIndex
       requestAnimationFrame(() => {
         const step = getSlideStep();
-        const singleSetWidth = featured.length * step;
+        const targetLeft = (featured.length + currentFeaturedIndex) * step;
+        container.style.scrollSnapType = 'none';
         container.style.scrollBehavior = 'auto';
-        container.scrollLeft = singleSetWidth;
+        container.scrollLeft = targetLeft;
+        void container.offsetWidth;
+        container.style.scrollSnapType = 'x mandatory';
       });
 
       setupCarouselListeners();
       startAutoSlide();
     }
 
-    function getSlideStep() {
-      const container = document.getElementById('featured-products-carousel');
-      if (!container) return 170;
-      const firstCard = container.querySelector('.featured-slide-card');
-      return firstCard ? (firstCard.offsetWidth + 12) : ((container.offsetWidth - 12) / 2 + 12);
-    }
-
     function nextFeaturedSlide() {
       const container = document.getElementById('featured-products-carousel');
       if (!container || isUserInteractingWithCarousel) return;
       const featured = getFeaturedItems();
-      if (featured.length <= 1) return;
+      const N = featured.length;
+      if (N <= 1) return;
 
       const step = getSlideStep();
-      const singleSetWidth = featured.length * step;
+      if (step <= 0) return;
 
-      // Silent wrap: If approaching set 3, seamlessly jump back to set 2 without animation
-      if (container.scrollLeft >= singleSetWidth * 2.5) {
-        container.style.scrollBehavior = 'auto';
-        container.scrollLeft -= singleSetWidth;
-      }
+      isProgrammaticScrolling = true;
+      currentFeaturedIndex++;
 
-      requestAnimationFrame(() => {
-        container.style.scrollBehavior = 'smooth';
-        container.scrollBy({ left: step, behavior: 'smooth' });
-      });
+      const targetLeft = (N + currentFeaturedIndex) * step;
+      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      updateCarouselDots(currentFeaturedIndex % N);
+
+      // When the smooth forward slide completes, seamlessly normalize position to Set 1 (0ms silent teleport)
+      setTimeout(() => {
+        if (currentFeaturedIndex >= N) {
+          currentFeaturedIndex = currentFeaturedIndex % N;
+          const resetLeft = (N + currentFeaturedIndex) * step;
+          container.style.scrollSnapType = 'none';
+          container.style.scrollBehavior = 'auto';
+          container.scrollLeft = resetLeft;
+          void container.offsetWidth;
+          container.style.scrollSnapType = 'x mandatory';
+        }
+        isProgrammaticScrolling = false;
+      }, 450);
     }
 
     function goToFeaturedSlide(realIndex) {
       const container = document.getElementById('featured-products-carousel');
       if (!container) return;
-      handleUserCarouselActivity();
+      pauseCarouselForUserActivity();
+
       const step = getSlideStep();
       const featured = getFeaturedItems();
-      const singleSetWidth = featured.length * step;
-      container.style.scrollBehavior = 'smooth';
-      container.scrollTo({ left: singleSetWidth + (realIndex * step), behavior: 'smooth' });
+      const N = featured.length;
+      if (N <= 1 || step <= 0) return;
+
+      currentFeaturedIndex = realIndex % N;
+      const targetLeft = (N + currentFeaturedIndex) * step;
+
+      isProgrammaticScrolling = true;
+      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      updateCarouselDots(currentFeaturedIndex);
+
+      setTimeout(() => {
+        isProgrammaticScrolling = false;
+      }, 450);
     }
 
-    function updateCarouselDots() {
+    function updateCarouselDots(forcedIdx = null) {
       const container = document.getElementById('featured-products-carousel');
       const dotsContainer = document.getElementById('featured-carousel-dots');
       if (!container || !dotsContainer) return;
 
       const featured = getFeaturedItems();
-      if (featured.length === 0) return;
-      const step = getSlideStep();
-      const rawIndex = Math.round(container.scrollLeft / step);
-      const activeIdx = ((rawIndex % featured.length) + featured.length) % featured.length;
+      const N = featured.length;
+      if (N <= 1) return;
+
+      let activeIdx;
+      if (forcedIdx !== null && forcedIdx !== undefined) {
+        activeIdx = ((forcedIdx % N) + N) % N;
+      } else {
+        const step = getSlideStep();
+        if (step <= 0) return;
+        const rawIndex = Math.round(container.scrollLeft / step);
+        activeIdx = ((rawIndex % N) + N) % N;
+      }
 
       const dots = dotsContainer.querySelectorAll('.carousel-dot-btn');
       dots.forEach((dot, idx) => {
@@ -1129,23 +1251,14 @@
       });
     }
 
-    let featuredAutoSlideTimer = null;
-    let userIdleResumeTimer = null;
-    let isUserInteractingWithCarousel = false;
-
-    function handleUserCarouselActivity() {
-      // 1. Immediately pause auto-slide while user is interacting / scrolling
+    function pauseCarouselForUserActivity() {
       isUserInteractingWithCarousel = true;
-
-      // 2. Clear any active countdown timer
       if (userIdleResumeTimer) {
         clearTimeout(userIdleResumeTimer);
       }
-
-      // 3. Resume auto-slide ONLY after 5 seconds of total inactivity
       userIdleResumeTimer = setTimeout(() => {
         isUserInteractingWithCarousel = false;
-      }, 5000);
+      }, 4000);
     }
 
     function setupCarouselListeners() {
@@ -1153,42 +1266,59 @@
       if (!container || container.hasAttribute('data-listeners-bound')) return;
       container.setAttribute('data-listeners-bound', 'true');
 
-      let scrollTimer;
+      let scrollEndDebounce;
       container.addEventListener('scroll', () => {
-        handleUserCarouselActivity();
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-          const featured = getFeaturedItems();
-          if (featured.length <= 1) return;
-          const step = getSlideStep();
-          const singleSetWidth = featured.length * step;
-
-          // Silent seamless boundaries wrap
-          if (container.scrollLeft >= singleSetWidth * 2.8) {
-            container.style.scrollBehavior = 'auto';
-            container.scrollLeft -= singleSetWidth;
-          } else if (container.scrollLeft <= singleSetWidth * 0.2) {
-            container.style.scrollBehavior = 'auto';
-            container.scrollLeft += singleSetWidth;
-          }
+        if (!isProgrammaticScrolling) {
+          pauseCarouselForUserActivity();
           updateCarouselDots();
-        }, 50);
+        }
+        clearTimeout(scrollEndDebounce);
+        scrollEndDebounce = setTimeout(() => {
+          if (!isProgrammaticScrolling) {
+            // User finished manual scroll: calibrate index and normalize buffer
+            const featured = getFeaturedItems();
+            const N = featured.length;
+            if (N > 1) {
+              const step = getSlideStep();
+              if (step > 0) {
+                const rawIndex = Math.round(container.scrollLeft / step);
+                currentFeaturedIndex = ((rawIndex % N) + N) % N;
+                updateCarouselDots(currentFeaturedIndex);
+
+                // If user scrolled into Set 0 or Set 2, silently warp back to Set 1
+                if (rawIndex < N || rawIndex >= 2 * N) {
+                  const resetLeft = (N + currentFeaturedIndex) * step;
+                  container.style.scrollSnapType = 'none';
+                  container.style.scrollBehavior = 'auto';
+                  container.scrollLeft = resetLeft;
+                  void container.offsetWidth;
+                  container.style.scrollSnapType = 'x mandatory';
+                }
+              }
+            }
+          }
+        }, 120);
       }, { passive: true });
 
-      // Touch & Mouse Event listeners for 5s inactivity detection
-      container.addEventListener('touchstart', handleUserCarouselActivity, { passive: true });
-      container.addEventListener('touchmove', handleUserCarouselActivity, { passive: true });
-      container.addEventListener('touchend', handleUserCarouselActivity, { passive: true });
-      container.addEventListener('pointerdown', handleUserCarouselActivity, { passive: true });
-      container.addEventListener('wheel', handleUserCarouselActivity, { passive: true });
+      // Direct touch / drag user events
+      const onUserStart = () => {
+        isProgrammaticScrolling = false;
+        pauseCarouselForUserActivity();
+      };
+      container.addEventListener('touchstart', onUserStart, { passive: true });
+      container.addEventListener('pointerdown', onUserStart, { passive: true });
+      container.addEventListener('mousedown', onUserStart, { passive: true });
+      container.addEventListener('wheel', onUserStart, { passive: true });
 
-      // Pause when user is scrolling the main page or searching
-      window.addEventListener('scroll', handleUserCarouselActivity, { passive: true });
-      document.addEventListener('touchmove', handleUserCarouselActivity, { passive: true });
+      container.addEventListener('touchend', pauseCarouselForUserActivity, { passive: true });
+      container.addEventListener('pointerup', pauseCarouselForUserActivity, { passive: true });
+      container.addEventListener('mouseup', pauseCarouselForUserActivity, { passive: true });
+
+      // Pause when user is interacting with page search
       const searchInput = document.getElementById('input-search');
       if (searchInput) {
-        searchInput.addEventListener('focus', handleUserCarouselActivity);
-        searchInput.addEventListener('input', handleUserCarouselActivity);
+        searchInput.addEventListener('focus', pauseCarouselForUserActivity);
+        searchInput.addEventListener('input', pauseCarouselForUserActivity);
       }
     }
 
@@ -1198,11 +1328,11 @@
         if (!isUserInteractingWithCarousel) {
           nextFeaturedSlide();
         }
-      }, 3200);
+      }, 3500);
     }
 
     function renderFeaturedGrid() {
-      renderFeaturedCarousel();
+      renderFeaturedCarousel(true);
     }
 
     function renderMenuList() {
@@ -1728,6 +1858,7 @@
       }
 
       // 2. Sync Categories dynamically
+      let categoriesChanged = false;
       if (data.categories && Array.isArray(data.categories)) {
         data.categories.forEach(catName => {
           if (!CATEGORIES.some(c => c.id === catName)) {
@@ -1737,6 +1868,7 @@
               en: getCategoryEn(catName),
               fr: getCategoryFr(catName)
             });
+            categoriesChanged = true;
           }
         });
       }
@@ -1780,7 +1912,16 @@
         };
       });
 
+      const getFeatSig = () => getFeaturedItems().map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
+      const getAllSig = () => POS_PRODUCTS.map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
+
+      const prevFeaturedSig = getFeatSig();
+      const prevAllSig = getAllSig();
+
       POS_PRODUCTS = updatedProducts;
+
+      const newFeaturedSig = getFeatSig();
+      const newAllSig = getAllSig();
 
       // 4. Update Status Badge
       const statusEl = document.getElementById('pos-status-badge');
@@ -1797,10 +1938,14 @@
         }
       }
 
-      renderCategories();
-      renderFeaturedCarousel();
-      renderComboBanners();
-      renderMenuList();
+      if (categoriesChanged || prevAllSig !== newAllSig) {
+        renderCategories();
+        renderComboBanners();
+        renderMenuList();
+      }
+      if (prevFeaturedSig !== newFeaturedSig) {
+        renderFeaturedCarousel(true);
+      }
     }
 
     async function syncLivePOSData() {
