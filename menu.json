@@ -137,7 +137,7 @@
       "descFr": "",
       "ingredientsEn": "",
       "ingredientsFr": "",
-      "isFeatured": false,
+      "isFeatured": true,
       "isComboBanner": true
     },
     {
@@ -157,7 +157,7 @@
       "descFr": "",
       "ingredientsEn": "",
       "ingredientsFr": "",
-      "isFeatured": false,
+      "isFeatured": true,
       "isComboBanner": true
     },
     {
@@ -298,5 +298,5 @@
     "logoUrl": ""
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-08-22T05:35:19.982Z"
+  "updatedAt": "2026-08-22T05:35:23.716Z"
 }
