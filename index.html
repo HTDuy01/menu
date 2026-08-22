@@ -1,1625 +1,2089 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="light">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#EAE4DC">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="Digital E-Menu">
-  <title>Digital Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Good Morning Café | Thực Đơn Điện Tử</title>
   
-  <!-- Typography: Playfair Display + Plus Jakarta Sans -->
+  <!-- Exact POS Font: Plus Jakarta Sans with full Vietnamese diacritics subset -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&subset=latin,vietnamese&display=swap" rel="stylesheet">
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            bgMain: '#F2F4F7',
+            cardBg: '#FFFFFF',
+            inkBlack: '#0D0E12',
+            inkMuted: '#8E8E93',
+            inkSubtle: '#6B7280',
+            pillBg: '#F0F2F5',
+            lineColor: '#E5E7EB',
+          },
+          boxShadow: {
+            'card': '0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
+            'card-hover': '0 20px 35px -8px rgba(0, 0, 0, 0.08), 0 10px 15px -7px rgba(0, 0, 0, 0.04)',
+            'floating': '0 15px 35px -5px rgba(0, 0, 0, 0.12)',
+          },
+          keyframes: {
+            fadeIn: {
+              'from': { opacity: '0', transform: 'translateY(4px)' },
+              'to': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideUp: {
+              'from': { opacity: '0', transform: 'translateY(100%)' },
+              'to': { opacity: '1', transform: 'translateY(0)' },
+            }
+          },
+          animation: {
+            fadeIn: 'fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            slideUp: 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    /* ==========================================================================
-       DYNAMIC STORE SETTINGS DRIVEN GLASSMORPHISM SYSTEM
-       ========================================================================== */
-    :root {
-      --bg-card-glass: rgba(255, 255, 255, 0.68);
-      --glass-border: rgba(255, 255, 255, 0.95);
-      
-      --text-main: #2C2825;          /* Warm Dark Charcoal */
-      --text-body: #4A443E;          /* Rich Body Text */
-      --text-muted: #7E776E;         /* Muted Gray-Brown */
-      --accent-olive: #4A5B3D;       /* Olive Green */
-      
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      
-      --shadow-glass: 
-        inset 0 1.5px 1px rgba(255, 255, 255, 0.95), 
-        inset 0 -1px 1px rgba(0, 0, 0, 0.03),
-        0 10px 28px rgba(160, 150, 135, 0.18);
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      scrollbar-width: none !important;
-    }
-
-    ::-webkit-scrollbar { display: none !important; }
-
-    html {
-      width: 100%;
-      height: 100%;
-      background-color: #EAE4DC;
-    }
-
-    /* BODY HAS TRANSPARENT BACKGROUND SO THE PSEUDO-ELEMENT PHOTO WALLPAPER IS 100% VISIBLE */
-    body {
-      width: 100%;
-      height: 100%;
-      min-height: 100dvh;
-      background: transparent !important;
-      color: var(--text-main);
-      font-family: var(--font-sans);
-      font-size: 14px;
-      line-height: 1.45;
-      overflow-x: hidden;
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    body {
+      background-color: #E2E6EC;
+      color: #0D0E12;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Floating Cutout Dish Realistic 3D Ground Shadow & Hover Lift (Exact Match with Mockup) */
+    .floating-dish-wrapper {
       position: relative;
-    }
-
-    /* FULL-SCREEN ARTISTIC BLURRED PHOTO WALLPAPER DIRECTLY ON BODY PSEUDO-ELEMENT */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: -10%;
-      width: 120%;
-      height: 120vh;
-      z-index: -1;
-      background: 
-        linear-gradient(rgba(234, 228, 220, 0.42), rgba(234, 228, 220, 0.42)),
-        url('https://images.unsplash.com/photo-1541167760496-1628856ab772?w=1600') center/cover no-repeat;
-      filter: blur(18px) brightness(0.95) contrast(1.05);
-      -webkit-filter: blur(18px) brightness(0.95) contrast(1.05);
-      transform: scale(1.05) translateZ(0);
-      -webkit-transform: scale(1.05) translateZ(0);
-      pointer-events: none;
-    }
-
-    /* Specular Lens Flare Beam (Bottom Right Corner) */
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -15%;
-      right: -15%;
-      width: 480px;
-      height: 480px;
-      z-index: -1;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0) 70%);
-      filter: blur(35px);
-      -webkit-filter: blur(35px);
-      pointer-events: none;
-    }
-
-    .app-container {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100dvh;
-      position: relative;
-      padding-bottom: 90px;
-    }
-
-    .hidden { display: none !important; }
-
-    /* ==========================================================================
-       SCREEN 1: MAIN MENU & COLLECTIONS
-       ========================================================================== */
-    .screen-main-collections {
-      padding: 24px 20px 30px;
-    }
-
-    .brand-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-
-    .olive-logo-icon {
-      width: 28px;
-      height: 28px;
-      color: var(--accent-olive);
-    }
-
-    .header-right-btns {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .lang-pill-btn {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 99px;
-      padding: 6px 16px;
-      font-family: var(--font-sans);
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: var(--shadow-glass);
-    }
-
-    .search-circle-icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-main);
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: var(--shadow-glass);
     }
-
-    /* MAIN TITLE MENU */
-    .menu-serif-headline {
-      font-family: var(--font-serif);
-      font-size: 44px;
-      font-weight: 400;
-      color: var(--text-main);
-      letter-spacing: -0.01em;
-      line-height: 1.05;
-      margin-bottom: 8px;
-      text-shadow: 0 1px 3px rgba(255,255,255,0.6);
-    }
-
-    /* DYNAMIC STORE NAME SUBTITLE */
-    .menu-welcome-text {
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      color: var(--text-body);
-      line-height: 1.45;
-      margin-bottom: 24px;
-      font-weight: 600;
-      text-shadow: 0 1px 2px rgba(255,255,255,0.4);
-    }
-
-    .collections-label-title {
-      font-family: var(--font-sans);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-main);
-      margin-bottom: 14px;
-    }
-
-    /* 2-COLUMN COLLECTION TILES */
-    .collections-grid-2col {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-
-    .collection-tile-card {
-      height: 145px;
-      border-radius: 20px;
+    .floating-dish-img {
       position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-glass);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.08));
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
     }
-
-    .collection-tile-card:active { transform: scale(0.97); }
-
-    .collection-tile-img {
+    .floating-ground-shadow {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: brightness(0.82) blur(1.5px);
-      transition: transform 0.4s ease;
-    }
-
-    .collection-tile-card:hover .collection-tile-img {
-      transform: scale(1.08);
-      filter: brightness(0.88) blur(0px);
-    }
-
-    .collection-tile-glass-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(30, 26, 22, 0.08) 0%, rgba(30, 26, 22, 0.62) 100%);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      padding: 16px;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .collection-tile-title {
-      font-family: var(--font-serif);
-      font-size: 18.5px;
-      font-weight: 400;
-      color: #FFFFFF;
-      line-height: 1.18;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-
-    /* ==========================================================================
-       SCREEN 2: CATEGORY LISTING
-       ========================================================================== */
-    .screen-category-listing { padding: 20px; }
-
-    .nav-header-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .back-btn-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-main);
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: var(--shadow-glass);
-    }
-
-    .nav-title-text {
-      font-family: var(--font-sans);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .dishes-vertical-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .dish-glass-card {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      padding: 14px;
-      display: flex;
-      gap: 14px;
-      box-shadow: var(--shadow-glass);
-      cursor: pointer;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .dish-glass-card:active { transform: scale(0.98); }
-
-    .dish-card-thumb-img {
-      width: 88px;
-      height: 88px;
-      border-radius: 14px;
-      object-fit: cover;
-      flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .dish-card-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-width: 0;
-    }
-
-    .dish-card-name-title {
-      font-family: var(--font-sans);
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-main);
-      line-height: 1.25;
-    }
-
-    .dish-card-ingr-text {
-      font-family: var(--font-sans);
-      font-size: 11.5px;
-      color: var(--text-body);
-      line-height: 1.4;
-      margin-top: 3px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      font-weight: 500;
-    }
-
-    .dish-card-price-tag {
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      font-weight: 800;
-      color: var(--text-main);
-      text-align: right;
-      margin-top: 6px;
-    }
-
-    /* SCREEN 3: PRODUCT DETAIL */
-    .screen-product-detail { padding: 20px; }
-
-    .detail-photo-glass-frame {
-      width: 100%;
-      height: 240px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      padding: 12px;
-      box-shadow: var(--shadow-glass);
-      margin-bottom: 22px;
-    }
-
-    .detail-photo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px;
-    }
-
-    .detail-title-heading {
-      font-family: var(--font-sans);
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 4px;
-    }
-
-    .detail-price-heading {
-      font-family: var(--font-sans);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 18px;
-    }
-
-    .detail-section-label-text {
-      font-family: var(--font-sans);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-main);
-      margin-bottom: 8px;
-    }
-
-    .detail-bullet-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 28px;
-    }
-
-    .detail-bullet-list li {
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      color: var(--text-body);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-    }
-
-    .detail-bullet-list li::before {
-      content: '•';
-      color: var(--text-main);
-      font-size: 16px;
-    }
-
-    /* SCREEN 4: SEARCH SCREEN */
-    .screen-search-wrapper { padding: 20px; }
-
-    .search-pill-container {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      border-radius: 99px;
-      padding: 4px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: var(--shadow-glass);
-      margin-bottom: 24px;
-    }
-
-    .search-input-element {
-      width: 100%;
-      height: 44px;
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: var(--font-sans);
-      font-size: 13.5px;
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    .search-input-element::placeholder { color: var(--text-muted); font-weight: 500; }
-
-    .popular-tags-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .tag-pill-btn {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--glass-border);
-      border-radius: 99px;
-      padding: 6px 14px;
-      font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-body);
-      cursor: pointer;
-      box-shadow: var(--shadow-glass);
-    }
-
-    .recently-viewed-track {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-
-    .recent-card-item {
-      width: 130px;
-      flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 8px;
-      box-shadow: var(--shadow-glass);
-      cursor: pointer;
-    }
-
-    .recent-card-thumb {
-      width: 100%;
-      height: 90px;
-      border-radius: 12px;
-      object-fit: cover;
-      margin-bottom: 6px;
-    }
-
-    .recent-card-name {
-      font-family: var(--font-sans);
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-main);
-      line-height: 1.25;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* FROSTED GLASS BOTTOM NAV BAR */
-    .frosted-glass-bottom-nav-bar {
-      position: fixed;
-      bottom: 0;
+      bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      z-index: 95;
-      background: rgba(234, 228, 220, 0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 10px 0 12px;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), 0 -4px 24px rgba(160, 150, 135, 0.15);
-      font-family: var(--font-sans);
-    }
-
-    .frosted-tab-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      color: var(--text-muted);
-      font-size: 10.5px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .frosted-tab-item.active { color: var(--text-main); }
-    .nav-icon-svg { width: 20px; height: 20px; stroke-width: 1.8; }
-
-    /* Modal Overlay */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(44, 40, 37, 0.5); backdrop-filter: blur(8px);
-      display: flex; align-items: flex-end; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s;
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .modal-card {
-      width: 100%; max-width: 480px; background: #EAE4DC;
-      border-radius: 28px 28px 0 0; padding: 24px 20px 30px;
-      transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      border-top: 1px solid var(--glass-border);
-      font-family: var(--font-sans);
-    }
-    .modal-overlay.active .modal-card { transform: translateY(0); }
-    .lang-list { display: flex; flex-direction: column; gap: 8px; margin: 16px 0 20px; }
-    .lang-option-card { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--bg-card-glass); border-radius: 12px; cursor: pointer; }
-    .lang-option-card.selected { background: #DCD3C5; color: var(--text-main); font-weight: 800; }
-    .btn-confirm-lang { width: 100%; height: 46px; background: var(--text-main); color: #FFF; border: none; border-radius: 99px; font-weight: 800; cursor: pointer; }
-
-    /* EXIT CONFIRMATION MODAL SYSTEM */
-    .exit-modal-card {
-      text-align: center;
-    }
-    .exit-btn-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .btn-stay-menu {
-      flex: 1;
-      height: 46px;
-      background: var(--text-main);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 99px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .btn-confirm-exit {
-      flex: 1;
-      height: 46px;
-      background: rgba(255, 255, 255, 0.85);
-      color: #D93838;
-      border: 1px solid rgba(217, 56, 56, 0.3);
-      border-radius: 99px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* WELCOME BACK TOAST FOR W3C UNIVERSAL REPEAT SCANS */
-    .welcome-back-toast {
-      position: fixed;
-      bottom: 72px;
-      left: 50%;
-      transform: translateX(-50%) translateY(300%);
-      opacity: 0;
-      width: calc(100% - 32px);
-      max-width: 440px;
-      z-index: 99;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+      width: 72%;
+      height: 12px;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0) 75%);
+      border-radius: 50%;
       pointer-events: none;
+      z-index: 1;
+      filter: blur(2px);
+      transition: transform 0.35s ease, opacity 0.35s ease;
     }
-    .welcome-back-toast.active {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-      pointer-events: auto;
+    .group:hover .floating-dish-img {
+      transform: translateY(-5px) scale(1.05);
+      filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.22)) drop-shadow(0 5px 7px rgba(0, 0, 0, 0.10));
     }
-    .welcome-back-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border);
-      border-radius: 18px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: var(--shadow-glass);
-      font-family: var(--font-sans);
+    .group:hover .floating-ground-shadow {
+      transform: translateX(-50%) scale(1.18);
+      opacity: 0.85;
     }
-    .welcome-back-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .btn-welcome-explore {
-      background: var(--text-main);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 99px;
-      padding: 8px 16px;
-      font-family: var(--font-sans);
-      font-size: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(44, 40, 37, 0.25);
+
+    input[type="search"]::-webkit-search-decoration,
+    input[type="search"]::-webkit-search-cancel-button,
+    input[type="search"]::-webkit-search-results-button,
+    input[type="search"]::-webkit-search-results-decoration {
+      -webkit-appearance: none;
+      display: none;
     }
   </style>
 </head>
-<body>
 
-  <div class="app-container">
+<body class="min-h-screen bg-[#F2F4F7] flex flex-col items-center justify-start antialiased selection:bg-black selection:text-white">
 
-    <!-- SCREEN 1: MAIN MENU & COLLECTIONS -->
-    <div id="screen-collections-view" class="screen-main-collections">
-      <div class="brand-header-row">
-        <!-- Olive Leaf SVG logo -->
-        <svg class="olive-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/>
-          <circle cx="12" cy="12" r="3" fill="currentColor"/>
-        </svg>
-
-        <div class="header-right-btns">
-          <button class="lang-pill-btn" id="open-lang-btn">
-            🌐 <span id="current-lang-code">VN</span>
-          </button>
-          <div class="search-circle-icon-btn" onclick="switchOliveScreen('search')">🔍</div>
-        </div>
+  <!-- ================= MAIN FULL-SCREEN VIEWPORT CONTAINER ================= -->
+  <div id="main-viewport-container" class="w-full max-w-md min-h-screen bg-[#F2F4F7] flex flex-col relative">
+    
+    <!-- ================= FLOATING CALL SERVICE TOAST ================= -->
+    <div id="toast-service-call" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[370px] p-3.5 rounded-3xl bg-black/95 text-white shadow-floating backdrop-blur-md border border-white/15 flex items-start gap-3 transition-all duration-300 transform -translate-y-4 opacity-0 pointer-events-auto">
+      <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0 text-yellow-300 animate-bounce">
+        🛎️
       </div>
-
-      <h1 class="menu-serif-headline" id="ui-menu-title">THỰC ĐƠN</h1>
-      <!-- DYNAMIC SUBTITLE READ FROM POS STORE SETTINGS AND LOCALIZED -->
-      <p class="menu-welcome-text" id="menu-welcome-text-element">Chào mừng bạn. Khám phá hương vị tự nhiên độc đáo.</p>
-
-      <div class="collections-label-title" id="ui-collections-title">BỘ SƯU TẬP</div>
-
-      <div class="collections-grid-2col" id="collections-grid-container">
-        <!-- 2-Column Collection Tiles Rendered Dynamically -->
+      <div class="flex-1 min-w-0 pr-1">
+        <h4 id="toast-title" class="text-xs font-bold text-white tracking-tight leading-tight">Đã Nhận Tín Hiệu Gọi Nhân Viên!</h4>
+        <p id="toast-desc" class="text-[11px] text-gray-300 mt-0.5 leading-snug">Nhân viên Good Morning Café đang đến Bàn #07 ngay trong giây lát.</p>
       </div>
+      <button onclick="hideServiceToast()" class="text-gray-400 hover:text-white font-bold text-xs p-1 cursor-pointer">✕</button>
     </div>
-
-    <!-- SCREEN 2: CATEGORY LISTING -->
-    <div id="screen-listing-view" class="screen-category-listing hidden">
-      <div class="nav-header-row">
-        <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
-        <h2 class="nav-title-text" id="listing-category-title">Điểm Tâm & Ăn Sáng</h2>
-      </div>
-
-      <div class="dishes-vertical-list" id="category-dishes-container">
-        <!-- White Frosted Glass Dish Cards Rendered Dynamically -->
-      </div>
-    </div>
-
-    <!-- SCREEN 3: PRODUCT DETAIL -->
-    <div id="screen-detail-view" class="screen-product-detail hidden">
-      <div class="nav-header-row">
-        <button class="back-btn-circle" onclick="switchOliveScreen('listing')">←</button>
-        <h2 class="nav-title-text" id="ui-product-detail-nav-title">Chi tiết món ăn</h2>
-      </div>
-
-      <div class="detail-photo-glass-frame">
-        <img src="https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800" alt="Signature Acai Bowl" class="detail-photo-img" id="detail-photo-target">
-      </div>
-
-      <h1 class="detail-title-heading" id="detail-title-target">Signature Acai Bowl</h1>
-      <div class="detail-price-heading" id="detail-price-target">210.000<u>đ</u></div>
-
-      <!-- INGREDIENTS SECTION -->
-      <div class="detail-section-label-text" id="ui-ingredients-title">THÀNH PHẦN</div>
-      <ul class="detail-bullet-list" id="detail-ingredients-list-target">
-        <!-- Ingredients parsed from POS API rendered line by line -->
-      </ul>
-
-      <button style="width:100%; height:48px; background:var(--text-main); color:#FFF; border:none; border-radius:99px; font-family:var(--font-sans); font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 8px 24px rgba(44,40,37,0.25);" id="ui-call-staff-btn" onclick="switchOliveScreen('collections')">
-        Vui lòng gọi nhân viên khi bạn sẵn sàng
-      </button>
-    </div>
-
-    <!-- SCREEN 4: SEARCH SCREEN -->
-    <div id="screen-search-view" class="screen-search-wrapper hidden">
-      <div class="nav-header-row">
-        <button class="back-btn-circle" onclick="switchOliveScreen('collections')">←</button>
-        <h2 class="nav-title-text" id="ui-search-nav-title">Tìm kiếm</h2>
-      </div>
-
-      <div class="search-pill-container">
-        <span style="color:var(--text-muted); font-size:16px;">🔍</span>
-        <input type="text" class="search-input-element" id="search-input-field" placeholder="Tìm tên món ăn..." autocomplete="off">
-      </div>
-
-      <!-- LIVE SEARCH RESULTS RENDERED DIRECTLY INSIDE SEARCH SCREEN -->
-      <div id="search-results-section" class="hidden">
-        <div class="detail-section-label-text" id="ui-search-results-title">KẾT QUẢ TÌM KIẾM</div>
-        <div class="dishes-vertical-list" id="search-results-container" style="margin-bottom: 24px;"></div>
-      </div>
-
-      <div id="search-default-suggestions">
-        <div class="detail-section-label-text" id="ui-popular-searches-title">TÌM KIẾM PHỔ BIẾN</div>
-        <div class="popular-tags-row">
-          <span class="tag-pill-btn" onclick="searchTag('Coffee')">Coffee</span>
-          <span class="tag-pill-btn" onclick="searchTag('Avocado')">Avocado</span>
-          <span class="tag-pill-btn" onclick="searchTag('Mocha')">Mocha</span>
-          <span class="tag-pill-btn" onclick="searchTag('Tea')">Tea</span>
-          <span class="tag-pill-btn" onclick="searchTag('Juice')">Juice</span>
-        </div>
-
-        <div class="detail-section-label-text" id="ui-recently-viewed-title">ĐÃ XEM GẦN ĐÂY</div>
-        <div class="recently-viewed-track" id="recently-viewed-container">
-          <!-- Rendered Dynamically -->
-        </div>
-      </div>
-    </div>
-
-    <!-- FROSTED GLASS BOTTOM NAV BAR -->
-    <nav class="frosted-glass-bottom-nav-bar">
-      <a href="#" class="frosted-tab-item active" onclick="switchOliveScreen('collections'); return false;">
-        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <span id="ui-tab-menu-label">Thực đơn</span>
-      </a>
-      <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('search'); return false;">
-        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <span id="ui-tab-search-label">Tìm kiếm</span>
-      </a>
-      <a href="#" class="frosted-tab-item" onclick="switchOliveScreen('detail'); return false;">
-        <svg class="nav-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-        <span id="ui-tab-about-label">Chi tiết</span>
-      </a>
-    </nav>
-
-  </div>
-
-  <!-- Language Selection Modal Overlay -->
-  <div class="modal-overlay" id="lang-modal">
-    <div class="modal-card">
-      <div style="text-align:center; margin-bottom:16px;">
-        <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800;" id="modal-title-text">Chọn ngôn ngữ</h2>
-        <p style="font-size:12px; color:var(--text-body);" id="modal-subtitle-text">Vui lòng chọn ngôn ngữ của bạn</p>
-      </div>
-      <div class="lang-list" id="lang-list-container"></div>
-      <button class="btn-confirm-lang" id="btn-confirm-lang">
-        <span id="btn-confirm-text">Khám phá thực đơn</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Exit Confirmation Modal Overlay -->
-  <div class="modal-overlay" id="exit-modal">
-    <div class="modal-card exit-modal-card">
-      <h2 style="font-family:var(--font-sans); font-size:20px; font-weight:800; margin-bottom:8px;" id="ui-exit-modal-title">Xác nhận thoát Menu</h2>
-      <p style="font-size:13px; color:var(--text-body); font-weight:600; line-height:1.4;" id="ui-exit-modal-msg">Bạn có chắc chắn muốn rời khỏi Thực đơn không?</p>
-      <div class="exit-btn-row">
-        <button class="btn-stay-menu" id="btn-stay-menu">Ở lại Menu</button>
-        <button class="btn-confirm-exit" id="btn-confirm-exit">Thoát ngay</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Welcome Back Toast for W3C Universal Repeat Scans -->
-  <div class="welcome-back-toast" id="welcome-back-toast">
-    <div class="welcome-back-card">
-      <div class="welcome-back-info">
-        <span style="font-size: 18px;">👋</span>
+    
+    <!-- ================= HEADER SECTION ================= -->
+    <header class="w-full bg-[#F2F4F7] px-5 pt-6 pb-2">
+      <div class="flex items-center justify-between">
         <div>
-          <div style="font-weight: 800; font-size: 13.5px; color: var(--text-main);" id="ui-welcome-back-title">Chào mừng bạn quay lại!</div>
-          <div style="font-size: 11.5px; color: var(--text-body); font-weight: 500;" id="ui-welcome-back-desc">Chạm để xem thực đơn</div>
+          <span id="ui-greeting" class="text-xs font-medium text-gray-400 block tracking-normal">Xin chào,</span>
+          <h1 id="store-name-title" class="text-2xl font-extrabold tracking-tight text-black flex items-center gap-2 mt-0.5">
+            Good Morning Café
+          </h1>
+          <div class="flex items-center gap-1.5 mt-1">
+            <span id="store-address-subtitle" class="text-xs text-gray-400 font-medium truncate max-w-[280px]">49 Phan Tình, Hội An</span>
+          </div>
+        </div>
+
+        <!-- Top Right Controls: Currency & Language Switchers -->
+        <div class="flex items-center gap-2">
+          <!-- Currency Switcher -->
+          <div class="relative">
+            <button id="btn-currency" class="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-xs font-bold text-black border border-gray-100 cursor-pointer active:scale-95 transition-transform">
+              <span id="currency-display">₫</span>
+            </button>
+            <div id="dropdown-currency" class="hidden absolute right-0 mt-1.5 w-24 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
+              <button data-curr="VND" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">VND (₫)</button>
+              <button data-curr="USD" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">USD ($)</button>
+              <button data-curr="EUR" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">EUR (€)</button>
+            </div>
+          </div>
+
+          <!-- Language Switcher -->
+          <div class="relative">
+            <button id="btn-language" class="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-xs font-bold text-black border border-gray-100 cursor-pointer active:scale-95 transition-transform">
+              <span id="lang-display">🇻🇳</span>
+            </button>
+            <div id="dropdown-language" class="hidden absolute right-0 mt-1.5 w-32 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
+              <button data-lang="vi" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇻🇳</span><span>Tiếng Việt</span></button>
+              <button data-lang="en" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇬🇧</span><span>English</span></button>
+              <button data-lang="fr" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇫🇷</span><span>Français</span></button>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <button class="btn-welcome-explore" id="btn-welcome-explore">Xem thực đơn</button>
-        <button style="background: transparent; border: none; font-size: 16px; color: var(--text-muted); cursor: pointer; padding: 4px;" onclick="activateUniversalHistoryGuard()">✕</button>
+
+      <!-- Pill Search Bar with Autocomplete Suggestions Dropdown -->
+      <div class="mt-4 relative" id="search-bar-wrapper">
+        <form id="search-form" onsubmit="handleSearchSubmit(event)" action="javascript:void(0);" class="relative flex items-center">
+          <svg class="absolute left-4 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input id="input-search" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Tìm món: Mocha, Latte, Sandwich, Croissant..." class="w-full pl-11 pr-9 py-3 rounded-2xl text-xs bg-white text-black placeholder-gray-400 shadow-2xs border-0 focus:outline-none focus:ring-2 focus:ring-black font-medium transition-all">
+          <button type="button" id="btn-clear-search" class="hidden absolute right-3 text-xs text-gray-400 hover:text-black cursor-pointer font-bold p-1">✕</button>
+        </form>
+
+        <!-- Live Search Autocomplete Dropdown Panel -->
+        <div id="search-suggestions-dropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-floating border border-gray-100/90 z-50 overflow-hidden max-h-[330px] flex flex-col animate-fadeIn">
+          <div id="search-suggestions-header" class="px-3.5 py-2 bg-gray-50/90 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
+            <span id="search-suggestions-count-text">GỢI Ý TÌM KIẾM</span>
+            <button onclick="closeSearchSuggestions()" class="text-gray-400 hover:text-black font-bold text-[10px] cursor-pointer">✕ Đóng</button>
+          </div>
+          <div id="search-suggestions-content" class="overflow-y-auto no-scrollbar max-h-[280px]">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= SCROLLABLE MENU CONTENT ================= -->
+    <main class="flex-1 overflow-y-auto px-5 pb-24 pt-2 space-y-5 no-scrollbar">
+      
+      <!-- ================= SECTION 1: FEATURED ITEMS CAROUSEL SLIDE ================= -->
+      <section class="relative">
+        <div class="flex items-center justify-between mb-2.5 px-0.5">
+          <div class="flex items-center gap-1.5">
+            <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-products">Món Nổi Bật</h2>
+            <span class="w-1.5 h-1.5 rounded-full bg-black animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Touch & Auto-scroll Infinite Loop Carousel Container (Exactly 2 items per view) -->
+        <div id="featured-products-carousel" class="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory py-1 px-0 select-none">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Dynamic Interactive Pagination Dots -->
+        <div id="featured-carousel-dots" class="flex items-center justify-center gap-1.5 mt-2.5">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: SIGNATURE COMBO BANNER SWIPER ================= -->
+      <section id="combo-section-wrapper">
+        <div class="flex items-center justify-between mb-2.5 px-0.5">
+          <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-forfait">Combo Đặc Trưng</h2>
+          <button id="btn-view-all-combo" onclick="viewAllCombos()" class="text-xs font-semibold text-gray-400 hover:text-black transition-colors cursor-pointer">Xem tất cả</button>
+        </div>
+
+        <!-- Dynamic Horizontal Swiper for Combos -->
+        <div id="combo-banners-container" class="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory py-1 px-0.5 scroll-smooth">
+          <!-- Injected dynamically via renderComboBanners() -->
+        </div>
+
+        <!-- Dynamic Pagination Dots (Rendered ONLY when combos.length > 1) -->
+        <div id="combo-pagination-dots" class="flex items-center justify-center gap-1.5 mt-2.5">
+          <!-- Injected dynamically via JS -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: CATEGORY CAPSULES (STICKY NAVIGATION) ================= -->
+      <nav id="category-nav-sticky" class="sticky top-0 z-20 -mx-5 px-5 py-2.5 bg-[#F2F4F7]/95 backdrop-blur-md border-y border-gray-200/60 shadow-2xs">
+        <div id="category-tabs-container" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          <!-- Injected via JS -->
+        </div>
+      </nav>
+
+      <!-- ================= SECTION 4: ALL MENU ITEMS COMPACT HIGH-DENSITY LIST ================= -->
+      <section>
+        <div class="flex items-center justify-between mb-3 px-0.5">
+          <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-all">Tất Cả Thực Đơn</h2>
+          <span id="results-count-badge" class="text-xs font-mono text-gray-400">12 món</span>
+        </div>
+
+        <!-- Floating Dish Row List (Compact & High Density) -->
+        <div id="menu-items-list" class="space-y-2">
+          <!-- Injected via JS -->
+        </div>
+      </section>
+
+      <!-- Friendly Hospitality Callout -->
+      <div class="p-4 rounded-3xl bg-white border border-gray-100 shadow-card text-center space-y-1">
+        <h4 class="text-xs font-bold text-black" id="label-help-title">Good Morning Café Hân Hạnh Phục Vụ</h4>
+        <p class="text-[11px] text-gray-400 leading-relaxed" id="label-help-desc">
+          Quý khách vui lòng gọi nhân viên hoặc ghé quầy thu ngân khi đã sẵn sàng gọi món nhé!
+        </p>
+      </div>
+
+    </main>
+
+    <!-- ================= MINIMALIST BOTTOM NAVIGATION PILL (2 ITEMS) ================= -->
+    <div class="fixed bottom-4 left-0 right-0 px-6 flex justify-center pointer-events-none z-30">
+      <div class="w-full max-w-[270px] bg-black/90 backdrop-blur-md text-white rounded-full p-1.5 shadow-floating border border-white/10 flex items-center justify-between pointer-events-auto">
+        <!-- Home Button -->
+        <button id="btn-nav-home" onclick="handleNavHomeClick()" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span id="ui-nav-home">Trang Chủ</span>
+        </button>
+
+        <!-- Search Button with Slide-Up Animation -->
+        <button id="btn-nav-search" onclick="handleNavSearchClick()" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all">
+          <svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span id="ui-nav-search">Tìm Kiếm</span>
+        </button>
       </div>
     </div>
+
+    <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
+    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
+      <div id="modal-dish-backdrop" class="absolute inset-0"></div>
+      <div class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 animate-slideUp text-black">
+        
+        <!-- Header Close -->
+        <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
+          <div class="flex-1 flex justify-center pl-6">
+            <div class="w-12 h-1.5 rounded-full bg-gray-200"></div>
+          </div>
+          <button id="btn-close-detail" class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 hover:text-black cursor-pointer font-bold text-xs">✕</button>
+        </div>
+
+        <!-- Detail Body -->
+        <div id="dish-detail-body" class="flex-1 overflow-y-auto px-6 py-4 space-y-4 no-scrollbar">
+          <!-- Injected via JS -->
+        </div>
+
+        <!-- Footer -->
+        <div class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between">
+          <div class="flex flex-col">
+            <span id="ui-modal-price-label" class="text-[10px] uppercase font-mono text-gray-400">Giá Niêm Yết</span>
+            <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0₫</span>
+          </div>
+          <button id="btn-detail-close-action" class="px-7 py-3 rounded-full font-bold text-xs bg-black text-white shadow-md hover:bg-gray-800 cursor-pointer active:scale-95 transition-transform">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
+  <!-- ================= CLIENT JAVASCRIPT & FULL LOCALIZATION ENGINE ================= -->
   <script>
-    // ==========================================================================
-    // COMPLETE BUILT-IN FALLBACK PRODUCTS FROM POS DATABASE
-    // ==========================================================================
-    const FALLBACK_POS_DATA = {
-      store: { name: "Good Morning Café" },
-      categories: ["Coffee", "Tea", "Milk Tea", "Juice", "Breakfast", "Sandwich", "Combo"],
-      products: [
-        { id: 1, name: "Latte", price: 55000, category: "Coffee", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600" },
-        { id: 2, name: "Cappuccino", price: 60000, category: "Coffee", image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600" },
-        { id: 3, name: "Americano", price: 45000, category: "Coffee", image: "https://images.unsplash.com/photo-1551046713-b45fdb3799d5?w=600" },
-        { id: 4, name: "Espresso", price: 40000, category: "Coffee", image: "https://images.unsplash.com/photo-1510707572719-ddb8775f0b7b?w=600" },
-        { id: 5, name: "Mocha", price: 65000, category: "Coffee", description: "Cacao, Condensed Milk, Espresso", image: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600" },
-        { id: 6, name: "Matcha Latte", price: 60000, category: "Tea", image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=600" },
-        { id: 7, name: "Milk Tea", price: 50000, category: "Milk Tea", image: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=600" },
-        { id: 8, name: "Orange Juice", price: 45000, category: "Juice", image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600" },
-        { id: 9, name: "Croissant", price: 35000, category: "Breakfast", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600" },
-        { id: 10, name: "Pancake", price: 70000, category: "Breakfast", image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600" },
-        { id: 11, name: "Sandwich", price: 65000, category: "Sandwich", image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600" },
-        { id: 12, name: "Combo Breakfast", price: 120000, category: "Combo", image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600" }
-      ]
+    const CURRENCIES = {
+      VND: { code: 'VND', symbol: '₫', rate: 1, decimals: 0, pos: 'suffix' },
+      USD: { code: 'USD', symbol: '$', rate: 1 / 25400, decimals: 2, pos: 'prefix' },
+      EUR: { code: 'EUR', symbol: '€', rate: 1 / 27500, decimals: 2, pos: 'suffix' },
     };
 
-    const TRANSLATIONS = {
+    let currentCurrency = 'VND';
+    let currentLanguage = 'vi';
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    // Complete Trilingual UI Translations Dictionary
+    const UI_TRANSLATIONS = {
       vi: {
-        pillCode: 'VN',
-        modalTitle: 'Chọn ngôn ngữ',
-        modalSubtitle: 'Vui lòng chọn ngôn ngữ của bạn',
-        btnConfirm: 'Khám phá thực đơn',
-        menuTitle: 'THỰC ĐƠN',
-        welcomePrefix: 'Chào mừng đến với',
-        welcomeSuffix: 'Khám phá hương vị tự nhiên độc đáo.',
-        collectionsTitle: 'BỘ SƯU TẬP',
-        productDetailNav: 'Chi tiết món ăn',
-        ingredientsTitle: 'THÀNH PHẦN',
-        callStaffBtn: 'Vui lòng gọi nhân viên khi bạn sẵn sàng',
-        searchNavTitle: 'Tìm kiếm',
-        searchPlaceholder: 'Tìm tên món ăn...',
-        searchResultsTitle: 'KẾT QUẢ TÌM KIẾM',
-        popularSearchesTitle: 'TÌM KIẾM PHỔ BIẾN',
-        recentlyViewedTitle: 'ĐÃ XEM GẦN ĐÂY',
-        tabMenu: 'Thực đơn',
-        tabSearch: 'Tìm kiếm',
-        tabAbout: 'Chi tiết',
-        exitTitle: 'Xác nhận thoát Menu',
-        exitMsg: 'Bạn có chắc chắn muốn rời khỏi Thực đơn không?',
-        btnStay: 'Ở lại Menu',
-        btnExit: 'Thoát ngay',
-        welcomeBackTitle: 'Chào mừng bạn quay lại!',
-        welcomeBackDesc: 'Chạm để xem thực đơn',
-        btnExplore: 'Xem thực đơn'
+        greeting: 'Xin chào,',
+        table: '☕ Tại Quán',
+        address: '49 Phan Tình, Hội An',
+        searchPlaceholder: 'Tìm món: Mocha, Latte, Sandwich, Croissant...',
+        featuredTitle: 'Món Nổi Bật',
+        viewAll: 'Xem tất cả',
+        comboSectionTitle: 'Combo Đặc Trưng',
+        comboBadge: 'BÁN CHẠY NHẤT • COMBO SÁNG',
+        comboTitle: 'Combo Bữa Sáng Đặc Biệt',
+        comboDesc: 'Trọn bộ bữa sáng đầy năng lượng: 1 Món điểm tâm nóng hổi + 1 Cà phê / Nước trái cây tươi tự chọn.',
+        comboBtn: 'Chi Tiết',
+        allMenuTitle: 'Tất Cả Thực Đơn',
+        itemsSuffix: 'món',
+        detailTag: 'Chi tiết',
+        outOfStockBadge: 'HẾT',
+        outOfStockLabel: 'Tạm Hết Hàng',
+        availableLabel: 'Sẵn Sàng Phục Vụ',
+        helpTitle: 'Good Morning Café Hân Hạnh Phục Vụ',
+        helpDesc: 'Quý khách vui lòng gọi nhân viên hoặc ghé quầy thu ngân khi đã sẵn sàng gọi món nhé!',
+        toastTitle: 'Đã Nhận Tín Hiệu! 🛎️',
+        toastDesc: 'Nhân viên Good Morning Café đang đến phục vụ quý khách.',
+        navHome: 'Trang Chủ',
+        navSearch: 'Tìm Kiếm',
+        noResults: 'Không tìm thấy món ăn phù hợp',
+        viewAllMenu: 'Xem tất cả thực đơn',
+        descTitle: 'Mô tả món ăn:',
+        ingredientsTitle: '🌿 Thành phần nguyên liệu chi tiết:',
+        allergyWarning: 'Quý khách có yêu cầu đặc biệt về độ ngọt (ít ngọt, không đường) hoặc lượng đá, vui lòng báo nhân viên phục vụ khi gọi món.',
+        priceLabel: 'Giá Niêm Yết',
+        closeBtn: 'Đóng'
       },
       en: {
-        pillCode: 'EN',
-        modalTitle: 'Select Language',
-        modalSubtitle: 'Choose your preferred language',
-        btnConfirm: 'Explore Menu',
-        menuTitle: 'MENU',
-        welcomePrefix: 'Welcome to',
-        welcomeSuffix: 'Explore our natural flavors.',
-        collectionsTitle: 'OUR COLLECTIONS',
-        productDetailNav: 'Product Detail',
-        ingredientsTitle: 'INGREDIENTS',
-        callStaffBtn: 'Please call staff when ready',
-        searchNavTitle: 'Search',
-        searchPlaceholder: 'Search dish name...',
-        searchResultsTitle: 'SEARCH RESULTS',
-        popularSearchesTitle: 'POPULAR SEARCHES',
-        recentlyViewedTitle: 'RECENTLY VIEWED',
-        tabMenu: 'Menu',
-        tabSearch: 'Search',
-        tabAbout: 'Detail',
-        exitTitle: 'Exit Menu Confirmation',
-        exitMsg: 'Are you sure you want to leave the Digital Menu?',
-        btnStay: 'Stay on Menu',
-        btnExit: 'Exit Now',
-        welcomeBackTitle: 'Welcome back!',
-        welcomeBackDesc: 'Tap to explore menu',
-        btnExplore: 'Explore menu'
+        greeting: 'Welcome,',
+        table: '☕ Dine-In',
+        address: '49 Phan Tinh, Hoi An',
+        searchPlaceholder: 'Search dishes: Mocha, Latte, Sandwich, Croissant...',
+        featuredTitle: 'Featured Items',
+        viewAll: 'View all',
+        comboSectionTitle: 'Signature Combos',
+        comboBadge: 'BEST SELLER • BREAKFAST SET',
+        comboTitle: 'Good Morning Breakfast Combo',
+        comboDesc: 'Complete energizing breakfast: Choice of 1 fresh sandwich or pastry + 1 specialty coffee or fresh fruit juice.',
+        comboBtn: 'Details',
+        allMenuTitle: 'Full Menu',
+        itemsSuffix: 'items',
+        detailTag: 'Details',
+        outOfStockBadge: 'SOLD OUT',
+        outOfStockLabel: 'Out of Stock',
+        availableLabel: 'Available Now',
+        helpTitle: 'Welcome to Good Morning Café',
+        helpDesc: 'Please wave to our waitstaff or visit the counter whenever you are ready to order!',
+        toastTitle: 'Request Received! 🛎️',
+        toastDesc: 'Our staff will be right with you.',
+        navHome: 'Home',
+        navSearch: 'Search',
+        noResults: 'No matching culinary items found',
+        viewAllMenu: 'View full menu',
+        descTitle: 'Dish Description:',
+        ingredientsTitle: '🌿 Detailed Recipe & Ingredients:',
+        allergyWarning: 'If you have dietary preferences (less ice, less sweet, dairy-free), please inform our waitstaff when ordering.',
+        priceLabel: 'Menu Price',
+        closeBtn: 'Close'
       },
       fr: {
-        pillCode: 'FR',
-        modalTitle: 'Choisir la langue',
-        modalSubtitle: 'Choisissez votre langue préférée',
-        btnConfirm: 'Explorer le menu',
-        menuTitle: 'MENU',
-        welcomePrefix: 'Bienvenue chez',
-        welcomeSuffix: 'Découvrez nos saveurs naturelles.',
-        collectionsTitle: 'NOS COLLECTIONS',
-        productDetailNav: 'Détail du produit',
-        ingredientsTitle: 'INGRÉDIENTS',
-        callStaffBtn: 'Veuillez appeler le serveur quand vous êtes prêt',
-        searchNavTitle: 'Recherche',
-        searchPlaceholder: 'Rechercher un plat...',
-        searchResultsTitle: 'RÉSULTATS DE RECHERCHE',
-        popularSearchesTitle: 'RECHERCHES POPULAIRES',
-        recentlyViewedTitle: 'RÉCEMMENT CONSULTÉS',
-        tabMenu: 'Menu',
-        tabSearch: 'Rechercher',
-        tabAbout: 'Détail',
-        exitTitle: 'Quitter le Menu',
-        exitMsg: 'Êtes-vous sûr de vouloir quitter le Menu Digital ?',
-        btnStay: 'Rester',
-        btnExit: 'Quitter',
-        welcomeBackTitle: 'Bon retour !',
-        welcomeBackDesc: 'Appuyez pour explorer le menu',
-        btnExplore: 'Explorer'
+        greeting: 'Bonjour,',
+        table: '☕ Sur Place',
+        address: '49 Phan Tinh, Hoi An',
+        searchPlaceholder: 'Je recherche: Mocha, Latte, Sandwich, Croissant...',
+        featuredTitle: 'Nos Produits',
+        viewAll: 'Voir tout',
+        comboSectionTitle: 'Nos Forfaits',
+        comboBadge: 'MEILLEURE VENTE • FORMULE MATIN',
+        comboTitle: 'Forfait Petit-Déjeuner Origine',
+        comboDesc: 'Découvrez l’essence du matin: 1 viennoiserie ou sandwich artisanal + 1 café ou jus de fruits frais.',
+        comboBtn: 'Voir Plus',
+        allMenuTitle: 'La Carte Complète',
+        itemsSuffix: 'articles',
+        detailTag: 'Détails',
+        outOfStockBadge: 'ÉPUISÉ',
+        outOfStockLabel: 'Épuisé',
+        availableLabel: 'Disponible',
+        helpTitle: 'Bienvenue chez Good Morning Café',
+        helpDesc: 'Faites signe à notre équipe ou rendez-vous au comptoir dès que vous êtes prêt!',
+        toastTitle: 'Signal Reçu! 🛎️',
+        toastDesc: 'Notre équipe arrive auprès de vous dans un instant.',
+        navHome: 'Accueil',
+        navSearch: 'Recherche',
+        noResults: 'Aucun résultat trouvé',
+        viewAllMenu: 'Voir toute la carte',
+        descTitle: 'Description du Plat:',
+        ingredientsTitle: '🌿 Ingrédients Détaillés:',
+        allergyWarning: 'Pour toute préférence spécifique (moins sucré, sans glaçon) ou allergie, veuillez prévenir le serveur.',
+        priceLabel: 'Prix',
+        closeBtn: 'Fermer'
+      }
+    };
+
+    // Category List with Trilingual mapping
+    const CATEGORIES = [
+      { id: 'all', vi: 'Tất Cả', en: 'All Items', fr: 'Tout' },
+      { id: 'Coffee', vi: 'Cà Phê', en: 'Coffee', fr: 'Café' },
+      { id: 'Tea', vi: 'Trà', en: 'Tea', fr: 'Thé' },
+      { id: 'Milk Tea', vi: 'Trà Sữa', en: 'Milk Tea', fr: 'Thé au Lait' },
+      { id: 'Juice', vi: 'Nước Ép', en: 'Juice', fr: 'Jus Frais' },
+      { id: 'Breakfast', vi: 'Điểm Tâm', en: 'Breakfast', fr: 'Déjeuner' },
+      { id: 'Sandwich', vi: 'Bánh Mì', en: 'Sandwich', fr: 'Sandwichs' },
+      { id: 'Combo', vi: 'Combo', en: 'Combos', fr: 'Formules' },
+    ];
+
+    // Real POS Products with Strict 100% Trilingual Translations & Badges
+    let POS_PRODUCTS = [
+      {
+        id: 1,
+        name: 'Latte',
+        nameVi: 'Cà Phê Latte',
+        nameEn: 'Caffè Latte',
+        nameFr: 'Café Latte',
+        badge: '☕ Đậm Vị',
+        badgeVi: '☕ Đậm Vị',
+        badgeEn: '☕ Signature',
+        badgeFr: '☕ Signature',
+        category: 'Coffee',
+        categoryVi: 'Cà Phê',
+        categoryEn: 'Coffee',
+        categoryFr: 'Café',
+        price: 55000,
+        emoji: '☕',
+        image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: true,
+        descVi: 'Cà phê Latte thơm béo với shot Espresso Arabica Cầu Đất hòa quyện lớp sữa tươi nóng đánh bọt mịn.',
+        descEn: 'Silky smooth espresso with freshly steamed whole milk and a delicate layer of velvety microfoam.',
+        descFr: 'Expresso velouté pur Arabica mélangé à du lait chaud onctueux et recouvert d’une fine mousse de lait.',
+        ingredientsVi: ['Cà phê hạt Arabica Cầu Đất (Đà Lạt)', 'Sữa tươi thanh trùng tiệt trùng', 'Lớp bọt sữa Microfoam mịn màng'],
+        ingredientsEn: ['100% Da Lat Single-Origin Arabica Espresso', 'Fresh Whole Steamed Milk', 'Velvety Microfoam Layer'],
+        ingredientsFr: ['Espresso 100% Arabica de Da Lat', 'Lait entier frais pasteurisé', 'Mousse de lait micro-aérée']
       },
-      ru: {
-        pillCode: 'RU',
-        modalTitle: 'Выберите язык',
-        modalSubtitle: 'Выберите предпочитаемый язык',
-        btnConfirm: 'Исследовать меню',
-        menuTitle: 'МЕНЮ',
-        welcomePrefix: 'Добро пожаловать в',
-        welcomeSuffix: 'Откройте для себя наши натуральные вкусы.',
-        collectionsTitle: 'НАШИ КОЛЛЕКЦИИ',
-        productDetailNav: 'Детали блюда',
-        ingredientsTitle: 'ИНГРЕДИЕНТЫ',
-        callStaffBtn: 'Пожалуйста, вызовите официанта, когда будете готовы',
-        searchNavTitle: 'Поиск',
-        searchPlaceholder: 'Поиск блюда...',
-        searchResultsTitle: 'РЕЗУЛЬТАТЫ ПОИСКА',
-        popularSearchesTitle: 'ПОПУЛЯРНЫЕ ЗАПРОСЫ',
-        recentlyViewedTitle: 'НЕДАВНО ПРОСМОТРЕННЫЕ',
-        tabMenu: 'Меню',
-        tabSearch: 'Поиск',
-        tabAbout: 'Детали',
-        exitTitle: 'Выход из меню',
-        exitMsg: 'Вы уверены, что хотите покинуть цифровое меню?',
-        btnStay: 'Остаться',
-        btnExit: 'Выйти',
-        welcomeBackTitle: 'С возвращением!',
-        welcomeBackDesc: 'Нажмите, чтобы открыть меню',
-        btnExplore: 'В меню'
+      {
+        id: 2,
+        name: 'Cappuccino',
+        nameVi: 'Cà Phê Cappuccino',
+        nameEn: 'Italian Cappuccino',
+        nameFr: 'Cappuccino Italien',
+        badge: '☕ Bọt Mịn',
+        badgeVi: '☕ Bọt Mịn',
+        badgeEn: '☕ Thick Foam',
+        badgeFr: '☕ Mousse Épaisse',
+        category: 'Coffee',
+        categoryVi: 'Cà Phê',
+        categoryEn: 'Coffee',
+        categoryFr: 'Café',
+        price: 60000,
+        emoji: '☕',
+        image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: true,
+        descVi: 'Cà phê Cappuccino truyền thống với tỷ lệ cân bằng hoàn hảo giữa Espresso, sữa nóng và bọt sữa dày rắc bột cacao.',
+        descEn: 'Classic Italian cappuccino with equal parts espresso, steamed milk, and rich thick foam dusted with cacao.',
+        descFr: 'Cappuccino traditionnel à base d’expresso, de lait chaud et d’une épaisse couche de mousse saupoudrée de cacao.',
+        ingredientsVi: ['Espresso Arabica nguyên chất', 'Sữa tươi nóng tạo bọt', 'Bột cacao nguyên chất phủ trên mặt'],
+        ingredientsEn: ['Rich Arabica Espresso Shot', 'Aerated Steamed Milk Foam', 'Pure Dark Cacao Powder Dusting'],
+        ingredientsFr: ['Shot d’expresso intense Arabica', 'Mousse de lait aérée', 'Poudre de cacao pur noir']
+      },
+      {
+        id: 3,
+        name: 'Americano',
+        nameVi: 'Cà Phê Americano',
+        nameEn: 'Caffè Americano',
+        nameFr: 'Café Americano',
+        badge: '☕ Thanh Nhẹ',
+        badgeVi: '☕ Thanh Nhẹ',
+        badgeEn: '☕ Clean Roast',
+        badgeFr: '☕ Léger',
+        category: 'Coffee',
+        categoryVi: 'Cà Phê',
+        categoryEn: 'Coffee',
+        categoryFr: 'Café',
+        price: 45000,
+        emoji: '☕',
+        image: 'https://images.unsplash.com/photo-1551046713-b45fdb3799d5?w=300&auto=format&fit=crop&q=80',
+        available: false, // SOLD OUT IN POS
+        isFeatured: false,
+        descVi: 'Cà phê Americano thanh tao, chiết xuất từ 2 shot Espresso đậm đà pha loãng với nước nóng tinh khiết.',
+        descEn: 'Double shot of espresso diluted with hot filtered mineral water for a clean, rich coffee finish.',
+        descFr: 'Double shot d’expresso allongé à l’eau minérale chaude pour une dégustation équilibrée et légère.',
+        ingredientsVi: ['Double Shot Espresso Arabica', 'Nước khoáng tinh khiết lọc RO'],
+        ingredientsEn: ['Double Shot Arabica Espresso', 'Purified Hot Spring Water'],
+        ingredientsFr: ['Double shot d’expresso Arabica', 'Eau pure filtrée chaude']
+      },
+      {
+        id: 4,
+        name: 'Espresso',
+        nameVi: 'Cà Phê Espresso',
+        nameEn: 'Single Origin Espresso',
+        nameFr: 'Expresso Pur Origine',
+        badge: '☕ Đậm Đặc',
+        badgeVi: '☕ Đậm Đặc',
+        badgeEn: '☕ Pure Roast',
+        badgeFr: '☕ Intense',
+        category: 'Coffee',
+        categoryVi: 'Cà Phê',
+        categoryEn: 'Coffee',
+        categoryFr: 'Café',
+        price: 40000,
+        emoji: '☕',
+        image: 'https://images.unsplash.com/photo-1510707572719-ddb8775f0b7b?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Shot cà phê Espresso chiết xuất áp suất cao, lưu giữ trọn vẹn lớp crema vàng óng và hương thơm nồng nàn.',
+        descEn: 'Intense and concentrated single espresso shot extracted under high pressure with golden crema.',
+        descFr: 'Expresso concentré extrait à haute pression avec une crema dorée et des arômes intenses.',
+        ingredientsVi: ['100% Cà phê hạt Arabica Cầu Đất rang mộc'],
+        ingredientsEn: ['100% Roasted Da Lat Arabica Beans'],
+        ingredientsFr: ['100% grains d’Arabica torréfiés de Da Lat']
+      },
+      {
+        id: 5,
+        name: 'Mocha',
+        nameVi: 'Cà Phê Mocha',
+        nameEn: 'Caffè Mocha Signature',
+        nameFr: 'Café Mocha Chocolat',
+        badge: '⭐ Bán Chạy',
+        badgeVi: '⭐ Bán Chạy',
+        badgeEn: '⭐ Best Seller',
+        badgeFr: '⭐ Populaire',
+        category: 'Coffee',
+        categoryVi: 'Cà Phê',
+        categoryEn: 'Coffee',
+        categoryFr: 'Café',
+        price: 65000,
+        emoji: '☕',
+        image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: true,
+        descVi: 'Sự hòa quyện tuyệt hảo giữa sốt socola Cacao đen, sữa đặc ngọt ngào và shot cà phê Espresso đậm vị.',
+        descEn: 'A luscious blend of premium dark cacao chocolate, condensed milk, fresh milk, and bold espresso.',
+        descFr: 'Harmonie gourmande entre chocolat noir cacao pur, lait concentré onctueux et shot d’expresso corsé.',
+        ingredientsVi: ['Sốt Cacao nguyên chất cao cấp', 'Sữa đặc thơm béo', 'Shot cà phê Espresso', 'Sữa tươi thanh trùng'],
+        ingredientsEn: ['Pure Dark Chocolate Cacao', 'Sweetened Condensed Milk', 'Bold Espresso Shot', 'Steamed Fresh Milk'],
+        ingredientsFr: ['Chocolat noir cacao grand cru', 'Lait concentré sucré', 'Shot d’expresso corsé', 'Lait entier frais']
+      },
+      {
+        id: 6,
+        name: 'Matcha Latte',
+        nameVi: 'Trà Xanh Matcha Latte',
+        nameEn: 'Uji Matcha Green Tea Latte',
+        nameFr: 'Matcha Latte Uji Bio',
+        badge: '🍵 Uji Kyoto',
+        badgeVi: '🍵 Uji Kyoto',
+        badgeEn: '🍵 Uji Kyoto',
+        badgeFr: '🍵 Uji Kyoto',
+        category: 'Tea',
+        categoryVi: 'Trà',
+        categoryEn: 'Tea',
+        categoryFr: 'Thé',
+        price: 60000,
+        emoji: '🍵',
+        image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: true,
+        descVi: 'Bột trà xanh Matcha Uji thượng hạng từ Nhật Bản đánh tay truyền thống, kết hợp sữa tươi thanh trùng béo ngậy.',
+        descEn: 'Authentic ceremonial Japanese green tea matcha whisked with fresh whole milk and a touch of sweetness.',
+        descFr: 'Matcha traditionnel d’Uji Kyoto fouetté à la main, associé au lait frais entier doux và onctueux.',
+        ingredientsVi: ['Bột Matcha Uji Kyoto Nhật Bản', 'Sữa tươi thanh trùng', 'Đường mía thô hữu cơ'],
+        ingredientsEn: ['Japanese Uji Kyoto Matcha Powder', 'Pasteurized Whole Milk', 'Organic Raw Cane Sugar'],
+        ingredientsFr: ['Poudre de matcha cérémonial d’Uji', 'Lait entier pasteurisé', 'Sucre de canne bio']
+      },
+      {
+        id: 7,
+        name: 'Milk Tea',
+        nameVi: 'Trà Sữa Truyền Thống',
+        nameEn: 'Classic Ceylon Milk Tea',
+        nameFr: 'Thé au Lait Ceylon',
+        badge: '🧋 Truyền Thống',
+        badgeVi: '🧋 Truyền Thống',
+        badgeEn: '🧋 Ceylon Brew',
+        badgeFr: '🧋 Ceylon Pur',
+        category: 'Milk Tea',
+        categoryVi: 'Trà Sữa',
+        categoryEn: 'Milk Tea',
+        categoryFr: 'Thé au Lait',
+        price: 50000,
+        emoji: '🧋',
+        image: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Trà sữa truyền thống đậm vị trà đen Ceylon, hậu ngọt thanh mát và vị béo thơm đặc trưng của sữa.',
+        descEn: 'Classic brew of premium Ceylon black tea blended smoothly with rich dairy milk.',
+        descFr: 'Infusion classique de thé noir de Ceylan combinée délicatement au lait riche et parfumé.',
+        ingredientsVi: ['Cốt trà đen Ceylon thượng hạng', 'Sữa tươi thanh trùng', 'Sữa đặc cao cấp'],
+        ingredientsEn: ['Ceylon Black Tea Leaves', 'Fresh Milk', 'Sweetened Condensed Milk'],
+        ingredientsFr: ['Feuilles de thé noir de Ceylan', 'Lait frais entier', 'Lait concentré sucré']
+      },
+      {
+        id: 8,
+        name: 'Orange Juice',
+        nameVi: 'Nước Cam Tươi',
+        nameEn: 'Fresh Squeezed Orange Juice',
+        nameFr: 'Jus d’Orange Pressé Frais',
+        badge: '🌿 100% Tươi',
+        badgeVi: '🌿 100% Tươi',
+        badgeEn: '🌿 100% Fresh',
+        badgeFr: '🌿 100% Frais',
+        category: 'Juice',
+        categoryVi: 'Nước Ép',
+        categoryEn: 'Juice',
+        categoryFr: 'Jus Frais',
+        price: 45000,
+        emoji: '🍊',
+        image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: true,
+        descVi: '100% Nước cam sành tươi mọng nước vắt trực tiếp theo đơn, giữ trọn vẹn vitamin C tự nhiên.',
+        descEn: '100% Pure freshly squeezed orange juice, full of natural vitamins with no added preservatives.',
+        descFr: 'Jus d’orange 100% pur pressé minute à la commande, riche en vitamines sans conservateurs.',
+        ingredientsVi: ['Cam sành tươi loại 1 mọng nước', 'Đá bi tinh khiết lọc RO', 'Đường mía tự nhiên (tùy chọn)'],
+        ingredientsEn: ['Fresh Organic Oranges', 'Filtered Ice', 'Optional Cane Sugar'],
+        ingredientsFr: ['Oranges fraîches juteuses', 'Glaçons purifiés', 'Sucre de canne optionnel']
+      },
+      {
+        id: 9,
+        name: 'Croissant',
+        nameVi: 'Bánh Sừng Bò Croissant',
+        nameEn: 'French Butter Croissant',
+        nameFr: 'Croissant Pur Beurre',
+        badge: '🥐 Bơ Pháp',
+        badgeVi: '🥐 Bơ Pháp',
+        badgeEn: '🥐 French Butter',
+        badgeFr: '🥐 Pur Beurre',
+        category: 'Breakfast',
+        categoryVi: 'Điểm Tâm',
+        categoryEn: 'Breakfast',
+        categoryFr: 'Déjeuner',
+        price: 35000,
+        emoji: '🥐',
+        image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Bánh sừng bò bơ Pháp ngàn lớp vàng ươm, vỏ giòn rụm và ruột mềm xốp thơm ngậy mùi bơ.',
+        descEn: 'Traditional French golden croissant with crisp flaky layers baked freshly with pure butter.',
+        descFr: 'Croissant feuilleté doré au beurre d’Isigny AOP, croustillant à l’extérieur et aéré à l’intérieur.',
+        ingredientsVi: ['Bột mì Pháp T45', 'Bơ nguyên chất (82% béo)', 'Men tươi tự nhiên', 'Trứng gà ta'],
+        ingredientsEn: ['French T45 Flour', 'Pure Dairy Butter (82% fat)', 'Natural Yeast', 'Farm Eggs'],
+        ingredientsFr: ['Farine T45 française', 'Beurre pur AOP (82% MG)', 'Levure boulangère', 'Œufs frais']
+      },
+      {
+        id: 10,
+        name: 'Pancake',
+        nameVi: 'Bánh Kếp Mật Ong Pancake',
+        nameEn: 'Honey Butter Pancakes',
+        nameFr: 'Pancakes au Miel & Beurre',
+        badge: '🥞 Mật Ong',
+        badgeVi: '🥞 Mật Ong',
+        badgeEn: '🥞 Honey Butter',
+        badgeFr: '🥞 Miel Pur',
+        category: 'Breakfast',
+        categoryVi: 'Điểm Tâm',
+        categoryEn: 'Breakfast',
+        categoryFr: 'Déjeuner',
+        price: 70000,
+        emoji: '🥞',
+        image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Bánh kếp mềm xốp vàng ươm xếp lớp, phủ miếng bơ lạt béo ngậy và rưới mật ong hoa rừng ngọt dịu.',
+        descEn: 'Stack of fluffy golden buttermilk pancakes served with butter and pure natural forest honey.',
+        descFr: 'Moelleux pancakes dorés superposés, servis avec une noisette de beurre doux et miel sauvage.',
+        ingredientsVi: ['Bột bánh kếp thủ công', 'Trứng gà tươi & sữa tươi', 'Bơ lạt Elle & Vire', 'Mật ong hoa rừng tự nhiên'],
+        ingredientsEn: ['Housemade Pancake Batter', 'Farm Fresh Eggs & Milk', 'Pure Butter', 'Wild Honey'],
+        ingredientsFr: ['Pâte à pancake maison', 'Œufs bio et lait frais', 'Beurre doux', 'Miel sauvage naturel']
+      },
+      {
+        id: 11,
+        name: 'Sandwich',
+        nameVi: 'Bánh Mì Kẹp Sandwich',
+        nameEn: 'Gourmet Ham & Cheese Sandwich',
+        nameFr: 'Sandwich Gourmet Jambon Fromage',
+        badge: '🥪 Nóng Giòn',
+        badgeVi: '🥪 Nóng Giòn',
+        badgeEn: '🥪 Crispy Toasted',
+        badgeFr: '🥪 Grillé',
+        category: 'Sandwich',
+        categoryVi: 'Bánh Mì',
+        categoryEn: 'Sandwich',
+        categoryFr: 'Sandwichs',
+        price: 65000,
+        emoji: '🥪',
+        image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Bánh mì sandwich nướng giòn rụm kẹp thịt nguội cao cấp, phô mai Cheddar tan chảy, xà lách và cà chua tươi.',
+        descEn: 'Toasted gourmet sandwich with smoked ham, melted cheddar cheese, crisp lettuce and fresh tomato.',
+        descFr: 'Sandwich grillé croustillant garni de jambon fumé, cheddar fondant, laitue croquante et tomates fraîches.',
+        ingredientsVi: ['Bánh mì gối nướng giòn', 'Thịt nguội xông khói', 'Phô mai Cheddar lát', 'Rau xà lách & cà chua tươi', 'Sốt Mayonnaise'],
+        ingredientsEn: ['Artisanal Toasted Bread', 'Smoked Deli Ham', 'Cheddar Cheese Slice', 'Crisp Lettuce & Tomato', 'Light Mayo'],
+        ingredientsFr: ['Pain artisanal toasté', 'Jambon fumé', 'Fromage Cheddar affiné', 'Laitue et tomates fraîches', 'Sauce mayonnaise']
+      },
+      {
+        id: 12,
+        name: 'Combo Breakfast',
+        nameVi: 'Combo Bữa Sáng Đặc Biệt',
+        nameEn: 'Good Morning Breakfast Combo',
+        nameFr: 'Forfait Petit-Déjeuner Origine',
+        badge: '⭐ Combo Hot',
+        badgeVi: '⭐ Combo Hot',
+        badgeEn: '⭐ Best Combo',
+        badgeFr: '⭐ Formule Vedette',
+        category: 'Combo',
+        categoryVi: 'Combo',
+        categoryEn: 'Combo',
+        categoryFr: 'Formules',
+        price: 120000,
+        emoji: '⭐',
+        image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
+        available: true,
+        isFeatured: false,
+        descVi: 'Combo bữa sáng hoàn hảo bán chạy nhất: 1 Bánh Sandwich / Croissant thơm ngon + 1 Ly Cà phê / Trà / Nước ép tùy chọn.',
+        descEn: 'Best-selling breakfast set: Choice of 1 fresh Sandwich or Croissant + 1 Coffee or Fresh Fruit Juice.',
+        descFr: 'Formule petit-déjeuner vedette: 1 Sandwich ou Croissant au choix + 1 Café d’exception ou Jus de fruits pressé.',
+        ingredientsVi: ['1 Bánh Sandwich nướng thịt nguội phô mai', '1 Ly Cà phê Latte / Americano / Nước cam tươi', 'Tặng kèm bánh quy bơ mini'],
+        ingredientsEn: ['1 Gourmet Ham & Cheese Sandwich', '1 Choice of Latte, Americano, or Fresh Juice', 'Complimentary Butter Cookie'],
+        ingredientsFr: ['1 Sandwich Gourmet ou Croissant frais', '1 Café Latte, Americano ou Jus d’Orange', 'Mini biscuit pur beurre offert']
       }
-    };
-
-    const CATEGORY_DEFAULT_INGREDIENTS = {
-      "coffee": "Espresso shot, steamed milk, coffee beans",
-      "tea": "Premium tea leaves, hot water",
-      "milk tea": "Black tea, fresh milk, tapioca pearls",
-      "juice": "100% fresh squeezed fruit juice",
-      "breakfast": "Butter, flour, eggs, fresh milk",
-      "sandwich": "Sliced bread, ham, cheese, lettuce, tomato",
-      "combo": "Selected dish, fresh drink, dessert"
-    };
-
-    const TERM_DICTIONARY = {
-      "coffee": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
-      "cà phê": { vi: "Cà Phê", en: "Coffee", fr: "Café", ru: "Кофе" },
-      "tea": { vi: "Trà", en: "Tea", fr: "Thé", ru: "Чай" },
-      "trà": { vi: "Trà", en: "Tea", fr: "Thé", ru: "Чай" },
-      "milk tea": { vi: "Trà Sữa", en: "Milk Tea", fr: "Thé au Lait", ru: "Чай с Молоком" },
-      "trà sữa": { vi: "Trà Sữa", en: "Milk Tea", fr: "Thé au Lait", ru: "Чай с Молоком" },
-      "juice": { vi: "Nước Ép", en: "Fresh Juice", fr: "Jus Frais", ru: "Сок" },
-      "nước ép": { vi: "Nước Ép", en: "Fresh Juice", fr: "Jus Frais", ru: "Сок" },
-      "breakfast": { vi: "Điểm Tâm", en: "Breakfast", fr: "Petit-Déjeuner", ru: "Завтрак" },
-      "điểm tâm": { vi: "Điểm Tâm", en: "Breakfast", fr: "Petit-Déjeuner", ru: "Завтрак" },
-      "sandwich": { vi: "Bánh Mì Kẹp", en: "Sandwich", fr: "Sandwich", ru: "Сэндвич" },
-      "bánh mì kẹp": { vi: "Bánh Mì Kẹp", en: "Sandwich", fr: "Sandwich", ru: "Сэндвич" },
-      "combo": { vi: "Combo Tiết Kiệm", en: "Special Combo", fr: "Offre Combo", ru: "Комбо Набор" },
-
-      "mocha": { vi: "Cà Phê Mocha", en: "Mocha Coffee", fr: "Café Mocha", ru: "Кофе Мокка" },
-      "espresso": { vi: "Cà Phê Espresso", en: "Espresso", fr: "Café Espresso", ru: "Эспрессо" },
-      "cappuccino": { vi: "Cà Phê Cappuccino", en: "Cappuccino", fr: "Cappuccino", ru: "Капучино" },
-      "latte": { vi: "Cà Phê Latte", en: "Latte Coffee", fr: "Café Latte", ru: "Кофе Латте" },
-      "americano": { vi: "Cà Phê Americano", en: "Americano Coffee", fr: "Café Américain", ru: "Кофе Американо" },
-      "matcha latte": { vi: "Trà Xanh Matcha Latte", en: "Matcha Latte", fr: "Latte au Matcha", ru: "Матча Латте" },
-      "orange juice": { vi: "Nước Ép Cam Tươi", en: "Fresh Orange Juice", fr: "Jus d'Orange Frais", ru: "Свежевыжатый Апельсиновый Сок" },
-      "croissant": { vi: "Bánh Sừng Bò (Croissant)", en: "Butter Croissant", fr: "Croissant au Beurre", ru: "Масляный Круассан" },
-      "pancake": { vi: "Bánh Kếp Pancake", en: "Fluffy Pancakes", fr: "Pancakes Moelleux", ru: "Панкейки" },
-      "combo breakfast": { vi: "Combo Điểm Tâm Sáng", en: "Breakfast Combo", fr: "Combo Petit-Déjeuner", ru: "Завтрак Комбо" },
-
-      "cacao": { vi: "Bột Ca-cao nguyên chất", en: "Pure Cocoa", fr: "Cacao pur", ru: "Какао" },
-      "condantion milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
-      "condensed milk": { vi: "Sữa đặc có đường", en: "Condensed Milk", fr: "Lait concentré sucré", ru: "Сгущенное молоко" },
-      "expresso": { vi: "Cốt cà phê Espresso đậm vị", en: "Rich Espresso Shot", fr: "Shot d'Espresso intense", ru: "Крепкий эспрессо" },
-      "espresso shot": { vi: "Cốt cà phê Espresso đậm vị", en: "Rich Espresso Shot", fr: "Shot d'Espresso intense", ru: "Крепкий эспрессо" },
-      "steamed milk": { vi: "Sữa tươi đánh nóng", en: "Steamed milk", fr: "Lait chaud moussé", ru: "Вспененное молоко" },
-      "coffee beans": { vi: "Hạt cà phê nguyên chất", en: "Coffee beans", fr: "Grains de café", ru: "Кофейные зерна" },
-      "sourdough": { vi: "Bánh mì men tự nhiên (Sourdough)", en: "Sourdough bread", fr: "Pain au levain", ru: "Хлеб на закваске" },
-      "ripe avocado": { vi: "Bơ dốt chín tới", en: "Ripe avocado", fr: "Avocat mûr", ru: "Спелое авокадо" },
-      "poached farm egg": { vi: "Trứng gà chèn lòng đào", en: "Poached farm egg", fr: "Œuf poché de ferme", ru: "Яйцо пашот" }
-    };
-
-    function translateTerm(str, lang) {
-      if (!str) return '';
-      if (typeof str === 'object') {
-        return str[lang] || str.vi || str.en || Object.values(str)[0] || '';
-      }
-      const rawStr = String(str).trim();
-      const key = rawStr.toLowerCase();
-
-      if (TERM_DICTIONARY[key] && TERM_DICTIONARY[key][lang]) {
-        return TERM_DICTIONARY[key][lang];
-      }
-
-      for (const dictKey in TERM_DICTIONARY) {
-        if (key.includes(dictKey) || dictKey.includes(key)) {
-          if (TERM_DICTIONARY[dictKey][lang]) {
-            return TERM_DICTIONARY[dictKey][lang];
-          }
-        }
-      }
-
-      return rawStr;
-    }
-
-    const LANGUAGES = [
-      { code: 'vi', native: 'Tiếng Việt', english: 'Vietnamese' },
-      { code: 'en', native: 'English', english: 'English' },
-      { code: 'fr', native: 'Français', english: 'French' },
-      { code: 'ru', native: 'Русский', english: 'Russian' }
     ];
 
-    const DEFAULT_CAT_IMAGES = [
-      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600',
-      'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600',
-      'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=600',
-      'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=600',
-      'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600',
-      'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600'
-    ];
-
-    let activeMenuPayload = { store: {}, categories: [], dishes: [] };
-    let rawPosData = FALLBACK_POS_DATA;
-    let currentLang = localStorage.getItem('gm_menu_lang') || 'vi';
-    let selectedCategory = 'all';
-    let selectedCategoryNameRaw = '';
-    
-    let currentActiveScreen = 'collections';
-    let activeDishId = null;
-    let searchDebounceTimer = null;
-
-    const langModal = document.getElementById('lang-modal');
-    const exitModal = document.getElementById('exit-modal');
-    const welcomeBackToast = document.getElementById('welcome-back-toast');
-    const btnWelcomeExplore = document.getElementById('btn-welcome-explore');
-    const openLangBtn = document.getElementById('open-lang-btn');
-    const btnConfirmLang = document.getElementById('btn-confirm-lang');
-    const btnStayMenu = document.getElementById('btn-stay-menu');
-    const btnConfirmExit = document.getElementById('btn-confirm-exit');
-    const langListContainer = document.getElementById('lang-list-container');
-    const searchInputField = document.getElementById('search-input-field');
-    const menuWelcomeTextElement = document.getElementById('menu-welcome-text-element');
-
-    let welcomeToastTimer = null;
-
-    function showWelcomeToast() { 
-      if (welcomeBackToast) {
-        welcomeBackToast.style.display = 'block';
-        setTimeout(() => {
-          welcomeBackToast.classList.add('active');
-        }, 10);
-        clearTimeout(welcomeToastTimer);
-        welcomeToastTimer = setTimeout(() => {
-          hideWelcomeToast();
-        }, 3200);
-      }
+    function getT() {
+      return UI_TRANSLATIONS[currentLanguage] || UI_TRANSLATIONS.vi;
     }
 
-    function hideWelcomeToast() { 
-      if (welcomeBackToast) {
-        welcomeBackToast.classList.remove('active');
-        setTimeout(() => {
-          if (!welcomeBackToast.classList.contains('active')) {
-            welcomeBackToast.style.display = 'none';
-          }
-        }, 360);
-      }
+    function getItemName(item) {
+      if (currentLanguage === 'en') return item.nameEn || item.nameVi || item.name;
+      if (currentLanguage === 'fr') return item.nameFr || item.nameEn || item.nameVi || item.name;
+      return item.nameVi || item.name;
     }
 
-    window.activateUniversalHistoryGuard = function() {
-      try {
-        if (location.hash !== '#menu') {
-          history.pushState({ screen: 'collections' }, '', '#menu');
-        }
-      } catch(e) {}
-      hideWelcomeToast();
-    };
-
-    // UNCONDITIONAL HISTORY GUARD ON MAIN MENU SCREEN
-    function setupHistoryGuard() {
-      activateUniversalHistoryGuard();
+    function getItemCategoryName(item) {
+      if (currentLanguage === 'vi') return item.categoryVi || getCategoryVi(item.category);
+      if (currentLanguage === 'fr') return item.categoryFr || getCategoryFr(item.category);
+      return item.categoryEn || getCategoryEn(item.category);
     }
 
-    function rearmExitGuard() {
-      activateUniversalHistoryGuard();
+    function getItemBadge(item) {
+      if (!item) return '';
+      if (currentLanguage === 'vi') return item.badge || item.badgeVi || (item.isFeatured ? '⭐ Nổi Bật' : '');
+      if (currentLanguage === 'fr') return item.badgeFr || item.badgeEn || item.badge || (item.isFeatured ? '⭐ Vedette' : '');
+      return item.badgeEn || item.badge || (item.isFeatured ? '⭐ Featured' : '');
     }
 
-    // SWITCH SCREEN SYSTEM WITH ERROR BOUNDARY
-    window.switchOliveScreen = function(screenKey, pushHistory = true) {
-      try {
-        const prevScreen = currentActiveScreen;
-        currentActiveScreen = screenKey;
-        
-        if (screenKey !== 'detail') {
-          activeDishId = null;
-        }
-
-        const scCol = document.getElementById('screen-collections-view');
-        const scList = document.getElementById('screen-listing-view');
-        const scDet = document.getElementById('screen-detail-view');
-        const scSrc = document.getElementById('screen-search-view');
-
-        if (scCol) scCol.classList.add('hidden');
-        if (scList) scList.classList.add('hidden');
-        if (scDet) scDet.classList.add('hidden');
-        if (scSrc) scSrc.classList.add('hidden');
-
-        if (screenKey === 'listing' && scList) {
-          scList.classList.remove('hidden');
-        } else if (screenKey === 'detail' && scDet) {
-          scDet.classList.remove('hidden');
-        } else if (screenKey === 'search' && scSrc) {
-          scSrc.classList.remove('hidden');
-        } else if (scCol) {
-          scCol.classList.remove('hidden');
-        }
-
-        if (pushHistory && prevScreen !== screenKey) {
-          history.pushState({ screen: screenKey, dishId: activeDishId, catId: selectedCategory, catName: selectedCategoryNameRaw }, '', `#${screenKey}`);
-        }
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } catch(err) {
-        console.error("switchOliveScreen Error:", err);
-      }
-    };
-
-    // GUARANTEED 100% UNCONDITIONAL BACK SWIPE INTERCEPTION ON MAIN MENU SCREEN!
-    window.addEventListener('popstate', (e) => {
-      try {
-        const state = e.state;
-
-        if (currentActiveScreen === 'collections') {
-          // Guest is on the Main Menu interface and swiped back gesture!
-          // Re-push history state immediately to trap gesture, and pop up exit confirmation modal!
-          try {
-            history.pushState({ screen: 'collections' }, '', '#menu');
-          } catch(err) {}
-          
-          showExitModal();
-        } else {
-          // Guest is on any other screen (detail, listing, search) -> Simply navigate back inside menu WITHOUT showing exit modal
-          if (state && state.screen && state.screen !== 'collections') {
-            if (state.screen === 'detail' && state.dishId) {
-              openProductDetail(state.dishId, false);
-            } else if (state.screen === 'listing' && state.catId) {
-              openCategoryCollection(state.catId, state.catName, false);
-            } else if (state.screen === 'search') {
-              switchOliveScreen('search', false);
-            } else {
-              switchOliveScreen('collections', false);
-            }
-          } else {
-            switchOliveScreen('collections', false);
-          }
-        }
-      } catch(err) {
-        console.error("Popstate Error:", err);
-      }
-    });
-
-    // Touch / Pointer / Scroll gesture listener to re-arm history guard on ANY user interaction on collections screen
-    ['touchstart', 'pointerdown', 'click', 'scroll', 'touchmove'].forEach(evtType => {
-      window.addEventListener(evtType, () => {
-        if (currentActiveScreen === 'collections') {
-          activateUniversalHistoryGuard();
-        }
-      }, { passive: true });
-    });
-
-    async function init() {
-      try {
-        normalizePosData(FALLBACK_POS_DATA);
-        applyTranslations();
-        switchOliveScreen('collections', false);
-
-        await fetchLivePosData();
-        applyTranslations();
-
-        const isLangChosen = localStorage.getItem('gm_menu_lang_chosen');
-        if (!isLangChosen) {
-          setTimeout(() => {
-            showModal();
-          }, 150);
-        } else {
-          setTimeout(() => {
-            showWelcomeToast();
-          }, 250);
-        }
-
-        if (btnWelcomeExplore) {
-          btnWelcomeExplore.addEventListener('click', () => {
-            activateUniversalHistoryGuard();
-          });
-        }
-
-        if (openLangBtn) openLangBtn.addEventListener('click', showModal);
-        if (btnConfirmLang) btnConfirmLang.addEventListener('click', confirmLanguageSelection);
-        if (btnStayMenu) btnStayMenu.addEventListener('click', hideExitModal);
-        if (btnConfirmExit) {
-          btnConfirmExit.addEventListener('click', () => {
-            hideExitModal();
-            try { window.close(); } catch(e) {}
-            try {
-              if (window.history.length > 1) {
-                window.history.go(-window.history.length);
-              } else {
-                window.location.href = "about:blank";
-              }
-            } catch(e) {
-              window.location.href = "about:blank";
-            }
-            setTimeout(() => { window.location.href = "about:blank"; }, 100);
-          });
-        }
-
-        if (searchInputField) {
-          searchInputField.addEventListener('input', (e) => {
-            const query = e.target.value.trim();
-            clearTimeout(searchDebounceTimer);
-            searchDebounceTimer = setTimeout(() => {
-              if (query.length >= 1) {
-                renderSearchInlineResults(query.toLowerCase());
-              } else {
-                const sSection = document.getElementById('search-results-section');
-                const sSuggest = document.getElementById('search-default-suggestions');
-                if (sSection) sSection.classList.add('hidden');
-                if (sSuggest) sSuggest.classList.remove('hidden');
-              }
-            }, 150);
-          });
-        }
-      } catch(err) {
-        console.error("Init Error:", err);
-      }
+    function getItemDesc(item) {
+      if (currentLanguage === 'en') return item.descEn || item.descVi || item.description || 'Delicately crafted specialty by Good Morning Café.';
+      if (currentLanguage === 'fr') return item.descFr || item.descEn || item.descVi || item.description || 'Délicieuse spécialité préparée par Good Morning Café.';
+      return item.descVi || item.description || 'Món ngon tươi mới được chuẩn bị chu đáo từ Good Morning Café.';
     }
 
-    async function fetchLivePosData() {
-      const originEp = window.location.origin + '/api/public-menu';
-      const endpoints = [originEp, '/api/public-menu', 'http://localhost:5000/api/public-menu', 'http://localhost:3000/api/public-menu'];
-      for (const ep of endpoints) {
-        try {
-          const res = await fetch(ep);
-          if (res.ok) {
-            const data = await res.json();
-            if (data && (data.products || data.dishes)) {
-              rawPosData = data;
-              normalizePosData(data);
-              return;
-            }
-          }
-        } catch (err) {}
+    function parseIngredientsList(raw) {
+      if (!raw) return [];
+      if (Array.isArray(raw)) return raw;
+      if (typeof raw === 'string') {
+        return raw.split(/\r?\n|,|;/).map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean);
       }
+      return [];
+    }
+
+    function getItemIngredients(item) {
+      let list = [];
+      if (currentLanguage === 'en') {
+        list = parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
+      } else if (currentLanguage === 'fr') {
+        list = parseIngredientsList(item.ingredientsFr) || parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
+      } else {
+        list = parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
+      }
+      if (list && list.length > 0) return list;
+      if (item.description) return parseIngredientsList(item.description);
+      return [currentLanguage === 'en' ? 'Fresh premium selected ingredients' : (currentLanguage === 'fr' ? 'Ingrédients frais de première qualité' : 'Nguyên liệu tươi chọn lọc cao cấp')];
+    }
+
+    function formatPrice(priceVnd) {
+      const curr = CURRENCIES[currentCurrency] || CURRENCIES.VND;
+      const converted = priceVnd * curr.rate;
+      if (curr.code === 'VND') {
+        return Math.round(converted).toLocaleString('vi-VN') + curr.symbol;
+      }
+      return (curr.pos === 'prefix' ? curr.symbol : '') + converted.toFixed(curr.decimals) + (curr.pos === 'suffix' ? curr.symbol : '');
+    }
+
+    // Dynamic Table Number from URL query parameter (e.g. ?table=05 or ?t=3)
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawTableParam = urlParams.get('table') || urlParams.get('t') || urlParams.get('tableId') || '';
+    const currentTableNumber = rawTableParam ? rawTableParam.replace(/^Bàn\s*/i, '').replace(/^Table\s*/i, '').trim() : '';
+
+    function getTableLabel() {
+      if (currentTableNumber) {
+        const prefix = currentLanguage === 'en' ? 'Table #' : (currentLanguage === 'fr' ? 'Table #' : 'Bàn #');
+        return prefix + currentTableNumber;
+      }
+      return currentLanguage === 'en' ? '☕ Dine-In' : (currentLanguage === 'fr' ? '☕ Sur Place' : '☕ Tại Quán');
     }
 
     function applyTranslations() {
-      const t = TRANSLATIONS[currentLang] || TRANSLATIONS['vi'];
+      const t = getT();
+      const elGreeting = document.getElementById('ui-greeting');
+      if (elGreeting) elGreeting.innerText = t.greeting;
+      const elTableBadge = document.getElementById('ui-table-badge');
+      if (elTableBadge) elTableBadge.innerText = getTableLabel();
+      const elSearch = document.getElementById('input-search');
+      if (elSearch) elSearch.placeholder = t.searchPlaceholder;
+      const elSecProd = document.getElementById('label-section-products');
+      if (elSecProd) elSecProd.innerText = t.featuredTitle;
+      const btnV = document.getElementById('btn-view-all-featured');
+      if (btnV) btnV.innerText = t.viewAll;
+      const elSecForfait = document.getElementById('label-section-forfait');
+      if (elSecForfait) elSecForfait.innerText = t.comboSectionTitle;
+      const btnViewCombo = document.getElementById('btn-view-all-combo');
+      if (btnViewCombo) btnViewCombo.innerText = t.viewAll;
+      const elSecAll = document.getElementById('label-section-all');
+      if (elSecAll) elSecAll.innerText = t.allMenuTitle;
+      const elHelpTitle = document.getElementById('label-help-title');
+      if (elHelpTitle) elHelpTitle.innerText = t.helpTitle;
+      const elHelpDesc = document.getElementById('label-help-desc');
+      if (elHelpDesc) elHelpDesc.innerText = t.helpDesc;
+      const uiNavHome = document.getElementById('ui-nav-home');
+      if (uiNavHome) uiNavHome.innerText = t.navHome;
+      const uiNavSearch = document.getElementById('ui-nav-search');
+      if (uiNavSearch) uiNavSearch.innerText = t.navSearch;
+      const elModalPrice = document.getElementById('ui-modal-price-label');
+      if (elModalPrice) elModalPrice.innerText = t.priceLabel;
+      const btnDetailClose = document.getElementById('btn-detail-close-action');
+      if (btnDetailClose) btnDetailClose.innerText = t.closeBtn;
+      renderComboBanners();
+    }
 
-      const langPillCode = document.getElementById('current-lang-code');
-      if (langPillCode) langPillCode.textContent = t.pillCode;
+    function handleNavSearchClick() {
+      // 1. Smoothly scroll window back to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      const mTitle = document.getElementById('modal-title-text');
-      if (mTitle) mTitle.textContent = t.modalTitle;
-
-      const mSubtitle = document.getElementById('modal-subtitle-text');
-      if (mSubtitle) mSubtitle.textContent = t.modalSubtitle;
-
-      const btnConfirmText = document.getElementById('btn-confirm-text');
-      if (btnConfirmText) btnConfirmText.textContent = t.btnConfirm;
-
-      const uiMenuTitle = document.getElementById('ui-menu-title');
-      if (uiMenuTitle) uiMenuTitle.textContent = t.menuTitle;
-
-      const storeName = (activeMenuPayload.store && activeMenuPayload.store.name) || "Good Morning Café";
-      if (menuWelcomeTextElement) {
-        menuWelcomeTextElement.textContent = `${t.welcomePrefix} ${storeName}. ${t.welcomeSuffix}`;
+      // 2. Visual toggle on bottom pill
+      const btnHome = document.getElementById('btn-nav-home');
+      const btnSearch = document.getElementById('btn-nav-search');
+      if (btnHome && btnSearch) {
+        btnHome.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all';
+        btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
       }
 
-      const uiCollectionsTitle = document.getElementById('ui-collections-title');
-      if (uiCollectionsTitle) uiCollectionsTitle.textContent = t.collectionsTitle;
-
-      const uiProductDetailNavTitle = document.getElementById('ui-product-detail-nav-title');
-      if (uiProductDetailNavTitle) uiProductDetailNavTitle.textContent = t.productDetailNav;
-
-      const uiIngredientsTitle = document.getElementById('ui-ingredients-title');
-      if (uiIngredientsTitle) uiIngredientsTitle.textContent = t.ingredientsTitle;
-
-      const uiCallStaffBtn = document.getElementById('ui-call-staff-btn');
-      if (uiCallStaffBtn) uiCallStaffBtn.textContent = t.callStaffBtn;
-
-      const uiSearchNavTitle = document.getElementById('ui-search-nav-title');
-      if (uiSearchNavTitle) uiSearchNavTitle.textContent = t.searchNavTitle;
-
-      if (searchInputField) searchInputField.placeholder = t.searchPlaceholder;
-
-      const uiSearchResultsTitle = document.getElementById('ui-search-results-title');
-      if (uiSearchResultsTitle) uiSearchResultsTitle.textContent = t.searchResultsTitle;
-
-      const uiPopularSearchesTitle = document.getElementById('ui-popular-searches-title');
-      if (uiPopularSearchesTitle) uiPopularSearchesTitle.textContent = t.popularSearchesTitle;
-
-      const uiRecentlyViewedTitle = document.getElementById('ui-recently-viewed-title');
-      if (uiRecentlyViewedTitle) uiRecentlyViewedTitle.textContent = t.recentlyViewedTitle;
-
-      const tabMenu = document.getElementById('ui-tab-menu-label');
-      if (tabMenu) tabMenu.textContent = t.tabMenu;
-
-      const tabSearch = document.getElementById('ui-tab-search-label');
-      if (tabSearch) tabSearch.textContent = t.tabSearch;
-
-      const tabAbout = document.getElementById('ui-tab-about-label');
-      if (tabAbout) tabAbout.textContent = t.tabAbout;
-
-      const uiExitModalTitle = document.getElementById('ui-exit-modal-title');
-      if (uiExitModalTitle) uiExitModalTitle.textContent = t.exitTitle;
-
-      const uiExitModalMsg = document.getElementById('ui-exit-modal-msg');
-      if (uiExitModalMsg) uiExitModalMsg.textContent = t.exitMsg;
-
-      if (btnStayMenu) btnStayMenu.textContent = t.btnStay;
-      if (btnConfirmExit) btnConfirmExit.textContent = t.btnExit;
-
-      const uiWelcomeTitle = document.getElementById('ui-welcome-back-title');
-      if (uiWelcomeTitle) uiWelcomeTitle.textContent = t.welcomeBackTitle;
-
-      const uiWelcomeDesc = document.getElementById('ui-welcome-back-desc');
-      if (uiWelcomeDesc) uiWelcomeDesc.textContent = t.welcomeBackDesc;
-
-      if (btnWelcomeExplore) btnWelcomeExplore.textContent = t.btnExplore;
-
-      if (rawPosData) {
-        normalizePosData(rawPosData);
-      }
-      renderCollections();
-
-      if (selectedCategoryNameRaw) {
-        const catTitleEl = document.getElementById('listing-category-title');
-        if (catTitleEl) catTitleEl.textContent = translateTerm(selectedCategoryNameRaw, currentLang);
-      }
-      renderCategoryListing();
-      renderRecentlyViewed();
-
-      if (currentActiveScreen === 'detail' && activeDishId) {
-        openProductDetail(activeDishId, false);
-      } else {
-        switchOliveScreen(currentActiveScreen, false);
+      // 3. Focus search input with an elegant pulse highlight animation
+      const searchInput = document.getElementById('input-search');
+      const searchWrapper = document.getElementById('search-bar-wrapper');
+      if (searchInput && searchWrapper) {
+        setTimeout(() => {
+          searchInput.focus();
+          searchWrapper.classList.add('ring-4', 'ring-black/20', 'scale-[1.02]');
+          setTimeout(() => searchWrapper.classList.remove('scale-[1.02]'), 200);
+          setTimeout(() => searchWrapper.classList.remove('ring-4', 'ring-black/20'), 800);
+        }, 180);
       }
     }
 
-    function normalizePosData(data) {
-      const rawStore = data.store || {};
-      const rawCategories = data.categories || [];
-      const rawProducts = data.products || data.dishes || [];
-
-      const storeName = rawStore.name || "Good Morning Café";
-      document.title = `${storeName} | E-Menu`;
-
-      let collections = [];
-      if (rawCategories && rawCategories.length > 0) {
-        collections = rawCategories.map((cat, idx) => {
-          const origName = typeof cat.name === 'object' ? (cat.name[currentLang] || cat.name.vi || cat.name.en) : (cat.name || cat);
-          const translatedCatName = translateTerm(origName, currentLang);
-          const catId = cat.id || cat.slug || String(origName).toLowerCase().replace(/\s+/g, '-');
-          const matchingDish = rawProducts.find(p => String(p.category).toLowerCase() === String(catId).toLowerCase() || String(p.category).toLowerCase() === String(origName).toLowerCase());
-          const catImg = cat.image || cat.image_url || (matchingDish ? (matchingDish.image || matchingDish.image_url) : null) || DEFAULT_CAT_IMAGES[idx % DEFAULT_CAT_IMAGES.length];
-          return {
-            id: catId,
-            rawName: origName,
-            name: translatedCatName,
-            img: catImg
-          };
-        });
-      } else {
-        collections = [
-          { id: 'Coffee', rawName: 'Coffee', name: translateTerm('Coffee', currentLang), img: DEFAULT_CAT_IMAGES[0] },
-          { id: 'Tea', rawName: 'Tea', name: translateTerm('Tea', currentLang), img: DEFAULT_CAT_IMAGES[1] },
-          { id: 'Milk Tea', rawName: 'Milk Tea', name: translateTerm('Milk Tea', currentLang), img: DEFAULT_CAT_IMAGES[2] },
-          { id: 'Juice', rawName: 'Juice', name: translateTerm('Juice', currentLang), img: DEFAULT_CAT_IMAGES[3] },
-          { id: 'Breakfast', rawName: 'Breakfast', name: translateTerm('Breakfast', currentLang), img: DEFAULT_CAT_IMAGES[4] },
-          { id: 'Combo', rawName: 'Combo', name: translateTerm('Combo', currentLang), img: DEFAULT_CAT_IMAGES[5] }
-        ];
+    function handleNavHomeClick() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const btnHome = document.getElementById('btn-nav-home');
+      const btnSearch = document.getElementById('btn-nav-search');
+      if (btnHome && btnSearch) {
+        btnHome.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
+        btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all';
       }
-
-      const dishes = rawProducts.map(p => {
-        const nameObj = typeof p.name === 'object' ? p.name : (typeof p.dish_name === 'object' ? p.dish_name : null);
-        const nameStr = nameObj ? (nameObj[currentLang] || nameObj.vi || nameObj.en) : (p.name || p.dish_name);
-        const translatedDishName = translateTerm(nameStr, currentLang);
-
-        const rawCategoryKey = String(p.category || '').toLowerCase();
-        const fallbackIngr = CATEGORY_DEFAULT_INGREDIENTS[rawCategoryKey] || "Butter, flour, fresh milk";
-
-        const ingrObj = typeof p.ingredients === 'object' ? p.ingredients : null;
-        const ingrStr = ingrObj ? (ingrObj[currentLang] || ingrObj.vi || ingrObj.en) : (p.ingredients || p.description || fallbackIngr);
-
-        return {
-          dish_id: p.id || p.dish_id,
-          category: p.category || 'Breakfast',
-          price: p.price || 185000,
-          image_url: p.image || p.image_url || DEFAULT_CAT_IMAGES[1],
-          dish_name: translatedDishName,
-          rawName: nameStr,
-          ingredients: ingrStr
-        };
-      });
-
-      activeMenuPayload = { store: rawStore, categories: collections, dishes: dishes };
     }
 
-    function renderCollections() {
-      const container = document.getElementById('collections-grid-container');
+    function viewAllCombos() {
+      // Best UX: Switch sticky category tab to "Combo" and scroll smoothly to the full menu list
+      setCategory('Combo');
+      setTimeout(() => {
+        const target = document.getElementById('category-nav-sticky') || document.getElementById('label-section-all');
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 60);
+    }
+
+    function getComboItems() {
+      // 1. Prioritize combos explicitly marked as isComboBanner in POS
+      const markedCombos = POS_PRODUCTS.filter(item => item.category === 'Combo' && item.isComboBanner !== false);
+      if (markedCombos.length > 0) return markedCombos;
+
+      // 2. Fallback to all combos
+      return POS_PRODUCTS.filter(item => item.category === 'Combo');
+    }
+
+    function renderComboBanners() {
+      const section = document.getElementById('combo-section-wrapper');
+      const container = document.getElementById('combo-banners-container');
+      const dotsContainer = document.getElementById('combo-pagination-dots');
       if (!container) return;
-      container.innerHTML = activeMenuPayload.categories.map(cat => `
-        <div class="collection-tile-card" onclick="openCategoryCollection('${cat.id}', '${cat.rawName || cat.name}')">
-          <img src="${cat.img}" alt="${cat.name}" class="collection-tile-img">
-          <div class="collection-tile-glass-overlay">
-            <h3 class="collection-tile-title">${cat.name}</h3>
-          </div>
-        </div>
-      `).join('');
-    }
 
-    window.openCategoryCollection = function(catId, rawCatName, pushHistory = true) {
-      selectedCategory = catId;
-      selectedCategoryNameRaw = rawCatName || catId;
-      const translatedTitle = translateTerm(selectedCategoryNameRaw, currentLang);
-      const catTitleEl = document.getElementById('listing-category-title');
-      if (catTitleEl) catTitleEl.textContent = translatedTitle;
-      renderCategoryListing();
-      switchOliveScreen('listing', pushHistory);
-    };
-
-    function renderCategoryListing() {
-      const container = document.getElementById('category-dishes-container');
-      if (!container) return;
-      let dishes = activeMenuPayload.dishes;
-
-      if (selectedCategory && selectedCategory !== 'all') {
-        const filtered = dishes.filter(d => 
-          String(d.category).toLowerCase() === String(selectedCategory).toLowerCase() ||
-          String(d.category).toLowerCase().includes(String(selectedCategory).toLowerCase()) ||
-          String(selectedCategory).toLowerCase().includes(String(d.category).toLowerCase())
-        );
-        if (filtered.length > 0) dishes = filtered;
+      const combos = getComboItems();
+      if (combos.length === 0) {
+        if (section) section.classList.add('hidden');
+        return;
       }
+      if (section) section.classList.remove('hidden');
 
-      container.innerHTML = dishes.map(dish => {
-        const rawIngr = dish.ingredients || "";
-        const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
-        const translatedIngrText = ingrArray.map(item => translateTerm(item, currentLang)).join(', ');
+      const t = getT();
+
+      // Render Combo Cards (Full width on swiper)
+      container.innerHTML = combos.map((combo) => {
+        const title = getItemName(combo);
+        const desc = getItemDesc(combo) || t.comboDesc;
+        const badge = getItemBadge(combo) || t.comboBadge;
 
         return `
-          <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
-            <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
-            <div class="dish-card-content">
-              <div>
-                <h3 class="dish-card-name-title">${dish.dish_name}</h3>
-                <p class="dish-card-ingr-text">${translatedIngrText}</p>
+          <div onclick="openDishDetail(${combo.id})" class="group relative w-full shrink-0 snap-center bg-white rounded-[32px] p-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
+            <div class="flex-1 pr-3 z-10">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 font-mono">${badge}</span>
+              <h3 class="text-sm font-black text-black leading-snug mt-0.5">${title}</h3>
+              <p class="text-[11px] text-gray-400 line-clamp-2 mt-1 leading-relaxed">
+                ${desc}
+              </p>
+              <div class="flex items-center gap-3 mt-3.5">
+                <button type="button" class="px-4 py-1.5 rounded-full bg-black text-white text-[10px] font-bold group-hover:bg-gray-800 transition-colors shadow-xs flex items-center gap-1">
+                  <span>${t.comboBtn}</span>
+                  <span>➔</span>
+                </button>
+                <span class="text-xs font-black font-mono text-black">${formatPrice(combo.price)}</span>
               </div>
-              <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
+            </div>
+
+            <!-- Big 3D Floating Cutout Real Food Photo with Ground Shadow (Exactly like mockup) -->
+            <div class="floating-dish-wrapper w-28 h-28 sm:w-32 sm:h-32 shrink-0">
+              <img src="${combo.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain">
+              <div class="floating-ground-shadow" style="width: 80%; height: 16px; bottom: 0px;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Rule 3: Only show pagination dots if combos.length > 1
+      if (dotsContainer) {
+        if (combos.length > 1) {
+          dotsContainer.classList.remove('hidden');
+          dotsContainer.innerHTML = combos.map((_, idx) => `
+            <button onclick="goToComboSlide(${idx})" aria-label="Combo ${idx + 1}" class="combo-dot-btn transition-all duration-300 cursor-pointer ${
+              idx === 0 ? 'w-4 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
+            }"></button>
+          `).join('');
+          setupComboScrollListener();
+        } else {
+          dotsContainer.classList.add('hidden');
+          dotsContainer.innerHTML = '';
+        }
+      }
+    }
+
+    function goToComboSlide(index) {
+      const container = document.getElementById('combo-banners-container');
+      if (!container) return;
+      const card = container.querySelector('.snap-center');
+      const step = card ? (card.offsetWidth + 12) : container.offsetWidth;
+      container.scrollTo({ left: index * step, behavior: 'smooth' });
+    }
+
+    function setupComboScrollListener() {
+      const container = document.getElementById('combo-banners-container');
+      const dotsContainer = document.getElementById('combo-pagination-dots');
+      if (!container || !dotsContainer || container.hasAttribute('data-combo-listeners')) return;
+      container.setAttribute('data-combo-listeners', 'true');
+
+      let debounce;
+      container.addEventListener('scroll', () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(() => {
+          const combos = getComboItems();
+          if (combos.length <= 1) return;
+          const card = container.querySelector('.snap-center');
+          const step = card ? (card.offsetWidth + 12) : container.offsetWidth;
+          const activeIdx = Math.min(combos.length - 1, Math.max(0, Math.round(container.scrollLeft / step)));
+          const dots = dotsContainer.querySelectorAll('.combo-dot-btn');
+          dots.forEach((dot, idx) => {
+            if (idx === activeIdx) {
+              dot.className = 'combo-dot-btn w-4 h-1.5 bg-black rounded-full transition-all duration-300 cursor-pointer';
+            } else {
+              dot.className = 'combo-dot-btn w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full transition-all duration-300 cursor-pointer';
+            }
+          });
+        }, 50);
+      }, { passive: true });
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('category-tabs-container');
+      container.innerHTML = CATEGORIES.map(cat => {
+        const isActive = cat.id === currentCategory;
+        const label = cat[currentLanguage] || cat.vi;
+
+        return `
+          <button data-cat-id="${cat.id}" onclick="setCategory('${cat.id}')" class="px-4 py-2 rounded-2xl text-xs font-bold tracking-tight transition-all cursor-pointer whitespace-nowrap active:scale-95 ${
+            isActive
+              ? 'bg-black text-white shadow-xs'
+              : 'bg-white text-gray-500 hover:text-black border border-gray-100 shadow-2xs font-semibold'
+          }">
+            ${label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    let featuredAutoSlideTimer = null;
+    let userIdleResumeTimer = null;
+    let isUserInteractingWithCarousel = false;
+    let isProgrammaticScrolling = false;
+    let currentFeaturedIndex = 0;
+    let lastFeaturedFingerprint = '';
+
+    function getFeaturedItems() {
+      // 1. Prioritize dishes explicitly marked as isFeatured in POS!
+      const featured = POS_PRODUCTS.filter(i => i.isFeatured === true && i.available !== false);
+      if (featured.length > 0) return featured;
+
+      // 2. Fallback to signature dishes
+      const signatureIds = [5, 1, 6, 9, 10, 8];
+      const items = POS_PRODUCTS.filter(i => signatureIds.includes(i.id) && i.available !== false);
+      return items.length > 0 ? items : POS_PRODUCTS.filter(i => i.available !== false).slice(0, 6);
+    }
+
+    function getSlideStep() {
+      const container = document.getElementById('featured-products-carousel');
+      if (!container) return 170;
+      const firstCard = container.querySelector('.featured-slide-card');
+      if (firstCard && firstCard.offsetWidth > 0) {
+        return firstCard.offsetWidth + 12; // 12px gap-3
+      }
+      return (container.offsetWidth - 12) / 2 + 12;
+    }
+
+    function renderFeaturedCarousel(force = false) {
+      const container = document.getElementById('featured-products-carousel');
+      const dotsContainer = document.getElementById('featured-carousel-dots');
+      if (!container) return;
+
+      const featured = getFeaturedItems();
+      if (featured.length === 0) {
+        container.innerHTML = '';
+        if (dotsContainer) dotsContainer.innerHTML = '';
+        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
+        return;
+      }
+
+      // Compute fingerprint to avoid unnecessary DOM recreation during 4s sync polling
+      const currentFingerprint = JSON.stringify(featured.map(i => [
+        i.id, i.price, i.name || i.nameVi, i.image, i.badge || '', i.badgeVi || '',
+        i.badgeEn || '', i.badgeFr || '', i.available, currentLanguage, currentCurrency
+      ]));
+      if (!force && currentFingerprint === lastFeaturedFingerprint && container.children.length > 0) {
+        return; // Data hasn't changed, keep current carousel and scroll position intact!
+      }
+      lastFeaturedFingerprint = currentFingerprint;
+
+      if (featured.length === 1) {
+        // Single featured item: display full width without infinite clone loop or dots
+        const item = featured[0];
+        const title = getItemName(item);
+        const sub = getItemCategoryName(item);
+        const badge = getItemBadge(item);
+
+        container.innerHTML = `
+          <article onclick="openDishDetail(${item.id})" class="featured-slide-card group w-full bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+            <div class="floating-dish-wrapper w-full h-28 p-1 mb-1 flex items-center justify-center relative">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
+              <div class="floating-ground-shadow"></div>
+              ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs border border-gray-200/60 font-mono z-10">${badge}</span>` : ''}
+            </div>
+            <div class="space-y-0.5 mt-0.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] font-bold text-gray-400 font-mono uppercase tracking-wider truncate max-w-[120px]">${sub}</span>
+                <span class="text-[12px] font-black text-black font-mono">${formatPrice(item.price)}</span>
+              </div>
+              <h3 class="text-sm font-black text-black tracking-tight truncate leading-tight">${title}</h3>
+            </div>
+          </article>
+        `;
+        if (dotsContainer) dotsContainer.innerHTML = '';
+        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
+        return;
+      }
+
+      // Render 3 buffer sets: Set 0 (left), Set 1 (middle active), Set 2 (right)
+      const loopedItems = [...featured, ...featured, ...featured];
+
+      container.innerHTML = loopedItems.map((item, idx) => {
+        const title = getItemName(item);
+        const sub = getItemCategoryName(item);
+        const badge = getItemBadge(item);
+        const realIdx = idx % featured.length;
+
+        return `
+          <article onclick="openDishDetail(${item.id})" data-real-index="${realIdx}" class="featured-slide-card snap-start snap-always group w-[calc(50%-6px)] min-w-[calc(50%-6px)] max-w-[calc(50%-6px)] shrink-0 bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+            <!-- 3D Floating Cutout Compact Wrapper -->
+            <div class="floating-dish-wrapper w-full h-24 p-1 mb-1 flex items-center justify-center relative">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
+              <div class="floating-ground-shadow"></div>
+              ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs border border-gray-200/60 font-mono z-10">${badge}</span>` : ''}
+            </div>
+
+            <!-- Title & Price Row -->
+            <div class="space-y-0.5 mt-0.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] font-bold text-gray-400 font-mono uppercase tracking-wider truncate max-w-[75px]">${sub}</span>
+                <span class="text-[11px] font-black text-black font-mono">${formatPrice(item.price)}</span>
+              </div>
+              <h3 class="text-xs font-black text-black tracking-tight truncate leading-tight">${title}</h3>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      // Render Pagination Dots (for the unique items)
+      currentFeaturedIndex = currentFeaturedIndex % featured.length;
+      if (dotsContainer) {
+        dotsContainer.innerHTML = featured.map((_, idx) => `
+          <button onclick="goToFeaturedSlide(${idx})" aria-label="Slide ${idx + 1}" class="carousel-dot-btn transition-all duration-300 cursor-pointer ${
+            idx === currentFeaturedIndex ? 'w-5 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
+          }"></button>
+        `).join('');
+      }
+
+      // Initialize scroll position to the 2nd set (middle buffer) at currentFeaturedIndex
+      requestAnimationFrame(() => {
+        const step = getSlideStep();
+        const targetLeft = (featured.length + currentFeaturedIndex) * step;
+        container.style.scrollSnapType = 'none';
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = targetLeft;
+        void container.offsetWidth;
+        container.style.scrollSnapType = 'x mandatory';
+      });
+
+      setupCarouselListeners();
+      startAutoSlide();
+    }
+
+    function nextFeaturedSlide() {
+      const container = document.getElementById('featured-products-carousel');
+      if (!container || isUserInteractingWithCarousel) return;
+      const featured = getFeaturedItems();
+      const N = featured.length;
+      if (N <= 1) return;
+
+      const step = getSlideStep();
+      if (step <= 0) return;
+
+      isProgrammaticScrolling = true;
+      currentFeaturedIndex++;
+
+      const targetLeft = (N + currentFeaturedIndex) * step;
+      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      updateCarouselDots(currentFeaturedIndex % N);
+
+      // When the smooth forward slide completes, seamlessly normalize position to Set 1 (0ms silent teleport)
+      setTimeout(() => {
+        if (currentFeaturedIndex >= N) {
+          currentFeaturedIndex = currentFeaturedIndex % N;
+          const resetLeft = (N + currentFeaturedIndex) * step;
+          container.style.scrollSnapType = 'none';
+          container.style.scrollBehavior = 'auto';
+          container.scrollLeft = resetLeft;
+          void container.offsetWidth;
+          container.style.scrollSnapType = 'x mandatory';
+        }
+        isProgrammaticScrolling = false;
+      }, 450);
+    }
+
+    function goToFeaturedSlide(realIndex) {
+      const container = document.getElementById('featured-products-carousel');
+      if (!container) return;
+      pauseCarouselForUserActivity();
+
+      const step = getSlideStep();
+      const featured = getFeaturedItems();
+      const N = featured.length;
+      if (N <= 1 || step <= 0) return;
+
+      currentFeaturedIndex = realIndex % N;
+      const targetLeft = (N + currentFeaturedIndex) * step;
+
+      isProgrammaticScrolling = true;
+      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      updateCarouselDots(currentFeaturedIndex);
+
+      setTimeout(() => {
+        isProgrammaticScrolling = false;
+      }, 450);
+    }
+
+    function updateCarouselDots(forcedIdx = null) {
+      const container = document.getElementById('featured-products-carousel');
+      const dotsContainer = document.getElementById('featured-carousel-dots');
+      if (!container || !dotsContainer) return;
+
+      const featured = getFeaturedItems();
+      const N = featured.length;
+      if (N <= 1) return;
+
+      let activeIdx;
+      if (forcedIdx !== null && forcedIdx !== undefined) {
+        activeIdx = ((forcedIdx % N) + N) % N;
+      } else {
+        const step = getSlideStep();
+        if (step <= 0) return;
+        const rawIndex = Math.round(container.scrollLeft / step);
+        activeIdx = ((rawIndex % N) + N) % N;
+      }
+
+      const dots = dotsContainer.querySelectorAll('.carousel-dot-btn');
+      dots.forEach((dot, idx) => {
+        if (idx === activeIdx) {
+          dot.className = 'carousel-dot-btn w-5 h-1.5 bg-black rounded-full transition-all duration-300 cursor-pointer';
+        } else {
+          dot.className = 'carousel-dot-btn w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full transition-all duration-300 cursor-pointer';
+        }
+      });
+    }
+
+    function pauseCarouselForUserActivity() {
+      isUserInteractingWithCarousel = true;
+      if (userIdleResumeTimer) {
+        clearTimeout(userIdleResumeTimer);
+      }
+      userIdleResumeTimer = setTimeout(() => {
+        isUserInteractingWithCarousel = false;
+      }, 4000);
+    }
+
+    function setupCarouselListeners() {
+      const container = document.getElementById('featured-products-carousel');
+      if (!container || container.hasAttribute('data-listeners-bound')) return;
+      container.setAttribute('data-listeners-bound', 'true');
+
+      let scrollEndDebounce;
+      container.addEventListener('scroll', () => {
+        if (!isProgrammaticScrolling) {
+          pauseCarouselForUserActivity();
+          updateCarouselDots();
+        }
+        clearTimeout(scrollEndDebounce);
+        scrollEndDebounce = setTimeout(() => {
+          if (!isProgrammaticScrolling) {
+            // User finished manual scroll: calibrate index and normalize buffer
+            const featured = getFeaturedItems();
+            const N = featured.length;
+            if (N > 1) {
+              const step = getSlideStep();
+              if (step > 0) {
+                const rawIndex = Math.round(container.scrollLeft / step);
+                currentFeaturedIndex = ((rawIndex % N) + N) % N;
+                updateCarouselDots(currentFeaturedIndex);
+
+                // If user scrolled into Set 0 or Set 2, silently warp back to Set 1
+                if (rawIndex < N || rawIndex >= 2 * N) {
+                  const resetLeft = (N + currentFeaturedIndex) * step;
+                  container.style.scrollSnapType = 'none';
+                  container.style.scrollBehavior = 'auto';
+                  container.scrollLeft = resetLeft;
+                  void container.offsetWidth;
+                  container.style.scrollSnapType = 'x mandatory';
+                }
+              }
+            }
+          }
+        }, 120);
+      }, { passive: true });
+
+      // Direct touch / drag user events
+      const onUserStart = () => {
+        isProgrammaticScrolling = false;
+        pauseCarouselForUserActivity();
+      };
+      container.addEventListener('touchstart', onUserStart, { passive: true });
+      container.addEventListener('pointerdown', onUserStart, { passive: true });
+      container.addEventListener('mousedown', onUserStart, { passive: true });
+      container.addEventListener('wheel', onUserStart, { passive: true });
+
+      container.addEventListener('touchend', pauseCarouselForUserActivity, { passive: true });
+      container.addEventListener('pointerup', pauseCarouselForUserActivity, { passive: true });
+      container.addEventListener('mouseup', pauseCarouselForUserActivity, { passive: true });
+
+      // Pause when user is interacting with page search
+      const searchInput = document.getElementById('input-search');
+      if (searchInput) {
+        searchInput.addEventListener('focus', pauseCarouselForUserActivity);
+        searchInput.addEventListener('input', pauseCarouselForUserActivity);
+      }
+    }
+
+    function startAutoSlide() {
+      if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
+      featuredAutoSlideTimer = setInterval(() => {
+        if (!isUserInteractingWithCarousel) {
+          nextFeaturedSlide();
+        }
+      }, 3500);
+    }
+
+    function renderFeaturedGrid() {
+      renderFeaturedCarousel(true);
+    }
+
+    function renderMenuList() {
+      const t = getT();
+      const container = document.getElementById('menu-items-list');
+      if (!container) return;
+
+      let filtered = POS_PRODUCTS;
+
+      // If search query is applied via Enter, filter using diacritic-safe multi-language search
+      if (searchQuery.trim()) {
+        const searchMatches = searchFilterItems(searchQuery);
+        const matchIds = new Set(searchMatches.map(m => m.id));
+        filtered = POS_PRODUCTS.filter(item => matchIds.has(item.id));
+      } else if (currentCategory !== 'all') {
+        filtered = POS_PRODUCTS.filter(item => item.category === currentCategory);
+      }
+
+      document.getElementById('results-count-badge').innerText = `${filtered.length} ${t.itemsSuffix}`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-gray-400 space-y-1.5 bg-white rounded-2xl border border-gray-100">
+            <div class="text-xl">🔍</div>
+            <div class="text-xs font-bold text-black">${t.noResults}</div>
+            <p class="text-[10px] text-gray-400">Từ khóa: "<strong class="text-black">${searchQuery}</strong>"</p>
+            <button onclick="resetSearchAndShowAll()" class="text-xs text-black underline font-semibold mt-1">${t.viewAllMenu}</button>
+          </div>
+        `;
+        return;
+      }
+
+      // Luxurious Real Food Cutout Cards (Matching "Mon Panier" in Mockup)
+      container.innerHTML = filtered.map(item => {
+        const title = getItemName(item);
+        const sub = getItemCategoryName(item);
+        const badge = getItemBadge(item);
+
+        return `
+          <article onclick="openDishDetail(${item.id})" class="group bg-white rounded-[26px] px-4 py-3.5 shadow-[0_6px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3.5 cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
+            !item.available ? 'opacity-60 grayscale' : ''
+          }">
+            <!-- Left 3D Floating Cutout Real Food Photo with Ground Shadow (No gray box) -->
+            <div class="floating-dish-wrapper w-16 h-16 shrink-0">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain">
+              <div class="floating-ground-shadow" style="width: 76%; height: 12px; bottom: 1px;"></div>
+              ${!item.available ? `
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-10">
+                  <span class="text-[8px] font-black text-white font-mono bg-red-600 px-1 py-0.2 rounded">${t.outOfStockBadge}</span>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Middle Content (Title + Badge + Category Subtitle) -->
+            <div class="flex-1 min-w-0 pr-1">
+              <div class="flex items-center gap-1.5 truncate">
+                <h4 class="text-xs font-black text-black tracking-tight truncate leading-tight group-hover:text-gray-700">${title}</h4>
+                ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/50 px-1.5 py-0.2 rounded-md font-mono shrink-0">${badge}</span>` : ''}
+              </div>
+              <p class="text-[11px] text-gray-400 truncate mt-1 font-medium">${sub}</p>
+            </div>
+
+            <!-- Right Price & Quick Detail Trigger -->
+            <div class="flex flex-col items-end shrink-0 pl-1">
+              <span class="text-xs font-black font-mono text-black">${formatPrice(item.price)}</span>
+              <span class="text-[9px] font-semibold text-gray-400 group-hover:text-black transition-colors flex items-center gap-0.5 mt-0.5">
+                <span>${t.detailTag}</span>
+                <span>🔍</span>
+              </span>
             </div>
           </article>
         `;
       }).join('');
     }
 
-    window.openProductDetail = function(dishId, pushHistory = true) {
-      activeDishId = dishId;
-      const dish = activeMenuPayload.dishes.find(d => String(d.dish_id) === String(dishId));
-      if (!dish) return;
+    function openDishDetail(itemId) {
+      const t = getT();
+      const item = POS_PRODUCTS.find(i => i.id === itemId);
+      if (!item) return;
 
-      const pPhoto = document.getElementById('detail-photo-target');
-      const pTitle = document.getElementById('detail-title-target');
-      const pPrice = document.getElementById('detail-price-target');
+      const title = getItemName(item);
+      const sub = getItemCategoryName(item);
+      const desc = getItemDesc(item);
+      const ingredients = getItemIngredients(item);
+      const badge = getItemBadge(item);
 
-      if (pPhoto) pPhoto.src = dish.image_url;
-      if (pTitle) pTitle.textContent = dish.dish_name;
-      if (pPrice) pPrice.innerHTML = new Intl.NumberFormat('vi-VN').format(dish.price) + '<u>đ</u>';
+      document.getElementById('detail-price-display').innerText = formatPrice(item.price);
 
-      const rawIngr = dish.ingredients || "";
-      const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
-      
-      const listTarget = document.getElementById('detail-ingredients-list-target');
-      if (listTarget) {
-        if (ingrArray.length > 0) {
-          listTarget.innerHTML = ingrArray.map(item => `<li>${translateTerm(item, currentLang)}</li>`).join('');
+      const ingredientsListHtml = (ingredients || []).map(ing => `
+        <li class="flex items-center gap-2.5 text-xs py-1.5 px-3 rounded-xl bg-[#F6F7F9] text-gray-800 border border-gray-100 font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-black shrink-0"></span>
+          <span>${ing}</span>
+        </li>
+      `).join('');
+
+      const body = document.getElementById('dish-detail-body');
+      body.innerHTML = `
+        <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
+        <div class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
+          <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain">
+          <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
+          ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
+            ${!item.available 
+              ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-mono">${t.outOfStockLabel}</span>` 
+              : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-mono">${t.availableLabel}</span>`}
+          </div>
+          <h2 class="text-base font-extrabold text-black tracking-tight leading-snug mt-1">${title}</h2>
+          <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
+          <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
+          <ul class="grid grid-cols-1 gap-1.5">
+            ${ingredientsListHtml}
+          </ul>
+        </div>
+
+        <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
+          <span>⚠️</span>
+          <span>${t.allergyWarning}</span>
+        </div>
+      `;
+
+      document.getElementById('modal-dish-detail').classList.remove('hidden');
+    }
+
+    function setCategory(id) {
+      currentCategory = id;
+
+      // UX Option 1: Automatically clear active search when user picks a category
+      if (searchQuery) {
+        searchQuery = '';
+        const inputSearch = document.getElementById('input-search');
+        const clearBtn = document.getElementById('btn-clear-search');
+        if (inputSearch) inputSearch.value = '';
+        if (clearBtn) clearBtn.classList.add('hidden');
+        closeSearchSuggestions();
+      }
+
+      renderCategories();
+      renderMenuList();
+
+      // Auto-Center the active Category button smoothly
+      setTimeout(() => {
+        const activeTab = document.querySelector(`[data-cat-id="${id}"]`);
+        if (activeTab) {
+          activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      }, 30);
+    }
+
+    // Elegant Floating Call Service Toast Notification with vibration
+    let toastTimer = null;
+    function openHelpModal() {
+      showServiceToast();
+    }
+
+    function showServiceToast() {
+      const toast = document.getElementById('toast-service-call');
+      if (!toast) return;
+      if (navigator.vibrate) {
+        try { navigator.vibrate([40, 60, 40]); } catch(e) {}
+      }
+
+      const t = getT();
+      const tableLbl = getTableLabel();
+      document.getElementById('toast-title').innerText = t.toastTitle;
+      document.getElementById('toast-desc').innerText = currentLanguage === 'en'
+        ? `Our waitstaff is on the way to ${tableLbl} right away.`
+        : (currentLanguage === 'fr'
+          ? `Notre équipe arrive à la ${tableLbl} dans un instant.`
+          : `Nhân viên Good Morning Café đang đến ${tableLbl} ngay trong giây lát.`);
+
+      toast.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        toast.classList.remove('-translate-y-4', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+      });
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(hideServiceToast, 4500);
+    }
+
+    function hideServiceToast() {
+      const toast = document.getElementById('toast-service-call');
+      if (!toast) return;
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('-translate-y-4', 'opacity-0');
+      setTimeout(() => toast.classList.add('hidden'), 300);
+    }
+
+    // Helper to strip Vietnamese diacritics for smart accent-insensitive search
+    function removeVietnameseDiacritics(str) {
+      if (!str) return '';
+      return str
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D');
+    }
+
+    // Language-aware search matcher
+    function searchFilterItems(query) {
+      if (!query || !query.trim()) return [];
+      const rawQuery = query.trim().toLowerCase();
+      const cleanQuery = removeVietnameseDiacritics(rawQuery);
+
+      return POS_PRODUCTS.filter(item => {
+        if (currentLanguage === 'en') {
+          // English mode: search only English names, categories and descriptions
+          const name = (item.nameEn || item.name || '').toLowerCase();
+          const category = (item.categoryEn || item.category || '').toLowerCase();
+          const desc = (item.descEn || '').toLowerCase();
+          return name.includes(rawQuery) || category.includes(rawQuery) || desc.includes(rawQuery);
+        } else if (currentLanguage === 'fr') {
+          // French mode: search only French names, categories and descriptions
+          const name = (item.nameFr || item.nameEn || item.name || '').toLowerCase();
+          const category = (item.categoryFr || item.category || '').toLowerCase();
+          const desc = (item.descFr || '').toLowerCase();
+          return name.includes(rawQuery) || category.includes(rawQuery) || desc.includes(rawQuery);
         } else {
-          listTarget.innerHTML = `<li>${dish.dish_name}</li>`;
+          // Vietnamese mode: accent-sensitive & accent-insensitive matching
+          const nameVi = (item.nameVi || item.name || '').toLowerCase();
+          const cleanNameVi = removeVietnameseDiacritics(nameVi);
+          const catVi = (item.categoryVi || item.category || '').toLowerCase();
+          const cleanCatVi = removeVietnameseDiacritics(catVi);
+          const descVi = (item.descVi || item.description || '').toLowerCase();
+          const cleanDescVi = removeVietnameseDiacritics(descVi);
+
+          return (
+            nameVi.includes(rawQuery) ||
+            cleanNameVi.includes(cleanQuery) ||
+            catVi.includes(rawQuery) ||
+            cleanCatVi.includes(cleanQuery) ||
+            descVi.includes(rawQuery) ||
+            cleanDescVi.includes(cleanQuery)
+          );
+        }
+      });
+    }
+
+    // Highlight search match in text (Diacritic-safe & case-insensitive)
+    function highlightSearchMatch(text, query) {
+      if (!query || !query.trim() || !text) return text;
+      const q = query.trim().toLowerCase();
+      const cleanQ = removeVietnameseDiacritics(q);
+      const cleanText = removeVietnameseDiacritics(text.toLowerCase());
+
+      const idx = cleanText.indexOf(cleanQ);
+      if (idx === -1) return text;
+
+      const matchOriginal = text.substr(idx, q.length);
+      return text.substring(0, idx) + `<mark class="bg-yellow-200 text-black font-extrabold px-0.5 rounded">${matchOriginal}</mark>` + text.substring(idx + q.length);
+    }
+
+    // Live search suggestions dropdown renderer
+    function renderSearchSuggestions(query) {
+      const dropdown = document.getElementById('search-suggestions-dropdown');
+      const content = document.getElementById('search-suggestions-content');
+      const countText = document.getElementById('search-suggestions-count-text');
+      if (!dropdown || !content) return;
+
+      if (!query || !query.trim()) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+
+      const t = getT();
+      const matches = searchFilterItems(query);
+
+      const headerTitle = currentLanguage === 'vi' 
+        ? `GỢI Ý TÌM KIẾM (${matches.length} MÓN)` 
+        : (currentLanguage === 'fr' ? `SUGGESTIONS (${matches.length})` : `SEARCH SUGGESTIONS (${matches.length})`);
+      
+      if (countText) countText.innerText = headerTitle;
+
+      if (matches.length === 0) {
+        content.innerHTML = `
+          <div class="px-4 py-5 text-center text-gray-400 space-y-1">
+            <div class="text-base">🔍</div>
+            <p class="text-xs text-gray-600 font-bold">${t.noResults}</p>
+            <p class="text-[10px] text-gray-400">Từ khóa: "<strong class="text-black">${query}</strong>"</p>
+          </div>
+        `;
+      } else {
+        content.innerHTML = matches.map(item => {
+          const rawTitle = getItemName(item);
+          const highlightedTitle = highlightSearchMatch(rawTitle, query);
+          const category = getItemCategoryName(item);
+
+          return `
+            <div onclick="selectSearchSuggestion(${item.id})" class="px-3.5 py-2.5 hover:bg-gray-50 border-b border-gray-100/70 last:border-0 flex items-center justify-between gap-3 cursor-pointer transition-colors active:scale-[0.99]">
+              <!-- Left 36px Thumbnail -->
+              <div class="w-9 h-9 relative shrink-0 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
+                <img src="${item.image}" alt="${rawTitle}" class="w-full h-full object-cover dish-img-shadow rounded-xl">
+                ${!item.available ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-[7px] text-white font-bold font-mono">HẾT</div>' : ''}
+              </div>
+
+              <!-- Middle: Highlighted Name + Category -->
+              <div class="flex-1 min-w-0 pr-1">
+                <h4 class="text-xs font-bold text-black tracking-tight truncate leading-tight">${highlightedTitle}</h4>
+                <p class="text-[10px] text-gray-400 truncate mt-0.5 font-medium">${category} • ${item.available ? t.availableLabel : t.outOfStockLabel}</p>
+              </div>
+
+              <!-- Right: Price & Arrow Trigger -->
+              <div class="flex items-center gap-1.5 shrink-0 pl-1">
+                <span class="text-xs font-extrabold font-mono text-black">${formatPrice(item.price)}</span>
+                <span class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-500 font-bold">➔</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      dropdown.classList.remove('hidden');
+    }
+
+    function selectSearchSuggestion(itemId) {
+      closeSearchSuggestions();
+      openDishDetail(itemId);
+    }
+
+    function closeSearchSuggestions() {
+      const dropdown = document.getElementById('search-suggestions-dropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+    }
+
+    // Modal listeners
+    document.getElementById('btn-close-detail').onclick = () => {
+      document.getElementById('modal-dish-detail').classList.add('hidden');
+    };
+    document.getElementById('btn-detail-close-action').onclick = () => {
+      document.getElementById('modal-dish-detail').classList.add('hidden');
+    };
+    document.getElementById('modal-dish-backdrop').onclick = () => {
+      document.getElementById('modal-dish-detail').classList.add('hidden');
+    };
+
+    function handleSearchSubmit(e) {
+      if (e) e.preventDefault();
+      const inputSearch = document.getElementById('input-search');
+      if (!inputSearch) return;
+
+      const query = inputSearch.value.trim();
+      searchQuery = query;
+
+      // Reset category to 'all' so search matches across the whole menu
+      currentCategory = 'all';
+      renderCategories();
+
+      // Close autocomplete suggestions
+      closeSearchSuggestions();
+
+      // Dismiss mobile keyboard
+      inputSearch.blur();
+
+      // Apply search filter to the bottom menu list
+      renderMenuList();
+
+      // Smooth scroll down to the category tabs / all menu section
+      setTimeout(() => {
+        const targetSection = document.getElementById('category-nav-sticky') || document.getElementById('label-section-all');
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 80);
+    }
+
+    function resetSearchAndShowAll() {
+      searchQuery = '';
+      currentCategory = 'all';
+      const inputSearch = document.getElementById('input-search');
+      const clearBtn = document.getElementById('btn-clear-search');
+      if (inputSearch) inputSearch.value = '';
+      if (clearBtn) clearBtn.classList.add('hidden');
+      closeSearchSuggestions();
+      renderCategories();
+      renderMenuList();
+    }
+
+    // Search input listeners (Live suggestion dropdown when typing; menu below only updates on Enter)
+    const inputSearch = document.getElementById('input-search');
+    const clearBtn = document.getElementById('btn-clear-search');
+
+    inputSearch.oninput = (e) => {
+      const query = e.target.value;
+      clearBtn.classList.toggle('hidden', !query.trim());
+      
+      // When typing, ONLY render the suggestions dropdown above.
+      // The menu items list below is NOT affected until Enter is pressed.
+      renderSearchSuggestions(query);
+
+      // If user completely cleared the search bar text, restore the full menu list below
+      if (!query.trim() && searchQuery) {
+        searchQuery = '';
+        renderMenuList();
+      }
+    };
+
+    inputSearch.onkeydown = (e) => {
+      if (e.key === 'Enter') {
+        handleSearchSubmit(e);
+      }
+    };
+
+    inputSearch.onfocus = () => {
+      if (inputSearch.value.trim()) {
+        renderSearchSuggestions(inputSearch.value);
+      }
+    };
+
+    clearBtn.onclick = () => {
+      resetSearchAndShowAll();
+    };
+
+    // Close search suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+      const searchWrapper = document.getElementById('search-bar-wrapper');
+      if (searchWrapper && !searchWrapper.contains(e.target)) {
+        closeSearchSuggestions();
+      }
+    });
+
+    // Currency Switcher
+    const btnCurr = document.getElementById('btn-currency');
+    const dropCurr = document.getElementById('dropdown-currency');
+    btnCurr.onclick = () => dropCurr.classList.toggle('hidden');
+    dropCurr.querySelectorAll('button').forEach(btn => {
+      btn.onclick = () => {
+        currentCurrency = btn.getAttribute('data-curr');
+        document.getElementById('currency-display').innerText = CURRENCIES[currentCurrency].symbol;
+        dropCurr.classList.add('hidden');
+        applyTranslations();
+        renderFeaturedGrid();
+        renderComboBanners();
+        renderMenuList();
+      };
+    });
+
+    // Language Switcher (Complete live multilingual update)
+    const btnLang = document.getElementById('btn-language');
+    const dropLang = document.getElementById('dropdown-language');
+    btnLang.onclick = () => dropLang.classList.toggle('hidden');
+    dropLang.querySelectorAll('button').forEach(btn => {
+      btn.onclick = () => {
+        currentLanguage = btn.getAttribute('data-lang');
+        const flags = { vi: '🇻🇳', en: '🇬🇧', fr: '🇫🇷' };
+        document.getElementById('lang-display').innerText = flags[currentLanguage] || '🇻🇳';
+        dropLang.classList.add('hidden');
+        applyTranslations();
+        renderCategories();
+        renderFeaturedGrid();
+        renderComboBanners();
+        renderMenuList();
+        if (searchQuery && searchQuery.trim()) {
+          renderSearchSuggestions(searchQuery);
+        } else {
+          closeSearchSuggestions();
+        }
+      };
+    });
+
+    // ================= REAL-TIME POS DATA SYNCHRONIZATION ENGINE =================
+    // Firebase DB URL — được điền tự động bởi script Cài đặt Firebase.bat
+    // Nếu chưa setup, giá trị này là chuỗi rỗng và hệ thống dùng cache.
+    const FIREBASE_DB_URL = '';
+
+    const CATEGORY_TRANSLATIONS = {
+      'Coffee': { vi: 'Cà Phê', en: 'Coffee', fr: 'Café' },
+      'Tea': { vi: 'Trà', en: 'Tea', fr: 'Thé' },
+      'Milk Tea': { vi: 'Trà Sữa', en: 'Milk Tea', fr: 'Thé au Lait' },
+      'Juice': { vi: 'Nước Ép', en: 'Juice', fr: 'Jus Frais' },
+      'Breakfast': { vi: 'Điểm Tâm', en: 'Breakfast', fr: 'Déjeuner' },
+      'Sandwich': { vi: 'Bánh Mì', en: 'Sandwich', fr: 'Sandwichs' },
+      'Combo': { vi: 'Combo', en: 'Combos', fr: 'Formules' },
+      'Bakery': { vi: 'Bánh Ngọt', en: 'Bakery', fr: 'Pâtisserie' },
+      'Dessert': { vi: 'Tráng Miệng', en: 'Dessert', fr: 'Dessert' },
+      'Snack': { vi: 'Ăn Vặt', en: 'Snacks', fr: 'En-cas' },
+    };
+
+    function getCategoryVi(cat) {
+      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].vi;
+      return cat;
+    }
+    function getCategoryEn(cat) {
+      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].en;
+      return cat;
+    }
+    function getCategoryFr(cat) {
+      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].fr;
+      return cat;
+    }
+
+    const FALLBACK_CATEGORY_IMAGES = {
+      'Coffee': 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
+      'Tea': 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
+      'Milk Tea': 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
+      'Juice': 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
+      'Breakfast': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
+      'Sandwich': 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
+      'Combo': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
+    };
+
+    function applyMenuPayload(data, source) {
+      if (!data || !data.products || !Array.isArray(data.products)) return;
+
+      // 1. Sync Store Information from POS / Cloud
+      if (data.store) {
+        if (data.store.name) {
+          const el = document.getElementById('store-name-title');
+          if (el) el.innerText = data.store.name;
+        }
+        if (data.store.address) {
+          const el = document.getElementById('store-address-subtitle');
+          if (el) el.innerText = data.store.address;
         }
       }
 
-      switchOliveScreen('detail', pushHistory);
-    };
-
-    function renderRecentlyViewed() {
-      const container = document.getElementById('recently-viewed-container');
-      if (!container) return;
-      const recent = activeMenuPayload.dishes.slice(0, 4);
-
-      container.innerHTML = recent.map(dish => `
-        <div class="recent-card-item" onclick="openProductDetail('${dish.dish_id}')">
-          <img src="${dish.image_url}" alt="${dish.dish_name}" class="recent-card-thumb">
-          <div class="recent-card-name">${dish.dish_name}</div>
-        </div>
-      `).join('');
-    }
-
-    window.searchTag = function(tag) {
-      if (searchInputField) searchInputField.value = tag;
-      renderSearchInlineResults(tag.toLowerCase());
-    };
-
-    function renderSearchInlineResults(query) {
-      const resultsSection = document.getElementById('search-results-section');
-      const resultsContainer = document.getElementById('search-results-container');
-      const defaultSuggestions = document.getElementById('search-default-suggestions');
-      if (!resultsSection || !resultsContainer) return;
-
-      const filtered = activeMenuPayload.dishes.filter(d => {
-        const localizedNameLower = String(d.dish_name || '').toLowerCase();
-        return localizedNameLower.includes(query);
-      });
-
-      if (filtered.length > 0) {
-        resultsContainer.innerHTML = filtered.map(dish => {
-          const rawIngr = dish.ingredients || "";
-          const ingrArray = rawIngr.split(/,|\n|;/).map(s => s.trim()).filter(s => s.length > 0);
-          const translatedIngrText = ingrArray.map(item => translateTerm(item, currentLang)).join(', ');
-
-          return `
-            <article class="dish-glass-card" onclick="openProductDetail('${dish.dish_id}')">
-              <img src="${dish.image_url}" alt="${dish.dish_name}" class="dish-card-thumb-img">
-              <div class="dish-card-content">
-                <div>
-                  <h3 class="dish-card-name-title">${dish.dish_name}</h3>
-                  <p class="dish-card-ingr-text">${translatedIngrText}</p>
-                </div>
-                <div class="dish-card-price-tag">${new Intl.NumberFormat('vi-VN').format(dish.price)}đ</div>
-              </div>
-            </article>
-          `;
-        }).join('');
-      } else {
-        resultsContainer.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-weight:600;">Không tìm thấy món ăn phù hợp.</div>`;
+      // 2. Sync Categories dynamically
+      let categoriesChanged = false;
+      if (data.categories && Array.isArray(data.categories)) {
+        data.categories.forEach(catName => {
+          if (!CATEGORIES.some(c => c.id === catName)) {
+            CATEGORIES.push({
+              id: catName,
+              vi: getCategoryVi(catName),
+              en: getCategoryEn(catName),
+              fr: getCategoryFr(catName)
+            });
+            categoriesChanged = true;
+          }
+        });
       }
 
-      resultsSection.classList.remove('hidden');
-      if (defaultSuggestions) defaultSuggestions.classList.add('hidden');
+      // 3. Sync Products Map
+      const existingMap = new Map();
+      POS_PRODUCTS.forEach(p => existingMap.set(p.id, p));
+
+      const updatedProducts = data.products.map(item => {
+        const existing = existingMap.get(item.id);
+        const fallbackImg = FALLBACK_CATEGORY_IMAGES[item.category] || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80';
+
+        return {
+          id: item.id,
+          name: item.name,
+          nameVi: item.name,
+          nameEn: item.nameEn || (existing ? existing.nameEn : item.name),
+          nameFr: item.nameFr || (existing ? existing.nameFr : item.name),
+          badge: item.badge || (existing ? existing.badge : ''),
+          badgeVi: item.badge || (existing ? existing.badgeVi : ''),
+          badgeEn: item.badge || (existing ? existing.badgeEn : ''),
+          badgeFr: item.badge || (existing ? existing.badgeFr : ''),
+          price: item.price,
+          category: item.category,
+          categoryVi: getCategoryVi(item.category),
+          categoryEn: getCategoryEn(item.category),
+          categoryFr: getCategoryFr(item.category),
+          emoji: item.emoji || (existing ? existing.emoji : '🍽️'),
+          image: (item.image && item.image.trim()) ? item.image.trim() : (existing && existing.image ? existing.image : fallbackImg),
+          available: item.available !== false,
+          isFeatured: item.isFeatured === true,
+          isComboBanner: item.isComboBanner !== false,
+          description: item.description || '',
+          descVi: item.description || (existing ? existing.descVi : ''),
+          descEn: item.descEn || (existing ? existing.descEn : (item.description || '')),
+          descFr: item.descFr || (existing ? existing.descFr : (item.description || '')),
+          ingredients: item.ingredients || '',
+          ingredientsVi: parseIngredientsList(item.ingredients || (existing ? existing.ingredientsVi : item.description)),
+          ingredientsEn: parseIngredientsList(item.ingredientsEn || (existing ? existing.ingredientsEn : item.description)),
+          ingredientsFr: parseIngredientsList(item.ingredientsFr || (existing ? existing.ingredientsFr : item.description)),
+        };
+      });
+
+      const getFeatSig = () => getFeaturedItems().map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
+      const getAllSig = () => POS_PRODUCTS.map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
+
+      const prevFeaturedSig = getFeatSig();
+      const prevAllSig = getAllSig();
+
+      POS_PRODUCTS = updatedProducts;
+
+      const newFeaturedSig = getFeatSig();
+      const newAllSig = getAllSig();
+
+      // 4. Update Status Badge
+      const statusEl = document.getElementById('pos-status-badge');
+      if (statusEl) {
+        if (source === 'live') {
+          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200";
+          statusEl.innerHTML = "🟢 Trực tiếp tại Quán";
+        } else if (source === 'firebase') {
+          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-orange-50 text-orange-700 border border-orange-200";
+          statusEl.innerHTML = "🔥 Thực đơn cập nhật nhanh";
+        } else if (source === 'cloud') {
+          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-sky-50 text-sky-700 border border-sky-200";
+          statusEl.innerHTML = "☁️ Thực đơn 24/7";
+        } else {
+          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200";
+          statusEl.innerHTML = "⚡ Ngoại tuyến";
+        }
+      }
+
+      if (categoriesChanged || prevAllSig !== newAllSig) {
+        renderCategories();
+        renderComboBanners();
+        renderMenuList();
+      }
+      if (prevFeaturedSig !== newFeaturedSig) {
+        renderFeaturedCarousel(true);
+      }
     }
 
-    function showModal() { renderLangOptions(); if (langModal) langModal.classList.add('active'); }
-    function hideModal() { if (langModal) langModal.classList.remove('active'); }
+    async function syncLivePOSData() {
+      // Layer 1: Thử kết nối trực tiếp POS (chỉ hoạt động khi POS đang bật và cùng mạng/tunnel)
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        const res = await fetch('/api/public-menu', { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.products && Array.isArray(data.products)) {
+            try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
+            applyMenuPayload(data, 'live');
+            return;
+          }
+        }
+      } catch (err) {
+        // POS offline hoặc không tiếp cận được, chuyển sang Layer 2
+      }
 
-    function showExitModal() { if (exitModal) exitModal.classList.add('active'); }
-    function hideExitModal() { if (exitModal) exitModal.classList.remove('active'); }
+      // Layer 2 (Fallback): Firebase REST fetch một lần (dự phòng khi SSE chưa kết nối)
+      if (FIREBASE_DB_URL) {
+        try {
+          const timestamp = Date.now();
+          const res = await fetch(`${FIREBASE_DB_URL}/menu.json?shallow=false&v=${timestamp}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.products && Array.isArray(data.products)) {
+              try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
+              applyMenuPayload(data, 'firebase');
+              return;
+            }
+          }
+        } catch (err) {
+          // Firebase không tiếp cận được, chuyển xuống cache
+        }
+      }
 
-    function renderLangOptions() {
-      if (!langListContainer) return;
-      langListContainer.innerHTML = LANGUAGES.map(lang => `
-        <div class="lang-option-card ${lang.code === currentLang ? 'selected' : ''}" onclick="selectLang('${lang.code}')">
-          <span>${lang.native}</span>
-          <span>${lang.code === currentLang ? '✓' : ''}</span>
-        </div>
-      `).join('');
+      // Layer 3: LocalStorage Cache (hiển thị menu cũ, vẫn tốt hơn trang trắng)
+      try {
+        const cached = localStorage.getItem('gm_cloud_menu_cache');
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data && data.products && Array.isArray(data.products)) {
+            applyMenuPayload(data, 'cache');
+            return;
+          }
+        }
+      } catch (e) {}
     }
 
-    window.selectLang = function(code) {
-      currentLang = code;
-      localStorage.setItem('gm_menu_lang', currentLang);
-      localStorage.setItem('gm_menu_lang_chosen', 'true');
-      applyTranslations();
-      setupHistoryGuard();
-      hideModal();
-    };
+    // ================= Firebase SSE Real-time Engine =================
+    // Kết nối EventSource tới Firebase RTDB — nhận data ngay khi POS thay đổi
+    let firebaseSseSource = null;
+    let firebaseSseRetryCount = 0;
+    const FIREBASE_SSE_MAX_RETRY = 10;
+    const FIREBASE_SSE_RETRY_DELAYS = [1000, 2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000, 89000];
 
-    function confirmLanguageSelection() { 
-      localStorage.setItem('gm_menu_lang_chosen', 'true');
-      applyTranslations();
-      setupHistoryGuard();
-      hideModal(); 
+    function connectFirebaseSSE() {
+      if (!FIREBASE_DB_URL) return; // Firebase chưa được cấu hình
+
+      // Đóng kết nối cũ nếu có
+      if (firebaseSseSource) {
+        try { firebaseSseSource.close(); } catch (e) {}
+        firebaseSseSource = null;
+      }
+
+      const sseUrl = `${FIREBASE_DB_URL}/menu.json?alt=sse`;
+      const source = new EventSource(sseUrl);
+      firebaseSseSource = source;
+
+      // Firebase gửi event "put" khi data thay đổi
+      source.addEventListener('put', (event) => {
+        try {
+          const parsed = JSON.parse(event.data);
+          const data = parsed && parsed.data;
+          if (data && data.products && Array.isArray(data.products)) {
+            firebaseSseRetryCount = 0; // Reset retry counter khi nhận được data
+            try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
+            applyMenuPayload(data, 'firebase');
+          }
+        } catch (e) {}
+      });
+
+      // Firebase gửi event "patch" khi một phần data thay đổi (hiếm gặp)
+      source.addEventListener('patch', () => {
+        // Khi có patch, fetch lại toàn bộ để đảm bảo nhất quán
+        syncLivePOSData().catch(() => {});
+      });
+
+      source.onerror = () => {
+        if (source.readyState === EventSource.CLOSED) {
+          // Kết nối bị đóng — thử kết nối lại với exponential backoff
+          firebaseSseRetryCount++;
+          if (firebaseSseRetryCount <= FIREBASE_SSE_MAX_RETRY) {
+            const delay = FIREBASE_SSE_RETRY_DELAYS[Math.min(firebaseSseRetryCount - 1, FIREBASE_SSE_RETRY_DELAYS.length - 1)];
+            setTimeout(connectFirebaseSSE, delay);
+          }
+        }
+      };
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    // Initial Render
+    applyTranslations();
+    renderCategories();
+    renderFeaturedCarousel();
+    renderComboBanners();
+    renderMenuList();
+
+    // Trigger immediate sync từ mọi nguồn có sẵn
+    syncLivePOSData();
+
+    // Kết nối Firebase SSE (real-time push, <1 giây)
+    connectFirebaseSSE();
+
+    // Poll nhẹ mỗi 15 giây — fallback khi SSE không kết nối được
+    // (SSE là nguồn chính, poll chỉ là lưới an toàn)
+    setInterval(syncLivePOSData, 15000);
+
+    // Refresh ngay khi user quay lại tab
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        syncLivePOSData();
+        // Tái kết nối SSE nếu đã bị ngắt khi tab ẩn
+        if (!firebaseSseSource || firebaseSseSource.readyState === EventSource.CLOSED) {
+          firebaseSseRetryCount = 0;
+          connectFirebaseSSE();
+        }
+      }
+    });
   </script>
 </body>
 </html>
