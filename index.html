@@ -114,35 +114,15 @@
       display: none;
     }
 
-    /* ================= 450ms SHARED ELEMENT TRANSITION & HERO MOTION ================= */
-    /* Modal Sheet Slide-up (450ms ease-out) */
-    @keyframes heroSheetRise {
-      0% { transform: translate3d(0, 100%, 0); }
-      100% { transform: translate3d(0, 0, 0); }
-    }
-    .hero-sheet-enter {
-      animation: heroSheetRise 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      will-change: transform;
-    }
-
-    /* Modal Backdrop Fade-in (450ms ease-out) */
-    @keyframes heroBackdropFade {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    .hero-backdrop-enter {
-      animation: heroBackdropFade 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      will-change: opacity;
-    }
-
+    /* ================= SHARED ELEMENT HERO EXPANSION & FADE-IN-PLACE ================= */
     /* Shared Element Flying Proxy Image */
     .shared-element-flyer {
       position: fixed;
-      z-index: 9999;
+      z-index: 99999;
       pointer-events: none;
       transform-origin: center center;
-      will-change: transform, opacity;
-      transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease-out;
+      will-change: transform;
+      transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Grounded Bottom Navigation Pulse */
@@ -1857,11 +1837,12 @@
         </div>
       `;
 
-      // 2. Open Modal & Perform Staged Shared Element Transition
+      // 2. Open Modal & Perform In-Place Shared Element Transition
       const modal = document.getElementById('modal-dish-detail');
       const sheet = document.getElementById('modal-dish-sheet');
       const backdrop = document.getElementById('modal-dish-backdrop');
       const modalHeroImg = document.getElementById('modal-hero-img');
+      const heroWrapper = document.getElementById('modal-hero-wrapper');
 
       if (!modal || !sheet) return;
 
@@ -1870,10 +1851,11 @@
         activeFlyer = null;
       }
 
-      // Reset any running transitions on sheet/backdrop so we can measure true final position
+      // Reset any running transitions on sheet/backdrop
       sheet.style.transition = 'none';
-      sheet.style.transform = 'none';
+      sheet.style.transform = 'translate3d(0, 0, 0)';
       sheet.style.opacity = '1';
+      sheet.style.filter = 'none';
       if (backdrop) {
         backdrop.style.transition = 'none';
         backdrop.style.opacity = '0';
@@ -1881,22 +1863,51 @@
 
       modal.classList.remove('hidden');
 
-      if (srcRect && srcRect.width > 0 && modalHeroImg) {
-        // Measure exact true target rect in rested position
-        const targetRect = modalHeroImg.getBoundingClientRect();
+      if (srcRect && srcRect.width > 0 && modalHeroImg && heroWrapper) {
+        // Measure target rect in modal
+        const wrapperRect = heroWrapper.getBoundingClientRect();
+        
+        // Calculate exact target dimensions matching the modal hero spotlight
+        const availableW = wrapperRect.width - 32;
+        const availableH = Math.min(wrapperRect.height - 32, 175);
+
+        let targetW = availableW;
+        let targetH = availableH;
+
+        if (sourceImg.naturalWidth && sourceImg.naturalHeight) {
+          const aspect = sourceImg.naturalWidth / sourceImg.naturalHeight;
+          if (availableW / availableH > aspect) {
+            targetH = availableH;
+            targetW = availableH * aspect;
+          } else {
+            targetW = availableW;
+            targetH = availableW / aspect;
+          }
+        }
+
+        const targetCenterX = wrapperRect.left + wrapperRect.width / 2;
+        const targetCenterY = wrapperRect.top + wrapperRect.height / 2;
+
+        const srcCenterX = srcRect.left + srcRect.width / 2;
+        const srcCenterY = srcRect.top + srcRect.height / 2;
+
+        const deltaX = targetCenterX - srcCenterX;
+        const deltaY = targetCenterY - srcCenterY;
+        const scale = targetW / srcRect.width;
 
         // Temporarily hide the modal's internal hero image during flight
         modalHeroImg.style.opacity = '0';
 
-        // Keep Sheet hidden off-screen below viewport (translateY 110%) initially
-        sheet.style.transform = 'translate3d(0, 110%, 0)';
+        // Keep Sheet hidden in-place with opacity 0 and soft blur (NO sliding from bottom)
+        sheet.style.transform = 'translate3d(0, 0, 0)';
         sheet.style.opacity = '0';
+        sheet.style.filter = 'blur(6px)';
         void sheet.offsetWidth; // Force layout
 
-        // Create Shared Element Flying Proxy Image with luxury shadow
+        // Create Shared Element Flying Proxy Image with luxury realistic shadow
         const flyer = document.createElement('div');
         flyer.className = 'shared-element-flyer';
-        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 22px 32px rgba(0,0,0,0.36));">`;
+        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 20px 32px rgba(0,0,0,0.35));">`;
         flyer.style.cssText = `
           position: fixed;
           left: ${srcRect.left}px;
@@ -1915,28 +1926,21 @@
         // Force browser to register starting position of flyer
         void flyer.offsetWidth;
 
-        // Calculate delta for GPU 3D translation & scale
-        const deltaX = (targetRect.left + targetRect.width / 2) - (srcRect.left + srcRect.width / 2);
-        const deltaY = (targetRect.top + targetRect.height / 2) - (srcRect.top + srcRect.height / 2);
-        
-        // Enforce 100% Uniform Scaling (Zero distortion/stretching across width and height)
-        const scale = Math.min(targetRect.width / srcRect.width, targetRect.height / srcRect.height);
-
         // Step 1: Darken backdrop first for high contrast stage (300ms)
         if (backdrop) {
           backdrop.style.transition = 'opacity 300ms ease-out';
           backdrop.style.opacity = '1';
         }
 
-        // Step 1: Launch image flight up to hero position (380ms) with uniform aspect ratio
+        // Step 1: Launch image flight up to hero position (380ms) expanding to exact size
         flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`;
 
-        // Step 2: Once image is near destination (260ms), slide the white detail sheet up smoothly!
+        // Step 2: As image reaches its exact position (~240ms), fade sheet from blurred to crisp white in place!
         setTimeout(() => {
-          sheet.style.transition = 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 220ms ease-out';
-          sheet.style.transform = 'translate3d(0, 0, 0)';
+          sheet.style.transition = 'opacity 260ms ease-out, filter 260ms ease-out';
           sheet.style.opacity = '1';
-        }, 240);
+          sheet.style.filter = 'blur(0px)';
+        }, 220);
 
         // Step 3: Reveal modal hero image seamlessly and clean up flyer
         setTimeout(() => {
@@ -1945,16 +1949,18 @@
             flyer.remove();
           }
           if (activeFlyer === flyer) activeFlyer = null;
-        }, 560);
+        }, 500);
       } else {
-        // Fallback smooth slide
-        sheet.style.transform = 'translate3d(0, 100%, 0)';
-        sheet.style.opacity = '1';
-        void sheet.offsetWidth;
-        sheet.style.transition = 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)';
+        // Fallback fade in place
         sheet.style.transform = 'translate3d(0, 0, 0)';
+        sheet.style.opacity = '0';
+        sheet.style.filter = 'blur(6px)';
+        void sheet.offsetWidth;
+        sheet.style.transition = 'opacity 260ms ease-out, filter 260ms ease-out';
+        sheet.style.opacity = '1';
+        sheet.style.filter = 'blur(0px)';
         if (backdrop) {
-          backdrop.style.transition = 'opacity 300ms ease-out';
+          backdrop.style.transition = 'opacity 260ms ease-out';
           backdrop.style.opacity = '1';
         }
         if (modalHeroImg) modalHeroImg.style.opacity = '1';
@@ -1979,14 +1985,14 @@
       const backdrop = document.getElementById('modal-dish-backdrop');
 
       if (sheet && backdrop) {
-        sheet.style.transition = 'transform 260ms cubic-bezier(0.4, 0, 1, 1), opacity 220ms ease-in';
-        sheet.style.transform = 'translate3d(0, 100%, 0)';
+        sheet.style.transition = 'opacity 200ms ease-in, filter 200ms ease-in';
         sheet.style.opacity = '0';
-        backdrop.style.transition = 'opacity 260ms ease-in';
+        sheet.style.filter = 'blur(6px)';
+        backdrop.style.transition = 'opacity 200ms ease-in';
         backdrop.style.opacity = '0';
         setTimeout(() => {
           if (modal) modal.classList.add('hidden');
-        }, 260);
+        }, 200);
       } else {
         if (modal) modal.classList.add('hidden');
       }
