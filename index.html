@@ -1918,8 +1918,9 @@
         // Calculate delta for GPU 3D translation & scale
         const deltaX = (targetRect.left + targetRect.width / 2) - (srcRect.left + srcRect.width / 2);
         const deltaY = (targetRect.top + targetRect.height / 2) - (srcRect.top + srcRect.height / 2);
-        const scaleX = targetRect.width / srcRect.width;
-        const scaleY = targetRect.height / srcRect.height;
+        
+        // Enforce 100% Uniform Scaling (Zero distortion/stretching across width and height)
+        const scale = Math.min(targetRect.width / srcRect.width, targetRect.height / srcRect.height);
 
         // Step 1: Darken backdrop first for high contrast stage (300ms)
         if (backdrop) {
@@ -1927,8 +1928,8 @@
           backdrop.style.opacity = '1';
         }
 
-        // Step 1: Launch image flight up to hero position (380ms)
-        flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`;
+        // Step 1: Launch image flight up to hero position (380ms) with uniform aspect ratio
+        flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`;
 
         // Step 2: Once image is near destination (260ms), slide the white detail sheet up smoothly!
         setTimeout(() => {
