@@ -114,36 +114,36 @@
       display: none;
     }
 
-    /* ================= 120FPS GPU-ACCELERATED ZERO-G CINEMATIC MOTION ================= */
-    /* Modal Sheet Anti-Gravity Trajectory (Hardware Accelerated) */
-    @keyframes zeroGSheetRise {
-      0% { transform: translate3d(0, 100%, 0); opacity: 0.9; }
-      100% { transform: translate3d(0, 0, 0); opacity: 1; }
+    /* ================= 450ms SHARED ELEMENT TRANSITION & HERO MOTION ================= */
+    /* Modal Sheet Slide-up (450ms ease-out) */
+    @keyframes heroSheetRise {
+      0% { transform: translate3d(0, 100%, 0); }
+      100% { transform: translate3d(0, 0, 0); }
     }
-    .zero-g-sheet-anim {
-      animation: zeroGSheetRise 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      will-change: transform, opacity;
-    }
-
-    /* Zero-G Floating Hero in Product Details Modal */
-    @keyframes zeroGLevitation {
-      0%, 100% { transform: translate3d(0, 0, 0); }
-      50% { transform: translate3d(0, -6px, 0); }
-    }
-    .zero-g-hero-float {
-      animation: zeroGLevitation 3.2s ease-in-out infinite;
+    .hero-sheet-enter {
+      animation: heroSheetRise 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
       will-change: transform;
     }
 
-    /* Staggered Zero-G Information Drift Ingress */
-    @keyframes zeroGDriftIn {
-      0% { opacity: 0; transform: translate3d(0, 14px, 0); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0); }
+    /* Modal Backdrop Fade-in (450ms ease-out) */
+    @keyframes heroBackdropFade {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
-    .zero-g-item-1 { animation: zeroGDriftIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.02s forwards; opacity: 0; will-change: transform, opacity; }
-    .zero-g-item-2 { animation: zeroGDriftIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; opacity: 0; will-change: transform, opacity; }
-    .zero-g-item-3 { animation: zeroGDriftIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards; opacity: 0; will-change: transform, opacity; }
-    .zero-g-item-4 { animation: zeroGDriftIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.11s forwards; opacity: 0; will-change: transform, opacity; }
+    .hero-backdrop-enter {
+      animation: heroBackdropFade 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: opacity;
+    }
+
+    /* Shared Element Flying Proxy Image */
+    .shared-element-flyer {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      transform-origin: center center;
+      will-change: transform, opacity;
+      transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease-out;
+    }
 
     /* Grounded Bottom Navigation Pulse */
     @keyframes navGroundPulse {
@@ -315,9 +315,9 @@
     </div>
 
     <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
-    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div id="modal-dish-backdrop" class="absolute inset-0"></div>
-      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 zero-g-sheet-anim text-black">
+    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center">
+      <div id="modal-dish-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-xs hero-backdrop-enter"></div>
+      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 hero-sheet-enter text-black">
         
         <!-- Header Close -->
         <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
@@ -1772,13 +1772,35 @@
       }).join('');
     }
 
-    function openDishDetail(itemId) {
+    let activeFlyer = null;
+
+    function openDishDetail(itemId, ev) {
       const t = getT();
       const item = POS_PRODUCTS.find(i => i.id === itemId);
       if (!item) return;
 
       if (navigator.vibrate) {
         try { navigator.vibrate(25); } catch (e) {}
+      }
+
+      // 1. Locate the source image in the clicked card
+      let sourceImg = null;
+      let clickedCard = null;
+      if (ev && ev.currentTarget) {
+        clickedCard = ev.currentTarget;
+      } else if (ev && ev.target) {
+        clickedCard = ev.target.closest('article, .featured-slide-card, [data-dish-id]');
+      }
+      if (!clickedCard) {
+        clickedCard = document.querySelector(`[data-dish-id="${itemId}"]`);
+      }
+      if (clickedCard) {
+        sourceImg = clickedCard.querySelector('.floating-dish-img') || clickedCard.querySelector('img');
+      }
+
+      let srcRect = null;
+      if (sourceImg) {
+        srcRect = sourceImg.getBoundingClientRect();
       }
 
       const title = getItemName(item);
@@ -1798,15 +1820,15 @@
 
       const body = document.getElementById('dish-detail-body');
       body.innerHTML = `
-        <!-- High-res Real Food Cutout Photo with Zero-G Floating Levitation -->
-        <div class="floating-dish-wrapper zero-g-hero-float w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
-          <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain">
+        <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
+        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
+          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain transition-opacity duration-200">
           <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
           ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
         </div>
 
-        <!-- Suspended Info 1: Category & Name -->
-        <div class="zero-g-item-1">
+        <!-- Detail Information Rows -->
+        <div>
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
             ${!item.available 
@@ -1817,37 +1839,103 @@
           <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
         </div>
 
-        <!-- Suspended Info 2: Description -->
-        <div class="zero-g-item-2 p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
+        <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
           <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
           <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
         </div>
 
-        <!-- Suspended Info 3: Ingredients List -->
-        <div class="zero-g-item-3 space-y-1.5">
+        <div class="space-y-1.5">
           <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
           <ul class="grid grid-cols-1 gap-1.5">
             ${ingredientsListHtml}
           </ul>
         </div>
 
-        <!-- Suspended Info 4: Allergy / Dietary Note -->
-        <div class="zero-g-item-4 p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
+        <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
           <span>⚠️</span>
           <span>${t.allergyWarning}</span>
         </div>
       `;
 
-      // Instant Zero-Latency Modal Open (GPU Compositor Thread)
+      // 2. Open Modal & Perform Shared Element Transition (450ms)
       const modal = document.getElementById('modal-dish-detail');
+      const sheet = document.getElementById('modal-dish-sheet');
+      const backdrop = document.getElementById('modal-dish-backdrop');
+      const modalHeroImg = document.getElementById('modal-hero-img');
+
       if (modal) {
         modal.classList.remove('hidden');
-        const sheet = document.getElementById('modal-dish-sheet');
-        if (sheet) {
-          sheet.classList.remove('zero-g-sheet-anim');
-          void sheet.offsetWidth;
-          sheet.classList.add('zero-g-sheet-anim');
+      }
+
+      if (activeFlyer) {
+        activeFlyer.remove();
+        activeFlyer = null;
+      }
+
+      if (srcRect && srcRect.width > 0 && modalHeroImg && sheet) {
+        // Measure target rect in modal
+        const targetRect = modalHeroImg.getBoundingClientRect();
+        
+        // Temporarily hide the modal's internal hero image during flight
+        modalHeroImg.style.opacity = '0';
+
+        // Animate Sheet sliding up from bottom (450ms ease-out)
+        sheet.classList.remove('hero-sheet-enter');
+        void sheet.offsetWidth;
+        sheet.classList.add('hero-sheet-enter');
+
+        // Fade in backdrop (450ms)
+        if (backdrop) {
+          backdrop.classList.remove('hero-backdrop-enter');
+          void backdrop.offsetWidth;
+          backdrop.classList.add('hero-backdrop-enter');
         }
+
+        // Create Shared Element Flying Proxy Image
+        const flyer = document.createElement('div');
+        flyer.className = 'shared-element-flyer';
+        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 22px rgba(0,0,0,0.18));">`;
+        flyer.style.cssText = `
+          position: fixed;
+          left: ${srcRect.left}px;
+          top: ${srcRect.top}px;
+          width: ${srcRect.width}px;
+          height: ${srcRect.height}px;
+          z-index: 9999;
+          pointer-events: none;
+          transform-origin: center center;
+          will-change: transform, opacity;
+          transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease-out;
+        `;
+        document.body.appendChild(flyer);
+        activeFlyer = flyer;
+
+        // Force browser to register start position
+        void flyer.offsetWidth;
+
+        // Calculate delta for GPU 3D translation & scale
+        const deltaX = (targetRect.left + targetRect.width / 2) - (srcRect.left + srcRect.width / 2);
+        const deltaY = (targetRect.top + targetRect.height / 2) - (srcRect.top + srcRect.height / 2);
+        const scaleX = targetRect.width / srcRect.width;
+        const scaleY = targetRect.height / srcRect.height;
+
+        flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`;
+
+        setTimeout(() => {
+          if (modalHeroImg) modalHeroImg.style.opacity = '1';
+          if (flyer && flyer.parentNode) {
+            flyer.remove();
+          }
+          if (activeFlyer === flyer) activeFlyer = null;
+        }, 450);
+      } else {
+        // Fallback smooth slide
+        if (sheet) {
+          sheet.classList.remove('hero-sheet-enter');
+          void sheet.offsetWidth;
+          sheet.classList.add('hero-sheet-enter');
+        }
+        if (modalHeroImg) modalHeroImg.style.opacity = '1';
       }
 
       // Subtle feedback on bottom nav
@@ -1860,6 +1948,10 @@
     }
 
     function closeDishDetailModal() {
+      if (activeFlyer) {
+        activeFlyer.remove();
+        activeFlyer = null;
+      }
       const modal = document.getElementById('modal-dish-detail');
       if (modal) modal.classList.add('hidden');
 
