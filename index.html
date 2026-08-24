@@ -114,120 +114,45 @@
       display: none;
     }
 
-    /* ================= ANTI-GRAVITY ZERO-G CINEMATIC MOTION SYSTEM ================= */
-    @keyframes antiGravityBalloon {
-      0% {
-        transform: translateY(0) scale(1) rotate(0deg);
-        filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
-      }
-      40% {
-        transform: translateY(-24px) scale(1.12) rotate(-1.5deg);
-        filter: drop-shadow(0 26px 32px rgba(0, 0, 0, 0.22)) drop-shadow(0 8px 12px rgba(0, 0, 0, 0.12));
-      }
-      100% {
-        transform: translateY(-34px) scale(1.16) rotate(0.8deg);
-        filter: drop-shadow(0 34px 42px rgba(0, 0, 0, 0.26)) drop-shadow(0 12px 18px rgba(0, 0, 0, 0.14));
-      }
+    /* ================= 120FPS GPU-ACCELERATED ZERO-G CINEMATIC MOTION ================= */
+    /* Modal Sheet Anti-Gravity Trajectory (Hardware Accelerated) */
+    @keyframes zeroGSheetRise {
+      0% { transform: translate3d(0, 100%, 0); opacity: 0.9; }
+      100% { transform: translate3d(0, 0, 0); opacity: 1; }
     }
-
-    @keyframes antiGravityShadowDissolve {
-      0% { transform: translateX(-50%) scale(1); opacity: 0.85; }
-      100% { transform: translateX(-50%) scale(1.45); opacity: 0.12; filter: blur(6px); }
-    }
-
-    @keyframes antiGravityTextDrift {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-14px); opacity: 0.65; }
-    }
-
-    @keyframes antiGravityPriceDrift {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-20px); opacity: 0.75; }
-    }
-
-    @keyframes antiGravityCardShell {
-      0% { transform: scale(1); box-shadow: 0 6px 22px rgba(0,0,0,0.04); }
-      40% { transform: scale(0.985) translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); }
-      100% { transform: scale(0.97) translateY(-5px); box-shadow: 0 20px 38px rgba(0,0,0,0.10); background: rgba(255, 255, 255, 0.88); }
-    }
-
-    @keyframes antiGravityGridRipple {
-      0% { transform: translateY(0); }
-      35% { transform: translateY(-5px) scale(0.995); }
-      70% { transform: translateY(1.5px) scale(1.002); }
-      100% { transform: translateY(0) scale(1); }
-    }
-
-    /* Active Deconstruction Classes */
-    .card-antigravity-active {
-      animation: antiGravityCardShell 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-      z-index: 25 !important;
-    }
-    .card-antigravity-active .floating-dish-img {
-      animation: antiGravityBalloon 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
-    }
-    .card-antigravity-active .floating-ground-shadow {
-      animation: antiGravityShadowDissolve 0.45s ease forwards !important;
-    }
-    .card-antigravity-active h4,
-    .card-antigravity-active h3,
-    .card-antigravity-active span.truncate {
-      animation: antiGravityTextDrift 0.38s cubic-bezier(0.25, 1, 0.5, 1) 0.04s forwards !important;
-    }
-    .card-antigravity-active .font-mono.text-black,
-    .card-antigravity-active span[class*="text-black"] {
-      animation: antiGravityPriceDrift 0.38s cubic-bezier(0.25, 1, 0.5, 1) 0.07s forwards !important;
-    }
-
-    .grid-ripple-effect {
-      animation: antiGravityGridRipple 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    .zero-g-sheet-anim {
+      animation: zeroGSheetRise 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity;
     }
 
     /* Zero-G Floating Hero in Product Details Modal */
     @keyframes zeroGLevitation {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-7px) rotate(0.8deg); }
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -6px, 0); }
     }
     .zero-g-hero-float {
-      animation: zeroGLevitation 3.6s ease-in-out infinite;
+      animation: zeroGLevitation 3.2s ease-in-out infinite;
+      will-change: transform;
     }
 
     /* Staggered Zero-G Information Drift Ingress */
     @keyframes zeroGDriftIn {
-      0% { opacity: 0; transform: translateY(22px) scale(0.97); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+      0% { opacity: 0; transform: translate3d(0, 14px, 0); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0); }
     }
-    .zero-g-item-1 { animation: zeroGDriftIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; opacity: 0; }
-    .zero-g-item-2 { animation: zeroGDriftIn 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.10s forwards; opacity: 0; }
-    .zero-g-item-3 { animation: zeroGDriftIn 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.16s forwards; opacity: 0; }
-    .zero-g-item-4 { animation: zeroGDriftIn 0.54s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards; opacity: 0; }
-    .zero-g-item-5 { animation: zeroGDriftIn 0.58s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards; opacity: 0; }
+    .zero-g-item-1 { animation: zeroGDriftIn 0.26s cubic-bezier(0.16, 1, 0.3, 1) 0.02s forwards; opacity: 0; will-change: transform, opacity; }
+    .zero-g-item-2 { animation: zeroGDriftIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; opacity: 0; will-change: transform, opacity; }
+    .zero-g-item-3 { animation: zeroGDriftIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards; opacity: 0; will-change: transform, opacity; }
+    .zero-g-item-4 { animation: zeroGDriftIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.11s forwards; opacity: 0; will-change: transform, opacity; }
 
-    /* Modal Sheet Anti-Gravity Trajectory */
-    @keyframes zeroGSheetRise {
-      0% { transform: translateY(100%); opacity: 0.8; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-    .zero-g-sheet-anim {
-      animation: zeroGSheetRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    /* Background Content Depth-of-Field Fade & Scale Back */
-    .background-depth-of-field {
-      transform: scale(0.965);
-      opacity: 0.72;
-      filter: blur(1.5px);
-      transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.42s ease, filter 0.42s ease;
-    }
-
-    /* Grounded Bottom Navigation Ripple Pulse */
+    /* Grounded Bottom Navigation Pulse */
     @keyframes navGroundPulse {
-      0% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(255, 255, 255, 0.25); }
-      50% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 10px rgba(255, 255, 255, 0); }
-      100% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(255, 255, 255, 0); }
+      0% { transform: scale(1); }
+      40% { transform: scale(0.97); }
+      100% { transform: scale(1); }
     }
     .nav-ground-ripple {
-      animation: navGroundPulse 0.55s ease-out;
+      animation: navGroundPulse 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
   </style>
 </head>
@@ -1847,46 +1772,13 @@
       }).join('');
     }
 
-    let antiGravityActiveTimer = null;
-
-    function openDishDetail(itemId, ev) {
+    function openDishDetail(itemId) {
       const t = getT();
       const item = POS_PRODUCTS.find(i => i.id === itemId);
       if (!item) return;
 
-      // 1. Subtle tactile haptic pulse
       if (navigator.vibrate) {
-        try { navigator.vibrate([30, 40]); } catch (e) {}
-      }
-
-      // 2. Identify the clicked card element
-      let clickedCard = null;
-      if (ev && ev.currentTarget) {
-        clickedCard = ev.currentTarget;
-      } else if (ev && ev.target) {
-        clickedCard = ev.target.closest('article, .featured-slide-card, [data-dish-id]');
-      }
-      if (!clickedCard) {
-        clickedCard = document.querySelector(`[data-dish-id="${itemId}"]`);
-      }
-
-      // 3. Trigger Anti-Gravity Deconstruction on Card & Surrounding Grid Ripple
-      if (clickedCard) {
-        document.querySelectorAll('.card-antigravity-active, .grid-ripple-effect').forEach(el => {
-          el.classList.remove('card-antigravity-active', 'grid-ripple-effect');
-          el.style.animationDelay = '';
-        });
-
-        clickedCard.classList.add('card-antigravity-active');
-
-        // Ripple surrounding grid cards
-        const allCards = Array.from(document.querySelectorAll('#menu-items-list article, #featured-products-carousel article'));
-        allCards.forEach((c, idx) => {
-          if (c !== clickedCard) {
-            c.style.animationDelay = `${(idx % 4) * 0.04}s`;
-            c.classList.add('grid-ripple-effect');
-          }
-        });
+        try { navigator.vibrate(25); } catch (e) {}
       }
 
       const title = getItemName(item);
@@ -1946,51 +1838,33 @@
         </div>
       `;
 
-      // 4. Slide in Expanded Product Details Sheet after the weightless balloon elevation starts (100ms)
-      if (antiGravityActiveTimer) clearTimeout(antiGravityActiveTimer);
-      antiGravityActiveTimer = setTimeout(() => {
-        const modal = document.getElementById('modal-dish-detail');
-        if (modal) {
-          modal.classList.remove('hidden');
-          const sheet = document.getElementById('modal-dish-sheet');
-          if (sheet) {
-            sheet.classList.remove('zero-g-sheet-anim');
-            void sheet.offsetWidth; // force reflow for smooth spring trajectory
-            sheet.classList.add('zero-g-sheet-anim');
-          }
+      // Instant Zero-Latency Modal Open (GPU Compositor Thread)
+      const modal = document.getElementById('modal-dish-detail');
+      if (modal) {
+        modal.classList.remove('hidden');
+        const sheet = document.getElementById('modal-dish-sheet');
+        if (sheet) {
+          sheet.classList.remove('zero-g-sheet-anim');
+          void sheet.offsetWidth;
+          sheet.classList.add('zero-g-sheet-anim');
         }
+      }
 
-        // Apply spatial depth-of-field fade on background content
-        const mainContent = document.querySelector('main');
-        if (mainContent) mainContent.classList.add('background-depth-of-field');
-
-        // Subtle grounded ripple on black bottom bar
-        const bottomNav = document.querySelector('.fixed.bottom-4 > div');
-        if (bottomNav) {
-          bottomNav.classList.remove('nav-ground-ripple');
-          void bottomNav.offsetWidth;
-          bottomNav.classList.add('nav-ground-ripple');
-        }
-      }, 100);
+      // Subtle feedback on bottom nav
+      const bottomNav = document.querySelector('.fixed.bottom-4 > div');
+      if (bottomNav) {
+        bottomNav.classList.remove('nav-ground-ripple');
+        void bottomNav.offsetWidth;
+        bottomNav.classList.add('nav-ground-ripple');
+      }
     }
 
     function closeDishDetailModal() {
       const modal = document.getElementById('modal-dish-detail');
       if (modal) modal.classList.add('hidden');
 
-      // Restore background content from depth-of-field
-      const mainContent = document.querySelector('main');
-      if (mainContent) mainContent.classList.remove('background-depth-of-field');
-
-      // Clear grounded nav pulse
       const bottomNav = document.querySelector('.fixed.bottom-4 > div');
       if (bottomNav) bottomNav.classList.remove('nav-ground-ripple');
-
-      // Clear card deconstruction states smoothly
-      document.querySelectorAll('.card-antigravity-active, .grid-ripple-effect').forEach(el => {
-        el.classList.remove('card-antigravity-active', 'grid-ripple-effect');
-        el.style.animationDelay = '';
-      });
     }
 
     function setCategory(id) {
