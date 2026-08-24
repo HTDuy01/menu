@@ -294,17 +294,18 @@
       </div>
     </div>
 
-    <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
-    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center">
+    <!-- ================= INGREDIENTS & DISH DETAIL MODAL (FULL SCREEN) ================= -->
+    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-center justify-center">
       <div id="modal-dish-backdrop" class="absolute inset-0 bg-white/95 backdrop-blur-md opacity-0"></div>
-      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[88vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 text-black border-t border-gray-100/80">
+      <div id="modal-dish-sheet" class="relative w-full h-full max-w-[440px] flex flex-col bg-white overflow-hidden z-10 text-black shadow-2xl">
         
-        <!-- Header Close -->
-        <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
-          <div class="flex-1 flex justify-center pl-6">
-            <div class="w-12 h-1.5 rounded-full bg-gray-200"></div>
-          </div>
-          <button id="btn-close-detail" class="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 hover:text-black cursor-pointer font-bold text-xs">✕</button>
+        <!-- Header (Clean Full-Screen Navigation Bar) -->
+        <div class="flex items-center justify-between px-6 pt-4 pb-3 border-b border-gray-100 shrink-0">
+          <button id="btn-close-detail" class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 text-gray-700 hover:text-black cursor-pointer font-bold active:scale-95 transition-all" aria-label="Đóng">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <span class="text-[11px] font-bold text-gray-400 font-mono uppercase tracking-wider">Chi Tiết Món</span>
+          <button onclick="closeDishDetailModal()" class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 hover:text-black cursor-pointer font-bold text-xs active:scale-95 transition-all">✕</button>
         </div>
 
         <!-- Detail Body -->
@@ -313,12 +314,12 @@
         </div>
 
         <!-- Footer -->
-        <div id="modal-dish-footer" class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between">
+        <div id="modal-dish-footer" class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between shrink-0">
           <div class="flex flex-col">
             <span id="ui-modal-price-label" class="text-[10px] uppercase font-mono text-gray-400">Giá Niêm Yết</span>
             <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0</span>
           </div>
-          <button id="btn-detail-close-action" class="px-7 py-3 rounded-full font-bold text-xs bg-black text-white shadow-md hover:bg-gray-800 cursor-pointer active:scale-95 transition-transform">
+          <button id="btn-detail-close-action" class="px-7 py-3.5 rounded-full font-bold text-xs bg-black text-white shadow-md hover:bg-gray-800 cursor-pointer active:scale-95 transition-transform">
             Đóng
           </button>
         </div>
