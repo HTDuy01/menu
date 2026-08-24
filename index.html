@@ -211,6 +211,24 @@
     .zero-g-sheet-anim {
       animation: zeroGSheetRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+
+    /* Background Content Depth-of-Field Fade & Scale Back */
+    .background-depth-of-field {
+      transform: scale(0.965);
+      opacity: 0.72;
+      filter: blur(1.5px);
+      transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.42s ease, filter 0.42s ease;
+    }
+
+    /* Grounded Bottom Navigation Ripple Pulse */
+    @keyframes navGroundPulse {
+      0% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(255, 255, 255, 0.25); }
+      50% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 10px rgba(255, 255, 255, 0); }
+      100% { box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.12), 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+    .nav-ground-ripple {
+      animation: navGroundPulse 0.55s ease-out;
+    }
   </style>
 </head>
 
@@ -1941,12 +1959,32 @@
             sheet.classList.add('zero-g-sheet-anim');
           }
         }
+
+        // Apply spatial depth-of-field fade on background content
+        const mainContent = document.querySelector('main');
+        if (mainContent) mainContent.classList.add('background-depth-of-field');
+
+        // Subtle grounded ripple on black bottom bar
+        const bottomNav = document.querySelector('.fixed.bottom-4 > div');
+        if (bottomNav) {
+          bottomNav.classList.remove('nav-ground-ripple');
+          void bottomNav.offsetWidth;
+          bottomNav.classList.add('nav-ground-ripple');
+        }
       }, 100);
     }
 
     function closeDishDetailModal() {
       const modal = document.getElementById('modal-dish-detail');
       if (modal) modal.classList.add('hidden');
+
+      // Restore background content from depth-of-field
+      const mainContent = document.querySelector('main');
+      if (mainContent) mainContent.classList.remove('background-depth-of-field');
+
+      // Clear grounded nav pulse
+      const bottomNav = document.querySelector('.fixed.bottom-4 > div');
+      if (bottomNav) bottomNav.classList.remove('nav-ground-ripple');
 
       // Clear card deconstruction states smoothly
       document.querySelectorAll('.card-antigravity-active, .grid-ripple-effect').forEach(el => {
