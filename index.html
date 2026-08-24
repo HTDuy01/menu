@@ -113,6 +113,104 @@
       -webkit-appearance: none;
       display: none;
     }
+
+    /* ================= ANTI-GRAVITY ZERO-G CINEMATIC MOTION SYSTEM ================= */
+    @keyframes antiGravityBalloon {
+      0% {
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
+      }
+      40% {
+        transform: translateY(-24px) scale(1.12) rotate(-1.5deg);
+        filter: drop-shadow(0 26px 32px rgba(0, 0, 0, 0.22)) drop-shadow(0 8px 12px rgba(0, 0, 0, 0.12));
+      }
+      100% {
+        transform: translateY(-34px) scale(1.16) rotate(0.8deg);
+        filter: drop-shadow(0 34px 42px rgba(0, 0, 0, 0.26)) drop-shadow(0 12px 18px rgba(0, 0, 0, 0.14));
+      }
+    }
+
+    @keyframes antiGravityShadowDissolve {
+      0% { transform: translateX(-50%) scale(1); opacity: 0.85; }
+      100% { transform: translateX(-50%) scale(1.45); opacity: 0.12; filter: blur(6px); }
+    }
+
+    @keyframes antiGravityTextDrift {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-14px); opacity: 0.65; }
+    }
+
+    @keyframes antiGravityPriceDrift {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-20px); opacity: 0.75; }
+    }
+
+    @keyframes antiGravityCardShell {
+      0% { transform: scale(1); box-shadow: 0 6px 22px rgba(0,0,0,0.04); }
+      40% { transform: scale(0.985) translateY(-2px); box-shadow: 0 14px 30px rgba(0,0,0,0.08); background: rgba(255, 255, 255, 0.95); }
+      100% { transform: scale(0.97) translateY(-5px); box-shadow: 0 20px 38px rgba(0,0,0,0.10); background: rgba(255, 255, 255, 0.88); }
+    }
+
+    @keyframes antiGravityGridRipple {
+      0% { transform: translateY(0); }
+      35% { transform: translateY(-5px) scale(0.995); }
+      70% { transform: translateY(1.5px) scale(1.002); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    /* Active Deconstruction Classes */
+    .card-antigravity-active {
+      animation: antiGravityCardShell 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      z-index: 25 !important;
+    }
+    .card-antigravity-active .floating-dish-img {
+      animation: antiGravityBalloon 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+    }
+    .card-antigravity-active .floating-ground-shadow {
+      animation: antiGravityShadowDissolve 0.45s ease forwards !important;
+    }
+    .card-antigravity-active h4,
+    .card-antigravity-active h3,
+    .card-antigravity-active span.truncate {
+      animation: antiGravityTextDrift 0.38s cubic-bezier(0.25, 1, 0.5, 1) 0.04s forwards !important;
+    }
+    .card-antigravity-active .font-mono.text-black,
+    .card-antigravity-active span[class*="text-black"] {
+      animation: antiGravityPriceDrift 0.38s cubic-bezier(0.25, 1, 0.5, 1) 0.07s forwards !important;
+    }
+
+    .grid-ripple-effect {
+      animation: antiGravityGridRipple 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Zero-G Floating Hero in Product Details Modal */
+    @keyframes zeroGLevitation {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(0.8deg); }
+    }
+    .zero-g-hero-float {
+      animation: zeroGLevitation 3.6s ease-in-out infinite;
+    }
+
+    /* Staggered Zero-G Information Drift Ingress */
+    @keyframes zeroGDriftIn {
+      0% { opacity: 0; transform: translateY(22px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .zero-g-item-1 { animation: zeroGDriftIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards; opacity: 0; }
+    .zero-g-item-2 { animation: zeroGDriftIn 0.46s cubic-bezier(0.16, 1, 0.3, 1) 0.10s forwards; opacity: 0; }
+    .zero-g-item-3 { animation: zeroGDriftIn 0.50s cubic-bezier(0.16, 1, 0.3, 1) 0.16s forwards; opacity: 0; }
+    .zero-g-item-4 { animation: zeroGDriftIn 0.54s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards; opacity: 0; }
+    .zero-g-item-5 { animation: zeroGDriftIn 0.58s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards; opacity: 0; }
+
+    /* Modal Sheet Anti-Gravity Trajectory */
+    @keyframes zeroGSheetRise {
+      0% { transform: translateY(100%); opacity: 0.8; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .zero-g-sheet-anim {
+      animation: zeroGSheetRise 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
   </style>
 </head>
 
@@ -276,7 +374,7 @@
     <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
     <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div id="modal-dish-backdrop" class="absolute inset-0"></div>
-      <div class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 animate-slideUp text-black">
+      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 zero-g-sheet-anim text-black">
         
         <!-- Header Close -->
         <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
@@ -1265,7 +1363,7 @@
         const badge = getItemBadge(combo) || t.comboBadge;
 
         return `
-          <div onclick="openDishDetail(${combo.id})" class="group relative w-full shrink-0 snap-center bg-white rounded-[32px] p-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
+          <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="group relative w-full shrink-0 snap-center bg-white rounded-[32px] p-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
             <div class="flex-1 pr-3 z-10">
               <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 font-mono">${badge}</span>
               <h3 class="text-sm font-black text-black leading-snug mt-0.5">${title}</h3>
@@ -1419,7 +1517,7 @@
         const badge = getItemBadge(item);
 
         container.innerHTML = `
-          <article onclick="openDishDetail(${item.id})" class="featured-slide-card group w-full bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" class="featured-slide-card group w-full bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
             <div class="floating-dish-wrapper w-full h-28 p-1 mb-1 flex items-center justify-center relative">
               <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
               <div class="floating-ground-shadow"></div>
@@ -1449,7 +1547,7 @@
         const realIdx = idx % featured.length;
 
         return `
-          <article onclick="openDishDetail(${item.id})" data-real-index="${realIdx}" class="featured-slide-card snap-start snap-always group w-[calc(50%-6px)] min-w-[calc(50%-6px)] max-w-[calc(50%-6px)] shrink-0 bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
+          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" data-real-index="${realIdx}" class="featured-slide-card snap-start snap-always group w-[calc(50%-6px)] min-w-[calc(50%-6px)] max-w-[calc(50%-6px)] shrink-0 bg-white rounded-[22px] p-3 shadow-[0_8px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_26px_rgba(0,0,0,0.08)] border border-gray-100/90 flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.97] select-none">
             <!-- 3D Floating Cutout Compact Wrapper -->
             <div class="floating-dish-wrapper w-full h-24 p-1 mb-1 flex items-center justify-center relative">
               <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
@@ -1697,7 +1795,7 @@
         const sub = getItemCategoryName(item);
 
         return `
-          <article onclick="openDishDetail(${item.id})" class="group relative flex items-center pl-[58px] sm:pl-[64px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
+          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" class="group relative flex items-center pl-[58px] sm:pl-[64px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
             !item.available ? 'opacity-60 grayscale' : ''
           }">
             <!-- Left Overlapping 3D Floating Cutout Food Photo (Centered exactly 50% on Card Left Edge) -->
@@ -1731,10 +1829,47 @@
       }).join('');
     }
 
-    function openDishDetail(itemId) {
+    let antiGravityActiveTimer = null;
+
+    function openDishDetail(itemId, ev) {
       const t = getT();
       const item = POS_PRODUCTS.find(i => i.id === itemId);
       if (!item) return;
+
+      // 1. Subtle tactile haptic pulse
+      if (navigator.vibrate) {
+        try { navigator.vibrate([30, 40]); } catch (e) {}
+      }
+
+      // 2. Identify the clicked card element
+      let clickedCard = null;
+      if (ev && ev.currentTarget) {
+        clickedCard = ev.currentTarget;
+      } else if (ev && ev.target) {
+        clickedCard = ev.target.closest('article, .featured-slide-card, [data-dish-id]');
+      }
+      if (!clickedCard) {
+        clickedCard = document.querySelector(`[data-dish-id="${itemId}"]`);
+      }
+
+      // 3. Trigger Anti-Gravity Deconstruction on Card & Surrounding Grid Ripple
+      if (clickedCard) {
+        document.querySelectorAll('.card-antigravity-active, .grid-ripple-effect').forEach(el => {
+          el.classList.remove('card-antigravity-active', 'grid-ripple-effect');
+          el.style.animationDelay = '';
+        });
+
+        clickedCard.classList.add('card-antigravity-active');
+
+        // Ripple surrounding grid cards
+        const allCards = Array.from(document.querySelectorAll('#menu-items-list article, #featured-products-carousel article'));
+        allCards.forEach((c, idx) => {
+          if (c !== clickedCard) {
+            c.style.animationDelay = `${(idx % 4) * 0.04}s`;
+            c.classList.add('grid-ripple-effect');
+          }
+        });
+      }
 
       const title = getItemName(item);
       const sub = getItemCategoryName(item);
@@ -1753,14 +1888,15 @@
 
       const body = document.getElementById('dish-detail-body');
       body.innerHTML = `
-        <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
-        <div class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
+        <!-- High-res Real Food Cutout Photo with Zero-G Floating Levitation -->
+        <div class="floating-dish-wrapper zero-g-hero-float w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
           <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain">
           <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
           ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
         </div>
 
-        <div>
+        <!-- Suspended Info 1: Category & Name -->
+        <div class="zero-g-item-1">
           <div class="flex items-center justify-between">
             <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
             ${!item.available 
@@ -1771,25 +1907,52 @@
           <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
+        <!-- Suspended Info 2: Description -->
+        <div class="zero-g-item-2 p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
           <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
           <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
         </div>
 
-        <div class="space-y-1.5">
+        <!-- Suspended Info 3: Ingredients List -->
+        <div class="zero-g-item-3 space-y-1.5">
           <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
           <ul class="grid grid-cols-1 gap-1.5">
             ${ingredientsListHtml}
           </ul>
         </div>
 
-        <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
+        <!-- Suspended Info 4: Allergy / Dietary Note -->
+        <div class="zero-g-item-4 p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
           <span>⚠️</span>
           <span>${t.allergyWarning}</span>
         </div>
       `;
 
-      document.getElementById('modal-dish-detail').classList.remove('hidden');
+      // 4. Slide in Expanded Product Details Sheet after the weightless balloon elevation starts (100ms)
+      if (antiGravityActiveTimer) clearTimeout(antiGravityActiveTimer);
+      antiGravityActiveTimer = setTimeout(() => {
+        const modal = document.getElementById('modal-dish-detail');
+        if (modal) {
+          modal.classList.remove('hidden');
+          const sheet = document.getElementById('modal-dish-sheet');
+          if (sheet) {
+            sheet.classList.remove('zero-g-sheet-anim');
+            void sheet.offsetWidth; // force reflow for smooth spring trajectory
+            sheet.classList.add('zero-g-sheet-anim');
+          }
+        }
+      }, 100);
+    }
+
+    function closeDishDetailModal() {
+      const modal = document.getElementById('modal-dish-detail');
+      if (modal) modal.classList.add('hidden');
+
+      // Clear card deconstruction states smoothly
+      document.querySelectorAll('.card-antigravity-active, .grid-ripple-effect').forEach(el => {
+        el.classList.remove('card-antigravity-active', 'grid-ripple-effect');
+        el.style.animationDelay = '';
+      });
     }
 
     function setCategory(id) {
@@ -2004,15 +2167,9 @@
     }
 
     // Modal listeners
-    document.getElementById('btn-close-detail').onclick = () => {
-      document.getElementById('modal-dish-detail').classList.add('hidden');
-    };
-    document.getElementById('btn-detail-close-action').onclick = () => {
-      document.getElementById('modal-dish-detail').classList.add('hidden');
-    };
-    document.getElementById('modal-dish-backdrop').onclick = () => {
-      document.getElementById('modal-dish-detail').classList.add('hidden');
-    };
+    document.getElementById('btn-close-detail').onclick = closeDishDetailModal;
+    document.getElementById('btn-detail-close-action').onclick = closeDishDetailModal;
+    document.getElementById('modal-dish-backdrop').onclick = closeDishDetailModal;
 
     function handleSearchSubmit(e) {
       if (e) e.preventDefault();
