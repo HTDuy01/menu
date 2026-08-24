@@ -316,8 +316,8 @@
 
     <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
     <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center">
-      <div id="modal-dish-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-xs hero-backdrop-enter"></div>
-      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 hero-sheet-enter text-black">
+      <div id="modal-dish-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-xs opacity-0"></div>
+      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 text-black">
         
         <!-- Header Close -->
         <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
@@ -1863,54 +1863,54 @@
       const backdrop = document.getElementById('modal-dish-backdrop');
       const modalHeroImg = document.getElementById('modal-hero-img');
 
-      if (modal) {
-        modal.classList.remove('hidden');
-      }
+      if (!modal || !sheet) return;
 
       if (activeFlyer) {
         activeFlyer.remove();
         activeFlyer = null;
       }
 
-      if (srcRect && srcRect.width > 0 && modalHeroImg && sheet) {
-        // Measure target rect in modal
+      // Reset any running transitions on sheet/backdrop so we can measure true final position
+      sheet.style.transition = 'none';
+      sheet.style.transform = 'none';
+      if (backdrop) {
+        backdrop.style.transition = 'none';
+        backdrop.style.opacity = '0';
+      }
+
+      modal.classList.remove('hidden');
+
+      if (srcRect && srcRect.width > 0 && modalHeroImg) {
+        // Measure exact true target rect in rested position
         const targetRect = modalHeroImg.getBoundingClientRect();
-        
+
         // Temporarily hide the modal's internal hero image during flight
         modalHeroImg.style.opacity = '0';
 
-        // Animate Sheet sliding up from bottom (450ms ease-out)
-        sheet.classList.remove('hero-sheet-enter');
-        void sheet.offsetWidth;
-        sheet.classList.add('hero-sheet-enter');
-
-        // Fade in backdrop (450ms)
-        if (backdrop) {
-          backdrop.classList.remove('hero-backdrop-enter');
-          void backdrop.offsetWidth;
-          backdrop.classList.add('hero-backdrop-enter');
-        }
+        // Prepare Sheet at the bottom (translateY 100%)
+        sheet.style.transform = 'translate3d(0, 100%, 0)';
+        void sheet.offsetWidth; // Force layout
 
         // Create Shared Element Flying Proxy Image
         const flyer = document.createElement('div');
         flyer.className = 'shared-element-flyer';
-        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 14px 22px rgba(0,0,0,0.18));">`;
+        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 28px rgba(0,0,0,0.22));">`;
         flyer.style.cssText = `
           position: fixed;
           left: ${srcRect.left}px;
           top: ${srcRect.top}px;
           width: ${srcRect.width}px;
           height: ${srcRect.height}px;
-          z-index: 9999;
+          z-index: 99999;
           pointer-events: none;
           transform-origin: center center;
-          will-change: transform, opacity;
-          transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1), opacity 450ms ease-out;
+          will-change: transform;
+          transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
         `;
         document.body.appendChild(flyer);
         activeFlyer = flyer;
 
-        // Force browser to register start position
+        // Force browser to register starting position of flyer
         void flyer.offsetWidth;
 
         // Calculate delta for GPU 3D translation & scale
@@ -1919,7 +1919,18 @@
         const scaleX = targetRect.width / srcRect.width;
         const scaleY = targetRect.height / srcRect.height;
 
+        // Start Flight Transition (450ms)
         flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`;
+
+        // Animate Sheet sliding up simultaneously (450ms)
+        sheet.style.transition = 'transform 450ms cubic-bezier(0.16, 1, 0.3, 1)';
+        sheet.style.transform = 'translate3d(0, 0, 0)';
+
+        // Fade in backdrop (450ms)
+        if (backdrop) {
+          backdrop.style.transition = 'opacity 450ms ease-out';
+          backdrop.style.opacity = '1';
+        }
 
         setTimeout(() => {
           if (modalHeroImg) modalHeroImg.style.opacity = '1';
@@ -1930,10 +1941,13 @@
         }, 450);
       } else {
         // Fallback smooth slide
-        if (sheet) {
-          sheet.classList.remove('hero-sheet-enter');
-          void sheet.offsetWidth;
-          sheet.classList.add('hero-sheet-enter');
+        sheet.style.transform = 'translate3d(0, 100%, 0)';
+        void sheet.offsetWidth;
+        sheet.style.transition = 'transform 450ms cubic-bezier(0.16, 1, 0.3, 1)';
+        sheet.style.transform = 'translate3d(0, 0, 0)';
+        if (backdrop) {
+          backdrop.style.transition = 'opacity 450ms ease-out';
+          backdrop.style.opacity = '1';
         }
         if (modalHeroImg) modalHeroImg.style.opacity = '1';
       }
@@ -1953,7 +1967,20 @@
         activeFlyer = null;
       }
       const modal = document.getElementById('modal-dish-detail');
-      if (modal) modal.classList.add('hidden');
+      const sheet = document.getElementById('modal-dish-sheet');
+      const backdrop = document.getElementById('modal-dish-backdrop');
+
+      if (sheet && backdrop) {
+        sheet.style.transition = 'transform 300ms cubic-bezier(0.4, 0, 1, 1)';
+        sheet.style.transform = 'translate3d(0, 100%, 0)';
+        backdrop.style.transition = 'opacity 300ms ease-in';
+        backdrop.style.opacity = '0';
+        setTimeout(() => {
+          if (modal) modal.classList.add('hidden');
+        }, 300);
+      } else {
+        if (modal) modal.classList.add('hidden');
+      }
 
       const bottomNav = document.querySelector('.fixed.bottom-4 > div');
       if (bottomNav) bottomNav.classList.remove('nav-ground-ripple');
