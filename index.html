@@ -122,7 +122,7 @@
       pointer-events: none;
       transform-origin: center center;
       will-change: transform;
-      transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 540ms cubic-bezier(0.2, 0.9, 0.28, 1);
     }
 
     /* Grounded Bottom Navigation Pulse */
@@ -296,8 +296,8 @@
 
     <!-- ================= INGREDIENTS & DISH DETAIL MODAL ================= -->
     <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-end justify-center">
-      <div id="modal-dish-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-xs opacity-0"></div>
-      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[85vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 text-black">
+      <div id="modal-dish-backdrop" class="absolute inset-0 bg-white/95 backdrop-blur-md opacity-0"></div>
+      <div id="modal-dish-sheet" class="relative w-full max-w-[412px] max-h-[88vh] flex flex-col rounded-t-[32px] bg-white shadow-2xl overflow-hidden z-10 text-black border-t border-gray-100/80">
         
         <!-- Header Close -->
         <div class="flex items-center justify-between px-6 pt-4 pb-2 border-b border-gray-100">
@@ -313,7 +313,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between">
+        <div id="modal-dish-footer" class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between">
           <div class="flex flex-col">
             <span id="ui-modal-price-label" class="text-[10px] uppercase font-mono text-gray-400">Giá Niêm Yết</span>
             <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0</span>
@@ -1801,48 +1801,52 @@
       const body = document.getElementById('dish-detail-body');
       body.innerHTML = `
         <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
-        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100 flex items-center justify-center relative overflow-hidden shadow-card">
-          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain transition-opacity duration-200">
+        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100/80 flex items-center justify-center relative overflow-hidden shadow-card">
+          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain transition-opacity duration-300">
           <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
           ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
         </div>
 
-        <!-- Detail Information Rows -->
-        <div>
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
-            ${!item.available 
-              ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-mono">${t.outOfStockLabel}</span>` 
-              : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-mono">${t.availableLabel}</span>`}
+        <!-- Detail Information Content Container (Staged Reveal from Faint to Crisp) -->
+        <div id="dish-detail-text-content" class="space-y-4" style="opacity: 0; filter: blur(5px); transition: opacity 220ms ease-out, filter 220ms ease-out;">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
+              ${!item.available 
+                ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-mono">${t.outOfStockLabel}</span>` 
+                : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-mono">${t.availableLabel}</span>`}
+            </div>
+            <h2 class="text-base font-extrabold text-black tracking-tight leading-snug mt-1">${title}</h2>
+            <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
           </div>
-          <h2 class="text-base font-extrabold text-black tracking-tight leading-snug mt-1">${title}</h2>
-          <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
-        </div>
 
-        <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
-          <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
-          <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
-        </div>
+          <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
+            <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
+            <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
+          </div>
 
-        <div class="space-y-1.5">
-          <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
-          <ul class="grid grid-cols-1 gap-1.5">
-            ${ingredientsListHtml}
-          </ul>
-        </div>
+          <div class="space-y-1.5">
+            <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
+            <ul class="grid grid-cols-1 gap-1.5">
+              ${ingredientsListHtml}
+            </ul>
+          </div>
 
-        <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
-          <span>⚠️</span>
-          <span>${t.allergyWarning}</span>
+          <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
+            <span>⚠️</span>
+            <span>${t.allergyWarning}</span>
+          </div>
         </div>
       `;
 
-      // 2. Open Modal & Perform In-Place Shared Element Transition
+      // 2. Open Modal & Perform 4-Stage Pure White Transition
       const modal = document.getElementById('modal-dish-detail');
       const sheet = document.getElementById('modal-dish-sheet');
       const backdrop = document.getElementById('modal-dish-backdrop');
       const modalHeroImg = document.getElementById('modal-hero-img');
       const heroWrapper = document.getElementById('modal-hero-wrapper');
+      const textContent = document.getElementById('dish-detail-text-content');
+      const modalFooter = document.getElementById('modal-dish-footer');
 
       if (!modal || !sheet) return;
 
@@ -1851,11 +1855,18 @@
         activeFlyer = null;
       }
 
-      // Reset any running transitions on sheet/backdrop
+      // Reset initial styles for pure white reveal
       sheet.style.transition = 'none';
       sheet.style.transform = 'translate3d(0, 0, 0)';
       sheet.style.opacity = '1';
       sheet.style.filter = 'none';
+
+      if (modalFooter) {
+        modalFooter.style.transition = 'none';
+        modalFooter.style.opacity = '0';
+        modalFooter.style.filter = 'blur(5px)';
+      }
+
       if (backdrop) {
         backdrop.style.transition = 'none';
         backdrop.style.opacity = '0';
@@ -1898,16 +1909,10 @@
         // Temporarily hide the modal's internal hero image during flight
         modalHeroImg.style.opacity = '0';
 
-        // Keep Sheet hidden in-place with opacity 0 and soft blur (NO sliding from bottom)
-        sheet.style.transform = 'translate3d(0, 0, 0)';
-        sheet.style.opacity = '0';
-        sheet.style.filter = 'blur(6px)';
-        void sheet.offsetWidth; // Force layout
-
-        // Create Shared Element Flying Proxy Image with luxury realistic shadow
+        // Create Shared Element Flying Proxy Image with soft ambient shadow
         const flyer = document.createElement('div');
         flyer.className = 'shared-element-flyer';
-        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 20px 32px rgba(0,0,0,0.35));">`;
+        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(0,0,0,0.18));">`;
         flyer.style.cssText = `
           position: fixed;
           left: ${srcRect.left}px;
@@ -1918,7 +1923,7 @@
           pointer-events: none;
           transform-origin: center center;
           will-change: transform;
-          transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 540ms cubic-bezier(0.2, 0.9, 0.28, 1);
         `;
         document.body.appendChild(flyer);
         activeFlyer = flyer;
@@ -1926,42 +1931,60 @@
         // Force browser to register starting position of flyer
         void flyer.offsetWidth;
 
-        // Step 1: Darken backdrop first for high contrast stage (300ms)
+        // Stage 1: Fade everything into pure luminous white (300ms)
         if (backdrop) {
           backdrop.style.transition = 'opacity 300ms ease-out';
           backdrop.style.opacity = '1';
         }
 
-        // Step 1: Launch image flight up to hero position (380ms) expanding to exact size
+        // Stage 2: Launch smooth, graceful image flight across the pure white background (540ms)
         flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`;
 
-        // Step 2: As image reaches its exact position (~240ms), fade sheet from blurred to crisp white in place!
+        // Stage 3: As image nears destination (320ms), fade in faint text softly
         setTimeout(() => {
-          sheet.style.transition = 'opacity 260ms ease-out, filter 260ms ease-out';
-          sheet.style.opacity = '1';
-          sheet.style.filter = 'blur(0px)';
-        }, 220);
+          if (textContent) {
+            textContent.style.transition = 'opacity 220ms ease-out, filter 220ms ease-out';
+            textContent.style.opacity = '0.35';
+            textContent.style.filter = 'blur(2px)';
+          }
+          if (modalFooter) {
+            modalFooter.style.transition = 'opacity 220ms ease-out, filter 220ms ease-out';
+            modalFooter.style.opacity = '0.35';
+            modalFooter.style.filter = 'blur(2px)';
+          }
+        }, 320);
 
-        // Step 3: Reveal modal hero image seamlessly and clean up flyer
+        // Stage 4: Once image arrives at final position (540ms), resolve text into crisp solid black!
         setTimeout(() => {
+          if (textContent) {
+            textContent.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
+            textContent.style.opacity = '1';
+            textContent.style.filter = 'blur(0px)';
+          }
+          if (modalFooter) {
+            modalFooter.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
+            modalFooter.style.opacity = '1';
+            modalFooter.style.filter = 'blur(0px)';
+          }
           if (modalHeroImg) modalHeroImg.style.opacity = '1';
           if (flyer && flyer.parentNode) {
             flyer.remove();
           }
           if (activeFlyer === flyer) activeFlyer = null;
-        }, 500);
+        }, 540);
       } else {
-        // Fallback fade in place
-        sheet.style.transform = 'translate3d(0, 0, 0)';
-        sheet.style.opacity = '0';
-        sheet.style.filter = 'blur(6px)';
-        void sheet.offsetWidth;
-        sheet.style.transition = 'opacity 260ms ease-out, filter 260ms ease-out';
-        sheet.style.opacity = '1';
-        sheet.style.filter = 'blur(0px)';
+        // Fallback fade in
         if (backdrop) {
-          backdrop.style.transition = 'opacity 260ms ease-out';
+          backdrop.style.transition = 'opacity 300ms ease-out';
           backdrop.style.opacity = '1';
+        }
+        if (textContent) {
+          textContent.style.opacity = '1';
+          textContent.style.filter = 'blur(0px)';
+        }
+        if (modalFooter) {
+          modalFooter.style.opacity = '1';
+          modalFooter.style.filter = 'blur(0px)';
         }
         if (modalHeroImg) modalHeroImg.style.opacity = '1';
       }
@@ -1985,14 +2008,13 @@
       const backdrop = document.getElementById('modal-dish-backdrop');
 
       if (sheet && backdrop) {
-        sheet.style.transition = 'opacity 200ms ease-in, filter 200ms ease-in';
+        sheet.style.transition = 'opacity 220ms ease-in';
         sheet.style.opacity = '0';
-        sheet.style.filter = 'blur(6px)';
-        backdrop.style.transition = 'opacity 200ms ease-in';
+        backdrop.style.transition = 'opacity 220ms ease-in';
         backdrop.style.opacity = '0';
         setTimeout(() => {
           if (modal) modal.classList.add('hidden');
-        }, 200);
+        }, 220);
       } else {
         if (modal) modal.classList.add('hidden');
       }
