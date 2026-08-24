@@ -146,19 +146,8 @@
           </div>
         </div>
 
-        <!-- Top Right Controls: Currency & Language Switchers -->
+        <!-- Top Right Controls: Language Switcher -->
         <div class="flex items-center gap-2">
-          <!-- Currency Switcher -->
-          <div class="relative">
-            <button id="btn-currency" class="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-xs font-bold text-black border border-gray-100 cursor-pointer active:scale-95 transition-transform">
-              <span id="currency-display">₫</span>
-            </button>
-            <div id="dropdown-currency" class="hidden absolute right-0 mt-1.5 w-24 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
-              <button data-curr="VND" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">VND (₫)</button>
-              <button data-curr="USD" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">USD ($)</button>
-              <button data-curr="EUR" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold">EUR (€)</button>
-            </div>
-          </div>
 
           <!-- Language Switcher -->
           <div class="relative">
@@ -305,7 +294,7 @@
         <div class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between">
           <div class="flex flex-col">
             <span id="ui-modal-price-label" class="text-[10px] uppercase font-mono text-gray-400">Giá Niêm Yết</span>
-            <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0₫</span>
+            <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0</span>
           </div>
           <button id="btn-detail-close-action" class="px-7 py-3 rounded-full font-bold text-xs bg-black text-white shadow-md hover:bg-gray-800 cursor-pointer active:scale-95 transition-transform">
             Đóng
@@ -809,13 +798,16 @@
       return [currentLanguage === 'en' ? 'Fresh premium selected ingredients' : (currentLanguage === 'fr' ? 'Ingrédients frais de première qualité' : 'Nguyên liệu tươi chọn lọc cao cấp')];
     }
 
-    function formatPrice(priceVnd) {
-      const curr = CURRENCIES[currentCurrency] || CURRENCIES.VND;
-      const converted = priceVnd * curr.rate;
-      if (curr.code === 'VND') {
-        return Math.round(converted).toLocaleString('vi-VN') + curr.symbol;
+    function formatPrice(price) {
+      if (typeof price === 'string') {
+        price = parseFloat(price.replace(/[^0-9.-]+/g, '')) || 0;
       }
-      return (curr.pos === 'prefix' ? curr.symbol : '') + converted.toFixed(curr.decimals) + (curr.pos === 'suffix' ? curr.symbol : '');
+      if (!price || isNaN(price)) return '0';
+      if (price >= 1000) {
+        const inK = price / 1000;
+        return inK % 1 === 0 ? inK.toString() : inK.toFixed(1);
+      }
+      return price.toString();
     }
 
     // Dynamic Table Number from URL query parameter (e.g. ?table=05 or ?t=3)
@@ -1769,22 +1761,6 @@
       if (searchWrapper && !searchWrapper.contains(e.target)) {
         closeSearchSuggestions();
       }
-    });
-
-    // Currency Switcher
-    const btnCurr = document.getElementById('btn-currency');
-    const dropCurr = document.getElementById('dropdown-currency');
-    btnCurr.onclick = () => dropCurr.classList.toggle('hidden');
-    dropCurr.querySelectorAll('button').forEach(btn => {
-      btn.onclick = () => {
-        currentCurrency = btn.getAttribute('data-curr');
-        document.getElementById('currency-display').innerText = CURRENCIES[currentCurrency].symbol;
-        dropCurr.classList.add('hidden');
-        applyTranslations();
-        renderFeaturedGrid();
-        renderComboBanners();
-        renderMenuList();
-      };
     });
 
     // Language Switcher (Complete live multilingual update)
