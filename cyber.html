@@ -1800,11 +1800,11 @@
 
       const body = document.getElementById('dish-detail-body');
       body.innerHTML = `
-        <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
-        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100/80 flex items-center justify-center relative overflow-hidden shadow-card">
-          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain">
-          <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
-          ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
+        <!-- Floating Dish in Free Space with Ambient Ground Shadow (No box frame) -->
+        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full h-[190px] flex items-center justify-center relative overflow-visible py-2">
+          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img h-[175px] max-h-[175px] w-auto max-w-[280px] object-contain drop-shadow-md select-none pointer-events-none">
+          <div class="floating-ground-shadow" style="width: 170px; height: 18px; bottom: -2px;"></div>
+          ${badge ? `<span class="absolute top-0 left-2 text-[10px] font-bold text-gray-800 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
         </div>
 
         <!-- Detail Information Content Container (Staged Reveal from Faint to Crisp) -->
@@ -1844,7 +1844,6 @@
       const sheet = document.getElementById('modal-dish-sheet');
       const backdrop = document.getElementById('modal-dish-backdrop');
       const modalHeroImg = document.getElementById('modal-hero-img');
-      const heroWrapper = document.getElementById('modal-hero-wrapper');
       const textContent = document.getElementById('dish-detail-text-content');
       const modalFooter = document.getElementById('modal-dish-footer');
 
@@ -1874,45 +1873,27 @@
 
       modal.classList.remove('hidden');
 
-      if (srcRect && srcRect.width > 0 && modalHeroImg && heroWrapper) {
-        // Measure target rect in modal
-        const wrapperRect = heroWrapper.getBoundingClientRect();
-        
-        // Calculate exact target dimensions matching the modal hero spotlight
-        const availableW = wrapperRect.width - 32;
-        const availableH = Math.min(wrapperRect.height - 32, 175);
-
-        let targetW = availableW;
-        let targetH = availableH;
-
-        if (sourceImg.naturalWidth && sourceImg.naturalHeight) {
-          const aspect = sourceImg.naturalWidth / sourceImg.naturalHeight;
-          if (availableW / availableH > aspect) {
-            targetH = availableH;
-            targetW = availableH * aspect;
-          } else {
-            targetW = availableW;
-            targetH = availableW / aspect;
-          }
-        }
-
-        const targetCenterX = wrapperRect.left + wrapperRect.width / 2;
-        const targetCenterY = wrapperRect.top + wrapperRect.height / 2;
+      if (srcRect && srcRect.width > 0 && modalHeroImg) {
+        // Measure real rendered target image rect
+        const targetRect = modalHeroImg.getBoundingClientRect();
 
         const srcCenterX = srcRect.left + srcRect.width / 2;
         const srcCenterY = srcRect.top + srcRect.height / 2;
 
-        const deltaX = targetCenterX - srcCenterX;
-        const deltaY = targetCenterY - srcCenterY;
-        const scale = targetW / srcRect.width;
+        const tgtCenterX = targetRect.left + targetRect.width / 2;
+        const tgtCenterY = targetRect.top + targetRect.height / 2;
 
-        // Keep modal hero image visible right beneath flyer (Zero flicker handoff)
-        modalHeroImg.style.opacity = '1';
+        const deltaX = tgtCenterX - srcCenterX;
+        const deltaY = tgtCenterY - srcCenterY;
+        const scale = targetRect.height / srcRect.height;
+
+        // Hide modalHeroImg during flight so only flyer is seen
+        modalHeroImg.style.visibility = 'hidden';
 
         // Create Shared Element Flying Proxy Image with soft ambient shadow
         const flyer = document.createElement('div');
         flyer.className = 'shared-element-flyer';
-        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 28px rgba(0,0,0,0.18));">`;
+        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 26px rgba(0,0,0,0.16));">`;
         flyer.style.cssText = `
           position: fixed;
           left: ${srcRect.left}px;
@@ -1954,8 +1935,9 @@
           }
         }, 400);
 
-        // Stage 4: Once image arrives at final position (680ms), resolve text into crisp solid black and remove flyer seamlessly!
+        // Stage 4: Once image arrives at final position (680ms), swap visibility instantly with zero flicker!
         setTimeout(() => {
+          if (modalHeroImg) modalHeroImg.style.visibility = 'visible';
           if (textContent) {
             textContent.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
             textContent.style.opacity = '1';
@@ -1985,7 +1967,10 @@
           modalFooter.style.opacity = '1';
           modalFooter.style.filter = 'blur(0px)';
         }
-        if (modalHeroImg) modalHeroImg.style.opacity = '1';
+        if (modalHeroImg) {
+          modalHeroImg.style.visibility = 'visible';
+          modalHeroImg.style.opacity = '1';
+        }
       }
 
       // Subtle feedback on bottom nav
@@ -2005,6 +1990,9 @@
       const modal = document.getElementById('modal-dish-detail');
       const sheet = document.getElementById('modal-dish-sheet');
       const backdrop = document.getElementById('modal-dish-backdrop');
+      const modalHeroImg = document.getElementById('modal-hero-img');
+
+      if (modalHeroImg) modalHeroImg.style.visibility = 'visible';
 
       if (sheet && backdrop) {
         sheet.style.transition = 'opacity 240ms ease-in';
