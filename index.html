@@ -154,9 +154,10 @@
             <button id="btn-language" class="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-xs font-bold text-black border border-gray-100 cursor-pointer active:scale-95 transition-transform">
               <span id="lang-display">🇻🇳</span>
             </button>
-            <div id="dropdown-language" class="hidden absolute right-0 mt-1.5 w-32 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
+            <div id="dropdown-language" class="hidden absolute right-0 mt-1.5 w-36 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
               <button data-lang="vi" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇻🇳</span><span>Tiếng Việt</span></button>
               <button data-lang="en" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇬🇧</span><span>English</span></button>
+              <button data-lang="ru" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇷🇺</span><span>Русский</span></button>
               <button data-lang="fr" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇫🇷</span><span>Français</span></button>
             </div>
           </div>
@@ -318,7 +319,7 @@
     let currentCategory = 'all';
     let searchQuery = '';
 
-    // Complete Trilingual UI Translations Dictionary
+    // Complete Multilingual UI Translations Dictionary (VI, EN, RU, FR)
     const UI_TRANSLATIONS = {
       vi: {
         greeting: 'Xin chào,',
@@ -384,6 +385,38 @@
         priceLabel: 'Menu Price',
         closeBtn: 'Close'
       },
+      ru: {
+        greeting: 'Здравствуйте,',
+        table: '☕ В зале',
+        address: '49 Фан Тинь, Хойан',
+        searchPlaceholder: 'Поиск: Мокка, Латте, Сэндвич, Круассан...',
+        featuredTitle: 'Рекомендуемые блюда',
+        viewAll: 'Все',
+        comboSectionTitle: 'Фирменные комбо',
+        comboBadge: 'ХИТ ПРОДАЖ • ЗАВТРАК',
+        comboTitle: 'Комбо завтрак Good Morning',
+        comboDesc: 'Энергичный сытный завтрак: 1 свежий сэндвич или круассан на выбор + 1 кофе или свежевыжатый сок.',
+        comboBtn: 'Подробнее',
+        allMenuTitle: 'Все меню',
+        itemsSuffix: 'блюд',
+        detailTag: 'Подробнее',
+        outOfStockBadge: 'НЕТ',
+        outOfStockLabel: 'Временно нет в наличии',
+        availableLabel: 'Готово к заказу',
+        helpTitle: 'Good Morning Café радо приветствовать вас',
+        helpDesc: 'Пожалуйста, позовите официанта или обратитесь к кассе, когда будете готовы сделать заказ!',
+        toastTitle: 'Сигнал получен! 🛎️',
+        toastDesc: 'Официант Good Morning Café уже идет к вам.',
+        navHome: 'Главная',
+        navSearch: 'Поиск',
+        noResults: 'Блюда не найдены',
+        viewAllMenu: 'Смотреть все меню',
+        descTitle: 'Описание блюда:',
+        ingredientsTitle: '🌿 Состав ингредиентов:',
+        allergyWarning: 'Если у вас есть особые пожелания по сахару или льду, сообщите официанту при заказе.',
+        priceLabel: 'Цена',
+        closeBtn: 'Закрыть'
+      },
       fr: {
         greeting: 'Bonjour,',
         table: '☕ Sur Place',
@@ -418,17 +451,81 @@
       }
     };
 
-    // Category List with Trilingual mapping
+    // Category List with 4-Language mapping (VI, EN, RU, FR)
     const CATEGORIES = [
-      { id: 'all', vi: 'Tất Cả', en: 'All Items', fr: 'Tout' },
-      { id: 'Coffee', vi: 'Cà Phê', en: 'Coffee', fr: 'Café' },
-      { id: 'Tea', vi: 'Trà', en: 'Tea', fr: 'Thé' },
-      { id: 'Milk Tea', vi: 'Trà Sữa', en: 'Milk Tea', fr: 'Thé au Lait' },
-      { id: 'Juice', vi: 'Nước Ép', en: 'Juice', fr: 'Jus Frais' },
-      { id: 'Breakfast', vi: 'Điểm Tâm', en: 'Breakfast', fr: 'Déjeuner' },
-      { id: 'Sandwich', vi: 'Bánh Mì', en: 'Sandwich', fr: 'Sandwichs' },
-      { id: 'Combo', vi: 'Combo', en: 'Combos', fr: 'Formules' },
+      { id: 'all', vi: 'Tất Cả', en: 'All Items', ru: 'Все', fr: 'Tout' },
+      { id: 'Coffee', vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
+      { id: 'Tea', vi: 'Trà', en: 'Tea', ru: 'Чай', fr: 'Thé' },
+      { id: 'Milk Tea', vi: 'Trà Sữa', en: 'Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
+      { id: 'Juice', vi: 'Nước Ép', en: 'Juice', ru: 'Соки', fr: 'Jus Frais' },
+      { id: 'Breakfast', vi: 'Điểm Tâm', en: 'Breakfast', ru: 'Завтрак', fr: 'Déjeuner' },
+      { id: 'Sandwich', vi: 'Bánh Mì', en: 'Sandwich', ru: 'Сэндвичи', fr: 'Sandwichs' },
+      { id: 'Combo', vi: 'Combo', en: 'Combos', ru: 'Комбо', fr: 'Formules' },
     ];
+
+    // Comprehensive Dictionary Translation System for Live POS Dishes (VI -> EN, RU, FR)
+    const DISH_TRANSLATION_DICT = {
+      'latte': { en: 'Caffè Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
+      'cà phê latte': { en: 'Caffè Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
+      'cappuccino': { en: 'Cappuccino', ru: 'Капучино', fr: 'Cappuccino' },
+      'cà phê cappuccino': { en: 'Cappuccino', ru: 'Капучино', fr: 'Cappuccino' },
+      'americano': { en: 'Caffè Americano', ru: 'Кофе Американо', fr: 'Café Americano' },
+      'cà phê americano': { en: 'Caffè Americano', ru: 'Кофе Американо', fr: 'Café Americano' },
+      'espresso': { en: 'Single Origin Espresso', ru: 'Эспрессо', fr: 'Expresso' },
+      'cà phê espresso': { en: 'Single Origin Espresso', ru: 'Эспрессо', fr: 'Expresso' },
+      'mocha': { en: 'Caffè Mocha', ru: 'Кофе Мокка', fr: 'Café Mocha' },
+      'cà phê mocha': { en: 'Caffè Mocha', ru: 'Кофе Мокка', fr: 'Café Mocha' },
+      'cà phê muối': { en: 'Salted Cream Coffee', ru: 'Соленый кофе', fr: 'Café Salé' },
+      'cà phê muối đặc biệt': { en: 'Signature Salted Coffee', ru: 'Фирменный соленый кофе', fr: 'Café Salé Signature' },
+      'cà phê trứng': { en: 'Egg Cream Coffee', ru: 'Яичный кофе', fr: 'Café aux Œufs' },
+      'cà phê sữa': { en: 'Vietnamese Milk Coffee', ru: 'Вьетнамский кофе с молоком', fr: 'Café au Lait Vietnamien' },
+      'cà phê sữa đá': { en: 'Iced Milk Coffee', ru: 'Вьетнамский кофе со льдом', fr: 'Café au Lait Glacé' },
+      'cà phê đen': { en: 'Vietnamese Black Coffee', ru: 'Черный кофе', fr: 'Café Noir' },
+      'cà phê đen đá': { en: 'Iced Black Coffee', ru: 'Черный кофе со льдом', fr: 'Café Noir Glacé' },
+      'bạc xỉu': { en: 'White Milk Coffee (Bac Xiu)', ru: 'Бак Сиу (Кофе со сгущенкой)', fr: 'Café Blanc Doux' },
+      'matcha latte': { en: 'Uji Matcha Latte', ru: 'Матча Латте', fr: 'Matcha Latte Uji' },
+      'trà xanh matcha latte': { en: 'Uji Matcha Latte', ru: 'Матча Латте', fr: 'Matcha Latte Uji' },
+      'trà sữa': { en: 'Classic Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
+      'trà sữa truyền thống': { en: 'Traditional Milk Tea', ru: 'Классический чай с молоком', fr: 'Thé au Lait Traditionnel' },
+      'trà đào': { en: 'Peach Tea', ru: 'Персиковый чай', fr: 'Thé à la Pêche' },
+      'trà đào cam sả': { en: 'Peach Lemongrass Tea', ru: 'Персиковый чай с лемонграссом', fr: 'Thé Pêche Citronnelle' },
+      'trà vải': { en: 'Lychee Tea', ru: 'Чай с личи', fr: 'Thé au Litchi' },
+      'nước cam': { en: 'Fresh Orange Juice', ru: 'Свежевыжатый апельсиновый сок', fr: 'Jus d’Orange Pressé' },
+      'nước cam tươi': { en: 'Fresh Orange Juice', ru: 'Свежевыжатый апельсиновый сок', fr: 'Jus d’Orange Pressé' },
+      'nước ép dưa hấu': { en: 'Watermelon Juice', ru: 'Арбузный сок', fr: 'Jus de Pastèque' },
+      'nước ép thơm': { en: 'Pineapple Juice', ru: 'Ананасовый сок', fr: 'Jus d’Ananas' },
+      'croissant': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
+      'bánh sừng bò': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
+      'bánh sừng bò croissant': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
+      'pancake': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
+      'bánh kếp': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
+      'bánh kếp mật ong pancake': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
+      'sandwich': { en: 'Ham & Cheese Sandwich', ru: 'Сэндвич с ветчиной и сыром', fr: 'Sandwich Jambon Fromage' },
+      'bánh mì kẹp sandwich': { en: 'Ham & Cheese Sandwich', ru: 'Сэндвич с ветчиной và сыром', fr: 'Sandwich Jambon Fromage' },
+      'bánh mì': { en: 'Vietnamese Baguette', ru: 'Вьетнамский багет', fr: 'Baguette Vietnamienne' },
+      'combo bữa sáng đặc biệt': { en: 'Good Morning Breakfast Combo', ru: 'Комбо завтрак Good Morning', fr: 'Forfait Petit-Déjeuner' },
+      'combo bữa sáng': { en: 'Breakfast Combo Set', ru: 'Комбо завтрак', fr: 'Formule Petit-Déjeuner' },
+      'combo trưa': { en: 'Lunch Combo Set', ru: 'Обеденный комбо', fr: 'Formule Déjeuner' },
+      'combo tối': { en: 'Dinner Combo Set', ru: 'Вечерний комбо', fr: 'Formule Dîner' },
+    };
+
+    const BADGE_TRANSLATION_DICT = {
+      'đậm vị': { en: '☕ Rich', ru: '☕ Насыщенный', fr: '☕ Corsé' },
+      'bọt mịn': { en: '☕ Soft Foam', ru: '☕ Нежная пенка', fr: '☕ Mousse Fine' },
+      'thanh nhẹ': { en: '☕ Mild', ru: '☕ Мягкий', fr: '☕ Léger' },
+      'đậm đặc': { en: '☕ Intense', ru: '☕ Крепкий', fr: '☕ Intense' },
+      'bán chạy': { en: '⭐ Best Seller', ru: '⭐ Хит продаж', fr: '⭐ Vedette' },
+      'nổi bật': { en: '⭐ Featured', ru: '⭐ Популярное', fr: '⭐ Vedette' },
+      'đặc biệt': { en: '✨ Special', ru: '✨ Особый', fr: '✨ Spécial' },
+      'signature': { en: '✨ Signature', ru: '✨ Фирменное', fr: '✨ Signature' },
+      'uji kyoto': { en: '🍵 Uji Kyoto', ru: '🍵 Удзи Киото', fr: '🍵 Uji Kyoto' },
+      'truyền thống': { en: '🧋 Classic', ru: '🧋 Классика', fr: '🧋 Classique' },
+      '100% tươi': { en: '🌿 100% Fresh', ru: '🌿 100% Свежий', fr: '🌿 100% Frais' },
+      'bơ pháp': { en: '🥐 French Butter', ru: '🥐 Сливочный', fr: '🥐 Pur Beurre' },
+      'mật ong': { en: '🥞 Pure Honey', ru: '🥞 С медом', fr: '🥞 Miel Pur' },
+      'nóng giòn': { en: '🥪 Crispy', ru: '🥪 Хрустящий', fr: '🥪 Grillé' },
+      'combo hot': { en: '⭐ Hot Combo', ru: '⭐ Топ комбо', fr: '⭐ Formule Hot' },
+    };
 
     // Real POS Products with Strict 100% Trilingual Translations & Badges
     let POS_PRODUCTS = [
@@ -751,26 +848,70 @@
     }
 
     function getItemName(item) {
+      if (!item) return '';
+      if (currentLanguage === 'vi') return item.nameVi || item.name || '';
+      if (currentLanguage === 'en' && item.nameEn) return item.nameEn;
+      if (currentLanguage === 'ru' && item.nameRu) return item.nameRu;
+      if (currentLanguage === 'fr' && item.nameFr) return item.nameFr;
+
+      // Dictionary lookup by clean lowercase Vietnamese name
+      const raw = (item.nameVi || item.name || '').trim().toLowerCase();
+      if (DISH_TRANSLATION_DICT[raw] && DISH_TRANSLATION_DICT[raw][currentLanguage]) {
+        return DISH_TRANSLATION_DICT[raw][currentLanguage];
+      }
+
+      // Partial match lookup in dictionary
+      for (const [key, val] of Object.entries(DISH_TRANSLATION_DICT)) {
+        if (raw.includes(key) && val[currentLanguage]) {
+          return val[currentLanguage];
+        }
+      }
+
       if (currentLanguage === 'en') return item.nameEn || item.nameVi || item.name;
+      if (currentLanguage === 'ru') return item.nameRu || item.nameEn || item.nameVi || item.name;
       if (currentLanguage === 'fr') return item.nameFr || item.nameEn || item.nameVi || item.name;
       return item.nameVi || item.name;
     }
 
     function getItemCategoryName(item) {
-      if (currentLanguage === 'vi') return item.categoryVi || getCategoryVi(item.category);
-      if (currentLanguage === 'fr') return item.categoryFr || getCategoryFr(item.category);
-      return item.categoryEn || getCategoryEn(item.category);
+      if (!item) return '';
+      const cat = item.category || '';
+      if (typeof CATEGORY_TRANSLATIONS !== 'undefined' && CATEGORY_TRANSLATIONS[cat] && CATEGORY_TRANSLATIONS[cat][currentLanguage]) {
+        return CATEGORY_TRANSLATIONS[cat][currentLanguage];
+      }
+      if (currentLanguage === 'vi') return item.categoryVi || cat;
+      if (currentLanguage === 'en') return item.categoryEn || cat;
+      if (currentLanguage === 'ru') return item.categoryRu || cat;
+      if (currentLanguage === 'fr') return item.categoryFr || cat;
+      return cat;
     }
 
     function getItemBadge(item) {
       if (!item) return '';
-      if (currentLanguage === 'vi') return item.badge || item.badgeVi || (item.isFeatured ? '⭐ Nổi Bật' : '');
-      if (currentLanguage === 'fr') return item.badgeFr || item.badgeEn || item.badge || (item.isFeatured ? '⭐ Vedette' : '');
-      return item.badgeEn || item.badge || (item.isFeatured ? '⭐ Featured' : '');
+      const rawBadge = item.badge || item.badgeVi || '';
+      if (!rawBadge && !item.isFeatured) return '';
+      if (currentLanguage === 'vi') return rawBadge || (item.isFeatured ? '⭐ Nổi Bật' : '');
+      if (currentLanguage === 'en' && item.badgeEn) return item.badgeEn;
+      if (currentLanguage === 'ru' && item.badgeRu) return item.badgeRu;
+      if (currentLanguage === 'fr' && item.badgeFr) return item.badgeFr;
+
+      const clean = rawBadge.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ\s]/g, '').trim();
+      for (const [key, val] of Object.entries(BADGE_TRANSLATION_DICT)) {
+        if (clean.includes(key) && val[currentLanguage]) {
+          return val[currentLanguage];
+        }
+      }
+
+      if (currentLanguage === 'en') return item.badgeEn || rawBadge || (item.isFeatured ? '⭐ Featured' : '');
+      if (currentLanguage === 'ru') return item.badgeRu || (item.isFeatured ? '⭐ Популярное' : rawBadge);
+      if (currentLanguage === 'fr') return item.badgeFr || (item.isFeatured ? '⭐ Vedette' : rawBadge);
+      return rawBadge;
     }
 
     function getItemDesc(item) {
+      if (!item) return '';
       if (currentLanguage === 'en') return item.descEn || item.descVi || item.description || 'Delicately crafted specialty by Good Morning Café.';
+      if (currentLanguage === 'ru') return item.descRu || item.descEn || item.descVi || item.description || 'Изысканное фирменное блюдо от Good Morning Café.';
       if (currentLanguage === 'fr') return item.descFr || item.descEn || item.descVi || item.description || 'Délicieuse spécialité préparée par Good Morning Café.';
       return item.descVi || item.description || 'Món ngon tươi mới được chuẩn bị chu đáo từ Good Morning Café.';
     }
@@ -788,6 +929,8 @@
       let list = [];
       if (currentLanguage === 'en') {
         list = parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
+      } else if (currentLanguage === 'ru') {
+        list = parseIngredientsList(item.ingredientsRu) || parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
       } else if (currentLanguage === 'fr') {
         list = parseIngredientsList(item.ingredientsFr) || parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
       } else {
@@ -795,7 +938,13 @@
       }
       if (list && list.length > 0) return list;
       if (item.description) return parseIngredientsList(item.description);
-      return [currentLanguage === 'en' ? 'Fresh premium selected ingredients' : (currentLanguage === 'fr' ? 'Ingrédients frais de première qualité' : 'Nguyên liệu tươi chọn lọc cao cấp')];
+      const defaults = {
+        vi: 'Nguyên liệu tươi chọn lọc cao cấp',
+        en: 'Fresh premium selected ingredients',
+        ru: 'Свежие отборные премиум ингредиенты',
+        fr: 'Ingrédients frais de première qualité'
+      };
+      return [defaults[currentLanguage] || defaults.vi];
     }
 
     function formatPrice(price) {
@@ -1381,23 +1530,19 @@
             </div>
 
             <!-- The White Card Container (Left edge sits right at the center of the dish image) -->
-            <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-4 py-4 min-h-[104px] sm:min-h-[114px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
-              <!-- Middle Content (Title + Badge + Category Subtitle) -->
-              <div class="flex-1 min-w-0 pr-1">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <h4 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug group-hover:text-gray-700">${title}</h4>
-                  ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/60 px-1.5 py-0.5 rounded-md font-mono shrink-0">${badge}</span>` : ''}
+            <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-5 py-4 min-h-[104px] sm:min-h-[114px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
+              <!-- Middle Content (Badge & Category on Top, Dish Name Below) -->
+              <div class="flex-1 min-w-0 pr-1 flex flex-col justify-center">
+                <div class="flex items-center gap-1.5 mb-1 flex-wrap">
+                  ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/60 px-2 py-0.5 rounded-md font-mono shrink-0 leading-none">${badge}</span>` : ''}
+                  <span class="text-[10px] font-semibold text-gray-400 font-mono uppercase tracking-wider truncate">${sub}</span>
                 </div>
-                <p class="text-[11px] text-gray-400 truncate mt-1 font-medium">${sub}</p>
+                <h4 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug group-hover:text-gray-700 truncate">${title}</h4>
               </div>
 
-              <!-- Right Price & Quick Detail Trigger -->
-              <div class="flex flex-col items-end shrink-0 pl-1">
-                <span class="text-xs sm:text-sm font-black font-mono text-black">${formatPrice(item.price)}</span>
-                <span class="text-[9px] sm:text-[10px] font-semibold text-gray-400 group-hover:text-black transition-colors flex items-center gap-0.5 mt-0.5">
-                  <span>${t.detailTag}</span>
-                  <span>🔍</span>
-                </span>
+              <!-- Right Price (Clean, Bold, No Magnifying Glass Icon) -->
+              <div class="flex flex-col items-end justify-center shrink-0 pl-1">
+                <span class="text-sm sm:text-base font-black font-mono text-black tracking-tight">${formatPrice(item.price)}</span>
               </div>
             </div>
           </article>
@@ -1770,7 +1915,7 @@
     dropLang.querySelectorAll('button').forEach(btn => {
       btn.onclick = () => {
         currentLanguage = btn.getAttribute('data-lang');
-        const flags = { vi: '🇻🇳', en: '🇬🇧', fr: '🇫🇷' };
+        const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
         document.getElementById('lang-display').innerText = flags[currentLanguage] || '🇻🇳';
         dropLang.classList.add('hidden');
         applyTranslations();
