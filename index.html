@@ -1374,13 +1374,13 @@
         const badge = getItemBadge(item);
 
         return `
-          <article onclick="openDishDetail(${item.id})" class="group relative flex items-center pl-7 sm:pl-9 cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
+          <article onclick="openDishDetail(${item.id})" class="group relative flex items-center pl-[58px] sm:pl-[64px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
             !item.available ? 'opacity-60 grayscale' : ''
           }">
-            <!-- Left Overlapping 3D Floating Cutout Food Photo with Ground Shadow (Overhanging Card Left Edge) -->
-            <div class="floating-dish-wrapper absolute left-0 top-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 shrink-0 z-10 pointer-events-none">
-              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain" loading="lazy">
-              <div class="floating-ground-shadow" style="width: 78%; height: 14px; bottom: 2px;"></div>
+            <!-- Left Overlapping 3D Floating Cutout Food Photo (Centered exactly 50% on Card Left Edge) -->
+            <div class="floating-dish-wrapper absolute left-0 top-1/2 -translate-y-1/2 w-[116px] h-[116px] sm:w-[128px] sm:h-[128px] shrink-0 z-10 pointer-events-none">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain rounded-2xl" loading="lazy">
+              <div class="floating-ground-shadow" style="width: 80%; height: 16px; bottom: 3px;"></div>
               ${!item.available ? `
                 <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-20">
                   <span class="text-[8px] font-black text-white font-mono bg-red-600 px-1.5 py-0.5 rounded-full">${t.outOfStockBadge}</span>
@@ -1388,8 +1388,8 @@
               ` : ''}
             </div>
 
-            <!-- The White Card Container (Indented to let the dish overlap the left border) -->
-            <div class="w-full bg-white rounded-[26px] pl-[76px] sm:pl-[84px] pr-4 py-3.5 min-h-[96px] sm:min-h-[104px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
+            <!-- The White Card Container (Left edge sits right at the center of the dish image) -->
+            <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-4 py-4 min-h-[104px] sm:min-h-[114px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
               <!-- Middle Content (Title + Badge + Category Subtitle) -->
               <div class="flex-1 min-w-0 pr-1">
                 <div class="flex items-center gap-1.5 flex-wrap">
