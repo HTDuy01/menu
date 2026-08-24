@@ -122,7 +122,7 @@
       pointer-events: none;
       transform-origin: center center;
       will-change: transform;
-      transition: transform 540ms cubic-bezier(0.2, 0.9, 0.28, 1);
+      transition: transform 680ms cubic-bezier(0.18, 0.9, 0.22, 1);
     }
 
     /* Grounded Bottom Navigation Pulse */
@@ -1802,13 +1802,13 @@
       body.innerHTML = `
         <!-- High-res Real Food Cutout Photo with Ambient Ground Shadow -->
         <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full aspect-[16/10] bg-white rounded-3xl p-4 border border-gray-100/80 flex items-center justify-center relative overflow-hidden shadow-card">
-          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain transition-opacity duration-300">
+          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full max-h-[175px] object-contain">
           <div class="floating-ground-shadow" style="width: 65%; height: 18px; bottom: 8px;"></div>
           ${badge ? `<span class="absolute top-4 left-4 text-[10px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
         </div>
 
         <!-- Detail Information Content Container (Staged Reveal from Faint to Crisp) -->
-        <div id="dish-detail-text-content" class="space-y-4" style="opacity: 0; filter: blur(5px); transition: opacity 220ms ease-out, filter 220ms ease-out;">
+        <div id="dish-detail-text-content" class="space-y-4" style="opacity: 0; filter: blur(5px); transition: opacity 280ms ease-out, filter 280ms ease-out;">
           <div>
             <div class="flex items-center justify-between">
               <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
@@ -1906,8 +1906,8 @@
         const deltaY = targetCenterY - srcCenterY;
         const scale = targetW / srcRect.width;
 
-        // Temporarily hide the modal's internal hero image during flight
-        modalHeroImg.style.opacity = '0';
+        // Keep modal hero image visible right beneath flyer (Zero flicker handoff)
+        modalHeroImg.style.opacity = '1';
 
         // Create Shared Element Flying Proxy Image with soft ambient shadow
         const flyer = document.createElement('div');
@@ -1923,7 +1923,7 @@
           pointer-events: none;
           transform-origin: center center;
           will-change: transform;
-          transition: transform 540ms cubic-bezier(0.2, 0.9, 0.28, 1);
+          transition: transform 680ms cubic-bezier(0.18, 0.9, 0.22, 1);
         `;
         document.body.appendChild(flyer);
         activeFlyer = flyer;
@@ -1931,30 +1931,30 @@
         // Force browser to register starting position of flyer
         void flyer.offsetWidth;
 
-        // Stage 1: Fade everything into pure luminous white (300ms)
+        // Stage 1: Fade everything into pure luminous white (350ms)
         if (backdrop) {
-          backdrop.style.transition = 'opacity 300ms ease-out';
+          backdrop.style.transition = 'opacity 350ms ease-out';
           backdrop.style.opacity = '1';
         }
 
-        // Stage 2: Launch smooth, graceful image flight across the pure white background (540ms)
+        // Stage 2: Launch airy, smooth, graceful flight across pure white background (680ms)
         flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`;
 
-        // Stage 3: As image nears destination (320ms), fade in faint text softly
+        // Stage 3: As image nears destination (400ms), fade in faint text softly
         setTimeout(() => {
           if (textContent) {
-            textContent.style.transition = 'opacity 220ms ease-out, filter 220ms ease-out';
+            textContent.style.transition = 'opacity 280ms ease-out, filter 280ms ease-out';
             textContent.style.opacity = '0.35';
-            textContent.style.filter = 'blur(2px)';
+            textContent.style.filter = 'blur(2.5px)';
           }
           if (modalFooter) {
-            modalFooter.style.transition = 'opacity 220ms ease-out, filter 220ms ease-out';
+            modalFooter.style.transition = 'opacity 280ms ease-out, filter 280ms ease-out';
             modalFooter.style.opacity = '0.35';
-            modalFooter.style.filter = 'blur(2px)';
+            modalFooter.style.filter = 'blur(2.5px)';
           }
-        }, 320);
+        }, 400);
 
-        // Stage 4: Once image arrives at final position (540ms), resolve text into crisp solid black!
+        // Stage 4: Once image arrives at final position (680ms), resolve text into crisp solid black and remove flyer seamlessly!
         setTimeout(() => {
           if (textContent) {
             textContent.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
@@ -1966,12 +1966,11 @@
             modalFooter.style.opacity = '1';
             modalFooter.style.filter = 'blur(0px)';
           }
-          if (modalHeroImg) modalHeroImg.style.opacity = '1';
           if (flyer && flyer.parentNode) {
             flyer.remove();
           }
           if (activeFlyer === flyer) activeFlyer = null;
-        }, 540);
+        }, 680);
       } else {
         // Fallback fade in
         if (backdrop) {
@@ -2008,13 +2007,13 @@
       const backdrop = document.getElementById('modal-dish-backdrop');
 
       if (sheet && backdrop) {
-        sheet.style.transition = 'opacity 220ms ease-in';
+        sheet.style.transition = 'opacity 240ms ease-in';
         sheet.style.opacity = '0';
-        backdrop.style.transition = 'opacity 220ms ease-in';
+        backdrop.style.transition = 'opacity 240ms ease-in';
         backdrop.style.opacity = '0';
         setTimeout(() => {
           if (modal) modal.classList.add('hidden');
-        }, 220);
+        }, 240);
       } else {
         if (modal) modal.classList.add('hidden');
       }
