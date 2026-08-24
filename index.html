@@ -78,7 +78,7 @@
     .floating-dish-img {
       position: relative;
       z-index: 2;
-      filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.08));
+      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
       transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
     }
     .floating-ground-shadow {
@@ -86,21 +86,23 @@
       bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
-      width: 72%;
-      height: 12px;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0) 75%);
+      width: 76%;
+      height: 14px;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.14) 48%, rgba(0, 0, 0, 0) 75%);
       border-radius: 50%;
       pointer-events: none;
       z-index: 1;
-      filter: blur(2px);
+      filter: blur(2.5px);
       transition: transform 0.35s ease, opacity 0.35s ease;
     }
-    .group:hover .floating-dish-img {
-      transform: translateY(-5px) scale(1.05);
-      filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.22)) drop-shadow(0 5px 7px rgba(0, 0, 0, 0.10));
+    .group:hover .floating-dish-img,
+    .group:active .floating-dish-img {
+      transform: translateY(-4px) scale(1.05);
+      filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.22)) drop-shadow(0 5px 8px rgba(0, 0, 0, 0.10));
     }
-    .group:hover .floating-ground-shadow {
-      transform: translateX(-50%) scale(1.18);
+    .group:hover .floating-ground-shadow,
+    .group:active .floating-ground-shadow {
+      transform: translateX(-50%) scale(1.16);
       opacity: 0.85;
     }
 
@@ -248,8 +250,8 @@
           <span id="results-count-badge" class="text-xs font-mono text-gray-400">12 món</span>
         </div>
 
-        <!-- Floating Dish Row List (Compact & High Density) -->
-        <div id="menu-items-list" class="space-y-2">
+        <!-- Floating Dish Row List (Overlapping 3D Luxury Cards) -->
+        <div id="menu-items-list" class="space-y-4">
           <!-- Injected via JS -->
         </div>
       </section>
@@ -1365,43 +1367,46 @@
         return;
       }
 
-      // Luxurious Real Food Cutout Cards (Matching "Mon Panier" in Mockup)
+      // Luxurious Real Food Cutout Overlapping Cards (Matching "Mon Panier" reference in Mockup)
       container.innerHTML = filtered.map(item => {
         const title = getItemName(item);
         const sub = getItemCategoryName(item);
         const badge = getItemBadge(item);
 
         return `
-          <article onclick="openDishDetail(${item.id})" class="group bg-white rounded-[26px] px-4 py-3.5 shadow-[0_6px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3.5 cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
+          <article onclick="openDishDetail(${item.id})" class="group relative flex items-center pl-7 sm:pl-9 cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
             !item.available ? 'opacity-60 grayscale' : ''
           }">
-            <!-- Left 3D Floating Cutout Real Food Photo with Ground Shadow (No gray box) -->
-            <div class="floating-dish-wrapper w-16 h-16 shrink-0">
-              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain">
-              <div class="floating-ground-shadow" style="width: 76%; height: 12px; bottom: 1px;"></div>
+            <!-- Left Overlapping 3D Floating Cutout Food Photo with Ground Shadow (Overhanging Card Left Edge) -->
+            <div class="floating-dish-wrapper absolute left-0 top-1/2 -translate-y-1/2 w-24 h-24 sm:w-28 sm:h-28 shrink-0 z-10 pointer-events-none">
+              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain" loading="lazy">
+              <div class="floating-ground-shadow" style="width: 78%; height: 14px; bottom: 2px;"></div>
               ${!item.available ? `
-                <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-10">
-                  <span class="text-[8px] font-black text-white font-mono bg-red-600 px-1 py-0.2 rounded">${t.outOfStockBadge}</span>
+                <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-20">
+                  <span class="text-[8px] font-black text-white font-mono bg-red-600 px-1.5 py-0.5 rounded-full">${t.outOfStockBadge}</span>
                 </div>
               ` : ''}
             </div>
 
-            <!-- Middle Content (Title + Badge + Category Subtitle) -->
-            <div class="flex-1 min-w-0 pr-1">
-              <div class="flex items-center gap-1.5 truncate">
-                <h4 class="text-xs font-black text-black tracking-tight truncate leading-tight group-hover:text-gray-700">${title}</h4>
-                ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/50 px-1.5 py-0.2 rounded-md font-mono shrink-0">${badge}</span>` : ''}
+            <!-- The White Card Container (Indented to let the dish overlap the left border) -->
+            <div class="w-full bg-white rounded-[26px] pl-[76px] sm:pl-[84px] pr-4 py-3.5 min-h-[96px] sm:min-h-[104px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
+              <!-- Middle Content (Title + Badge + Category Subtitle) -->
+              <div class="flex-1 min-w-0 pr-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug group-hover:text-gray-700">${title}</h4>
+                  ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/60 px-1.5 py-0.5 rounded-md font-mono shrink-0">${badge}</span>` : ''}
+                </div>
+                <p class="text-[11px] text-gray-400 truncate mt-1 font-medium">${sub}</p>
               </div>
-              <p class="text-[11px] text-gray-400 truncate mt-1 font-medium">${sub}</p>
-            </div>
 
-            <!-- Right Price & Quick Detail Trigger -->
-            <div class="flex flex-col items-end shrink-0 pl-1">
-              <span class="text-xs font-black font-mono text-black">${formatPrice(item.price)}</span>
-              <span class="text-[9px] font-semibold text-gray-400 group-hover:text-black transition-colors flex items-center gap-0.5 mt-0.5">
-                <span>${t.detailTag}</span>
-                <span>🔍</span>
-              </span>
+              <!-- Right Price & Quick Detail Trigger -->
+              <div class="flex flex-col items-end shrink-0 pl-1">
+                <span class="text-xs sm:text-sm font-black font-mono text-black">${formatPrice(item.price)}</span>
+                <span class="text-[9px] sm:text-[10px] font-semibold text-gray-400 group-hover:text-black transition-colors flex items-center gap-0.5 mt-0.5">
+                  <span>${t.detailTag}</span>
+                  <span>🔍</span>
+                </span>
+              </div>
             </div>
           </article>
         `;
