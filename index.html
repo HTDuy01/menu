@@ -444,7 +444,14 @@
         noResults: 'Aucun résultat trouvé',
         viewAllMenu: 'Voir toute la carte',
         descTitle: 'Description du Plat:',
-        in    // Comprehensive Dictionary Translation System for Live POS Dishes (VI -> EN, RU, FR)
+        ingredientsTitle: '🌿 Ingrédients détaillés:',
+        allergyWarning: 'Pour toute demande particulière (sans sucre, peu de glaçons), veuillez le signaler lors de votre commande.',
+        priceLabel: 'Prix',
+        closeBtn: 'Fermer'
+      }
+    };
+
+    // Comprehensive Dictionary Translation System for Live POS Dishes (VI -> EN, RU, FR)
     const DISH_TRANSLATION_DICT = {
       'latte': { en: 'Coffee Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
       'cà phê latte': { en: 'Coffee Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
@@ -524,6 +531,17 @@
       'nóng giòn': { en: '🥪 Crispy', ru: '🥪 Хрустящий', fr: '🥪 Grillé' },
       'combo hot': { en: '⭐ Hot Combo', ru: '⭐ Топ комбо', fr: '⭐ Formule Hot' },
     };
+
+    const CATEGORIES = [
+      { id: 'all', vi: 'Tất Cả', en: 'All Items', ru: 'Все меню', fr: 'Tous les Plats' },
+      { id: 'Coffee', vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
+      { id: 'Tea', vi: 'Trà', en: 'Tea', ru: 'Чай', fr: 'Thé' },
+      { id: 'Milk Tea', vi: 'Trà Sữa', en: 'Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
+      { id: 'Juice', vi: 'Nước Ép', en: 'Juice', ru: 'Соки', fr: 'Jus Frais' },
+      { id: 'Breakfast', vi: 'Điểm Tâm', en: 'Breakfast', ru: 'Завтрак', fr: 'Déjeuner' },
+      { id: 'Sandwich', vi: 'Bánh Mì', en: 'Sandwich', ru: 'Сэндвичи', fr: 'Sandwichs' },
+      { id: 'Combo', vi: 'Combo', en: 'Combos', ru: 'Комбо', fr: 'Formules' }
+    ];
 
     // Real POS Products with Strict 100% 4-Language Translations & Badges
     let POS_PRODUCTS = [
@@ -2106,6 +2124,11 @@
       };
     });
 
+    // ================= REAL-TIME POS DATA SYNCHRONIZATION ENGINE =================
+    // Firebase DB URL — được điền tự động bởi script Cài đặt Firebase.bat
+    // Nếu chưa setup, giá trị này là chuỗi rỗng và hệ thống dùng cache.
+    const FIREBASE_DB_URL = '';
+
     const CATEGORY_TRANSLATIONS = {
       'Coffee': { vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
       'Cà Phê': { vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
@@ -2152,7 +2175,7 @@
       'Juice': 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
       'Breakfast': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
       'Sandwich': 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
-      'Combo': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
+      'Combo': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80'
     };
 
     function applyMenuPayload(data, source) {
@@ -2273,129 +2296,7 @@
       if (prevFeaturedSig !== newFeaturedSig) {
         renderFeaturedCarousel(true);
       }
-    }ONS[cat].fr;
-      return cat;
     }
-
-    const FALLBACK_CATEGORY_IMAGES = {
-      'Coffee': 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
-      'Tea': 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
-      'Milk Tea': 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
-      'Juice': 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
-      'Breakfast': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
-      'Sandwich': 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
-      'Combo': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
-    };
-
-    function applyMenuPayload(data, source) {
-      if (!data || !data.products || !Array.isArray(data.products)) return;
-
-      // 1. Sync Store Information from POS / Cloud
-      if (data.store) {
-        if (data.store.name) {
-          const el = document.getElementById('store-name-title');
-          if (el) el.innerText = data.store.name;
-        }
-        if (data.store.address) {
-          const el = document.getElementById('store-address-subtitle');
-          if (el) el.innerText = data.store.address;
-        }
-      }
-
-      // 2. Sync Categories dynamically
-      let categoriesChanged = false;
-      if (data.categories && Array.isArray(data.categories)) {
-        data.categories.forEach(catName => {
-          if (!CATEGORIES.some(c => c.id === catName)) {
-            CATEGORIES.push({
-              id: catName,
-              vi: getCategoryVi(catName),
-              en: getCategoryEn(catName),
-              fr: getCategoryFr(catName)
-            });
-            categoriesChanged = true;
-          }
-        });
-      }
-
-      // 3. Sync Products Map
-      const existingMap = new Map();
-      POS_PRODUCTS.forEach(p => existingMap.set(p.id, p));
-
-      const updatedProducts = data.products.map(item => {
-        const existing = existingMap.get(item.id);
-        const fallbackImg = FALLBACK_CATEGORY_IMAGES[item.category] || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80';
-
-        return {
-          id: item.id,
-          name: item.name,
-          nameVi: item.name,
-          nameEn: item.nameEn || (existing ? existing.nameEn : item.name),
-          nameFr: item.nameFr || (existing ? existing.nameFr : item.name),
-          badge: item.badge || (existing ? existing.badge : ''),
-          badgeVi: item.badge || (existing ? existing.badgeVi : ''),
-          badgeEn: item.badge || (existing ? existing.badgeEn : ''),
-          badgeFr: item.badge || (existing ? existing.badgeFr : ''),
-          price: item.price,
-          category: item.category,
-          categoryVi: getCategoryVi(item.category),
-          categoryEn: getCategoryEn(item.category),
-          categoryFr: getCategoryFr(item.category),
-          emoji: item.emoji || (existing ? existing.emoji : '🍽️'),
-          image: (item.image && item.image.trim()) ? item.image.trim() : (existing && existing.image ? existing.image : fallbackImg),
-          available: item.available !== false,
-          isFeatured: item.isFeatured === true,
-          isComboBanner: item.isComboBanner !== false,
-          description: item.description || '',
-          descVi: item.description || (existing ? existing.descVi : ''),
-          descEn: item.descEn || (existing ? existing.descEn : (item.description || '')),
-          descFr: item.descFr || (existing ? existing.descFr : (item.description || '')),
-          ingredients: item.ingredients || '',
-          ingredientsVi: parseIngredientsList(item.ingredients || (existing ? existing.ingredientsVi : item.description)),
-          ingredientsEn: parseIngredientsList(item.ingredientsEn || (existing ? existing.ingredientsEn : item.description)),
-          ingredientsFr: parseIngredientsList(item.ingredientsFr || (existing ? existing.ingredientsFr : item.description)),
-        };
-      });
-
-      const getFeatSig = () => getFeaturedItems().map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
-      const getAllSig = () => POS_PRODUCTS.map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
-
-      const prevFeaturedSig = getFeatSig();
-      const prevAllSig = getAllSig();
-
-      POS_PRODUCTS = updatedProducts;
-
-      const newFeaturedSig = getFeatSig();
-      const newAllSig = getAllSig();
-
-      // 4. Update Status Badge
-      const statusEl = document.getElementById('pos-status-badge');
-      if (statusEl) {
-        if (source === 'live') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200";
-          statusEl.innerHTML = "🟢 Trực tiếp tại Quán";
-        } else if (source === 'firebase') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-orange-50 text-orange-700 border border-orange-200";
-          statusEl.innerHTML = "🔥 Thực đơn cập nhật nhanh";
-        } else if (source === 'cloud') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-sky-50 text-sky-700 border border-sky-200";
-          statusEl.innerHTML = "☁️ Thực đơn 24/7";
-        } else {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200";
-          statusEl.innerHTML = "⚡ Ngoại tuyến";
-        }
-      }
-
-      if (categoriesChanged || prevAllSig !== newAllSig) {
-        renderCategories();
-        renderComboBanners();
-        renderMenuList();
-      }
-      if (prevFeaturedSig !== newFeaturedSig) {
-        renderFeaturedCarousel(true);
-      }
-    }
-
     async function syncLivePOSData() {
       // Layer 1: Thử kết nối trực tiếp POS (chỉ hoạt động khi POS đang bật và cùng mạng/tunnel)
       try {
