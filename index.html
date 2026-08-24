@@ -1695,7 +1695,6 @@
       container.innerHTML = filtered.map(item => {
         const title = getItemName(item);
         const sub = getItemCategoryName(item);
-        const badge = getItemBadge(item);
 
         return `
           <article onclick="openDishDetail(${item.id})" class="group relative flex items-center pl-[58px] sm:pl-[64px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
@@ -1714,10 +1713,9 @@
 
             <!-- The White Card Container (Left edge sits right at the center of the dish image) -->
             <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-5 py-4 min-h-[104px] sm:min-h-[114px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
-              <!-- Middle Content (Badge & Category on Top, Dish Name Below) -->
+              <!-- Middle Content (Category on Top, Dish Name Below) -->
               <div class="flex-1 min-w-0 pr-1 flex flex-col justify-center">
-                <div class="flex items-center gap-1.5 mb-1 flex-wrap">
-                  ${badge ? `<span class="text-[9px] font-bold text-gray-600 bg-[#F4F5F7] border border-gray-200/60 px-2 py-0.5 rounded-md font-mono shrink-0 leading-none">${badge}</span>` : ''}
+                <div class="flex items-center gap-1.5 mb-1">
                   <span class="text-[10px] font-semibold text-gray-400 font-mono uppercase tracking-wider truncate">${sub}</span>
                 </div>
                 <h4 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug group-hover:text-gray-700 truncate">${title}</h4>
