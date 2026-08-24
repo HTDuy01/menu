@@ -1877,6 +1877,32 @@
         // Measure real rendered target image rect
         const targetRect = modalHeroImg.getBoundingClientRect();
 
+        // Calculate true natural aspect ratio of the food image
+        const imgNaturalW = sourceImg.naturalWidth || modalHeroImg.naturalWidth || 1;
+        const imgNaturalH = sourceImg.naturalHeight || modalHeroImg.naturalHeight || 1;
+        const aspect = imgNaturalW / imgNaturalH;
+
+        // True visible image dimensions in source card
+        let srcVisibleW = srcRect.width;
+        let srcVisibleH = srcRect.height;
+        if (srcRect.width / srcRect.height > aspect) {
+          srcVisibleW = srcRect.height * aspect;
+        } else {
+          srcVisibleH = srcRect.width / aspect;
+        }
+
+        // True visible image dimensions in target modal
+        let tgtVisibleW = targetRect.width;
+        let tgtVisibleH = targetRect.height;
+        if (targetRect.width / targetRect.height > aspect) {
+          tgtVisibleW = targetRect.height * aspect;
+        } else {
+          tgtVisibleH = targetRect.width / aspect;
+        }
+
+        // Exact uniform scaling factor that scales the dish from source size to exact target size
+        const scale = tgtVisibleW / srcVisibleW;
+
         const srcCenterX = srcRect.left + srcRect.width / 2;
         const srcCenterY = srcRect.top + srcRect.height / 2;
 
@@ -1885,7 +1911,6 @@
 
         const deltaX = tgtCenterX - srcCenterX;
         const deltaY = tgtCenterY - srcCenterY;
-        const scale = targetRect.height / srcRect.height;
 
         // Hide modalHeroImg during flight so only flyer is seen
         modalHeroImg.style.visibility = 'hidden';
