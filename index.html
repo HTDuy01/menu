@@ -1451,7 +1451,6 @@
         // Single featured item: display full width without infinite clone loop or dots
         const item = featured[0];
         const title = getItemName(item);
-        const sub = getItemCategoryName(item);
         const badge = getItemBadge(item);
 
         container.innerHTML = `
@@ -1461,12 +1460,9 @@
               <div class="floating-ground-shadow"></div>
               ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs border border-gray-200/60 font-mono z-10">${badge}</span>` : ''}
             </div>
-            <div class="space-y-0.5 mt-0.5">
-              <div class="flex items-center justify-between">
-                <span class="text-[9px] font-bold text-gray-400 font-mono uppercase tracking-wider truncate max-w-[120px]">${sub}</span>
-                <span class="text-[12px] font-black text-black font-mono">${formatPrice(item.price)}</span>
-              </div>
-              <h3 class="text-sm font-black text-black tracking-tight truncate leading-tight">${title}</h3>
+            <div class="flex items-center justify-between gap-2 mt-1 pt-0.5">
+              <h3 class="text-sm font-black text-black tracking-tight truncate leading-tight flex-1 min-w-0">${title}</h3>
+              <span class="text-[13px] font-black text-black font-mono shrink-0">${formatPrice(item.price)}</span>
             </div>
           </article>
         `;
@@ -1480,7 +1476,6 @@
 
       container.innerHTML = loopedItems.map((item, idx) => {
         const title = getItemName(item);
-        const sub = getItemCategoryName(item);
         const badge = getItemBadge(item);
         const realIdx = idx % featured.length;
 
@@ -1493,13 +1488,10 @@
               ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-full shadow-2xs border border-gray-200/60 font-mono z-10">${badge}</span>` : ''}
             </div>
 
-            <!-- Title & Price Row -->
-            <div class="space-y-0.5 mt-0.5">
-              <div class="flex items-center justify-between">
-                <span class="text-[9px] font-bold text-gray-400 font-mono uppercase tracking-wider truncate max-w-[75px]">${sub}</span>
-                <span class="text-[11px] font-black text-black font-mono">${formatPrice(item.price)}</span>
-              </div>
-              <h3 class="text-xs font-black text-black tracking-tight truncate leading-tight">${title}</h3>
+            <!-- Title & Price Row (No category label) -->
+            <div class="flex items-center justify-between gap-1.5 mt-1 pt-0.5">
+              <h3 class="text-xs font-black text-black tracking-tight truncate leading-tight flex-1 min-w-0">${title}</h3>
+              <span class="text-[11px] font-black text-black font-mono shrink-0">${formatPrice(item.price)}</span>
             </div>
           </article>
         `;
@@ -1730,7 +1722,6 @@
       // Luxurious Real Food Cutout Overlapping Cards (Matching "Mon Panier" reference in Mockup)
       container.innerHTML = filtered.map(item => {
         const title = getItemName(item);
-        const sub = getItemCategoryName(item);
 
         return `
           <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" class="group relative flex items-center pl-[58px] sm:pl-[64px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
@@ -1748,16 +1739,13 @@
             </div>
 
             <!-- The White Card Container (Left edge sits right at the center of the dish image) -->
-            <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-5 py-4 min-h-[104px] sm:min-h-[114px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
-              <!-- Middle Content (Category on Top, Dish Name Below) -->
+            <div class="w-full bg-white rounded-[28px] pl-[68px] sm:pl-[76px] pr-5 py-4 min-h-[96px] sm:min-h-[106px] shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between gap-3 transition-all">
+              <!-- Middle Content (Dish Name only) -->
               <div class="flex-1 min-w-0 pr-1 flex flex-col justify-center">
-                <div class="flex items-center gap-1.5 mb-1">
-                  <span class="text-[10px] font-semibold text-gray-400 font-mono uppercase tracking-wider truncate">${sub}</span>
-                </div>
                 <h4 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug group-hover:text-gray-700 truncate">${title}</h4>
               </div>
 
-              <!-- Right Price (Clean, Bold, No Magnifying Glass Icon) -->
+              <!-- Right Price (Clean, Bold) -->
               <div class="flex flex-col items-end justify-center shrink-0 pl-1">
                 <span class="text-sm sm:text-base font-black font-mono text-black tracking-tight">${formatPrice(item.price)}</span>
               </div>
@@ -1799,7 +1787,6 @@
       }
 
       const title = getItemName(item);
-      const sub = getItemCategoryName(item);
       const desc = getItemDesc(item);
       const ingredients = getItemIngredients(item);
       const badge = getItemBadge(item);
@@ -1825,14 +1812,12 @@
         <!-- Detail Information Content Container (Staged Reveal from Faint to Crisp) -->
         <div id="dish-detail-text-content" class="space-y-4" style="opacity: 0; filter: blur(5px); transition: opacity 280ms ease-out, filter 280ms ease-out;">
           <div>
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold text-gray-400 font-mono uppercase tracking-wider">${getItemCategoryName(item)}</span>
+            <div class="flex items-center justify-between gap-2">
+              <h2 class="text-lg font-extrabold text-black tracking-tight leading-snug flex-1 min-w-0">${title}</h2>
               ${!item.available 
-                ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full font-mono">${t.outOfStockLabel}</span>` 
-                : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-mono">${t.availableLabel}</span>`}
+                ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full font-mono shrink-0">${t.outOfStockLabel}</span>` 
+                : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full font-mono shrink-0">${t.availableLabel}</span>`}
             </div>
-            <h2 class="text-base font-extrabold text-black tracking-tight leading-snug mt-1">${title}</h2>
-            <p class="text-xs text-gray-400 mt-0.5 font-medium">${sub}</p>
           </div>
 
           <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
@@ -2207,10 +2192,10 @@
                 ${!item.available ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-[7px] text-white font-bold font-mono">HẾT</div>' : ''}
               </div>
 
-              <!-- Middle: Highlighted Name + Category -->
+              <!-- Middle: Highlighted Name & Status -->
               <div class="flex-1 min-w-0 pr-1">
                 <h4 class="text-xs font-bold text-black tracking-tight truncate leading-tight">${highlightedTitle}</h4>
-                <p class="text-[10px] text-gray-400 truncate mt-0.5 font-medium">${category} • ${item.available ? t.availableLabel : t.outOfStockLabel}</p>
+                <p class="text-[10px] ${item.available ? 'text-gray-400' : 'text-red-500 font-semibold'} truncate mt-0.5">${item.available ? t.availableLabel : t.outOfStockLabel}</p>
               </div>
 
               <!-- Right: Price & Arrow Trigger -->
