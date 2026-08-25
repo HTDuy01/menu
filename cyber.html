@@ -337,7 +337,15 @@
     };
 
     let currentCurrency = 'VND';
-    let currentLanguage = 'vi';
+    let currentLanguage = (() => {
+      try {
+        const p = new URLSearchParams(window.location.search).get('lang');
+        if (p && ['vi', 'en', 'ru', 'fr'].includes(p.toLowerCase())) return p.toLowerCase();
+        const saved = localStorage.getItem('gm_menu_lang');
+        if (saved && ['vi', 'en', 'ru', 'fr'].includes(saved)) return saved;
+      } catch (e) {}
+      return 'vi';
+    })();
     let currentCategory = 'all';
     let searchQuery = '';
 
@@ -1179,6 +1187,9 @@
 
     function applyTranslations() {
       const t = getT();
+      const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
+      const elLangDisplay = document.getElementById('lang-display');
+      if (elLangDisplay) elLangDisplay.innerText = flags[currentLanguage] || '🇻🇳';
       const elGreeting = document.getElementById('ui-greeting');
       if (elGreeting) elGreeting.innerText = t.greeting;
       const elTableBadge = document.getElementById('ui-table-badge');
@@ -2113,48 +2124,23 @@
         .replace(/Đ/g, 'D');
     }
 
-    // Language-aware search matcher
+    // Language-aware search matcher (Searches strictly within the current localized dish name)
     function searchFilterItems(query) {
       if (!query || !query.trim()) return [];
       const rawQuery = query.trim().toLowerCase();
       const cleanQuery = removeVietnameseDiacritics(rawQuery);
 
       return POS_PRODUCTS.filter(item => {
-        if (currentLanguage === 'en') {
-          // English mode: search only English names, categories and descriptions
-          const name = (getItemName(item) || item.nameEn || item.name || '').toLowerCase();
-          const category = (getItemCategoryName(item) || item.categoryEn || item.category || '').toLowerCase();
-          const desc = (getItemDesc(item) || item.descEn || '').toLowerCase();
-          return name.includes(rawQuery) || category.includes(rawQuery) || desc.includes(rawQuery);
-        } else if (currentLanguage === 'ru') {
-          // Russian mode: search Russian names, categories and descriptions
-          const name = (getItemName(item) || item.nameRu || item.name || '').toLowerCase();
-          const category = (getItemCategoryName(item) || item.categoryRu || item.category || '').toLowerCase();
-          const desc = (getItemDesc(item) || item.descRu || '').toLowerCase();
-          return name.includes(rawQuery) || category.includes(rawQuery) || desc.includes(rawQuery);
-        } else if (currentLanguage === 'fr') {
-          // French mode: search only French names, categories and descriptions
-          const name = (getItemName(item) || item.nameFr || item.nameEn || item.name || '').toLowerCase();
-          const category = (getItemCategoryName(item) || item.categoryFr || item.category || '').toLowerCase();
-          const desc = (getItemDesc(item) || item.descFr || '').toLowerCase();
-          return name.includes(rawQuery) || category.includes(rawQuery) || desc.includes(rawQuery);
-        } else {
-          // Vietnamese mode: accent-sensitive & accent-insensitive matching
-          const nameVi = (item.nameVi || item.name || '').toLowerCase();
-          const cleanNameVi = removeVietnameseDiacritics(nameVi);
-          const catVi = (item.categoryVi || item.category || '').toLowerCase();
-          const cleanCatVi = removeVietnameseDiacritics(catVi);
-          const descVi = (item.descVi || item.description || '').toLowerCase();
-          const cleanDescVi = removeVietnameseDiacritics(descVi);
+        const name = (getItemName(item) || '').trim().toLowerCase();
+        if (!name) return false;
 
-          return (
-            nameVi.includes(rawQuery) ||
-            cleanNameVi.includes(cleanQuery) ||
-            catVi.includes(rawQuery) ||
-            cleanCatVi.includes(cleanQuery) ||
-            descVi.includes(rawQuery) ||
-            cleanDescVi.includes(cleanQuery)
-          );
+        if (currentLanguage === 'vi' || currentLanguage === 'fr') {
+          // Vietnamese & French: support accent-sensitive & accent-insensitive matching on dish name
+          const cleanName = removeVietnameseDiacritics(name);
+          return name.includes(rawQuery) || cleanName.includes(cleanQuery);
+        } else {
+          // English & Russian: search strictly within the current localized dish name
+          return name.includes(rawQuery);
         }
       });
     }
@@ -2340,25 +2326,39 @@
     // Language Switcher (Complete live multilingual update)
     const btnLang = document.getElementById('btn-language');
     const dropLang = document.getElementById('dropdown-language');
-    btnLang.onclick = () => dropLang.classList.toggle('hidden');
-    dropLang.querySelectorAll('button').forEach(btn => {
-      btn.onclick = () => {
-        currentLanguage = btn.getAttribute('data-lang');
-        const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
-        document.getElementById('lang-display').innerText = flags[currentLanguage] || '🇻🇳';
-        dropLang.classList.add('hidden');
-        applyTranslations();
-        renderCategories();
-        renderFeaturedGrid();
-        renderComboBanners();
-        renderMenuList();
-        if (searchQuery && searchQuery.trim()) {
-          renderSearchSuggestions(searchQuery);
-        } else {
-          closeSearchSuggestions();
-        }
+    if (btnLang && dropLang) {
+      btnLang.onclick = (e) => {
+        e.stopPropagation();
+        dropLang.classList.toggle('hidden');
       };
-    });
+
+      dropLang.querySelectorAll('button').forEach(btn => {
+        btn.onclick = () => {
+          currentLanguage = btn.getAttribute('data-lang') || 'vi';
+          try { localStorage.setItem('gm_menu_lang', currentLanguage); } catch (e) {}
+          const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
+          const langDisplay = document.getElementById('lang-display');
+          if (langDisplay) langDisplay.innerText = flags[currentLanguage] || '🇻🇳';
+          dropLang.classList.add('hidden');
+          applyTranslations();
+          renderCategories();
+          renderFeaturedGrid();
+          renderComboBanners();
+          renderMenuList();
+          if (searchQuery && searchQuery.trim()) {
+            renderSearchSuggestions(searchQuery);
+          } else {
+            closeSearchSuggestions();
+          }
+        };
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropLang.contains(e.target) && e.target !== btnLang && !btnLang.contains(e.target)) {
+          dropLang.classList.add('hidden');
+        }
+      });
+    }
 
     // ================= REAL-TIME POS DATA SYNCHRONIZATION ENGINE =================
     // Firebase DB URL — được điền tự động bởi script Cài đặt Firebase.bat
