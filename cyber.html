@@ -1297,23 +1297,17 @@
       // Render Combo Cards (Full width on swiper)
       container.innerHTML = combos.map((combo) => {
         const title = getItemName(combo);
-        const desc = getItemDesc(combo) || t.comboDesc;
-        const badge = getItemBadge(combo) || t.comboBadge;
 
         return `
           <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="group relative w-full shrink-0 snap-center bg-white rounded-[32px] p-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
-            <div class="flex-1 pr-3 z-10">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 font-mono">${badge}</span>
-              <h3 class="text-sm font-black text-black leading-snug mt-0.5">${title}</h3>
-              <p class="text-[11px] text-gray-400 line-clamp-2 mt-1 leading-relaxed">
-                ${desc}
-              </p>
-              <div class="flex items-center gap-3 mt-3.5">
-                <button type="button" class="px-4 py-1.5 rounded-full bg-black text-white text-[10px] font-bold group-hover:bg-gray-800 transition-colors shadow-xs flex items-center gap-1">
+            <div class="flex-1 pr-3 z-10 flex flex-col justify-between py-1">
+              <h3 class="text-base font-black text-black leading-snug tracking-tight">${title}</h3>
+              <div class="flex items-center gap-3 mt-4">
+                <button type="button" class="px-4 py-1.5 rounded-full bg-black text-white text-[10px] font-bold group-hover:bg-gray-800 transition-colors shadow-xs flex items-center gap-1 cursor-pointer">
                   <span>${t.comboBtn}</span>
                   <span>➔</span>
                 </button>
-                <span class="text-xs font-black font-mono text-black">${formatPrice(combo.price)}</span>
+                <span class="text-sm font-black font-mono text-black">${formatPrice(combo.price)}</span>
               </div>
             </div>
 
