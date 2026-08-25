@@ -926,17 +926,18 @@
         nameEn: 'Good Morning Breakfast Combo',
         nameRu: 'Комбо завтрак Good Morning',
         nameFr: 'Forfait Petit-Déjeuner Origine',
-        badge: '⭐ Combo Hot',
-        badgeVi: '⭐ Combo Hot',
-        badgeEn: '⭐ Best Combo',
-        badgeRu: '⭐ Топ комбо',
-        badgeFr: '⭐ Formule Vedette',
+        badge: '⭐ Tiết Kiệm 25K',
+        badgeVi: '⭐ Tiết Kiệm 25K',
+        badgeEn: '⭐ Save 25K',
+        badgeRu: '⭐ Экономия 25K',
+        badgeFr: '⭐ Économie 25K',
         category: 'Combo',
         categoryVi: 'Combo',
         categoryEn: 'Combo',
         categoryRu: 'Комбо',
         categoryFr: 'Formules',
         price: 120000,
+        originalPrice: 145000,
         emoji: '⭐',
         image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
         available: true,
@@ -1294,24 +1295,45 @@
 
       const t = getT();
 
-      // Render Combo Cards (Full width on swiper)
+      // Render Combo Cards (Full width on swiper - Editorial Bento + Savings & Price Comparison)
       container.innerHTML = combos.map((combo) => {
         const title = getItemName(combo);
+        const badge = getItemBadge(combo) || combo.savingsBadge || combo.savings;
+        const rawIngredients = getItemIngredients(combo) || [];
+
+        // Extract up to 2 micro-tags to highlight what is included in the combo
+        const tagsHtml = rawIngredients.slice(0, 2).map(ing => {
+          const cleanText = ing.replace(/^[0-9]+\s*/, '').trim();
+          const displayText = cleanText.length > 18 ? cleanText.substring(0, 16) + '…' : cleanText;
+          return `<span class="inline-flex items-center text-[9.5px] font-extrabold text-gray-700 bg-black/[0.04] border border-black/[0.04] px-2 py-0.5 rounded-md truncate max-w-[130px] shadow-2xs">${displayText}</span>`;
+        }).join('');
+
+        // Support optional original / strikethrough price from POS
+        const origPrice = combo.originalPrice || combo.oldPrice || combo.compareAtPrice;
+        const hasOrigPrice = origPrice && Number(origPrice) > Number(combo.price);
 
         return `
-          <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="group relative w-full shrink-0 snap-center bg-white rounded-[32px] p-5 shadow-[0_12px_32px_rgba(0,0,0,0.05)] hover:shadow-[0_18px_44px_rgba(0,0,0,0.09)] border border-black/[0.05] flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
-            <div class="flex-1 pr-3 z-10 flex flex-col justify-between py-1">
-              <h3 class="text-base sm:text-lg font-black text-black leading-snug tracking-tight">${title}</h3>
-              <div class="flex items-center gap-3 mt-4">
-                <button type="button" class="px-4 py-2 rounded-full bg-black text-white text-[11px] font-bold group-hover:bg-gray-800 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.18)] flex items-center gap-1.5 cursor-pointer active:scale-95">
+          <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="group relative w-full shrink-0 snap-center bg-gradient-to-br from-white via-white to-amber-50/30 rounded-[30px] p-4.5 sm:p-5 shadow-[0_10px_32px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] border border-amber-200/40 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
+            <div class="flex-1 pr-3 z-10 flex flex-col justify-between py-0.5">
+              <div>
+                ${badge ? `<div class="mb-1.5"><span class="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-amber-800 bg-amber-100/80 border border-amber-200/80 px-2.5 py-0.5 rounded-full font-mono shadow-2xs">${badge}</span></div>` : ''}
+                <h3 class="text-base sm:text-lg font-black text-black leading-tight tracking-tight">${title}</h3>
+                ${tagsHtml ? `<div class="flex flex-wrap items-center gap-1.5 mt-2">${tagsHtml}</div>` : ''}
+              </div>
+
+              <div class="flex items-center gap-3 mt-3.5">
+                <button type="button" class="px-4 py-2 rounded-full bg-black text-white text-[10.5px] sm:text-[11px] font-bold group-hover:bg-gray-800 transition-all shadow-[0_4px_12px_rgba(0,0,0,0.18)] flex items-center gap-1.5 cursor-pointer active:scale-95 shrink-0">
                   <span>${t.comboBtn}</span>
                   <span>➔</span>
                 </button>
-                <span class="text-sm sm:text-base font-black font-mono text-black">${formatPrice(combo.price)}</span>
+                <div class="flex items-baseline gap-1.5 shrink-0">
+                  ${hasOrigPrice ? `<span class="text-xs text-gray-400 line-through font-mono">${formatPrice(origPrice)}</span>` : ''}
+                  <span class="text-base sm:text-lg font-black font-mono text-black">${formatPrice(combo.price)}</span>
+                </div>
               </div>
             </div>
 
-            <!-- Big 3D Floating Cutout Real Food Photo with Ground Shadow (Exactly like mockup) -->
+            <!-- Big 3D Floating Cutout Real Food Photo with Ground Shadow -->
             <div class="floating-dish-wrapper w-28 h-28 sm:w-32 sm:h-32 shrink-0">
               <img src="${combo.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain">
               <div class="floating-ground-shadow" style="width: 80%; height: 16px; bottom: 0px;"></div>
@@ -2455,6 +2477,10 @@
           badgeRu: item.badgeRu || (existing ? existing.badgeRu : ''),
           badgeFr: item.badgeFr || (existing ? existing.badgeFr : ''),
           price: item.price,
+          originalPrice: (typeof item.originalPrice === 'number' || typeof item.oldPrice === 'number' || typeof item.compareAtPrice === 'number') 
+            ? (item.originalPrice || item.oldPrice || item.compareAtPrice) 
+            : (existing ? existing.originalPrice : undefined),
+          savingsBadge: item.savingsBadge || item.savings || (existing ? existing.savingsBadge : undefined),
           category: item.category,
           categoryVi: getCategoryVi(item.category),
           categoryEn: getCategoryEn(item.category),
