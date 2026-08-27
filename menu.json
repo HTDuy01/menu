@@ -267,7 +267,7 @@
       "category": "Combo",
       "emoji": "⭐",
       "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=120&auto=format&fit=crop&q=60",
-      "description": "",
+      "description": "Egg Avocado \nCoconut coffee",
       "available": true,
       "badge": "",
       "ingredients": "",
@@ -298,5 +298,5 @@
     "logoUrl": ""
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-08-25T15:46:21.730Z"
+  "updatedAt": "2026-08-27T05:56:29.527Z"
 }
