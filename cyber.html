@@ -189,7 +189,7 @@
       </div>
 
       <!-- Pill Search Bar with Autocomplete Suggestions Dropdown -->
-      <div class="mt-4 relative" id="search-bar-wrapper">
+      <div class="mt-4 relative transition-all duration-300" id="search-bar-wrapper">
         <form id="search-form" onsubmit="handleSearchSubmit(event)" action="javascript:void(0);" class="relative flex items-center">
           <svg class="absolute left-4 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input id="input-search" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Tìm món: Mocha, Latte, Sandwich, Croissant..." class="w-full pl-11 pr-9 py-3 rounded-2xl text-xs bg-white text-black placeholder-gray-400 shadow-2xs border-0 focus:outline-none focus:ring-2 focus:ring-black font-medium transition-all">
@@ -1226,11 +1226,46 @@
       renderComboBanners();
     }
 
-    function handleNavSearchClick() {
-      // 1. Smoothly scroll window back to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function smoothScrollToTop(duration = 600, onComplete) {
+      const mainEl = document.querySelector('main');
+      const startWindow = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const startMain = mainEl ? mainEl.scrollTop : 0;
 
-      // 2. Visual toggle on bottom pill
+      if (startWindow === 0 && startMain === 0) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      const startTime = performance.now();
+      // Gentle ease-out cubic for a light, buttery-smooth ascent
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = easeOutCubic(progress);
+
+        if (startWindow > 0) {
+          window.scrollTo(0, Math.round(startWindow * (1 - ease)));
+        }
+        if (mainEl && startMain > 0) {
+          mainEl.scrollTop = Math.round(startMain * (1 - ease));
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          window.scrollTo(0, 0);
+          if (mainEl) mainEl.scrollTop = 0;
+          if (onComplete) onComplete();
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    function handleNavSearchClick() {
+      // 1. Visual toggle on bottom pill immediately
       const btnHome = document.getElementById('btn-nav-home');
       const btnSearch = document.getElementById('btn-nav-search');
       if (btnHome && btnSearch) {
@@ -1238,27 +1273,38 @@
         btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
       }
 
-      // 3. Focus search input with an elegant pulse highlight animation
-      const searchInput = document.getElementById('input-search');
-      const searchWrapper = document.getElementById('search-bar-wrapper');
-      if (searchInput && searchWrapper) {
-        setTimeout(() => {
-          searchInput.focus();
-          searchWrapper.classList.add('ring-4', 'ring-black/20', 'scale-[1.02]');
-          setTimeout(() => searchWrapper.classList.remove('scale-[1.02]'), 200);
-          setTimeout(() => searchWrapper.classList.remove('ring-4', 'ring-black/20'), 800);
-        }, 180);
-      }
+      // 2. Smooth, gentle, non-jerking ascent to top (600ms)
+      smoothScrollToTop(600, () => {
+        // 3. Gentle focus with preventScroll to prevent mobile viewport jump
+        const searchInput = document.getElementById('input-search');
+        const searchWrapper = document.getElementById('search-bar-wrapper');
+        if (searchInput) {
+          try {
+            searchInput.focus({ preventScroll: true });
+          } catch (e) {
+            searchInput.focus();
+          }
+        }
+        if (searchWrapper) {
+          searchWrapper.classList.add('ring-4', 'ring-black/15', 'scale-[1.015]');
+          setTimeout(() => {
+            searchWrapper.classList.remove('scale-[1.015]');
+          }, 250);
+          setTimeout(() => {
+            searchWrapper.classList.remove('ring-4', 'ring-black/15');
+          }, 700);
+        }
+      });
     }
 
     function handleNavHomeClick() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       const btnHome = document.getElementById('btn-nav-home');
       const btnSearch = document.getElementById('btn-nav-search');
       if (btnHome && btnSearch) {
         btnHome.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
         btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all';
       }
+      smoothScrollToTop(550);
     }
 
     function viewAllCombos() {
