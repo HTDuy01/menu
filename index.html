@@ -1272,12 +1272,13 @@
     }
 
     function getComboItems() {
+      const isCombo = (item) => item && item.category && item.category.toString().trim().toLowerCase() === 'combo';
       // 1. Prioritize combos explicitly marked as isComboBanner in POS
-      const markedCombos = POS_PRODUCTS.filter(item => item.category === 'Combo' && item.isComboBanner !== false);
+      const markedCombos = POS_PRODUCTS.filter(item => isCombo(item) && item.isComboBanner !== false);
       if (markedCombos.length > 0) return markedCombos;
 
       // 2. Fallback to all combos
-      return POS_PRODUCTS.filter(item => item.category === 'Combo');
+      return POS_PRODUCTS.filter(item => isCombo(item));
     }
 
     function renderComboBanners() {
@@ -1295,27 +1296,57 @@
 
       const t = getT();
 
-      // Render Combo Cards (Full width on swiper - Refined Minimalist + Frosted Badge & Inline Ingredients)
+      // Render Combo Cards (Full width on swiper - Guaranteed Badge & Discount for ALL combos)
       container.innerHTML = combos.map((combo) => {
         const title = getItemName(combo);
-        const badge = getItemBadge(combo) || combo.savingsBadge || combo.savings;
         const rawIngredients = getItemIngredients(combo) || [];
 
         // Clean and join ingredients with " + "
         const cleanedIngredients = rawIngredients
           .map(ing => ing.replace(/^[0-9]+\s*(món|ly|bánh|phần)?\s*/i, '').trim())
           .filter(Boolean);
-        const ingredientsText = cleanedIngredients.length > 0 ? cleanedIngredients.join(' + ') : '';
+        const ingredientsText = cleanedIngredients.length > 0 
+          ? cleanedIngredients.join(' + ') 
+          : (combo.description || combo.descVi || '');
 
-        // Support optional original / strikethrough price from POS
-        const origPrice = combo.originalPrice || combo.oldPrice || combo.compareAtPrice;
-        const hasOrigPrice = origPrice && Number(origPrice) > Number(combo.price);
+        // 1. Guaranteed Discount / Original Price for ALL combos in Combo Đặc Trưng
+        const numPrice = Number(combo.price) || 0;
+        let origPrice = combo.originalPrice || combo.oldPrice || combo.compareAtPrice;
+        
+        // If not provided in POS or not greater than combo price, auto-calculate standard combo original price (~18-20% higher)
+        if (!origPrice || Number(origPrice) <= numPrice) {
+          if (numPrice >= 1000) {
+            origPrice = Math.round((numPrice / 0.8) / 5000) * 5000;
+            if (origPrice <= numPrice) origPrice = numPrice + 20000;
+          } else {
+            origPrice = Math.round((numPrice / 0.8) / 5) * 5;
+            if (origPrice <= numPrice) origPrice = numPrice + 25;
+          }
+        }
+
+        // 2. Guaranteed Savings Badge for ALL combos in Combo Đặc Trưng
+        let badge = getItemBadge(combo) || combo.savingsBadge || combo.savings;
+        if (!badge) {
+          const diff = Number(origPrice) - numPrice;
+          const savingK = (diff >= 1000) ? Math.round(diff / 1000) : diff;
+          if (savingK > 0) {
+            if (currentLanguage === 'en') badge = `⭐ Save ${savingK}K`;
+            else if (currentLanguage === 'fr') badge = `⭐ Économie ${savingK}K`;
+            else if (currentLanguage === 'ru') badge = `⭐ Экономия ${savingK}K`;
+            else badge = `⭐ Tiết Kiệm ${savingK}K`;
+          } else {
+            if (currentLanguage === 'en') badge = `⭐ Special Combo`;
+            else if (currentLanguage === 'fr') badge = `⭐ Formule Éco`;
+            else if (currentLanguage === 'ru') badge = `⭐ Топ Комбо`;
+            else badge = `⭐ Tiết Kiệm Đặc Biệt`;
+          }
+        }
 
         return `
           <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="group relative w-full shrink-0 snap-center bg-white rounded-[24px] sm:rounded-[28px] p-4 sm:p-4.5 shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
             <div class="flex-1 pr-3 z-10 flex flex-col justify-between py-0.5">
               <div>
-                ${badge ? `<div class="mb-1"><span class="inline-flex items-center text-[8.5px] font-bold text-gray-800 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full shadow-2xs border border-gray-200/70 font-mono">${badge}</span></div>` : ''}
+                <div class="mb-1"><span class="inline-flex items-center text-[8.5px] font-bold text-gray-800 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full shadow-2xs border border-gray-200/70 font-mono">${badge}</span></div>
                 <h3 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug truncate">${title}</h3>
                 ${ingredientsText ? `<p class="text-[11px] text-gray-400 font-medium truncate mt-0.5 leading-normal">${ingredientsText}</p>` : ''}
               </div>
@@ -1326,7 +1357,7 @@
                   <span>➔</span>
                 </button>
                 <div class="flex items-baseline gap-1.5 shrink-0">
-                  ${hasOrigPrice ? `<span class="text-[11px] text-gray-400 line-through font-mono">${formatPrice(origPrice)}</span>` : ''}
+                  <span class="text-[11px] text-gray-400 line-through font-mono">${formatPrice(origPrice)}</span>
                   <span class="text-xs sm:text-sm font-black font-mono text-black">${formatPrice(combo.price)}</span>
                 </div>
               </div>
