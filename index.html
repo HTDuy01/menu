@@ -3,2761 +3,656 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#F5F6F8">
+  <meta name="theme-color" content="#18181B">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Good Morning Café | Thực Đơn Điện Tử</title>
+  <title>Thực Đơn Điện Tử | Good Morning Café Hội An</title>
   
-  <!-- Exact POS Font: Plus Jakarta Sans with full Vietnamese diacritics subset -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&subset=latin,vietnamese&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-          },
-          colors: {
-            bgMain: '#F2F4F7',
-            cardBg: '#FFFFFF',
-            inkBlack: '#0D0E12',
-            inkMuted: '#8E8E93',
-            inkSubtle: '#6B7280',
-            pillBg: '#F0F2F5',
-            lineColor: '#E5E7EB',
-          },
-          boxShadow: {
-            'card': '0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
-            'card-hover': '0 20px 35px -8px rgba(0, 0, 0, 0.08), 0 10px 15px -7px rgba(0, 0, 0, 0.04)',
-            'floating': '0 15px 35px -5px rgba(0, 0, 0, 0.12)',
-          },
-          keyframes: {
-            fadeIn: {
-              'from': { opacity: '0', transform: 'translateY(4px)' },
-              'to': { opacity: '1', transform: 'translateY(0)' },
-            },
-            slideUp: {
-              'from': { opacity: '0', transform: 'translateY(100%)' },
-              'to': { opacity: '1', transform: 'translateY(0)' },
-            }
-          },
-          animation: {
-            fadeIn: 'fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            slideUp: 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-          }
-        }
-      }
-    }
-  </script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
     body {
-      background-color: #E2E6EC;
-      color: #0D0E12;
-      -webkit-tap-highlight-color: transparent;
+      background-color: #FFFFFF;
+      color: #18181B;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Floating Cutout Dish Realistic 3D Ground Shadow & Hover Lift (Exact Match with Mockup) */
-    .floating-dish-wrapper {
-      position: relative;
+
+    @keyframes marqueeRun {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      width: max-content;
+      animation: marqueeRun 20s linear infinite;
     }
-    .floating-dish-img {
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* Concept 2.6: Borderless Underline Flow */
+    .sidebar-btn {
+      border-radius: 0;
       position: relative;
-      z-index: 2;
-      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.16)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.08));
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+      color: #52525B;
+      transition: color 0.15s ease;
     }
-    .floating-ground-shadow {
+    .sidebar-btn:hover {
+      color: #000000;
+    }
+    .sidebar-btn.active {
+      background: transparent;
+      color: #000000;
+      font-weight: 800;
+    }
+    .sidebar-btn.active::after {
+      content: '';
       position: absolute;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 76%;
-      height: 14px;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.14) 48%, rgba(0, 0, 0, 0) 75%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      filter: blur(2.5px);
-      transition: transform 0.35s ease, opacity 0.35s ease;
+      bottom: 6px;
+      left: 25%;
+      width: 50%;
+      height: 2.5px;
+      background: #000000;
+      border-radius: 9999px;
     }
-    .group:hover .floating-dish-img,
-    .group:active .floating-dish-img {
-      transform: translateY(-4px) scale(1.05);
-      filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.22)) drop-shadow(0 5px 8px rgba(0, 0, 0, 0.10));
+    .borderless-item {
+      border: none;
+      border-bottom: 1px solid #F3F4F6;
     }
-    .group:hover .floating-ground-shadow,
-    .group:active .floating-ground-shadow {
-      transform: translateX(-50%) scale(1.16);
-      opacity: 0.85;
-    }
-
-    input[type="search"]::-webkit-search-decoration,
-    input[type="search"]::-webkit-search-cancel-button,
-    input[type="search"]::-webkit-search-results-button,
-    input[type="search"]::-webkit-search-results-decoration {
-      -webkit-appearance: none;
-      display: none;
-    }
-
-    /* ================= SHARED ELEMENT HERO EXPANSION & FADE-IN-PLACE ================= */
-    /* Shared Element Flying Proxy Image */
-    .shared-element-flyer {
-      position: fixed;
-      z-index: 99999;
-      pointer-events: none;
-      transform-origin: center center;
-      will-change: transform;
-      transition: transform 680ms cubic-bezier(0.18, 0.9, 0.22, 1);
-    }
-
-    /* Grounded Bottom Navigation Pulse */
-    @keyframes navGroundPulse {
-      0% { transform: scale(1); }
-      40% { transform: scale(0.97); }
-      100% { transform: scale(1); }
-    }
-    .nav-ground-ripple {
-      animation: navGroundPulse 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    .borderless-item:last-child {
+      border-bottom: none;
     }
   </style>
 </head>
+<body class="min-h-screen flex flex-col items-center justify-start bg-neutral-100">
 
-<body class="min-h-screen bg-[#F2F4F7] flex flex-col items-center justify-start antialiased selection:bg-black selection:text-white">
+  <div class="w-full max-w-md h-screen flex flex-col relative bg-white shadow-xl overflow-hidden">
 
-  <!-- ================= MAIN FULL-SCREEN VIEWPORT CONTAINER ================= -->
-  <div id="main-viewport-container" class="w-full max-w-md min-h-screen bg-[#F2F4F7] flex flex-col relative">
-    
-    <!-- ================= FLOATING CALL SERVICE TOAST ================= -->
-    <div id="toast-service-call" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-[370px] p-3.5 rounded-3xl bg-black/95 text-white shadow-floating backdrop-blur-md border border-white/15 flex items-start gap-3 transition-all duration-300 transform -translate-y-4 opacity-0 pointer-events-auto">
-      <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0 text-yellow-300 animate-bounce">
-        🛎️
-      </div>
-      <div class="flex-1 min-w-0 pr-1">
-        <h4 id="toast-title" class="text-xs font-bold text-white tracking-tight leading-tight">Đã Nhận Tín Hiệu Gọi Nhân Viên!</h4>
-        <p id="toast-desc" class="text-[11px] text-gray-300 mt-0.5 leading-snug">Nhân viên Good Morning Café đang đến Bàn #07 ngay trong giây lát.</p>
-      </div>
-      <button onclick="hideServiceToast()" class="text-gray-400 hover:text-white font-bold text-xs p-1 cursor-pointer">✕</button>
+    <!-- Toast Notification -->
+    <div id="toast-message" class="hidden fixed top-14 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] p-3 rounded-2xl bg-black text-white shadow-2xl border border-white/20 flex items-center justify-between text-xs font-bold transition-all">
+      <span id="toast-text">📶 Đã sao chép mật khẩu Wifi!</span>
+      <button onclick="hideToast()" class="text-gray-400 hover:text-white p-1">✕</button>
     </div>
-    
-    <!-- ================= HEADER SECTION ================= -->
-    <header class="w-full bg-[#F2F4F7] px-5 pt-6 pb-2">
+
+    <!-- COMPACT TOP BAR: TITLE + MULTI-CURRENCY + MULTI-LANG + WIFI -->
+    <header class="bg-white px-4 py-3 border-b border-gray-100 shrink-0 space-y-2.5">
       <div class="flex items-center justify-between">
         <div>
-          <span id="ui-greeting" class="text-xs font-medium text-gray-400 block tracking-normal">Xin chào,</span>
-          <h1 id="store-name-title" class="text-2xl font-extrabold tracking-tight text-black flex items-center gap-2 mt-0.5">
-            Good Morning Café
-          </h1>
-          <div class="flex items-center gap-1.5 mt-1">
-            <span id="store-address-subtitle" class="text-xs text-gray-400 font-medium truncate max-w-[280px]">49 Phan Tình, Hội An</span>
+          <h1 id="store-name" class="text-base font-black text-black tracking-tight">Good Morning Café</h1>
+          <div class="flex items-center gap-1.5 text-[10px] text-gray-500 font-mono">
+            <span id="store-status" class="text-emerald-600 font-bold">🟢 Open 06:30-22:30</span>
+            <span>•</span>
+            <span id="store-address">📍 Hội An</span>
           </div>
         </div>
 
-        <!-- Top Right Controls: Language Switcher -->
-        <div class="flex items-center gap-2">
-
-          <!-- Language Switcher -->
-          <div class="relative">
-            <button id="btn-language" class="w-9 h-9 rounded-full bg-white shadow-card flex items-center justify-center text-xs font-bold text-black border border-gray-100 cursor-pointer active:scale-95 transition-transform">
-              <span id="lang-display">🇻🇳</span>
-            </button>
-            <div id="dropdown-language" class="hidden absolute right-0 mt-1.5 w-36 p-1 rounded-2xl bg-white shadow-floating border border-gray-100 z-50 animate-fadeIn space-y-0.5 text-xs">
-              <button data-lang="vi" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇻🇳</span><span>Tiếng Việt</span></button>
-              <button data-lang="en" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇬🇧</span><span>English</span></button>
-              <button data-lang="ru" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇷🇺</span><span>Русский</span></button>
-              <button data-lang="fr" class="w-full text-left px-3 py-1.5 rounded-xl hover:bg-gray-100 font-bold flex items-center gap-1.5"><span>🇫🇷</span><span>Français</span></button>
-            </div>
+        <div class="flex items-center gap-1.5">
+          <!-- Currencies -->
+          <div class="flex items-center bg-gray-100 p-0.5 rounded-lg text-[10px] font-bold">
+            <button onclick="setCurrency('VND')" id="curr-vnd" class="px-1.5 py-0.5 rounded bg-black text-white font-bold">₫</button>
+            <button onclick="setCurrency('USD')" id="curr-usd" class="px-1.5 py-0.5 rounded text-gray-600">$</button>
+            <button onclick="setCurrency('EUR')" id="curr-eur" class="px-1.5 py-0.5 rounded text-gray-600">€</button>
+          </div>
+          <!-- Languages (EN, VI, RU, FR) -->
+          <div class="flex items-center bg-gray-100 p-0.5 rounded-lg text-[11px] font-bold">
+            <button onclick="setLanguage('en')" id="lang-en" class="px-1.5 py-0.5 rounded text-gray-600">🇬🇧</button>
+            <button onclick="setLanguage('vi')" id="lang-vi" class="px-1.5 py-0.5 rounded bg-black text-white">🇻🇳</button>
+            <button onclick="setLanguage('ru')" id="lang-ru" class="px-1.5 py-0.5 rounded text-gray-600">🇷🇺</button>
+            <button onclick="setLanguage('fr')" id="lang-fr" class="px-1.5 py-0.5 rounded text-gray-600">🇫🇷</button>
           </div>
         </div>
       </div>
 
-      <!-- Pill Search Bar with Autocomplete Suggestions Dropdown -->
-      <div class="mt-4 relative transition-all duration-300" id="search-bar-wrapper">
-        <form id="search-form" onsubmit="handleSearchSubmit(event)" action="javascript:void(0);" class="relative flex items-center">
-          <svg class="absolute left-4 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input id="input-search" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Tìm món: Mocha, Latte, Sandwich, Croissant..." class="w-full pl-11 pr-9 py-3 rounded-2xl text-xs bg-white text-black placeholder-gray-400 shadow-2xs border-0 focus:outline-none focus:ring-2 focus:ring-black font-medium transition-all">
-          <button type="button" id="btn-clear-search" class="hidden absolute right-3 text-xs text-gray-400 hover:text-black cursor-pointer font-bold p-1">✕</button>
-        </form>
+      <!-- Quick 1-Touch WiFi Card -->
+      <div class="p-2 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-1 text-[11px]">
+          <span>📶 WiFi:</span>
+          <strong class="text-black">Thi Thi Spa 2</strong>
+          <span class="text-gray-300">|</span>
+          <span>Pass: <strong class="font-mono text-black">999999999</strong></span>
+        </div>
+        <button onclick="copyWifiPassword()" class="px-2.5 py-1 bg-black text-white rounded-lg text-[10px] font-bold shadow-xs active:scale-95 transition-transform">
+          Copy
+        </button>
+      </div>
 
-        <!-- Live Search Autocomplete Dropdown Panel -->
-        <div id="search-suggestions-dropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-floating border border-gray-100/90 z-50 overflow-hidden max-h-[330px] flex flex-col animate-fadeIn">
-          <div id="search-suggestions-header" class="px-3.5 py-2 bg-gray-50/90 border-b border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
-            <span id="search-suggestions-count-text">GỢI Ý TÌM KIẾM</span>
-            <button onclick="closeSearchSuggestions()" class="text-gray-400 hover:text-black font-bold text-[10px] cursor-pointer">✕ Đóng</button>
-          </div>
-          <div id="search-suggestions-content" class="overflow-y-auto no-scrollbar max-h-[280px]">
-            <!-- Injected via JS -->
-          </div>
+      <!-- Running Best Seller Marquee Bar -->
+      <div id="marquee-container" class="overflow-hidden py-1 bg-neutral-50 rounded-lg border border-neutral-100">
+        <div id="marquee-track" class="marquee-track flex items-center gap-3 text-[11px] font-bold">
+          <span class="text-black font-mono font-black">🔥 BEST SELLERS:</span>
+          <span>Đang tải món ngon từ POS...</span>
         </div>
       </div>
     </header>
 
-    <!-- ================= SCROLLABLE MENU CONTENT ================= -->
-    <main class="flex-1 overflow-y-auto px-5 pb-32 pt-2 space-y-5 no-scrollbar">
+    <!-- ================= SPLIT-SCREEN 2-COLUMN VIEWPORT ================= -->
+    <div class="flex-1 flex overflow-hidden">
       
-      <!-- ================= SECTION 1: FEATURED ITEMS CAROUSEL SLIDE ================= -->
-      <section class="relative">
-        <div class="flex items-center justify-between mb-2.5 px-0.5">
-          <div class="flex items-center gap-1.5">
-            <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-products">Món Nổi Bật</h2>
-            <span class="w-1.5 h-1.5 rounded-full bg-black animate-pulse"></span>
-          </div>
-          <button id="btn-view-all-featured" onclick="viewAllFeatured()" class="text-xs font-semibold text-gray-400 hover:text-black transition-colors cursor-pointer">Xem tất cả</button>
+      <!-- LEFT COLUMN (28% WIDTH): FIXED VERTICAL CATEGORY SIDEBAR -->
+      <aside id="sidebar-pane" class="w-[28%] bg-[#F7F7F8] border-r border-neutral-200/80 overflow-y-auto no-scrollbar py-2 flex flex-col gap-1 text-xs shrink-0">
+        <!-- Generated Dynamically from POS categories -->
+      </aside>
+
+      <!-- RIGHT COLUMN (72% WIDTH): CONTINUOUS FOOD SCROLL WITH STICKY HEADERS -->
+      <main id="right-scroll-pane" class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-6 bg-white">
+        <!-- Generated Dynamically from POS products -->
+        <div class="py-12 text-center text-xs text-neutral-400">
+          <span class="inline-block animate-spin text-lg mb-2">⏳</span>
+          <p>Đang đồng bộ thực đơn từ máy POS...</p>
         </div>
+      </main>
 
-        <!-- Carousel Slide Track (Infinite Snap Loop) -->
-        <div id="featured-products-carousel" class="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory py-1 px-0.5 select-none touch-pan-x cursor-grab active:cursor-grabbing">
-          <!-- Injected dynamically via renderFeaturedCarousel() -->
-        </div>
-
-        <!-- Pagination Dots -->
-        <div id="featured-carousel-dots" class="flex items-center justify-center gap-1.5 mt-2.5">
-          <!-- Injected via JS -->
-        </div>
-      </section>
-
-      <!-- ================= SECTION 2: SIGNATURE COMBO BANNER SWIPER ================= -->
-      <section id="combo-section-wrapper">
-        <div class="flex items-center justify-between mb-2.5 px-0.5">
-          <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-forfait">Combo Đặc Trưng</h2>
-          <button id="btn-view-all-combo" onclick="viewAllCombos()" class="text-xs font-bold text-gray-700 hover:text-black transition-colors cursor-pointer inline-flex items-center gap-1"><span>Xem tất cả</span><span>➔</span></button>
-        </div>
-
-        <!-- Dynamic Horizontal Swiper for Combos -->
-        <div id="combo-banners-container" class="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory py-1 px-0.5 scroll-smooth">
-          <!-- Injected dynamically via renderComboBanners() -->
-        </div>
-
-        <!-- Dynamic Pagination Dots (Rendered ONLY when combos.length > 1) -->
-        <div id="combo-pagination-dots" class="flex items-center justify-center gap-1.5 mt-2.5">
-          <!-- Injected dynamically via JS -->
-        </div>
-      </section>
-
-      <!-- ================= SECTION 3: CATEGORY CAPSULES (STICKY NAVIGATION) ================= -->
-      <nav id="category-nav-sticky" class="sticky top-0 z-20 -mx-5 px-5 py-2.5 bg-[#F2F4F7]/95 backdrop-blur-md border-y border-gray-200/60 shadow-2xs">
-        <div id="category-tabs-container" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-          <!-- Injected via JS -->
-        </div>
-      </nav>
-
-      <!-- ================= SECTION 4: ALL MENU ITEMS COMPACT HIGH-DENSITY LIST ================= -->
-      <section>
-        <div class="flex items-center justify-between mb-3 px-0.5">
-          <h2 class="text-base font-extrabold text-black tracking-tight" id="label-section-all">Tất Cả Thực Đơn</h2>
-          <span id="results-count-badge" class="text-xs font-mono text-gray-400">12 món</span>
-        </div>
-
-        <!-- Floating Dish Row List (Overlapping 3D Luxury Cards) -->
-        <div id="menu-items-list" class="space-y-4">
-          <!-- Injected via JS -->
-        </div>
-      </section>
-
-      <!-- Friendly Hospitality Callout -->
-      <div class="p-4 rounded-3xl bg-white border border-gray-100 shadow-card text-center space-y-1">
-        <h4 class="text-xs font-bold text-black" id="label-help-title">Good Morning Café Hân Hạnh Phục Vụ</h4>
-        <p class="text-[11px] text-gray-400 leading-relaxed" id="label-help-desc">
-          Quý khách vui lòng gọi nhân viên hoặc ghé quầy thu ngân khi đã sẵn sàng gọi món nhé!
-        </p>
-      </div>
-
-    </main>
-
-    <!-- ================= MINIMALIST BOTTOM NAVIGATION PILL (2 ITEMS) ================= -->
-    <div class="fixed bottom-4 left-0 right-0 px-6 flex justify-center pointer-events-none z-30">
-      <div class="w-full max-w-[270px] bg-black/90 backdrop-blur-md text-white rounded-full p-1.5 shadow-floating border border-white/10 flex items-center justify-between pointer-events-auto">
-        <!-- Home Button -->
-        <button id="btn-nav-home" onclick="handleNavHomeClick()" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all">
-          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          <span id="ui-nav-home">Trang Chủ</span>
-        </button>
-
-        <!-- Search Button with Slide-Up Animation -->
-        <button id="btn-nav-search" onclick="handleNavSearchClick()" class="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all">
-          <svg class="w-3.5 h-3.5 stroke-current" fill="none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <span id="ui-nav-search">Tìm Kiếm</span>
-        </button>
-      </div>
     </div>
 
-    <!-- ================= INGREDIENTS & DISH DETAIL MODAL (FULL SCREEN) ================= -->
-    <div id="modal-dish-detail" class="hidden fixed inset-0 z-50 flex items-center justify-center">
-      <div id="modal-dish-backdrop" class="absolute inset-0 bg-white/95 backdrop-blur-md opacity-0"></div>
-      <div id="modal-dish-sheet" class="relative w-full h-full max-w-[440px] flex flex-col bg-white overflow-hidden z-10 text-black shadow-2xl">
-        
-        <!-- Header (Clean Full-Screen Navigation Bar) -->
-        <div class="flex items-center justify-between px-6 pt-4 pb-3 border-b border-gray-100 shrink-0">
-          <button id="btn-close-detail" class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 text-gray-700 hover:text-black cursor-pointer font-bold active:scale-95 transition-all" aria-label="Đóng">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <span class="text-[11px] font-bold text-gray-400 font-mono uppercase tracking-wider">Chi Tiết Món</span>
-          <button onclick="closeDishDetailModal()" class="w-9 h-9 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 hover:text-black cursor-pointer font-bold text-xs active:scale-95 transition-all">✕</button>
-        </div>
-
-        <!-- Detail Body -->
-        <div id="dish-detail-body" class="flex-1 overflow-y-auto px-6 py-4 space-y-4 no-scrollbar">
-          <!-- Injected via JS -->
-        </div>
-
-        <!-- Footer -->
-        <div id="modal-dish-footer" class="px-6 py-4 bg-[#FAFAFA] border-t border-gray-100 flex items-center justify-between shrink-0">
-          <div class="flex flex-col">
-            <span id="ui-modal-price-label" class="text-[10px] uppercase font-mono text-gray-400">Giá Niêm Yết</span>
-            <span id="detail-price-display" class="font-extrabold text-lg text-black font-mono">0</span>
+    <!-- Dish Modal -->
+    <div id="dish-modal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs">
+      <div class="w-full max-w-md bg-white rounded-t-[32px] p-5 shadow-2xl max-h-[85vh] flex flex-col relative">
+        <button onclick="closeDishModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-xs">✕</button>
+        <div id="modal-content" class="overflow-y-auto no-scrollbar space-y-3 flex-1 mt-2"></div>
+        <div class="pt-3 mt-2 border-t border-gray-100 flex items-center justify-between shrink-0">
+          <div>
+            <span id="modal-label-price" class="text-[10px] text-gray-400 font-bold block uppercase tracking-wider">Giá tiền</span>
+            <span id="modal-price" class="font-mono text-xl font-black text-black">0 ₫</span>
           </div>
-          <button id="btn-detail-close-action" class="px-7 py-3.5 rounded-full font-bold text-xs bg-black text-white shadow-md hover:bg-gray-800 cursor-pointer active:scale-95 transition-transform">
-            Đóng
-          </button>
+          <button onclick="closeDishModal()" id="modal-btn-done" class="px-6 py-2.5 rounded-full bg-black text-white text-xs font-bold active:scale-95 transition-transform">Đóng</button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ================= CLIENT JAVASCRIPT & FULL LOCALIZATION ENGINE ================= -->
   <script>
+    // ================= State & Configuration =================
     const CURRENCIES = {
-      VND: { code: 'VND', symbol: '₫', rate: 1, decimals: 0, pos: 'suffix' },
-      USD: { code: 'USD', symbol: '$', rate: 1 / 25400, decimals: 2, pos: 'prefix' },
-      EUR: { code: 'EUR', symbol: '€', rate: 1 / 27500, decimals: 2, pos: 'suffix' },
+      VND: { symbol: '₫', rate: 1, decimals: 0, pos: 'suffix' },
+      USD: { symbol: '$', rate: 1 / 25400, decimals: 2, pos: 'prefix' },
+      EUR: { symbol: '€', rate: 1 / 27500, decimals: 2, pos: 'suffix' }
+    };
+
+    const I18N = {
+      en: {
+        wifiCopied: '📶 Copied WiFi: 999999999',
+        bestSellers: '🔥 BEST SELLERS:',
+        dishesSuffix: 'dishes',
+        soldOut: 'SOLD OUT',
+        priceLabel: 'Price',
+        closeBtn: 'Close',
+        ingredients: 'Ingredients',
+        emptyMenu: 'No dishes found in this category.',
+        categoryNames: {
+          'Coffee': 'Coffee',
+          'Cà phê': 'Coffee',
+          'Tea': 'Teas',
+          'Trà': 'Teas',
+          'Milk Tea': 'Milk Tea',
+          'Trà sữa': 'Milk Tea',
+          'Juice': 'Fresh Juice',
+          'Nước ép': 'Fresh Juice',
+          'Breakfast': 'Breakfast',
+          'Điểm tâm': 'Breakfast',
+          'Sandwich': 'Artisan Banh Mi',
+          'Bánh mì': 'Artisan Banh Mi',
+          'Combo': 'Morning Combos'
+        }
+      },
+      vi: {
+        wifiCopied: '📶 Đã sao chép WiFi: 999999999',
+        bestSellers: '🔥 BÁN CHẠY NHẤT:',
+        dishesSuffix: 'món',
+        soldOut: 'HẾT HÀNG',
+        priceLabel: 'Giá món',
+        closeBtn: 'Đóng',
+        ingredients: 'Thành phần',
+        emptyMenu: 'Không có món trong danh mục này.',
+        categoryNames: {
+          'Coffee': 'Cà Phê',
+          'Cà phê': 'Cà Phê',
+          'Tea': 'Trà & Trà Hoa',
+          'Trà': 'Trà & Trà Hoa',
+          'Milk Tea': 'Trà Sữa',
+          'Trà sữa': 'Trà Sữa',
+          'Juice': 'Nước Ép Tươi',
+          'Nước ép': 'Nước Ép Tươi',
+          'Breakfast': 'Điểm Tâm & Bánh',
+          'Điểm tâm': 'Điểm Tâm & Bánh',
+          'Sandwich': 'Bánh Mì Hội An',
+          'Bánh mì': 'Bánh Mì Hội An',
+          'Combo': 'Combo Sáng Tiết Kiệm'
+        }
+      },
+      ru: {
+        wifiCopied: '📶 Скопирован WiFi: 999999999',
+        bestSellers: '🔥 ХИТЫ ПРОДАЖ:',
+        dishesSuffix: 'блюд',
+        soldOut: 'НЕТ В НАЛИЧИИ',
+        priceLabel: 'Цена',
+        closeBtn: 'Закрыть',
+        ingredients: 'Ингредиенты',
+        emptyMenu: 'В этой категории пока нет блюд.',
+        categoryNames: {
+          'Coffee': 'Кофе',
+          'Cà phê': 'Кофе',
+          'Tea': 'Чай',
+          'Trà': 'Чай',
+          'Milk Tea': 'Чай с молоком',
+          'Trà sữa': 'Чай с молоком',
+          'Juice': 'Свежий сок',
+          'Nước ép': 'Свежий сок',
+          'Breakfast': 'Завтрак',
+          'Điểm tâm': 'Завтрак',
+          'Sandwich': 'Бань Ми',
+          'Bánh mì': 'Бань Ми',
+          'Combo': 'Комбо-наборы'
+        }
+      },
+      fr: {
+        wifiCopied: '📶 WiFi copié: 999999999',
+        bestSellers: '🔥 MEILLEURES VENTES:',
+        dishesSuffix: 'plats',
+        soldOut: 'ÉPUISÉ',
+        priceLabel: 'Prix',
+        closeBtn: 'Fermer',
+        ingredients: 'Ingrédients',
+        emptyMenu: 'Aucun plat dans cette catégorie.',
+        categoryNames: {
+          'Coffee': 'Café',
+          'Cà phê': 'Café',
+          'Tea': 'Thés',
+          'Trà': 'Thés',
+          'Milk Tea': 'Thé au lait',
+          'Trà sữa': 'Thé au lait',
+          'Juice': 'Jus de fruits frais',
+          'Nước ép': 'Jus de fruits frais',
+          'Breakfast': 'Petit Déjeuner',
+          'Điểm tâm': 'Petit Déjeuner',
+          'Sandwich': 'Banh Mi',
+          'Bánh mì': 'Banh Mi',
+          'Combo': 'Formules Matin'
+        }
+      }
+    };
+
+    const CATEGORY_ICONS = {
+      'coffee': '☕',
+      'cà phê': '☕',
+      'tea': '🍃',
+      'trà': '🍃',
+      'milk tea': '🧋',
+      'trà sữa': '🧋',
+      'juice': '🍊',
+      'nước ép': '🍊',
+      'breakfast': '🥐',
+      'điểm tâm': '🥐',
+      'sandwich': '🥪',
+      'banh mi': '🥪',
+      'bánh mì': '🥪',
+      'combo': '⭐'
     };
 
     let currentCurrency = 'VND';
-    let currentLanguage = (() => {
-      try {
-        const p = new URLSearchParams(window.location.search).get('lang');
-        if (p && ['vi', 'en', 'ru', 'fr'].includes(p.toLowerCase())) return p.toLowerCase();
-        const saved = localStorage.getItem('gm_menu_lang');
-        if (saved && ['vi', 'en', 'ru', 'fr'].includes(saved)) return saved;
-      } catch (e) {}
-      return 'vi';
-    })();
-    let currentCategory = 'all';
-    let searchQuery = '';
+    let currentLanguage = 'vi';
+    let currentData = { products: [], categories: [], store: {} };
+    let activeCategoryId = '';
 
-    // Complete Multilingual UI Translations Dictionary (VI, EN, RU, FR)
-    const UI_TRANSLATIONS = {
-      vi: {
-        greeting: 'Xin chào,',
-        table: '☕ Tại Quán',
-        address: '49 Phan Tình, Hội An',
-        searchPlaceholder: 'Tìm món: Mocha, Latte, Sandwich, Croissant...',
-        featuredTitle: 'Món Nổi Bật',
-        viewAll: 'Xem tất cả',
-        comboSectionTitle: 'Combo Đặc Trưng',
-        comboBadge: 'BÁN CHẠY NHẤT • COMBO SÁNG',
-        comboTitle: 'Combo Bữa Sáng Đặc Biệt',
-        comboDesc: 'Trọn bộ bữa sáng đầy năng lượng: 1 Món điểm tâm nóng hổi + 1 Cà phê / Nước trái cây tươi tự chọn.',
-        comboBtn: 'Chi Tiết',
-        allMenuTitle: 'Tất Cả Thực Đơn',
-        itemsSuffix: 'món',
-        detailTag: 'Chi tiết',
-        outOfStockBadge: 'HẾT',
-        outOfStockLabel: 'Tạm Hết Hàng',
-        availableLabel: 'Sẵn Sàng Phục Vụ',
-        helpTitle: 'Good Morning Café Hân Hạnh Phục Vụ',
-        helpDesc: 'Quý khách vui lòng gọi nhân viên hoặc ghé quầy thu ngân khi đã sẵn sàng gọi món nhé!',
-        toastTitle: 'Đã Nhận Tín Hiệu! 🛎️',
-        toastDesc: 'Nhân viên Good Morning Café đang đến phục vụ quý khách.',
-        navHome: 'Trang Chủ',
-        navSearch: 'Tìm Kiếm',
-        noResults: 'Không tìm thấy món ăn phù hợp',
-        viewAllMenu: 'Xem tất cả thực đơn',
-        descTitle: 'Mô tả món ăn:',
-        ingredientsTitle: '🌿 Thành phần nguyên liệu chi tiết:',
-        allergyWarning: 'Quý khách có yêu cầu đặc biệt về độ ngọt (ít ngọt, không đường) hoặc lượng đá, vui lòng báo nhân viên phục vụ khi gọi món.',
-        priceLabel: 'Giá Niêm Yết',
-        closeBtn: 'Đóng'
-      },
-      en: {
-        greeting: 'Welcome,',
-        table: '☕ Dine-In',
-        address: '49 Phan Tinh, Hoi An',
-        searchPlaceholder: 'Search dishes: Mocha, Latte, Sandwich, Croissant...',
-        featuredTitle: 'Featured Items',
-        viewAll: 'View all',
-        comboSectionTitle: 'Signature Combos',
-        comboBadge: 'BEST SELLER • BREAKFAST SET',
-        comboTitle: 'Good Morning Breakfast Combo',
-        comboDesc: 'Complete energizing breakfast: Choice of 1 fresh sandwich or pastry + 1 specialty coffee or fresh fruit juice.',
-        comboBtn: 'Details',
-        allMenuTitle: 'Full Menu',
-        itemsSuffix: 'items',
-        detailTag: 'Details',
-        outOfStockBadge: 'SOLD OUT',
-        outOfStockLabel: 'Out of Stock',
-        availableLabel: 'Available Now',
-        helpTitle: 'Welcome to Good Morning Café',
-        helpDesc: 'Please wave to our waitstaff or visit the counter whenever you are ready to order!',
-        toastTitle: 'Request Received! 🛎️',
-        toastDesc: 'Our staff will be right with you.',
-        navHome: 'Home',
-        navSearch: 'Search',
-        noResults: 'No matching culinary items found',
-        viewAllMenu: 'View full menu',
-        descTitle: 'Dish Description:',
-        ingredientsTitle: '🌿 Detailed Recipe & Ingredients:',
-        allergyWarning: 'If you have dietary preferences (less ice, less sweet, dairy-free), please inform our waitstaff when ordering.',
-        priceLabel: 'Menu Price',
-        closeBtn: 'Close'
-      },
-      ru: {
-        greeting: 'Здравствуйте,',
-        table: '☕ В зале',
-        address: '49 Фан Тинь, Хойан',
-        searchPlaceholder: 'Поиск: Мокка, Латте, Сэндвич, Круассан...',
-        featuredTitle: 'Рекомендуемые блюда',
-        viewAll: 'Все',
-        comboSectionTitle: 'Фирменные комбо',
-        comboBadge: 'ХИТ ПРОДАЖ • ЗАВТРАК',
-        comboTitle: 'Комбо завтрак Good Morning',
-        comboDesc: 'Энергичный сытный завтрак: 1 свежий сэндвич или круассан на выбор + 1 кофе или свежевыжатый сок.',
-        comboBtn: 'Подробнее',
-        allMenuTitle: 'Все меню',
-        itemsSuffix: 'блюд',
-        detailTag: 'Подробнее',
-        outOfStockBadge: 'НЕТ',
-        outOfStockLabel: 'Временно нет в наличии',
-        availableLabel: 'Готово к заказу',
-        helpTitle: 'Good Morning Café радо приветствовать вас',
-        helpDesc: 'Пожалуйста, позовите официанта или обратитесь к кассе, когда будете готовы сделать заказ!',
-        toastTitle: 'Сигнал получен! 🛎️',
-        toastDesc: 'Официант Good Morning Café уже идет к вам.',
-        navHome: 'Главная',
-        navSearch: 'Поиск',
-        noResults: 'Блюда не найдены',
-        viewAllMenu: 'Смотреть все меню',
-        descTitle: 'Описание блюда:',
-        ingredientsTitle: '🌿 Состав ингредиентов:',
-        allergyWarning: 'Если у вас есть особые пожелания по сахару или льду, сообщите официанту при заказе.',
-        priceLabel: 'Цена',
-        closeBtn: 'Закрыть'
-      },
-      fr: {
-        greeting: 'Bonjour,',
-        table: '☕ Sur Place',
-        address: '49 Phan Tinh, Hoi An',
-        searchPlaceholder: 'Je recherche: Mocha, Latte, Sandwich, Croissant...',
-        featuredTitle: 'Nos Produits',
-        viewAll: 'Voir tout',
-        comboSectionTitle: 'Nos Forfaits',
-        comboBadge: 'MEILLEURE VENTE • FORMULE MATIN',
-        comboTitle: 'Forfait Petit-Déjeuner Origine',
-        comboDesc: 'Découvrez l’essence du matin: 1 viennoiserie ou sandwich artisanal + 1 café ou jus de fruits frais.',
-        comboBtn: 'Voir Plus',
-        allMenuTitle: 'La Carte Complète',
-        itemsSuffix: 'articles',
-        detailTag: 'Détails',
-        outOfStockBadge: 'ÉPUISÉ',
-        outOfStockLabel: 'Épuisé',
-        availableLabel: 'Disponible',
-        helpTitle: 'Bienvenue chez Good Morning Café',
-        helpDesc: 'Faites signe à notre équipe ou rendez-vous au comptoir dès que vous êtes prêt!',
-        toastTitle: 'Signal Reçu! 🛎️',
-        toastDesc: 'Notre équipe arrive auprès de vous dans un instant.',
-        navHome: 'Accueil',
-        navSearch: 'Recherche',
-        noResults: 'Aucun résultat trouvé',
-        viewAllMenu: 'Voir toute la carte',
-        descTitle: 'Description du Plat:',
-        ingredientsTitle: '🌿 Ingrédients détaillés:',
-        allergyWarning: 'Pour toute demande particulière (sans sucre, peu de glaçons), veuillez le signaler lors de votre commande.',
-        priceLabel: 'Prix',
-        closeBtn: 'Fermer'
-      }
-    };
-
-    // Comprehensive Dictionary Translation System for Live POS Dishes (VI -> EN, RU, FR)
-    const DISH_TRANSLATION_DICT = {
-      'latte': { en: 'Coffee Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
-      'cà phê latte': { en: 'Coffee Latte', ru: 'Кофе Латте', fr: 'Café Latte' },
-      'cappuccino': { en: 'Cappuccino', ru: 'Капучино', fr: 'Cappuccino' },
-      'cà phê cappuccino': { en: 'Cappuccino', ru: 'Капучино', fr: 'Cappuccino' },
-      'americano': { en: 'Americano Coffee', ru: 'Кофе Американо', fr: 'Café Americano' },
-      'cà phê americano': { en: 'Americano Coffee', ru: 'Кофе Американо', fr: 'Café Americano' },
-      'espresso': { en: 'Single Origin Espresso', ru: 'Эспрессо', fr: 'Expresso' },
-      'cà phê espresso': { en: 'Single Origin Espresso', ru: 'Эспрессо', fr: 'Expresso' },
-      'mocha': { en: 'Mocha Coffee', ru: 'Кофе Мокка', fr: 'Café Mocha' },
-      'cà phê mocha': { en: 'Mocha Coffee', ru: 'Кофе Мокка', fr: 'Café Mocha' },
-      'cà phê muối': { en: 'Salted Cream Coffee', ru: 'Соленый кофе', fr: 'Café Salé' },
-      'cà phê muối đặc biệt': { en: 'Signature Salted Coffee', ru: 'Фирменный соленый кофе', fr: 'Café Salé Signature' },
-      'cà phê trứng': { en: 'Egg Cream Coffee', ru: 'Яичный кофе', fr: 'Café aux Œufs' },
-      'cà phê sữa': { en: 'Vietnamese Milk Coffee', ru: 'Вьетнамский кофе с молоком', fr: 'Café au Lait Vietnamien' },
-      'cà phê sữa đá': { en: 'Iced Milk Coffee', ru: 'Вьетнамский кофе со льдом', fr: 'Café au Lait Glacé' },
-      'cà phê sữa nóng': { en: 'Hot Milk Coffee', ru: 'Горячий кофе с молоком', fr: 'Café au Lait Chaud' },
-      'cà phê đen': { en: 'Vietnamese Black Coffee', ru: 'Черный кофе', fr: 'Café Noir' },
-      'cà phê đen đá': { en: 'Iced Black Coffee', ru: 'Черный кофе со льдом', fr: 'Café Noir Glacé' },
-      'cà phê đen nóng': { en: 'Hot Black Coffee', ru: 'Горячий черный кофе', fr: 'Café Noir Chaud' },
-      'bạc xỉu': { en: 'White Milk Coffee (Bac Xiu)', ru: 'Бак Сиу (Кофе со сгущенкой)', fr: 'Café Blanc Doux' },
-      'bạc xỉu đá': { en: 'Iced White Milk Coffee', ru: 'Бак Сиу со льдом', fr: 'Café Blanc Glacé' },
-      'matcha latte': { en: 'Uji Matcha Latte', ru: 'Матча Латте', fr: 'Matcha Latte Uji' },
-      'trà xanh matcha latte': { en: 'Uji Matcha Latte', ru: 'Матча Латте', fr: 'Matcha Latte Uji' },
-      'trà xanh': { en: 'Green Tea', ru: 'Зеленый чай', fr: 'Thé Vert' },
-      'trà sữa': { en: 'Classic Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
-      'trà sữa truyền thống': { en: 'Traditional Milk Tea', ru: 'Классический чай с молоком', fr: 'Thé au Lait Traditionnel' },
-      'trà sữa trân châu': { en: 'Pearl Milk Tea', ru: 'Чай с молоком и тапиокой', fr: 'Thé au Lait aux Perles' },
-      'trà đào': { en: 'Peach Tea', ru: 'Персиковый чай', fr: 'Thé à la Pêche' },
-      'trà đào cam sả': { en: 'Peach Lemongrass Tea', ru: 'Персиковый чай с лемонграссом', fr: 'Thé Pêche Citronnelle' },
-      'trà vải': { en: 'Lychee Tea', ru: 'Чай с личи', fr: 'Thé au Litchi' },
-      'trà sen': { en: 'Lotus Tea', ru: 'Лотосовый чай', fr: 'Thé au Lotus' },
-      'trà gừng': { en: 'Ginger Tea', ru: 'Имбирный чай', fr: 'Thé au Gingembre' },
-      'nước cam': { en: 'Fresh Orange Juice', ru: 'Свежевыжатый апельсиновый сок', fr: 'Jus d’Orange Pressé' },
-      'nước cam tươi': { en: 'Fresh Orange Juice', ru: 'Свежевыжатый апельсиновый сок', fr: 'Jus d’Orange Pressé' },
-      'nước ép dưa hấu': { en: 'Watermelon Juice', ru: 'Арбузный сок', fr: 'Jus de Pastèque' },
-      'nước ép thơm': { en: 'Pineapple Juice', ru: 'Ананасовый сок', fr: 'Jus d’Ananas' },
-      'nước ép táo': { en: 'Apple Juice', ru: 'Яблочный сок', fr: 'Jus de Pomme' },
-      'nước ép ổi': { en: 'Guava Juice', ru: 'Сок гуавы', fr: 'Jus de Goyave' },
-      'nước ép cà rốt': { en: 'Carrot Juice', ru: 'Морковный сок', fr: 'Jus de Carotte' },
-      'chanh tươi': { en: 'Fresh Lemonade', ru: 'Лимонад', fr: 'Limonade Fraîche' },
-      'chanh tuyết': { en: 'Snow Lime Freeze', ru: 'Снежный лайм', fr: 'Citron Givré' },
-      'croissant': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
-      'bánh sừng bò': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
-      'bánh sừng bò croissant': { en: 'French Butter Croissant', ru: 'Сливочный круассан', fr: 'Croissant Pur Beurre' },
-      'pancake': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
-      'bánh kếp': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
-      'bánh kếp mật ong pancake': { en: 'Honey Butter Pancakes', ru: 'Блинчики с медом', fr: 'Pancakes au Miel' },
-      'sandwich': { en: 'Ham & Cheese Sandwich', ru: 'Сэндвич с ветчиной và сыром', fr: 'Sandwich Jambon Fromage' },
-      'bánh mì kẹp sandwich': { en: 'Ham & Cheese Sandwich', ru: 'Сэндвич с ветчиной và сыром', fr: 'Sandwich Jambon Fromage' },
-      'bánh mì': { en: 'Vietnamese Baguette', ru: 'Вьетнамский багет', fr: 'Baguette Vietnamienne' },
-      'bánh mì thịt': { en: 'Pork Baguette Sandwich', ru: 'Багет с мясом', fr: 'Baguette au Porc' },
-      'bánh mì trứng': { en: 'Egg Baguette Sandwich', ru: 'Багет с яйцом', fr: 'Baguette aux Œufs' },
-      'bánh mì pate': { en: 'Pâté Baguette Sandwich', ru: 'Багет с паштетом', fr: 'Baguette au Pâté' },
-      'combo': { en: 'Combo Set', ru: 'Комбо набор', fr: 'Formule' },
-      'combo bữa sáng đặc biệt': { en: 'Good Morning Breakfast Combo', ru: 'Комбо завтрак Good Morning', fr: 'Forfait Petit-Déjeuner' },
-      'combo bữa sáng': { en: 'Breakfast Combo Set', ru: 'Комбо завтрак', fr: 'Formule Petit-Déjeuner' },
-      'combo sáng': { en: 'Breakfast Combo Set', ru: 'Комбо завтрак', fr: 'Formule Petit-Déjeuner' },
-      'combo trưa': { en: 'Lunch Combo Set', ru: 'Обеденный комбо', fr: 'Formule Déjeuner' },
-      'combo tối': { en: 'Dinner Combo Set', ru: 'Вечерний комбо', fr: 'Formule Dîner' },
-    };
-
-    const BADGE_TRANSLATION_DICT = {
-      'đậm vị': { en: '☕ Rich', ru: '☕ Насыщенный', fr: '☕ Corsé' },
-      'bọt mịn': { en: '☕ Soft Foam', ru: '☕ Нежная пенка', fr: '☕ Mousse Fine' },
-      'thanh nhẹ': { en: '☕ Mild', ru: '☕ Мягкий', fr: '☕ Léger' },
-      'đậm đặc': { en: '☕ Intense', ru: '☕ Крепкий', fr: '☕ Intense' },
-      'bán chạy': { en: '⭐ Best Seller', ru: '⭐ Хит продаж', fr: '⭐ Vedette' },
-      'nổi bật': { en: '⭐ Featured', ru: '⭐ Популярное', fr: '⭐ Vedette' },
-      'đặc biệt': { en: '✨ Special', ru: '✨ Особый', fr: '✨ Spécial' },
-      'signature': { en: '✨ Signature', ru: '✨ Фирменное', fr: '✨ Signature' },
-      'uji kyoto': { en: '🍵 Uji Kyoto', ru: '🍵 Удзи Киото', fr: '🍵 Uji Kyoto' },
-      'truyền thống': { en: '🧋 Classic', ru: '🧋 Классика', fr: '🧋 Classique' },
-      '100% tươi': { en: '🌿 100% Fresh', ru: '🌿 100% Свежий', fr: '🌿 100% Frais' },
-      'bơ pháp': { en: '🥐 French Butter', ru: '🥐 Сливочный', fr: '🥐 Pur Beurre' },
-      'mật ong': { en: '🥞 Pure Honey', ru: '🥞 С медом', fr: '🥞 Miel Pur' },
-      'nóng giòn': { en: '🥪 Crispy', ru: '🥪 Хрустящий', fr: '🥪 Grillé' },
-      'combo hot': { en: '⭐ Hot Combo', ru: '⭐ Топ комбо', fr: '⭐ Formule Hot' },
-    };
-
-    const CATEGORIES = [
-      { id: 'all', vi: 'Tất Cả', en: 'All Items', ru: 'Все меню', fr: 'Tous les Plats' },
-      { id: 'Coffee', vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
-      { id: 'Tea', vi: 'Trà', en: 'Tea', ru: 'Чай', fr: 'Thé' },
-      { id: 'Milk Tea', vi: 'Trà Sữa', en: 'Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
-      { id: 'Juice', vi: 'Nước Ép', en: 'Juice', ru: 'Соки', fr: 'Jus Frais' },
-      { id: 'Breakfast', vi: 'Điểm Tâm', en: 'Breakfast', ru: 'Завтрак', fr: 'Déjeuner' },
-      { id: 'Sandwich', vi: 'Bánh Mì', en: 'Sandwich', ru: 'Сэндвичи', fr: 'Sandwichs' },
-      { id: 'Combo', vi: 'Combo', en: 'Combos', ru: 'Комбо', fr: 'Formules' }
-    ];
-
-    // Real POS Products with Strict 100% 4-Language Translations & Badges
-    let POS_PRODUCTS = [
-      {
-        id: 1,
-        name: 'Latte',
-        nameVi: 'Cà Phê Latte',
-        nameEn: 'Coffee Latte',
-        nameRu: 'Кофе Латте',
-        nameFr: 'Café Latte',
-        badge: '☕ Đậm Vị',
-        badgeVi: '☕ Đậm Vị',
-        badgeEn: '☕ Signature',
-        badgeRu: '☕ Насыщенный',
-        badgeFr: '☕ Signature',
-        category: 'Coffee',
-        categoryVi: 'Cà Phê',
-        categoryEn: 'Coffee',
-        categoryRu: 'Кофе',
-        categoryFr: 'Café',
-        price: 55000,
-        emoji: '☕',
-        image: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: true,
-        descVi: 'Cà phê Latte thơm béo với shot Espresso Arabica Cầu Đất hòa quyện lớp sữa tươi nóng đánh bọt mịn.',
-        descEn: 'Silky smooth espresso with freshly steamed whole milk and a delicate layer of velvety microfoam.',
-        descRu: 'Нежный кофе латте на основе эспрессо из зерен арабики с бархатистой молочной пенкой.',
-        descFr: 'Expresso velouté pur Arabica mélangé à du lait chaud onctueux et recouvert d’une fine mousse de lait.',
-        ingredientsVi: ['Cà phê hạt Arabica Cầu Đất (Đà Lạt)', 'Sữa tươi thanh trùng tiệt trùng', 'Lớp bọt sữa Microfoam mịn màng'],
-        ingredientsEn: ['100% Da Lat Single-Origin Arabica Espresso', 'Fresh Whole Steamed Milk', 'Velvety Microfoam Layer'],
-        ingredientsRu: ['Эспрессо 100% Арабика', 'Свежее пастеризованное молоко', 'Плотная микропенка'],
-        ingredientsFr: ['Espresso 100% Arabica de Da Lat', 'Lait entier frais pasteurisé', 'Mousse de lait micro-aérée']
-      },
-      {
-        id: 2,
-        name: 'Cappuccino',
-        nameVi: 'Cà Phê Cappuccino',
-        nameEn: 'Cappuccino',
-        nameRu: 'Капучино',
-        nameFr: 'Cappuccino',
-        badge: '☕ Bọt Mịn',
-        badgeVi: '☕ Bọt Mịn',
-        badgeEn: '☕ Thick Foam',
-        badgeRu: '☕ Нежная пенка',
-        badgeFr: '☕ Mousse Épaisse',
-        category: 'Coffee',
-        categoryVi: 'Cà Phê',
-        categoryEn: 'Coffee',
-        categoryRu: 'Кофе',
-        categoryFr: 'Café',
-        price: 60000,
-        emoji: '☕',
-        image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: true,
-        descVi: 'Cà phê Cappuccino truyền thống với tỷ lệ cân bằng hoàn hảo giữa Espresso, sữa nóng và bọt sữa dày rắc bột cacao.',
-        descEn: 'Classic cappuccino with equal parts espresso, steamed milk, and rich thick foam dusted with cacao.',
-        descRu: 'Классический капучино с идеальным балансом эспрессо, горячего молока và густой пенки с какао.',
-        descFr: 'Cappuccino traditionnel à base d’expresso, de lait chaud et d’une épaisse couche de mousse saupoudrée de cacao.',
-        ingredientsVi: ['Espresso Arabica nguyên chất', 'Sữa tươi nóng tạo bọt', 'Bột cacao nguyên chất phủ trên mặt'],
-        ingredientsEn: ['Rich Arabica Espresso Shot', 'Aerated Steamed Milk Foam', 'Pure Dark Cacao Powder Dusting'],
-        ingredientsRu: ['Шот эспрессо Арабика', 'Взбитое горячее молоко', 'Натуральный порошок какао'],
-        ingredientsFr: ['Shot d’expresso intense Arabica', 'Mousse de lait aérée', 'Poudre de cacao pur noir']
-      },
-      {
-        id: 3,
-        name: 'Americano',
-        nameVi: 'Cà Phê Americano',
-        nameEn: 'Americano Coffee',
-        nameRu: 'Кофе Американо',
-        nameFr: 'Café Americano',
-        badge: '☕ Thanh Nhẹ',
-        badgeVi: '☕ Thanh Nhẹ',
-        badgeEn: '☕ Clean Roast',
-        badgeRu: '☕ Мягкий',
-        badgeFr: '☕ Léger',
-        category: 'Coffee',
-        categoryVi: 'Cà Phê',
-        categoryEn: 'Coffee',
-        categoryRu: 'Кофе',
-        categoryFr: 'Café',
-        price: 45000,
-        emoji: '☕',
-        image: 'https://images.unsplash.com/photo-1551046713-b45fdb3799d5?w=300&auto=format&fit=crop&q=80',
-        available: false, // SOLD OUT IN POS
-        isFeatured: false,
-        descVi: 'Cà phê Americano thanh tao, chiết xuất từ 2 shot Espresso đậm đà pha loãng với nước nóng tinh khiết.',
-        descEn: 'Double shot of espresso diluted with hot filtered mineral water for a clean, rich coffee finish.',
-        descRu: 'Мягкий и ароматный американо из двойного шота эспрессо с горячей очищенной водой.',
-        descFr: 'Double shot d’expresso allongé à l’eau minérale chaude pour une dégustation équilibrée et légère.',
-        ingredientsVi: ['Double Shot Espresso Arabica', 'Nước khoáng tinh khiết lọc RO'],
-        ingredientsEn: ['Double Shot Arabica Espresso', 'Purified Hot Spring Water'],
-        ingredientsRu: ['Двойной шот эспрессо Арабика', 'Горячая очищенная вода'],
-        ingredientsFr: ['Double shot d’expresso Arabica', 'Eau pure filtrée chaude']
-      },
-      {
-        id: 4,
-        name: 'Espresso',
-        nameVi: 'Cà Phê Espresso',
-        nameEn: 'Single Origin Espresso',
-        nameRu: 'Эспрессо',
-        nameFr: 'Expresso Pur Origine',
-        badge: '☕ Đậm Đặc',
-        badgeVi: '☕ Đậm Đặc',
-        badgeEn: '☕ Pure Roast',
-        badgeRu: '☕ Крепкий',
-        badgeFr: '☕ Intense',
-        category: 'Coffee',
-        categoryVi: 'Cà Phê',
-        categoryEn: 'Coffee',
-        categoryRu: 'Кофе',
-        categoryFr: 'Café',
-        price: 40000,
-        emoji: '☕',
-        image: 'https://images.unsplash.com/photo-1510707572719-ddb8775f0b7b?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Shot cà phê Espresso chiết xuất áp suất cao, lưu giữ trọn vẹn lớp crema vàng óng và hương thơm nồng nàn.',
-        descEn: 'Intense and concentrated single espresso shot extracted under high pressure with golden crema.',
-        descRu: 'Концентрированный шот эспрессо высокой экстракции с золотистой пенкой крема.',
-        descFr: 'Expresso concentré extrait à haute pression avec une crema dorée et des arômes intenses.',
-        ingredientsVi: ['100% Cà phê hạt Arabica Cầu Đất rang mộc'],
-        ingredientsEn: ['100% Roasted Da Lat Arabica Beans'],
-        ingredientsRu: ['100% свежеобжаренная Арабика Далат'],
-        ingredientsFr: ['100% grains d’Arabica torréfiés de Da Lat']
-      },
-      {
-        id: 5,
-        name: 'Mocha',
-        nameVi: 'Cà Phê Mocha',
-        nameEn: 'Mocha Coffee',
-        nameRu: 'Кофе Мокка',
-        nameFr: 'Café Mocha Chocolat',
-        badge: '⭐ Bán Chạy',
-        badgeVi: '⭐ Bán Chạy',
-        badgeEn: '⭐ Best Seller',
-        badgeRu: '⭐ Хит продаж',
-        badgeFr: '⭐ Populaire',
-        category: 'Coffee',
-        categoryVi: 'Cà Phê',
-        categoryEn: 'Coffee',
-        categoryRu: 'Кофе',
-        categoryFr: 'Café',
-        price: 65000,
-        emoji: '☕',
-        image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: true,
-        descVi: 'Sự hòa quyện tuyệt hảo giữa sốt socola Cacao đen, sữa đặc ngọt ngào và shot cà phê Espresso đậm vị.',
-        descEn: 'A luscious blend of premium dark cacao chocolate, condensed milk, fresh milk, and bold espresso.',
-        descRu: 'Идеальное сочетание темного шоколада, сгущенного молока и крепкого эспрессо.',
-        descFr: 'Harmonie gourmande entre chocolat noir cacao pur, lait concentré onctueux et shot d’expresso corsé.',
-        ingredientsVi: ['Sốt Cacao nguyên chất cao cấp', 'Sữa đặc thơm béo', 'Shot cà phê Espresso', 'Sữa tươi thanh trùng'],
-        ingredientsEn: ['Pure Dark Chocolate Cacao', 'Sweetened Condensed Milk', 'Bold Espresso Shot', 'Steamed Fresh Milk'],
-        ingredientsRu: ['Премиальный шоколадный соус какао', 'Сгущенное молоко', 'Шот эспрессо', 'Свежее молоко'],
-        ingredientsFr: ['Chocolat noir cacao grand cru', 'Lait concentré sucré', 'Shot d’expresso corsé', 'Lait entier frais']
-      },
-      {
-        id: 6,
-        name: 'Matcha Latte',
-        nameVi: 'Trà Xanh Matcha Latte',
-        nameEn: 'Uji Matcha Green Tea Latte',
-        nameRu: 'Матча Латте',
-        nameFr: 'Matcha Latte Uji Bio',
-        badge: '🍵 Uji Kyoto',
-        badgeVi: '🍵 Uji Kyoto',
-        badgeEn: '🍵 Uji Kyoto',
-        badgeRu: '🍵 Удзи Киото',
-        badgeFr: '🍵 Uji Kyoto',
-        category: 'Tea',
-        categoryVi: 'Trà',
-        categoryEn: 'Tea',
-        categoryRu: 'Чай',
-        categoryFr: 'Thé',
-        price: 60000,
-        emoji: '🍵',
-        image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: true,
-        descVi: 'Bột trà xanh Matcha Uji thượng hạng từ Nhật Bản đánh tay truyền thống, kết hợp sữa tươi thanh trùng béo ngậy.',
-        descEn: 'Authentic ceremonial Japanese green tea matcha whisked with fresh whole milk and a touch of sweetness.',
-        descRu: 'Церемониальный японский чай матча из Удзи Киото со взбитым свежим молоком.',
-        descFr: 'Matcha traditionnel d’Uji Kyoto fouetté à la main, associé au lait frais entier doux và onctueux.',
-        ingredientsVi: ['Bột Matcha Uji Kyoto Nhật Bản', 'Sữa tươi thanh trùng', 'Đường mía thô hữu cơ'],
-        ingredientsEn: ['Japanese Uji Kyoto Matcha Powder', 'Pasteurized Whole Milk', 'Organic Raw Cane Sugar'],
-        ingredientsRu: ['Японский порошок матча Удзи Киото', 'Свежее молоко', 'Органический тростниковый сахар'],
-        ingredientsFr: ['Poudre de matcha cérémonial d’Uji', 'Lait entier pasteurisé', 'Sucre de canne bio']
-      },
-      {
-        id: 7,
-        name: 'Milk Tea',
-        nameVi: 'Trà Sữa Truyền Thống',
-        nameEn: 'Classic Ceylon Milk Tea',
-        nameRu: 'Классический чай с молоком',
-        nameFr: 'Thé au Lait Ceylon',
-        badge: '🧋 Truyền Thống',
-        badgeVi: '🧋 Truyền Thống',
-        badgeEn: '🧋 Ceylon Brew',
-        badgeRu: '🧋 Классика',
-        badgeFr: '🧋 Ceylon Pur',
-        category: 'Milk Tea',
-        categoryVi: 'Trà Sữa',
-        categoryEn: 'Milk Tea',
-        categoryRu: 'Чай с молоком',
-        categoryFr: 'Thé au Lait',
-        price: 50000,
-        emoji: '🧋',
-        image: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Trà sữa truyền thống đậm vị trà đen Ceylon, hậu ngọt thanh mát và vị béo thơm đặc trưng của sữa.',
-        descEn: 'Classic brew of premium Ceylon black tea blended smoothly with rich dairy milk.',
-        descRu: 'Традиционный чай с молоком на основе цейлонского черного чая с мягким сливочным вкусом.',
-        descFr: 'Infusion classique de thé noir de Ceylan combinée délicatement au lait riche et parfumé.',
-        ingredientsVi: ['Cốt trà đen Ceylon thượng hạng', 'Sữa tươi thanh trùng', 'Sữa đặc cao cấp'],
-        ingredientsEn: ['Ceylon Black Tea Leaves', 'Fresh Milk', 'Sweetened Condensed Milk'],
-        ingredientsRu: ['Экстракт цейлонского черного чая', 'Свежее молоко', 'Сгущенное молоко'],
-        ingredientsFr: ['Feuilles de thé noir de Ceylan', 'Lait frais entier', 'Lait concentré sucré']
-      },
-      {
-        id: 8,
-        name: 'Orange Juice',
-        nameVi: 'Nước Cam Tươi',
-        nameEn: 'Fresh Squeezed Orange Juice',
-        nameRu: 'Свежевыжатый апельсиновый сок',
-        nameFr: 'Jus d’Orange Pressé Frais',
-        badge: '🌿 100% Tươi',
-        badgeVi: '🌿 100% Tươi',
-        badgeEn: '🌿 100% Fresh',
-        badgeRu: '🌿 100% Свежий',
-        badgeFr: '🌿 100% Frais',
-        category: 'Juice',
-        categoryVi: 'Nước Ép',
-        categoryEn: 'Juice',
-        categoryRu: 'Соки',
-        categoryFr: 'Jus Frais',
-        price: 45000,
-        emoji: '🍊',
-        image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: true,
-        descVi: '100% Nước cam sành tươi mọng nước vắt trực tiếp theo đơn, giữ trọn vẹn vitamin C tự nhiên.',
-        descEn: '100% Pure freshly squeezed orange juice, full of natural vitamins with no added preservatives.',
-        descRu: '100% натуральный свежевыжатый апельсиновый сок, полный витамина C.',
-        descFr: 'Jus d’orange 100% pur pressé minute à la commande, riche en vitamines sans conservateurs.',
-        ingredientsVi: ['Cam sành tươi loại 1 mọng nước', 'Đá bi tinh khiết lọc RO', 'Đường mía tự nhiên (tùy chọn)'],
-        ingredientsEn: ['Fresh Organic Oranges', 'Filtered Ice', 'Optional Cane Sugar'],
-        ingredientsRu: ['Свежие отборные апельсины', 'Очищенный лед', 'Тростниковый сахар (по желанию)'],
-        ingredientsFr: ['Oranges fraîches juteuses', 'Glaçons purifiés', 'Sucre de canne optionnel']
-      },
-      {
-        id: 9,
-        name: 'Croissant',
-        nameVi: 'Bánh Sừng Bò Croissant',
-        nameEn: 'French Butter Croissant',
-        nameRu: 'Сливочный круассан',
-        nameFr: 'Croissant Pur Beurre',
-        badge: '🥐 Bơ Pháp',
-        badgeVi: '🥐 Bơ Pháp',
-        badgeEn: '🥐 French Butter',
-        badgeRu: '🥐 Сливочный',
-        badgeFr: '🥐 Pur Beurre',
-        category: 'Breakfast',
-        categoryVi: 'Điểm Tâm',
-        categoryEn: 'Breakfast',
-        categoryRu: 'Завтрак',
-        categoryFr: 'Déjeuner',
-        price: 35000,
-        emoji: '🥐',
-        image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Bánh sừng bò bơ Pháp ngàn lớp vàng ươm, vỏ giòn rụm và ruột mềm xốp thơm ngậy mùi bơ.',
-        descEn: 'Traditional French golden croissant with crisp flaky layers baked freshly with pure butter.',
-        descRu: 'Французский слоеный круассан на натуральном сливочном масле с хрустящей корочкой.',
-        descFr: 'Croissant feuilleté doré au beurre d’Isigny AOP, croustillant à l’extérieur et aéré à l’intérieur.',
-        ingredientsVi: ['Bột mì Pháp T45', 'Bơ nguyên chất (82% béo)', 'Men tươi tự nhiên', 'Trứng gà ta'],
-        ingredientsEn: ['French T45 Flour', 'Pure Dairy Butter (82% fat)', 'Natural Yeast', 'Farm Eggs'],
-        ingredientsRu: ['Французская мука T45', 'Сливочное масло 82%', 'Натуральные дрожжи', 'Свежие яйца'],
-        ingredientsFr: ['Farine T45 française', 'Beurre pur AOP (82% MG)', 'Levure boulangère', 'Œufs frais']
-      },
-      {
-        id: 10,
-        name: 'Pancake',
-        nameVi: 'Bánh Kếp Mật Ong Pancake',
-        nameEn: 'Honey Butter Pancakes',
-        nameRu: 'Блинчики с медом',
-        nameFr: 'Pancakes au Miel & Beurre',
-        badge: '🥞 Mật Ong',
-        badgeVi: '🥞 Mật Ong',
-        badgeEn: '🥞 Honey Butter',
-        badgeRu: '🥞 С медом',
-        badgeFr: '🥞 Miel Pur',
-        category: 'Breakfast',
-        categoryVi: 'Điểm Tâm',
-        categoryEn: 'Breakfast',
-        categoryRu: 'Завтрак',
-        categoryFr: 'Déjeuner',
-        price: 70000,
-        emoji: '🥞',
-        image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Bánh kếp mềm xốp vàng ươm xếp lớp, phủ miếng bơ lạt béo ngậy và rưới mật ong hoa rừng ngọt dịu.',
-        descEn: 'Stack of fluffy golden buttermilk pancakes served with butter and pure natural forest honey.',
-        descRu: 'Нежные пышные блинчики со сливочным маслом и натуральным лесным медом.',
-        descFr: 'Moelleux pancakes dorés superposés, servis avec une noisette de beurre doux et miel sauvage.',
-        ingredientsVi: ['Bột bánh kếp thủ công', 'Trứng gà tươi & sữa tươi', 'Bơ lạt Elle & Vire', 'Mật ong hoa rừng tự nhiên'],
-        ingredientsEn: ['Housemade Pancake Batter', 'Farm Fresh Eggs & Milk', 'Pure Butter', 'Wild Honey'],
-        ingredientsRu: ['Фирменное тесто для панкейков', 'Свежие яйца и молоко', 'Сливочное масло', 'Натуральный лесной мед'],
-        ingredientsFr: ['Pâte à pancake maison', 'Œufs bio et lait frais', 'Beurre doux', 'Miel sauvage naturel']
-      },
-      {
-        id: 11,
-        name: 'Sandwich',
-        nameVi: 'Bánh Mì Kẹp Sandwich',
-        nameEn: 'Gourmet Ham & Cheese Sandwich',
-        nameRu: 'Сэндвич с ветчиной и сыром',
-        nameFr: 'Sandwich Gourmet Jambon Fromage',
-        badge: '🥪 Nóng Giòn',
-        badgeVi: '🥪 Nóng Giòn',
-        badgeEn: '🥪 Crispy Toasted',
-        badgeRu: '🥪 Хрустящий',
-        badgeFr: '🥪 Grillé',
-        category: 'Sandwich',
-        categoryVi: 'Bánh Mì',
-        categoryEn: 'Sandwich',
-        categoryRu: 'Сэндвичи',
-        categoryFr: 'Sandwichs',
-        price: 65000,
-        emoji: '🥪',
-        image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Bánh mì sandwich nướng giòn rụm kẹp thịt nguội cao cấp, phô mai Cheddar tan chảy, xà lách và cà chua tươi.',
-        descEn: 'Toasted gourmet sandwich with smoked ham, melted cheddar cheese, crisp lettuce and fresh tomato.',
-        descRu: 'Поджаренный сэндвич с копченой ветчиной, тающим сыром чеддер, листьями салата и томатами.',
-        descFr: 'Sandwich grillé croustillant garni de jambon fumé, cheddar fondant, laitue croquante et tomates fraîches.',
-        ingredientsVi: ['Bánh mì gối nướng giòn', 'Thịt nguội xông khói', 'Phô mai Cheddar lát', 'Rau xà lách & cà chua tươi', 'Sốt Mayonnaise'],
-        ingredientsEn: ['Artisanal Toasted Bread', 'Smoked Deli Ham', 'Cheddar Cheese Slice', 'Crisp Lettuce & Tomato', 'Light Mayo'],
-        ingredientsRu: ['Тостовый хлеб', 'Копченая ветчина', 'Сыр Чеддер', 'Свежий салат и томаты', 'Майонез'],
-        ingredientsFr: ['Pain artisanal toasté', 'Jambon fumé', 'Fromage Cheddar affiné', 'Laitue et tomates fraîches', 'Sauce mayonnaise']
-      },
-      {
-        id: 12,
-        name: 'Combo Breakfast',
-        nameVi: 'Combo Bữa Sáng Đặc Biệt',
-        nameEn: 'Good Morning Breakfast Combo',
-        nameRu: 'Комбо завтрак Good Morning',
-        nameFr: 'Forfait Petit-Déjeuner Origine',
-        badge: '⭐ Tiết Kiệm 25K',
-        badgeVi: '⭐ Tiết Kiệm 25K',
-        badgeEn: '⭐ Save 25K',
-        badgeRu: '⭐ Экономия 25K',
-        badgeFr: '⭐ Économie 25K',
-        category: 'Combo',
-        categoryVi: 'Combo',
-        categoryEn: 'Combo',
-        categoryRu: 'Комбо',
-        categoryFr: 'Formules',
-        price: 120000,
-        originalPrice: 145000,
-        emoji: '⭐',
-        image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80',
-        available: true,
-        isFeatured: false,
-        descVi: 'Combo bữa sáng hoàn hảo bán chạy nhất: 1 Bánh Sandwich / Croissant thơm ngon + 1 Ly Cà phê / Trà / Nước ép tùy chọn.',
-        descEn: 'Best-selling breakfast set: Choice of 1 fresh Sandwich or Croissant + 1 Coffee or Fresh Fruit Juice.',
-        descRu: 'Идеальный комбо завтрак: 1 свежий сэндвич или круассан + 1 кофе, чай или свежевыжатый сок.',
-        descFr: 'Formule petit-déjeuner vedette: 1 Sandwich ou Croissant au choix + 1 Café d’exception ou Jus de fruits pressé.',
-        ingredientsVi: ['1 Bánh Sandwich nướng thịt nguội phô mai', '1 Ly Cà phê Latte / Americano / Nước cam tươi', 'Tặng kèm bánh quy bơ mini'],
-        ingredientsEn: ['1 Gourmet Ham & Cheese Sandwich', '1 Choice of Latte, Americano, or Fresh Juice', 'Complimentary Butter Cookie'],
-        ingredientsRu: ['1 Сэндвич с ветчиной и сыром / Круассан', '1 Кофе Латте / Американо / Сок', 'Мини сливочное печенье в подарок'],
-        ingredientsFr: ['1 Sandwich Gourmet ou Croissant frais', '1 Café Latte, Americano ou Jus d’Orange', 'Mini biscuit pur beurre offert']
-      }
-    ];
-
-    function getT() {
-      return UI_TRANSLATIONS[currentLanguage] || UI_TRANSLATIONS.vi;
+    function getCategoryIcon(catName) {
+      const key = String(catName || '').toLowerCase().trim();
+      return CATEGORY_ICONS[key] || '🍽️';
     }
 
-    function getItemName(item) {
-      if (!item) return '';
-      const nameVi = (item.nameVi || item.name || '').trim();
-      if (currentLanguage === 'vi') return nameVi;
-
-      // If dedicated translation field was explicitly set from POS and differs from Vietnamese
-      if (currentLanguage === 'en' && item.nameEn && item.nameEn.trim() !== nameVi) {
-        return item.nameEn.replace(/\bCaffè\b/g, 'Coffee').replace(/\bcaffè\b/g, 'coffee');
-      }
-      if (currentLanguage === 'ru' && item.nameRu && item.nameRu.trim() !== nameVi) {
-        return item.nameRu;
-      }
-      if (currentLanguage === 'fr' && item.nameFr && item.nameFr.trim() !== nameVi) {
-        return item.nameFr;
-      }
-
-      // 1. Direct lowercase dictionary lookup
-      const raw = nameVi.toLowerCase();
-      if (DISH_TRANSLATION_DICT[raw] && DISH_TRANSLATION_DICT[raw][currentLanguage]) {
-        return DISH_TRANSLATION_DICT[raw][currentLanguage];
-      }
-
-      // 2. Exact match in dictionary keys
-      for (const [key, val] of Object.entries(DISH_TRANSLATION_DICT)) {
-        if (raw === key && val[currentLanguage]) {
-          return val[currentLanguage];
-        }
-      }
-
-      // 3. Phrase match in dictionary keys
-      for (const [key, val] of Object.entries(DISH_TRANSLATION_DICT)) {
-        if (raw.includes(key) && val[currentLanguage]) {
-          return val[currentLanguage];
-        }
-      }
-
-      // 4. Intelligent Rule-based Translation for combinations
-      if (currentLanguage === 'en') {
-        let res = nameVi;
-        res = res.replace(/combo trưa/gi, 'Lunch Combo');
-        res = res.replace(/combo sáng/gi, 'Breakfast Combo');
-        res = res.replace(/combo bữa sáng/gi, 'Breakfast Combo');
-        res = res.replace(/combo tối/gi, 'Dinner Combo');
-        res = res.replace(/combo/gi, 'Combo');
-        res = res.replace(/cà phê/gi, 'Coffee');
-        res = res.replace(/caffè/gi, 'Coffee');
-        res = res.replace(/trà sữa/gi, 'Milk Tea');
-        res = res.replace(/trà đào/gi, 'Peach Tea');
-        res = res.replace(/trà vải/gi, 'Lychee Tea');
-        res = res.replace(/trà/gi, 'Tea');
-        res = res.replace(/nước cam/gi, 'Orange Juice');
-        res = res.replace(/nước ép/gi, 'Fresh Juice');
-        res = res.replace(/bánh mì kẹp/gi, 'Sandwich');
-        res = res.replace(/bánh mì/gi, 'Baguette');
-        res = res.replace(/bánh sừng bò/gi, 'Croissant');
-        res = res.replace(/bánh kếp/gi, 'Pancakes');
-        res = res.replace(/bánh/gi, 'Pastry');
-        res = res.replace(/muối/gi, 'Salted Cream');
-        res = res.replace(/trứng/gi, 'Egg Cream');
-        res = res.replace(/sữa đá/gi, 'Iced Milk');
-        res = res.replace(/sữa nóng/gi, 'Hot Milk');
-        res = res.replace(/đen đá/gi, 'Iced Black');
-        res = res.replace(/đen nóng/gi, 'Hot Black');
-        res = res.replace(/đặc biệt/gi, 'Special');
-        res = res.replace(/truyền thống/gi, 'Classic');
-        return res;
-      }
-
-      if (currentLanguage === 'ru') {
-        let res = nameVi;
-        res = res.replace(/combo trưa/gi, 'Обеденный комбо');
-        res = res.replace(/combo sáng/gi, 'Комбо завтрак');
-        res = res.replace(/combo bữa sáng/gi, 'Комбо завтрак');
-        res = res.replace(/combo tối/gi, 'Вечерний комбо');
-        res = res.replace(/combo/gi, 'Комбо');
-        res = res.replace(/cà phê/gi, 'Кофе');
-        res = res.replace(/caffè/gi, 'Кофе');
-        res = res.replace(/trà sữa/gi, 'Чай с молоком');
-        res = res.replace(/trà đào/gi, 'Персиковый чай');
-        res = res.replace(/trà vải/gi, 'Чай с личи');
-        res = res.replace(/trà/gi, 'Чай');
-        res = res.replace(/nước cam/gi, 'Апельсиновый сок');
-        res = res.replace(/nước ép/gi, 'Свежий сок');
-        res = res.replace(/bánh mì kẹp/gi, 'Сэндвич');
-        res = res.replace(/bánh mì/gi, 'Багет');
-        res = res.replace(/bánh sừng bò/gi, 'Круассан');
-        res = res.replace(/bánh kếp/gi, 'Блинчики');
-        res = res.replace(/bánh/gi, 'Выпечка');
-        res = res.replace(/muối/gi, 'Соленый');
-        res = res.replace(/trứng/gi, 'Яичный');
-        res = res.replace(/sữa đá/gi, 'со льдом и молоком');
-        res = res.replace(/sữa nóng/gi, 'горячий с молоком');
-        res = res.replace(/đen đá/gi, 'черный со льдом');
-        res = res.replace(/đen nóng/gi, 'горячий черный');
-        res = res.replace(/đặc biệt/gi, 'Фирменный');
-        res = res.replace(/truyền thống/gi, 'Классика');
-        return res;
-      }
-
-      if (currentLanguage === 'fr') {
-        let res = nameVi;
-        res = res.replace(/combo trưa/gi, 'Formule Déjeuner');
-        res = res.replace(/combo sáng/gi, 'Formule Petit-Déjeuner');
-        res = res.replace(/combo bữa sáng/gi, 'Formule Petit-Déjeuner');
-        res = res.replace(/combo tối/gi, 'Formule Dîner');
-        res = res.replace(/combo/gi, 'Formule');
-        res = res.replace(/cà phê/gi, 'Café');
-        res = res.replace(/caffè/gi, 'Café');
-        res = res.replace(/trà sữa/gi, 'Thé au Lait');
-        res = res.replace(/trà đào/gi, 'Thé à la Pêche');
-        res = res.replace(/trà vải/gi, 'Thé au Litchi');
-        res = res.replace(/trà/gi, 'Thé');
-        res = res.replace(/nước cam/gi, 'Jus d’Orange');
-        res = res.replace(/nước ép/gi, 'Jus Frais');
-        res = res.replace(/bánh mì kẹp/gi, 'Sandwich');
-        res = res.replace(/bánh mì/gi, 'Baguette');
-        res = res.replace(/bánh sừng bò/gi, 'Croissant');
-        res = res.replace(/bánh kếp/gi, 'Pancakes');
-        res = res.replace(/bánh/gi, 'Pâtisserie');
-        res = res.replace(/muối/gi, 'Salé');
-        res = res.replace(/trứng/gi, 'aux Œufs');
-        res = res.replace(/sữa đá/gi, 'au Lait Glacé');
-        res = res.replace(/sữa nóng/gi, 'au Lait Chaud');
-        res = res.replace(/đen đá/gi, 'Noir Glacé');
-        res = res.replace(/đen nóng/gi, 'Noir Chaud');
-        res = res.replace(/đặc biệt/gi, 'Spécial');
-        res = res.replace(/truyền thống/gi, 'Traditionnel');
-        return res;
-      }
-
-      return nameVi;
+    function getLocalizedCategoryName(catName) {
+      const dict = I18N[currentLanguage]?.categoryNames || {};
+      return dict[catName] || catName;
     }
 
-    function getItemCategoryName(item) {
-      if (!item) return '';
-      const cat = item.category || '';
-      if (typeof CATEGORY_TRANSLATIONS !== 'undefined' && CATEGORY_TRANSLATIONS[cat] && CATEGORY_TRANSLATIONS[cat][currentLanguage]) {
-        return CATEGORY_TRANSLATIONS[cat][currentLanguage];
-      }
-      if (currentLanguage === 'vi') return item.categoryVi || cat;
-      if (currentLanguage === 'en') return item.categoryEn || cat;
-      if (currentLanguage === 'ru') return item.categoryRu || cat;
-      if (currentLanguage === 'fr') return item.categoryFr || cat;
-      return cat;
+    function getLocalizedProductName(p) {
+      if (currentLanguage === 'en') return p.nameEn || p.name;
+      if (currentLanguage === 'ru') return p.nameRu || p.nameEn || p.name;
+      if (currentLanguage === 'fr') return p.nameFr || p.nameEn || p.name;
+      return p.name;
     }
 
-    function getItemBadge(item) {
-      if (!item) return '';
-      const rawBadge = item.badge || item.badgeVi || '';
-      if (!rawBadge && !item.isFeatured) return '';
-      if (currentLanguage === 'vi') return rawBadge || (item.isFeatured ? '⭐ Nổi Bật' : '');
-      if (currentLanguage === 'en' && item.badgeEn) return item.badgeEn;
-      if (currentLanguage === 'ru' && item.badgeRu) return item.badgeRu;
-      if (currentLanguage === 'fr' && item.badgeFr) return item.badgeFr;
-
-      const clean = rawBadge.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ\s]/g, '').trim();
-      for (const [key, val] of Object.entries(BADGE_TRANSLATION_DICT)) {
-        if (clean.includes(key) && val[currentLanguage]) {
-          return val[currentLanguage];
-        }
-      }
-
-      if (currentLanguage === 'en') return item.badgeEn || rawBadge || (item.isFeatured ? '⭐ Featured' : '');
-      if (currentLanguage === 'ru') return item.badgeRu || (item.isFeatured ? '⭐ Популярное' : rawBadge);
-      if (currentLanguage === 'fr') return item.badgeFr || (item.isFeatured ? '⭐ Vedette' : rawBadge);
-      return rawBadge;
+    function getLocalizedProductDesc(p) {
+      if (currentLanguage === 'en') return p.descEn || p.description;
+      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
+      if (currentLanguage === 'fr') return p.descFr || p.descEn || p.description;
+      return p.description;
     }
 
-    function getItemDesc(item) {
-      if (!item) return '';
-      if (currentLanguage === 'en') return item.descEn || item.descVi || item.description || 'Delicately crafted specialty by Good Morning Café.';
-      if (currentLanguage === 'ru') return item.descRu || item.descEn || item.descVi || item.description || 'Изысканное фирменное блюдо от Good Morning Café.';
-      if (currentLanguage === 'fr') return item.descFr || item.descEn || item.descVi || item.description || 'Délicieuse spécialité préparée par Good Morning Café.';
-      return item.descVi || item.description || 'Món ngon tươi mới được chuẩn bị chu đáo từ Good Morning Café.';
+    function formatPrice(vnd) {
+      const c = CURRENCIES[currentCurrency] || CURRENCIES.VND;
+      const converted = (Number(vnd) || 0) * c.rate;
+      const formatted = converted.toLocaleString(undefined, { minimumFractionDigits: c.decimals, maximumFractionDigits: c.decimals });
+      return c.pos === 'prefix' ? `${c.symbol}${formatted}` : `${formatted} ${c.symbol}`;
     }
 
-    function parseIngredientsList(raw) {
-      if (!raw) return [];
-      if (Array.isArray(raw)) return raw;
-      if (typeof raw === 'string') {
-        return raw.split(/\r?\n|,|;/).map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean);
-      }
-      return [];
-    }
+    // ================= Render UI =================
+    function renderMenu() {
+      const products = currentData.products || [];
+      const categories = currentData.categories || [];
 
-    function getItemIngredients(item) {
-      let list = [];
-      if (currentLanguage === 'en') {
-        list = parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
-      } else if (currentLanguage === 'ru') {
-        list = parseIngredientsList(item.ingredientsRu) || parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
-      } else if (currentLanguage === 'fr') {
-        list = parseIngredientsList(item.ingredientsFr) || parseIngredientsList(item.ingredientsEn) || parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
-      } else {
-        list = parseIngredientsList(item.ingredientsVi) || parseIngredientsList(item.ingredients);
-      }
-      if (list && list.length > 0) return list;
-      if (item.description) return parseIngredientsList(item.description);
-      const defaults = {
-        vi: 'Nguyên liệu tươi chọn lọc cao cấp',
-        en: 'Fresh premium selected ingredients',
-        ru: 'Свежие отборные премиум ингредиенты',
-        fr: 'Ingrédients frais de première qualité'
-      };
-      return [defaults[currentLanguage] || defaults.vi];
-    }
-
-    function formatPrice(price) {
-      if (typeof price === 'string') {
-        price = parseFloat(price.replace(/[^0-9.-]+/g, '')) || 0;
-      }
-      if (!price || isNaN(price)) return '0';
-      if (price >= 1000) {
-        const inK = price / 1000;
-        return inK % 1 === 0 ? inK.toString() : inK.toFixed(1);
-      }
-      return price.toString();
-    }
-
-    // Dynamic Table Number from URL query parameter (e.g. ?table=05 or ?t=3)
-    const urlParams = new URLSearchParams(window.location.search);
-    const rawTableParam = urlParams.get('table') || urlParams.get('t') || urlParams.get('tableId') || '';
-    const currentTableNumber = rawTableParam ? rawTableParam.replace(/^Bàn\s*/i, '').replace(/^Table\s*/i, '').trim() : '';
-
-    function getTableLabel() {
-      if (currentTableNumber) {
-        const prefix = currentLanguage === 'en' ? 'Table #' : (currentLanguage === 'fr' ? 'Table #' : 'Bàn #');
-        return prefix + currentTableNumber;
-      }
-      return currentLanguage === 'en' ? '☕ Dine-In' : (currentLanguage === 'fr' ? '☕ Sur Place' : '☕ Tại Quán');
-    }
-
-    function applyTranslations() {
-      const t = getT();
-      const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
-      const elLangDisplay = document.getElementById('lang-display');
-      if (elLangDisplay) elLangDisplay.innerText = flags[currentLanguage] || '🇻🇳';
-      const elGreeting = document.getElementById('ui-greeting');
-      if (elGreeting) elGreeting.innerText = t.greeting;
-      const elTableBadge = document.getElementById('ui-table-badge');
-      if (elTableBadge) elTableBadge.innerText = getTableLabel();
-      const elSearch = document.getElementById('input-search');
-      if (elSearch) elSearch.placeholder = t.searchPlaceholder;
-      const elSecProd = document.getElementById('label-section-products');
-      if (elSecProd) elSecProd.innerText = t.featuredTitle;
-      const btnV = document.getElementById('btn-view-all-featured');
-      if (btnV) btnV.innerText = t.viewAll;
-      const elSecForfait = document.getElementById('label-section-forfait');
-      if (elSecForfait) elSecForfait.innerText = t.comboSectionTitle;
-      const btnViewCombo = document.getElementById('btn-view-all-combo');
-      if (btnViewCombo) btnViewCombo.innerHTML = `<span>${t.viewAll}</span><span>➔</span>`;
-      const elSecAll = document.getElementById('label-section-all');
-      if (elSecAll) elSecAll.innerText = t.allMenuTitle;
-      const elHelpTitle = document.getElementById('label-help-title');
-      if (elHelpTitle) elHelpTitle.innerText = t.helpTitle;
-      const elHelpDesc = document.getElementById('label-help-desc');
-      if (elHelpDesc) elHelpDesc.innerText = t.helpDesc;
-      const uiNavHome = document.getElementById('ui-nav-home');
-      if (uiNavHome) uiNavHome.innerText = t.navHome;
-      const uiNavSearch = document.getElementById('ui-nav-search');
-      if (uiNavSearch) uiNavSearch.innerText = t.navSearch;
-      const elModalPrice = document.getElementById('ui-modal-price-label');
-      if (elModalPrice) elModalPrice.innerText = t.priceLabel;
-      const btnDetailClose = document.getElementById('btn-detail-close-action');
-      if (btnDetailClose) btnDetailClose.innerText = t.closeBtn;
-      renderComboBanners();
-    }
-
-    function smoothScrollToTop(duration = 600, onComplete) {
-      const mainEl = document.querySelector('main');
-      const startWindow = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const startMain = mainEl ? mainEl.scrollTop : 0;
-
-      if (startWindow === 0 && startMain === 0) {
-        if (onComplete) onComplete();
-        return;
-      }
-
-      const startTime = performance.now();
-      // Gentle ease-out cubic for a light, buttery-smooth ascent
-      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-
-      function step(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = easeOutCubic(progress);
-
-        if (startWindow > 0) {
-          window.scrollTo(0, Math.round(startWindow * (1 - ease)));
-        }
-        if (mainEl && startMain > 0) {
-          mainEl.scrollTop = Math.round(startMain * (1 - ease));
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          window.scrollTo(0, 0);
-          if (mainEl) mainEl.scrollTop = 0;
-          if (onComplete) onComplete();
-        }
-      }
-
-      requestAnimationFrame(step);
-    }
-
-    function handleNavSearchClick() {
-      // 1. Visual toggle on bottom pill immediately
-      const btnHome = document.getElementById('btn-nav-home');
-      const btnSearch = document.getElementById('btn-nav-search');
-      if (btnHome && btnSearch) {
-        btnHome.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all';
-        btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
-      }
-
-      // 2. Smooth, gentle, non-jerking ascent to top (600ms)
-      smoothScrollToTop(600, () => {
-        // 3. Gentle focus with preventScroll to prevent mobile viewport jump
-        const searchInput = document.getElementById('input-search');
-        const searchWrapper = document.getElementById('search-bar-wrapper');
-        if (searchInput) {
-          try {
-            searchInput.focus({ preventScroll: true });
-          } catch (e) {
-            searchInput.focus();
-          }
-        }
-        if (searchWrapper) {
-          searchWrapper.classList.add('ring-4', 'ring-black/15', 'scale-[1.015]');
-          setTimeout(() => {
-            searchWrapper.classList.remove('scale-[1.015]');
-          }, 250);
-          setTimeout(() => {
-            searchWrapper.classList.remove('ring-4', 'ring-black/15');
-          }, 700);
+      // Determine distinct categories that have products or are declared
+      const catList = [];
+      const seen = new Set();
+      
+      // Add defined categories first
+      categories.forEach(c => {
+        if (c && !seen.has(c)) {
+          seen.add(c);
+          catList.push(c);
         }
       });
-    }
+      // Add any additional categories present on products
+      products.forEach(p => {
+        if (p.category && !seen.has(p.category)) {
+          seen.add(p.category);
+          catList.push(p.category);
+        }
+      });
 
-    function handleNavHomeClick() {
-      const btnHome = document.getElementById('btn-nav-home');
-      const btnSearch = document.getElementById('btn-nav-search');
-      if (btnHome && btnSearch) {
-        btnHome.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full bg-white text-black text-xs font-bold shadow-xs cursor-pointer active:scale-95 transition-all';
-        btnSearch.className = 'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-full text-gray-300 hover:text-white text-xs font-bold cursor-pointer active:scale-95 transition-all';
+      if (catList.length === 0 && products.length > 0) {
+        catList.push('Thực đơn');
       }
-      smoothScrollToTop(550);
-    }
 
-    function viewAllCombos() {
-      // Best UX: Switch sticky category tab to "Combo" and scroll smoothly to the full menu list
-      setCategory('Combo');
-      setTimeout(() => {
-        const target = document.getElementById('category-nav-sticky') || document.getElementById('label-section-all');
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 60);
-    }
-
-    function getComboItems() {
-      const isCombo = (item) => item && item.category && item.category.toString().trim().toLowerCase() === 'combo';
-      // 1. Prioritize combos explicitly marked as isComboBanner in POS
-      const markedCombos = POS_PRODUCTS.filter(item => isCombo(item) && item.isComboBanner !== false);
-      if (markedCombos.length > 0) return markedCombos;
-
-      // 2. Fallback to all combos
-      return POS_PRODUCTS.filter(item => isCombo(item));
-    }
-
-    function renderComboBanners() {
-      const section = document.getElementById('combo-section-wrapper');
-      const container = document.getElementById('combo-banners-container');
-      const dotsContainer = document.getElementById('combo-pagination-dots');
-      if (!container) return;
-
-      const combos = getComboItems();
-      if (combos.length === 0) {
-        if (section) section.classList.add('hidden');
-        return;
+      // 1. Render Left Sidebar
+      const sidebarPane = document.getElementById('sidebar-pane');
+      if (!activeCategoryId && catList.length > 0) {
+        activeCategoryId = slugify(catList[0]);
       }
-      if (section) section.classList.remove('hidden');
 
-      const t = getT();
-
-      // Render Combo Cards (Full width on swiper - Guaranteed Badge & Discount for ALL combos)
-      container.innerHTML = combos.map((combo) => {
-        const title = getItemName(combo);
-        const rawIngredients = getItemIngredients(combo) || [];
-
-        // Clean and join ingredients with " + "
-        const cleanedIngredients = rawIngredients
-          .map(ing => ing.replace(/^[0-9]+\s*(món|ly|bánh|phần)?\s*/i, '').trim())
-          .filter(Boolean);
-        const ingredientsText = cleanedIngredients.length > 0 
-          ? cleanedIngredients.join(' + ') 
-          : (combo.description || combo.descVi || '');
-
-        // 1. Guaranteed Discount / Original Price for ALL combos in Combo Đặc Trưng
-        const numPrice = Number(combo.price) || 0;
-        let origPrice = combo.originalPrice || combo.oldPrice || combo.compareAtPrice;
-        
-        // If not provided in POS or not greater than combo price, auto-calculate standard combo original price (~18-20% higher)
-        if (!origPrice || Number(origPrice) <= numPrice) {
-          if (numPrice >= 1000) {
-            origPrice = Math.round((numPrice / 0.8) / 5000) * 5000;
-            if (origPrice <= numPrice) origPrice = numPrice + 20000;
-          } else {
-            origPrice = Math.round((numPrice / 0.8) / 5) * 5;
-            if (origPrice <= numPrice) origPrice = numPrice + 25;
-          }
-        }
-
-        // 2. Guaranteed Savings Badge for ALL combos in Combo Đặc Trưng
-        let badge = getItemBadge(combo) || combo.savingsBadge || combo.savings;
-        if (!badge) {
-          const diff = Number(origPrice) - numPrice;
-          const savingK = (diff >= 1000) ? Math.round(diff / 1000) : diff;
-          if (savingK > 0) {
-            if (currentLanguage === 'en') badge = `⭐ Save ${savingK}K`;
-            else if (currentLanguage === 'fr') badge = `⭐ Économie ${savingK}K`;
-            else if (currentLanguage === 'ru') badge = `⭐ Экономия ${savingK}K`;
-            else badge = `⭐ Tiết Kiệm ${savingK}K`;
-          } else {
-            if (currentLanguage === 'en') badge = `⭐ Special Combo`;
-            else if (currentLanguage === 'fr') badge = `⭐ Formule Éco`;
-            else if (currentLanguage === 'ru') badge = `⭐ Топ Комбо`;
-            else badge = `⭐ Tiết Kiệm Đặc Biệt`;
-          }
-        }
-
-        const cardWidthClass = combos.length > 1 
-          ? 'w-[86%] min-w-[86%] max-w-[86%] sm:w-[88%] sm:min-w-[88%] sm:max-w-[88%] snap-start' 
-          : 'w-full snap-center';
-
+      sidebarPane.innerHTML = catList.map((cat, idx) => {
+        const catSlug = slugify(cat);
+        const isActive = activeCategoryId === catSlug || (!activeCategoryId && idx === 0);
         return `
-          <div onclick="openDishDetail(${combo.id}, event)" data-dish-id="${combo.id}" class="combo-slide-card group relative ${cardWidthClass} shrink-0 bg-white rounded-[24px] sm:rounded-[28px] p-4 sm:p-4.5 shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-gray-100/90 flex items-center justify-between cursor-pointer transition-all duration-300 active:scale-[0.99] select-none">
-            <div class="flex-1 pr-3 z-10 flex flex-col justify-between py-0.5 min-w-0">
-              <div>
-                <div class="mb-1"><span class="inline-flex items-center text-[8.5px] font-bold text-gray-800 bg-white/95 backdrop-blur-md px-2.5 py-0.5 rounded-full shadow-2xs border border-gray-200/70 font-mono">${badge}</span></div>
-                <h3 class="text-xs sm:text-sm font-black text-black tracking-tight leading-snug truncate">${title}</h3>
-                ${ingredientsText ? `<p class="text-[10.5px] sm:text-[11px] text-gray-400 font-medium line-clamp-2 mt-0.5 leading-relaxed">${ingredientsText}</p>` : ''}
-              </div>
-
-              <div class="flex items-center gap-2.5 mt-2.5">
-                <button type="button" class="px-3.5 py-1.5 rounded-full bg-black text-white text-[10px] sm:text-[10.5px] font-bold group-hover:bg-gray-800 transition-all shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95 shrink-0">
-                  <span>${t.comboBtn}</span>
-                  <span>➔</span>
-                </button>
-                <div class="flex items-baseline gap-1.5 shrink-0">
-                  <span class="text-[11px] text-gray-400 line-through font-mono">${formatPrice(origPrice)}</span>
-                  <span class="text-xs sm:text-sm font-black font-mono text-black">${formatPrice(combo.price)}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 3D Floating Cutout Real Food Photo with Ground Shadow -->
-            <div class="floating-dish-wrapper w-24 h-24 sm:w-28 sm:h-28 shrink-0">
-              <img src="${combo.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain">
-              <div class="floating-ground-shadow" style="width: 80%; height: 16px; bottom: 0px;"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      // Rule 3: Only show pagination dots if combos.length > 1
-      if (dotsContainer) {
-        if (combos.length > 1) {
-          dotsContainer.classList.remove('hidden');
-          dotsContainer.innerHTML = combos.map((_, idx) => `
-            <button onclick="goToComboSlide(${idx})" aria-label="Combo ${idx + 1}" class="combo-dot-btn transition-all duration-300 cursor-pointer ${
-              idx === 0 ? 'w-4 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
-            }"></button>
-          `).join('');
-          setupComboScrollListener();
-        } else {
-          dotsContainer.classList.add('hidden');
-          dotsContainer.innerHTML = '';
-        }
-      }
-    }
-
-    function goToComboSlide(index) {
-      const container = document.getElementById('combo-banners-container');
-      if (!container) return;
-      const cards = container.querySelectorAll('.combo-slide-card');
-      const card = cards[index];
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-      } else {
-        const step = container.querySelector('.combo-slide-card') ? (container.querySelector('.combo-slide-card').offsetWidth + 12) : container.offsetWidth;
-        container.scrollTo({ left: index * step, behavior: 'smooth' });
-      }
-    }
-
-    function setupComboScrollListener() {
-      const container = document.getElementById('combo-banners-container');
-      const dotsContainer = document.getElementById('combo-pagination-dots');
-      if (!container || !dotsContainer || container.hasAttribute('data-combo-listeners')) return;
-      container.setAttribute('data-combo-listeners', 'true');
-
-      let debounce;
-      container.addEventListener('scroll', () => {
-        clearTimeout(debounce);
-        debounce = setTimeout(() => {
-          const combos = getComboItems();
-          if (combos.length <= 1) return;
-          const card = container.querySelector('.combo-slide-card') || container.querySelector('.snap-start') || container.querySelector('.snap-center');
-          const step = card ? (card.offsetWidth + 12) : container.offsetWidth;
-          const activeIdx = Math.min(combos.length - 1, Math.max(0, Math.round(container.scrollLeft / step)));
-          const dots = dotsContainer.querySelectorAll('.combo-dot-btn');
-          dots.forEach((dot, idx) => {
-            if (idx === activeIdx) {
-              dot.className = 'combo-dot-btn w-4 h-1.5 bg-black rounded-full transition-all duration-300 cursor-pointer';
-            } else {
-              dot.className = 'combo-dot-btn w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full transition-all duration-300 cursor-pointer';
-            }
-          });
-        }, 50);
-      }, { passive: true });
-    }
-
-    function renderCategories() {
-      const container = document.getElementById('category-tabs-container');
-      container.innerHTML = CATEGORIES.map(cat => {
-        const isActive = cat.id === currentCategory;
-        const label = cat[currentLanguage] || cat.vi;
-
-        return `
-          <button data-cat-id="${cat.id}" onclick="setCategory('${cat.id}')" class="px-4 py-2 rounded-2xl text-xs font-bold tracking-tight transition-all cursor-pointer whitespace-nowrap active:scale-95 ${
-            isActive
-              ? 'bg-black text-white shadow-xs'
-              : 'bg-white text-gray-500 hover:text-black border border-gray-100 shadow-2xs font-semibold'
-          }">
-            ${label}
+          <button onclick="scrollToCategory('${catSlug}')" id="cat-btn-${catSlug}" class="sidebar-btn ${isActive ? 'active' : ''} w-full py-3 px-1.5 flex flex-col items-center gap-1 text-[11px] font-semibold transition-all text-center">
+            <span class="text-xl">${getCategoryIcon(cat)}</span>
+            <span class="leading-tight line-clamp-2">${getLocalizedCategoryName(cat)}</span>
           </button>
         `;
       }).join('');
-    }
 
-    let featuredAutoSlideTimer = null;
-    let userIdleResumeTimer = null;
-    let isUserInteractingWithCarousel = false;
-    let isProgrammaticScrolling = false;
-    let currentFeaturedIndex = 0;
-    let lastFeaturedFingerprint = '';
-
-    function getFeaturedItems() {
-      // 1. Prioritize dishes explicitly marked as isFeatured in POS!
-      const featured = POS_PRODUCTS.filter(i => i.isFeatured === true && i.available !== false);
-      if (featured.length > 0) return featured;
-
-      // 2. Fallback to signature dishes
-      const signatureIds = [5, 1, 6, 9, 10, 8];
-      const items = POS_PRODUCTS.filter(i => signatureIds.includes(i.id) && i.available !== false);
-      return items.length > 0 ? items : POS_PRODUCTS.filter(i => i.available !== false).slice(0, 6);
-    }
-
-    function getSlideStep() {
-      const container = document.getElementById('featured-products-carousel');
-      if (!container) return 170;
-      const firstCard = container.querySelector('.featured-slide-card');
-      if (firstCard && firstCard.offsetWidth > 0) {
-        return firstCard.offsetWidth + 12; // 12px gap-3
-      }
-      return (container.offsetWidth - 12) / 2 + 12;
-    }
-
-    function renderFeaturedCarousel(force = false) {
-      const container = document.getElementById('featured-products-carousel');
-      const dotsContainer = document.getElementById('featured-carousel-dots');
-      if (!container) return;
-
-      const featured = getFeaturedItems();
-      if (featured.length === 0) {
-        container.innerHTML = '';
-        if (dotsContainer) dotsContainer.innerHTML = '';
-        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
-        return;
-      }
-
-      // Compute fingerprint to avoid unnecessary DOM recreation during 4s sync polling
-      const currentFingerprint = JSON.stringify(featured.map(i => [
-        i.id, i.price, i.name || i.nameVi, i.image, i.badge || '', i.badgeVi || '',
-        i.badgeEn || '', i.badgeFr || '', i.available, currentLanguage, currentCurrency
-      ]));
-      if (!force && currentFingerprint === lastFeaturedFingerprint && container.children.length > 0) {
-        return; // Data hasn't changed, keep current carousel and scroll position intact!
-      }
-      lastFeaturedFingerprint = currentFingerprint;
-
-      if (featured.length === 1) {
-        // Single featured item: display full width without infinite clone loop or dots
-        const item = featured[0];
-        const title = getItemName(item);
-        const badge = getItemBadge(item);
-
-        container.innerHTML = `
-          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" class="featured-slide-card group w-full bg-gradient-to-b from-white via-white to-[#F9FAFB] rounded-[24px] p-3.5 shadow-[0_6px_22px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-black/[0.05] flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.98] select-none">
-            <div class="floating-dish-wrapper w-full h-28 p-1 mb-1 flex items-center justify-center relative">
-              <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
-              <div class="floating-ground-shadow"></div>
-              ${badge ? `<span class="absolute top-0 left-0 text-[8.5px] font-bold text-gray-800 bg-white/85 backdrop-blur-md px-2.5 py-0.5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/80 font-mono z-10">${badge}</span>` : ''}
-            </div>
-            <div class="flex items-center justify-between gap-2 mt-1.5 pt-0.5">
-              <h3 class="text-sm font-black text-black tracking-tight truncate leading-tight flex-1 min-w-0">${title}</h3>
-              <span class="text-[13px] font-black text-black font-mono shrink-0">${formatPrice(item.price)}</span>
-            </div>
-          </article>
+      // 2. Render Right Content Scroll
+      const rightPane = document.getElementById('right-scroll-pane');
+      if (products.length === 0) {
+        rightPane.innerHTML = `
+          <div class="py-16 text-center text-xs text-neutral-400">
+            <span class="text-3xl block mb-2">📋</span>
+            <p>${I18N[currentLanguage].emptyMenu}</p>
+          </div>
         `;
-        if (dotsContainer) dotsContainer.innerHTML = '';
-        if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
         return;
       }
 
-      // Render 3 buffer sets: Set 0 (left), Set 1 (middle active), Set 2 (right)
-      const loopedItems = [...featured, ...featured, ...featured];
-
-      container.innerHTML = loopedItems.map((item, idx) => {
-        const title = getItemName(item);
-        const badge = getItemBadge(item);
-        const realIdx = idx % featured.length;
+      rightPane.innerHTML = catList.map(cat => {
+        const catSlug = slugify(cat);
+        const catProducts = products.filter(p => (p.category || '').toLowerCase() === cat.toLowerCase() || (catList.length === 1));
+        if (catProducts.length === 0) return '';
 
         return `
-          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" data-real-index="${realIdx}" class="featured-slide-card snap-start snap-always group w-[calc(50%-6px)] min-w-[calc(50%-6px)] max-w-[calc(50%-6px)] shrink-0 bg-gradient-to-b from-white via-white to-[#F9FAFB] rounded-[24px] p-3 shadow-[0_6px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] border border-black/[0.05] flex flex-col justify-between cursor-pointer transition-all duration-300 active:scale-[0.98] select-none">
-            <!-- 3D Floating Cutout Compact Wrapper -->
-            <div class="floating-dish-wrapper w-full h-24 p-1 mb-1 flex items-center justify-center relative">
-              <img src="${item.image}" alt="${title}" class="floating-dish-img max-h-full max-w-full object-contain">
-              <div class="floating-ground-shadow"></div>
-              ${badge ? `<span class="absolute top-0 left-0 text-[8px] font-bold text-gray-800 bg-white/85 backdrop-blur-md px-2 py-0.5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-white/80 font-mono z-10">${badge}</span>` : ''}
+          <section id="sec-${catSlug}" class="space-y-2">
+            <!-- Sticky Section Header -->
+            <div class="sticky top-0 bg-white/95 backdrop-blur-sm py-2 border-b border-neutral-100 flex items-center justify-between z-10">
+              <h3 class="font-black text-xs text-black uppercase tracking-wider flex items-center gap-1.5">
+                <span>${getCategoryIcon(cat)}</span>
+                <span>${getLocalizedCategoryName(cat)}</span>
+              </h3>
+              <span class="text-[10px] text-neutral-400 font-mono">${catProducts.length} ${I18N[currentLanguage].dishesSuffix}</span>
             </div>
 
-            <!-- Title & Price Row (No category label) -->
-            <div class="flex items-center justify-between gap-1.5 mt-1 pt-0.5">
-              <h3 class="text-xs font-black text-black tracking-tight truncate leading-tight flex-1 min-w-0">${title}</h3>
-              <span class="text-[11px] font-black text-black font-mono shrink-0">${formatPrice(item.price)}</span>
+            <!-- Borderless Items Flow -->
+            <div class="divide-y divide-neutral-100">
+              ${catProducts.map(p => {
+                const isSoldOut = p.available === false;
+                const name = getLocalizedProductName(p);
+                const desc = getLocalizedProductDesc(p);
+                const defaultFallbackImg = 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=200&auto=format&fit=crop&q=80';
+                const imgSrc = p.image || defaultFallbackImg;
+
+                return `
+                  <div onclick="openDishModal(${p.id})" class="borderless-item py-3 flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-50/70 active:scale-99 transition-all ${isSoldOut ? 'opacity-50 grayscale' : ''}">
+                    <div class="flex-1 min-w-0">
+                      ${isSoldOut ? `
+                        <span class="text-[8px] font-bold text-red-700 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-mono inline-block mb-0.5">
+                          ${I18N[currentLanguage].soldOut}
+                        </span>
+                      ` : (p.badge ? `
+                        <span class="text-[8px] font-bold text-neutral-800 bg-neutral-100 px-1.5 py-0.2 rounded font-mono inline-block mb-0.5">
+                          ${p.badge}
+                        </span>
+                      ` : '')}
+
+                      <h4 class="font-bold text-xs text-black leading-snug truncate">${name}</h4>
+                      ${desc ? `<p class="text-[10px] text-neutral-500 line-clamp-1 mt-0.5">${desc}</p>` : ''}
+
+                      <div class="mt-1 flex items-baseline gap-2">
+                        <span class="font-mono text-xs font-black text-black">${formatPrice(p.price)}</span>
+                        ${p.originalPrice && p.originalPrice > p.price ? `
+                          <span class="font-mono text-[10px] text-neutral-400 line-through">${formatPrice(p.originalPrice)}</span>
+                        ` : ''}
+                      </div>
+                    </div>
+
+                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-neutral-100 shrink-0 border border-neutral-100 relative">
+                      <img src="${imgSrc}" alt="${name}" onerror="this.src='${defaultFallbackImg}'" class="w-full h-full object-cover">
+                      ${isSoldOut ? `<div class="absolute inset-0 bg-black/30 flex items-center justify-center text-[9px] font-bold text-white">HẾT</div>` : ''}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
             </div>
-          </article>
+          </section>
         `;
       }).join('');
 
-      // Render Pagination Dots (for the unique items)
-      currentFeaturedIndex = currentFeaturedIndex % featured.length;
-      if (dotsContainer) {
-        dotsContainer.innerHTML = featured.map((_, idx) => `
-          <button onclick="goToFeaturedSlide(${idx})" aria-label="Slide ${idx + 1}" class="carousel-dot-btn transition-all duration-300 cursor-pointer ${
-            idx === currentFeaturedIndex ? 'w-5 h-1.5 bg-black rounded-full' : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full'
-          }"></button>
-        `).join('');
-      }
+      // 3. Render Best Seller Marquee
+      renderMarquee(products);
 
-      // Initialize scroll position to the 2nd set (middle buffer) at currentFeaturedIndex
-      requestAnimationFrame(() => {
-        const step = getSlideStep();
-        const targetLeft = (featured.length + currentFeaturedIndex) * step;
-        container.style.scrollSnapType = 'none';
-        container.style.scrollBehavior = 'auto';
-        container.scrollLeft = targetLeft;
-        void container.offsetWidth;
-        container.style.scrollSnapType = 'x mandatory';
-      });
-
-      setupCarouselListeners();
-      startAutoSlide();
-    }
-
-    function nextFeaturedSlide() {
-      const container = document.getElementById('featured-products-carousel');
-      if (!container || isUserInteractingWithCarousel) return;
-      const featured = getFeaturedItems();
-      const N = featured.length;
-      if (N <= 1) return;
-
-      const step = getSlideStep();
-      if (step <= 0) return;
-
-      isProgrammaticScrolling = true;
-      currentFeaturedIndex++;
-
-      const targetLeft = (N + currentFeaturedIndex) * step;
-      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
-      updateCarouselDots(currentFeaturedIndex % N);
-
-      // When the smooth forward slide completes, seamlessly normalize position to Set 1 (0ms silent teleport)
-      setTimeout(() => {
-        if (currentFeaturedIndex >= N) {
-          currentFeaturedIndex = currentFeaturedIndex % N;
-          const resetLeft = (N + currentFeaturedIndex) * step;
-          container.style.scrollSnapType = 'none';
-          container.style.scrollBehavior = 'auto';
-          container.scrollLeft = resetLeft;
-          void container.offsetWidth;
-          container.style.scrollSnapType = 'x mandatory';
-        }
-        isProgrammaticScrolling = false;
-      }, 450);
-    }
-
-    function goToFeaturedSlide(realIndex) {
-      const container = document.getElementById('featured-products-carousel');
-      if (!container) return;
-      pauseCarouselForUserActivity();
-
-      const step = getSlideStep();
-      const featured = getFeaturedItems();
-      const N = featured.length;
-      if (N <= 1 || step <= 0) return;
-
-      currentFeaturedIndex = realIndex % N;
-      const targetLeft = (N + currentFeaturedIndex) * step;
-
-      isProgrammaticScrolling = true;
-      container.scrollTo({ left: targetLeft, behavior: 'smooth' });
-      updateCarouselDots(currentFeaturedIndex);
-
-      setTimeout(() => {
-        isProgrammaticScrolling = false;
-      }, 450);
-    }
-
-    function updateCarouselDots(forcedIdx = null) {
-      const container = document.getElementById('featured-products-carousel');
-      const dotsContainer = document.getElementById('featured-carousel-dots');
-      if (!container || !dotsContainer) return;
-
-      const featured = getFeaturedItems();
-      const N = featured.length;
-      if (N <= 1) return;
-
-      let activeIdx;
-      if (forcedIdx !== null && forcedIdx !== undefined) {
-        activeIdx = ((forcedIdx % N) + N) % N;
-      } else {
-        const step = getSlideStep();
-        if (step <= 0) return;
-        const rawIndex = Math.round(container.scrollLeft / step);
-        activeIdx = ((rawIndex % N) + N) % N;
-      }
-
-      const dots = dotsContainer.querySelectorAll('.carousel-dot-btn');
-      dots.forEach((dot, idx) => {
-        if (idx === activeIdx) {
-          dot.className = 'carousel-dot-btn w-5 h-1.5 bg-black rounded-full transition-all duration-300 cursor-pointer';
-        } else {
-          dot.className = 'carousel-dot-btn w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400 rounded-full transition-all duration-300 cursor-pointer';
-        }
-      });
-    }
-
-    function pauseCarouselForUserActivity() {
-      isUserInteractingWithCarousel = true;
-      if (userIdleResumeTimer) {
-        clearTimeout(userIdleResumeTimer);
-      }
-      userIdleResumeTimer = setTimeout(() => {
-        isUserInteractingWithCarousel = false;
-      }, 4000);
-    }
-
-    function setupCarouselListeners() {
-      const container = document.getElementById('featured-products-carousel');
-      if (!container || container.hasAttribute('data-listeners-bound')) return;
-      container.setAttribute('data-listeners-bound', 'true');
-
-      let scrollEndDebounce;
-      container.addEventListener('scroll', () => {
-        if (!isProgrammaticScrolling) {
-          pauseCarouselForUserActivity();
-          updateCarouselDots();
-        }
-        clearTimeout(scrollEndDebounce);
-        scrollEndDebounce = setTimeout(() => {
-          if (!isProgrammaticScrolling) {
-            // User finished manual scroll: calibrate index and normalize buffer
-            const featured = getFeaturedItems();
-            const N = featured.length;
-            if (N > 1) {
-              const step = getSlideStep();
-              if (step > 0) {
-                const rawIndex = Math.round(container.scrollLeft / step);
-                currentFeaturedIndex = ((rawIndex % N) + N) % N;
-                updateCarouselDots(currentFeaturedIndex);
-
-                // If user scrolled into Set 0 or Set 2, silently warp back to Set 1
-                if (rawIndex < N || rawIndex >= 2 * N) {
-                  const resetLeft = (N + currentFeaturedIndex) * step;
-                  container.style.scrollSnapType = 'none';
-                  container.style.scrollBehavior = 'auto';
-                  container.scrollLeft = resetLeft;
-                  void container.offsetWidth;
-                  container.style.scrollSnapType = 'x mandatory';
-                }
-              }
-            }
-          }
-        }, 120);
-      }, { passive: true });
-
-      // Direct touch / drag user events
-      const onUserStart = () => {
-        isProgrammaticScrolling = false;
-        pauseCarouselForUserActivity();
-      };
-      container.addEventListener('touchstart', onUserStart, { passive: true });
-      container.addEventListener('pointerdown', onUserStart, { passive: true });
-      container.addEventListener('mousedown', onUserStart, { passive: true });
-      container.addEventListener('wheel', onUserStart, { passive: true });
-
-      container.addEventListener('touchend', pauseCarouselForUserActivity, { passive: true });
-      container.addEventListener('pointerup', pauseCarouselForUserActivity, { passive: true });
-      container.addEventListener('mouseup', pauseCarouselForUserActivity, { passive: true });
-
-      // Pause when user is interacting with page search
-      const searchInput = document.getElementById('input-search');
-      if (searchInput) {
-        searchInput.addEventListener('focus', pauseCarouselForUserActivity);
-        searchInput.addEventListener('input', pauseCarouselForUserActivity);
+      // 4. Render Store Info
+      if (currentData.store) {
+        if (currentData.store.name) document.getElementById('store-name').innerText = currentData.store.name;
+        if (currentData.store.address) document.getElementById('store-address').innerText = `📍 ${currentData.store.address}`;
+        if (currentData.store.openHours) document.getElementById('store-status').innerText = `🟢 Open ${currentData.store.openHours}`;
       }
     }
 
-    function startAutoSlide() {
-      if (featuredAutoSlideTimer) clearInterval(featuredAutoSlideTimer);
-      featuredAutoSlideTimer = setInterval(() => {
-        if (!isUserInteractingWithCarousel) {
-          nextFeaturedSlide();
-        }
-      }, 3500);
-    }
+    function renderMarquee(products) {
+      const marqueeTrack = document.getElementById('marquee-track');
+      const featured = products.filter(p => p.isFeatured || (p.badge && p.badge.length > 0) || p.price > 0).slice(0, 8);
+      if (featured.length === 0) return;
 
-    function renderFeaturedGrid() {
-      renderFeaturedCarousel(true);
-    }
+      const itemsHtml = featured.map(p => {
+        const name = getLocalizedProductName(p);
+        const priceStr = formatPrice(p.price);
+        return `<span onclick="openDishModal(${p.id})" class="cursor-pointer hover:underline inline-flex items-center gap-1"><span>${p.emoji || '☕'}</span> <span>${name}</span> <span class="font-mono text-neutral-600">(${priceStr})</span></span>`;
+      }).join('<span>•</span>');
 
-    function renderMenuList() {
-      const t = getT();
-      const container = document.getElementById('menu-items-list');
-      if (!container) return;
-
-      let filtered = POS_PRODUCTS;
-
-      // If search query is applied via Enter, filter using diacritic-safe multi-language search
-      if (searchQuery.trim()) {
-        const searchMatches = searchFilterItems(searchQuery);
-        const matchIds = new Set(searchMatches.map(m => m.id));
-        filtered = POS_PRODUCTS.filter(item => matchIds.has(item.id));
-      } else if (currentCategory !== 'all') {
-        filtered = POS_PRODUCTS.filter(item => item.category === currentCategory);
-      }
-
-      document.getElementById('results-count-badge').innerText = `${filtered.length} ${t.itemsSuffix}`;
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="py-8 text-center text-gray-400 space-y-1.5 bg-white rounded-2xl border border-gray-100">
-            <div class="text-xl">🔍</div>
-            <div class="text-xs font-bold text-black">${t.noResults}</div>
-            <p class="text-[10px] text-gray-400">Từ khóa: "<strong class="text-black">${searchQuery}</strong>"</p>
-            <button onclick="resetSearchAndShowAll()" class="text-xs text-black underline font-semibold mt-1">${t.viewAllMenu}</button>
-          </div>
-        `;
-        return;
-      }
-
-      // Luxurious Real Food Cutout Overlapping Cards (Matching "Mon Panier" reference in Mockup)
-      container.innerHTML = filtered.map(item => {
-        const title = getItemName(item);
-
-        return `
-          <article onclick="openDishDetail(${item.id}, event)" data-dish-id="${item.id}" class="group relative flex items-center pl-[54px] sm:pl-[60px] cursor-pointer transition-all duration-300 active:scale-[0.98] select-none ${
-            !item.available ? 'opacity-60 grayscale' : ''
-          }">
-            <!-- Left Overlapping 3D Floating Cutout Food Photo (Centered exactly 50% on Card Left Edge) -->
-            <div class="floating-dish-wrapper absolute left-0 top-1/2 -translate-y-1/2 w-[108px] h-[108px] sm:w-[120px] sm:h-[120px] shrink-0 z-10 pointer-events-none">
-              <img src="${item.image}" alt="${title}" class="floating-dish-img w-full h-full object-contain rounded-2xl" loading="lazy">
-              <div class="floating-ground-shadow" style="width: 80%; height: 16px; bottom: 3px;"></div>
-              ${!item.available ? `
-                <div class="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl z-20">
-                  <span class="text-[8px] font-black text-white font-mono bg-red-600 px-1.5 py-0.5 rounded-full">${t.outOfStockBadge}</span>
-                </div>
-              ` : ''}
-            </div>
-
-            <!-- The White Card Container (Left edge sits right at the center of the dish image) -->
-            <div class="w-full bg-white/95 rounded-[26px] pl-[62px] sm:pl-[70px] pr-4 py-3.5 min-h-[86px] sm:min-h-[92px] shadow-[0_4px_18px_rgba(0,0,0,0.03),0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_26px_rgba(0,0,0,0.06)] border border-black/[0.05] flex items-center justify-between gap-2.5 transition-all">
-              <!-- Middle Content (Dish Name only) -->
-              <div class="flex-1 min-w-0 pr-1 flex flex-col justify-center">
-                <h4 class="text-xs sm:text-sm font-extrabold text-black tracking-tight leading-snug group-hover:text-gray-700 truncate">${title}</h4>
-              </div>
-
-              <!-- Right Price + Magnifying Glass Icon -->
-              <div class="flex items-center gap-2 shrink-0 pl-1">
-                <span class="text-sm sm:text-base font-black font-mono text-black tracking-tight">${formatPrice(item.price)}</span>
-                <span class="w-6 h-6 rounded-full bg-gray-100/90 flex items-center justify-center text-gray-600 group-hover:bg-black group-hover:text-white transition-all shadow-2xs">
-                  <svg class="w-3 h-3 stroke-current" fill="none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </span>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    let activeFlyer = null;
-
-    function openDishDetail(itemId, ev) {
-      const t = getT();
-      const item = POS_PRODUCTS.find(i => i.id === itemId);
-      if (!item) return;
-
-      if (navigator.vibrate) {
-        try { navigator.vibrate(25); } catch (e) {}
-      }
-
-      // 1. Locate the source image in the clicked card
-      let sourceImg = null;
-      let clickedCard = null;
-      if (ev && ev.currentTarget) {
-        clickedCard = ev.currentTarget;
-      } else if (ev && ev.target) {
-        clickedCard = ev.target.closest('article, .featured-slide-card, [data-dish-id]');
-      }
-      if (!clickedCard) {
-        clickedCard = document.querySelector(`[data-dish-id="${itemId}"]`);
-      }
-      if (clickedCard) {
-        sourceImg = clickedCard.querySelector('.floating-dish-img') || clickedCard.querySelector('img');
-      }
-
-      let srcRect = null;
-      if (sourceImg) {
-        srcRect = sourceImg.getBoundingClientRect();
-      }
-
-      const title = getItemName(item);
-      const desc = getItemDesc(item);
-      const ingredients = getItemIngredients(item);
-      const badge = getItemBadge(item);
-
-      document.getElementById('detail-price-display').innerText = formatPrice(item.price);
-
-      const ingredientsListHtml = (ingredients || []).map(ing => `
-        <li class="flex items-center gap-2.5 text-xs py-1.5 px-3 rounded-xl bg-[#F6F7F9] text-gray-800 border border-gray-100 font-medium">
-          <span class="w-1.5 h-1.5 rounded-full bg-black shrink-0"></span>
-          <span>${ing}</span>
-        </li>
-      `).join('');
-
-      const body = document.getElementById('dish-detail-body');
-      body.innerHTML = `
-        <!-- Floating Dish in Free Space with Ambient Ground Shadow (No box frame) -->
-        <div id="modal-hero-wrapper" class="floating-dish-wrapper w-full h-[190px] flex items-center justify-center relative overflow-visible py-2">
-          <img id="modal-hero-img" src="${item.image}" alt="${title}" class="floating-dish-img h-[175px] max-h-[175px] w-auto max-w-[280px] object-contain drop-shadow-md select-none pointer-events-none">
-          <div class="floating-ground-shadow" style="width: 170px; height: 18px; bottom: -2px;"></div>
-          ${badge ? `<span class="absolute top-0 left-2 text-[10px] font-bold text-gray-800 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full shadow-card border border-gray-200/80 font-mono z-10">${badge}</span>` : ''}
-        </div>
-
-        <!-- Detail Information Content Container (Staged Reveal from Faint to Crisp) -->
-        <div id="dish-detail-text-content" class="space-y-4" style="opacity: 0; filter: blur(5px); transition: opacity 280ms ease-out, filter 280ms ease-out;">
-          <div>
-            <div class="flex items-center justify-between gap-2">
-              <h2 class="text-lg font-extrabold text-black tracking-tight leading-snug flex-1 min-w-0">${title}</h2>
-              ${!item.available 
-                ? `<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full font-mono shrink-0">${t.outOfStockLabel}</span>` 
-                : `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full font-mono shrink-0">${t.availableLabel}</span>`}
-            </div>
-          </div>
-
-          <div class="p-3.5 rounded-2xl bg-[#F8F9FA] border border-gray-100">
-            <h4 class="text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t.descTitle}</h4>
-            <p class="text-xs text-gray-700 leading-relaxed font-normal">${desc}</p>
-          </div>
-
-          <div class="space-y-1.5">
-            <h4 class="text-xs font-bold text-black uppercase tracking-wider">${t.ingredientsTitle}</h4>
-            <ul class="grid grid-cols-1 gap-1.5">
-              ${ingredientsListHtml}
-            </ul>
-          </div>
-
-          <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] flex items-start gap-2">
-            <span>⚠️</span>
-            <span>${t.allergyWarning}</span>
-          </div>
-        </div>
+      marqueeTrack.innerHTML = `
+        <span class="text-black font-mono font-black">${I18N[currentLanguage].bestSellers}</span>
+        ${itemsHtml}
+        <span>•</span>
+        ${itemsHtml}
       `;
-
-      // 2. Open Modal & Perform 4-Stage Pure White Transition
-      const modal = document.getElementById('modal-dish-detail');
-      const sheet = document.getElementById('modal-dish-sheet');
-      const backdrop = document.getElementById('modal-dish-backdrop');
-      const modalHeroImg = document.getElementById('modal-hero-img');
-      const textContent = document.getElementById('dish-detail-text-content');
-      const modalFooter = document.getElementById('modal-dish-footer');
-
-      if (!modal || !sheet) return;
-
-      if (activeFlyer) {
-        activeFlyer.remove();
-        activeFlyer = null;
-      }
-
-      // Reset initial styles for pure white reveal
-      sheet.style.transition = 'none';
-      sheet.style.transform = 'translate3d(0, 0, 0)';
-      sheet.style.opacity = '1';
-      sheet.style.filter = 'none';
-
-      if (modalFooter) {
-        modalFooter.style.transition = 'none';
-        modalFooter.style.opacity = '0';
-        modalFooter.style.filter = 'blur(5px)';
-      }
-
-      if (backdrop) {
-        backdrop.style.transition = 'none';
-        backdrop.style.opacity = '0';
-      }
-
-      modal.classList.remove('hidden');
-
-      if (srcRect && srcRect.width > 0 && modalHeroImg) {
-        // Measure real rendered target image rect
-        const targetRect = modalHeroImg.getBoundingClientRect();
-
-        // Calculate true natural aspect ratio of the food image
-        const imgNaturalW = sourceImg.naturalWidth || modalHeroImg.naturalWidth || 1;
-        const imgNaturalH = sourceImg.naturalHeight || modalHeroImg.naturalHeight || 1;
-        const aspect = imgNaturalW / imgNaturalH;
-
-        // True visible image dimensions in source card
-        let srcVisibleW = srcRect.width;
-        let srcVisibleH = srcRect.height;
-        if (srcRect.width / srcRect.height > aspect) {
-          srcVisibleW = srcRect.height * aspect;
-        } else {
-          srcVisibleH = srcRect.width / aspect;
-        }
-
-        // True visible image dimensions in target modal
-        let tgtVisibleW = targetRect.width;
-        let tgtVisibleH = targetRect.height;
-        if (targetRect.width / targetRect.height > aspect) {
-          tgtVisibleW = targetRect.height * aspect;
-        } else {
-          tgtVisibleH = targetRect.width / aspect;
-        }
-
-        // Exact uniform scaling factor that scales the dish from source size to exact target size
-        const scale = tgtVisibleW / srcVisibleW;
-
-        const srcCenterX = srcRect.left + srcRect.width / 2;
-        const srcCenterY = srcRect.top + srcRect.height / 2;
-
-        const tgtCenterX = targetRect.left + targetRect.width / 2;
-        const tgtCenterY = targetRect.top + targetRect.height / 2;
-
-        const deltaX = tgtCenterX - srcCenterX;
-        const deltaY = tgtCenterY - srcCenterY;
-
-        // Hide modalHeroImg during flight so only flyer is seen
-        modalHeroImg.style.visibility = 'hidden';
-
-        // Create Shared Element Flying Proxy Image with soft ambient shadow
-        const flyer = document.createElement('div');
-        flyer.className = 'shared-element-flyer';
-        flyer.innerHTML = `<img src="${item.image}" alt="${title}" style="width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 26px rgba(0,0,0,0.16));">`;
-        flyer.style.cssText = `
-          position: fixed;
-          left: ${srcRect.left}px;
-          top: ${srcRect.top}px;
-          width: ${srcRect.width}px;
-          height: ${srcRect.height}px;
-          z-index: 99999;
-          pointer-events: none;
-          transform-origin: center center;
-          will-change: transform;
-          transition: transform 680ms cubic-bezier(0.18, 0.9, 0.22, 1);
-        `;
-        document.body.appendChild(flyer);
-        activeFlyer = flyer;
-
-        // Force browser to register starting position of flyer
-        void flyer.offsetWidth;
-
-        // Stage 1: Fade everything into pure luminous white (350ms)
-        if (backdrop) {
-          backdrop.style.transition = 'opacity 350ms ease-out';
-          backdrop.style.opacity = '1';
-        }
-
-        // Stage 2: Launch airy, smooth, graceful flight across pure white background (680ms)
-        flyer.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scale})`;
-
-        // Stage 3: As image nears destination (400ms), fade in faint text softly
-        setTimeout(() => {
-          if (textContent) {
-            textContent.style.transition = 'opacity 280ms ease-out, filter 280ms ease-out';
-            textContent.style.opacity = '0.35';
-            textContent.style.filter = 'blur(2.5px)';
-          }
-          if (modalFooter) {
-            modalFooter.style.transition = 'opacity 280ms ease-out, filter 280ms ease-out';
-            modalFooter.style.opacity = '0.35';
-            modalFooter.style.filter = 'blur(2.5px)';
-          }
-        }, 400);
-
-        // Stage 4: Once image arrives at final position (680ms), swap visibility instantly with zero flicker!
-        setTimeout(() => {
-          if (modalHeroImg) modalHeroImg.style.visibility = 'visible';
-          if (textContent) {
-            textContent.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
-            textContent.style.opacity = '1';
-            textContent.style.filter = 'blur(0px)';
-          }
-          if (modalFooter) {
-            modalFooter.style.transition = 'opacity 200ms ease-out, filter 200ms ease-out';
-            modalFooter.style.opacity = '1';
-            modalFooter.style.filter = 'blur(0px)';
-          }
-          if (flyer && flyer.parentNode) {
-            flyer.remove();
-          }
-          if (activeFlyer === flyer) activeFlyer = null;
-        }, 680);
-      } else {
-        // Fallback fade in
-        if (backdrop) {
-          backdrop.style.transition = 'opacity 300ms ease-out';
-          backdrop.style.opacity = '1';
-        }
-        if (textContent) {
-          textContent.style.opacity = '1';
-          textContent.style.filter = 'blur(0px)';
-        }
-        if (modalFooter) {
-          modalFooter.style.opacity = '1';
-          modalFooter.style.filter = 'blur(0px)';
-        }
-        if (modalHeroImg) {
-          modalHeroImg.style.visibility = 'visible';
-          modalHeroImg.style.opacity = '1';
-        }
-      }
-
-      // Subtle feedback on bottom nav
-      const bottomNav = document.querySelector('.fixed.bottom-4 > div');
-      if (bottomNav) {
-        bottomNav.classList.remove('nav-ground-ripple');
-        void bottomNav.offsetWidth;
-        bottomNav.classList.add('nav-ground-ripple');
-      }
     }
 
-    function closeDishDetailModal() {
-      if (activeFlyer) {
-        activeFlyer.remove();
-        activeFlyer = null;
-      }
-      const modal = document.getElementById('modal-dish-detail');
-      const sheet = document.getElementById('modal-dish-sheet');
-      const backdrop = document.getElementById('modal-dish-backdrop');
-      const modalHeroImg = document.getElementById('modal-hero-img');
-
-      if (modalHeroImg) modalHeroImg.style.visibility = 'visible';
-
-      if (sheet && backdrop) {
-        sheet.style.transition = 'opacity 240ms ease-in';
-        sheet.style.opacity = '0';
-        backdrop.style.transition = 'opacity 240ms ease-in';
-        backdrop.style.opacity = '0';
-        setTimeout(() => {
-          if (modal) modal.classList.add('hidden');
-        }, 240);
-      } else {
-        if (modal) modal.classList.add('hidden');
-      }
-
-      const bottomNav = document.querySelector('.fixed.bottom-4 > div');
-      if (bottomNav) bottomNav.classList.remove('nav-ground-ripple');
-    }
-
-    function setCategory(id) {
-      currentCategory = id;
-
-      // UX Option 1: Automatically clear active search when user picks a category
-      if (searchQuery) {
-        searchQuery = '';
-        const inputSearch = document.getElementById('input-search');
-        const clearBtn = document.getElementById('btn-clear-search');
-        if (inputSearch) inputSearch.value = '';
-        if (clearBtn) clearBtn.classList.add('hidden');
-        closeSearchSuggestions();
-      }
-
-      renderCategories();
-      renderMenuList();
-
-      // Auto-Center the active Category button smoothly
-      setTimeout(() => {
-        const activeTab = document.querySelector(`[data-cat-id="${id}"]`);
-        if (activeTab) {
-          activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
-      }, 30);
-    }
-
-    // Elegant Floating Call Service Toast Notification with vibration
-    let toastTimer = null;
-    function openHelpModal() {
-      showServiceToast();
-    }
-
-    function showServiceToast() {
-      const toast = document.getElementById('toast-service-call');
-      if (!toast) return;
-      if (navigator.vibrate) {
-        try { navigator.vibrate([40, 60, 40]); } catch(e) {}
-      }
-
-      const t = getT();
-      const tableLbl = getTableLabel();
-      document.getElementById('toast-title').innerText = t.toastTitle;
-      document.getElementById('toast-desc').innerText = currentLanguage === 'en'
-        ? `Our waitstaff is on the way to ${tableLbl} right away.`
-        : (currentLanguage === 'ru'
-          ? `Наш персонал уже направляется к ${tableLbl}.`
-          : (currentLanguage === 'fr'
-            ? `Notre équipe arrive à la ${tableLbl} dans un instant.`
-            : `Nhân viên Good Morning Café đang đến ${tableLbl} ngay trong giây lát.`));
-
-      toast.classList.remove('hidden');
-      requestAnimationFrame(() => {
-        toast.classList.remove('-translate-y-4', 'opacity-0');
-        toast.classList.add('translate-y-0', 'opacity-100');
-      });
-
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(hideServiceToast, 4500);
-    }
-
-    function hideServiceToast() {
-      const toast = document.getElementById('toast-service-call');
-      if (!toast) return;
-      toast.classList.remove('translate-y-0', 'opacity-100');
-      toast.classList.add('-translate-y-4', 'opacity-0');
-      setTimeout(() => toast.classList.add('hidden'), 300);
-    }
-
-    // Helper to strip Vietnamese diacritics for smart accent-insensitive search
-    function removeVietnameseDiacritics(str) {
-      if (!str) return '';
-      return str
+    function slugify(text) {
+      return String(text || '')
+        .toLowerCase()
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/đ/g, 'd')
-        .replace(/Đ/g, 'D');
+        .replace(/[\\u0300-\\u036f]/g, '')
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '') || 'cat';
     }
 
-    // Language-aware search matcher (Searches strictly within the current localized dish name)
-    function searchFilterItems(query) {
-      if (!query || !query.trim()) return [];
-      const rawQuery = query.trim().toLowerCase();
-      const cleanQuery = removeVietnameseDiacritics(rawQuery);
+    function scrollToCategory(catSlug) {
+      const el = document.getElementById('sec-' + catSlug);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-      return POS_PRODUCTS.filter(item => {
-        const name = (getItemName(item) || '').trim().toLowerCase();
-        if (!name) return false;
-
-        if (currentLanguage === 'vi' || currentLanguage === 'fr') {
-          // Vietnamese & French: support accent-sensitive & accent-insensitive matching on dish name
-          const cleanName = removeVietnameseDiacritics(name);
-          return name.includes(rawQuery) || cleanName.includes(cleanQuery);
-        } else {
-          // English & Russian: search strictly within the current localized dish name
-          return name.includes(rawQuery);
-        }
-      });
+      document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('cat-btn-' + catSlug);
+      if (btn) btn.classList.add('active');
+      activeCategoryId = catSlug;
     }
 
-    // Highlight search match in text (Diacritic-safe & case-insensitive)
-    function highlightSearchMatch(text, query) {
-      if (!query || !query.trim() || !text) return text;
-      const q = query.trim().toLowerCase();
-      const cleanQ = removeVietnameseDiacritics(q);
-      const cleanText = removeVietnameseDiacritics(text.toLowerCase());
-
-      const idx = cleanText.indexOf(cleanQ);
-      if (idx === -1) return text;
-
-      const matchOriginal = text.substr(idx, q.length);
-      return text.substring(0, idx) + `<mark class="bg-yellow-200 text-black font-extrabold px-0.5 rounded">${matchOriginal}</mark>` + text.substring(idx + q.length);
-    }
-
-    // Live search suggestions dropdown renderer
-    function renderSearchSuggestions(query) {
-      const dropdown = document.getElementById('search-suggestions-dropdown');
-      const content = document.getElementById('search-suggestions-content');
-      const countText = document.getElementById('search-suggestions-count-text');
-      if (!dropdown || !content) return;
-
-      if (!query || !query.trim()) {
-        dropdown.classList.add('hidden');
-        return;
-      }
-
-      const t = getT();
-      const matches = searchFilterItems(query);
-
-      const headerTitle = currentLanguage === 'vi' 
-        ? `GỢI Ý TÌM KIẾM (${matches.length} MÓN)` 
-        : (currentLanguage === 'ru' 
-          ? `РЕЗУЛЬТАТЫ (${matches.length})` 
-          : (currentLanguage === 'fr' ? `SUGGESTIONS (${matches.length})` : `SEARCH SUGGESTIONS (${matches.length})`));
-      
-      if (countText) countText.innerText = headerTitle;
-
-      if (matches.length === 0) {
-        content.innerHTML = `
-          <div class="px-4 py-5 text-center text-gray-400 space-y-1">
-            <div class="text-base">🔍</div>
-            <p class="text-xs text-gray-600 font-bold">${t.noResults}</p>
-            <p class="text-[10px] text-gray-400">Từ khóa: "<strong class="text-black">${query}</strong>"</p>
-          </div>
-        `;
-      } else {
-        content.innerHTML = matches.map(item => {
-          const rawTitle = getItemName(item);
-          const highlightedTitle = highlightSearchMatch(rawTitle, query);
-          const category = getItemCategoryName(item);
-
-          return `
-            <div onclick="selectSearchSuggestion(${item.id})" class="px-3.5 py-2.5 hover:bg-gray-50 border-b border-gray-100/70 last:border-0 flex items-center justify-between gap-3 cursor-pointer transition-colors active:scale-[0.99]">
-              <!-- Left 36px Thumbnail -->
-              <div class="w-9 h-9 relative shrink-0 rounded-xl overflow-hidden bg-gray-100 flex items-center justify-center">
-                <img src="${item.image}" alt="${rawTitle}" class="w-full h-full object-cover dish-img-shadow rounded-xl">
-                ${!item.available ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center text-[7px] text-white font-bold font-mono">HẾT</div>' : ''}
-              </div>
-
-              <!-- Middle: Highlighted Name & Status -->
-              <div class="flex-1 min-w-0 pr-1">
-                <h4 class="text-xs font-bold text-black tracking-tight truncate leading-tight">${highlightedTitle}</h4>
-                <p class="text-[10px] ${item.available ? 'text-gray-400' : 'text-red-500 font-semibold'} truncate mt-0.5">${item.available ? t.availableLabel : t.outOfStockLabel}</p>
-              </div>
-
-              <!-- Right: Price & Arrow Trigger -->
-              <div class="flex items-center gap-1.5 shrink-0 pl-1">
-                <span class="text-xs font-extrabold font-mono text-black">${formatPrice(item.price)}</span>
-                <span class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center text-[10px] text-gray-500 font-bold">➔</span>
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
-
-      dropdown.classList.remove('hidden');
-    }
-
-    function selectSearchSuggestion(itemId) {
-      closeSearchSuggestions();
-      openDishDetail(itemId);
-    }
-
-    function closeSearchSuggestions() {
-      const dropdown = document.getElementById('search-suggestions-dropdown');
-      if (dropdown) dropdown.classList.add('hidden');
-    }
-
-    // Modal listeners
-    document.getElementById('btn-close-detail').onclick = closeDishDetailModal;
-    document.getElementById('btn-detail-close-action').onclick = closeDishDetailModal;
-    document.getElementById('modal-dish-backdrop').onclick = closeDishDetailModal;
-
-    function handleSearchSubmit(e) {
-      if (e) e.preventDefault();
-      const inputSearch = document.getElementById('input-search');
-      if (!inputSearch) return;
-
-      const query = inputSearch.value.trim();
-      searchQuery = query;
-
-      // Reset category to 'all' so search matches across the whole menu
-      currentCategory = 'all';
-      renderCategories();
-
-      // Close autocomplete suggestions
-      closeSearchSuggestions();
-
-      // Dismiss mobile keyboard
-      inputSearch.blur();
-
-      // Apply search filter to the bottom menu list
-      renderMenuList();
-
-      // Smooth scroll down to the category tabs / all menu section
-      setTimeout(() => {
-        const targetSection = document.getElementById('category-nav-sticky') || document.getElementById('label-section-all');
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 80);
-    }
-
-    function resetSearchAndShowAll() {
-      searchQuery = '';
-      currentCategory = 'all';
-      const inputSearch = document.getElementById('input-search');
-      const clearBtn = document.getElementById('btn-clear-search');
-      if (inputSearch) inputSearch.value = '';
-      if (clearBtn) clearBtn.classList.add('hidden');
-      closeSearchSuggestions();
-      renderCategories();
-      renderMenuList();
-    }
-
-    // Search input listeners (Live suggestion dropdown when typing; menu below only updates on Enter)
-    const inputSearch = document.getElementById('input-search');
-    const clearBtn = document.getElementById('btn-clear-search');
-
-    inputSearch.oninput = (e) => {
-      const query = e.target.value;
-      clearBtn.classList.toggle('hidden', !query.trim());
-      
-      // When typing, ONLY render the suggestions dropdown above.
-      // The menu items list below is NOT affected until Enter is pressed.
-      renderSearchSuggestions(query);
-
-      // If user completely cleared the search bar text, restore the full menu list below
-      if (!query.trim() && searchQuery) {
-        searchQuery = '';
-        renderMenuList();
-      }
-    };
-
-    inputSearch.onkeydown = (e) => {
-      if (e.key === 'Enter') {
-        handleSearchSubmit(e);
-      }
-    };
-
-    inputSearch.onfocus = () => {
-      if (inputSearch.value.trim()) {
-        renderSearchSuggestions(inputSearch.value);
-      }
-    };
-
-    clearBtn.onclick = () => {
-      resetSearchAndShowAll();
-    };
-
-    // Close search suggestions when clicking outside
-    document.addEventListener('click', (e) => {
-      const searchWrapper = document.getElementById('search-bar-wrapper');
-      if (searchWrapper && !searchWrapper.contains(e.target)) {
-        closeSearchSuggestions();
-      }
-    });
-
-    // Language Switcher (Complete live multilingual update)
-    const btnLang = document.getElementById('btn-language');
-    const dropLang = document.getElementById('dropdown-language');
-    if (btnLang && dropLang) {
-      btnLang.onclick = (e) => {
-        e.stopPropagation();
-        dropLang.classList.toggle('hidden');
-      };
-
-      dropLang.querySelectorAll('button').forEach(btn => {
-        btn.onclick = () => {
-          currentLanguage = btn.getAttribute('data-lang') || 'vi';
-          try { localStorage.setItem('gm_menu_lang', currentLanguage); } catch (e) {}
-          const flags = { vi: '🇻🇳', en: '🇬🇧', ru: '🇷🇺', fr: '🇫🇷' };
-          const langDisplay = document.getElementById('lang-display');
-          if (langDisplay) langDisplay.innerText = flags[currentLanguage] || '🇻🇳';
-          dropLang.classList.add('hidden');
-          applyTranslations();
-          renderCategories();
-          renderFeaturedGrid();
-          renderComboBanners();
-          renderMenuList();
-          if (searchQuery && searchQuery.trim()) {
-            renderSearchSuggestions(searchQuery);
-          } else {
-            closeSearchSuggestions();
-          }
-        };
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!dropLang.contains(e.target) && e.target !== btnLang && !btnLang.contains(e.target)) {
-          dropLang.classList.add('hidden');
-        }
-      });
-    }
-
-    // ================= REAL-TIME POS DATA SYNCHRONIZATION ENGINE =================
-    // Firebase DB URL — được điền tự động bởi script Cài đặt Firebase.bat
-    // Nếu chưa setup, giá trị này là chuỗi rỗng và hệ thống dùng cache.
-    const FIREBASE_DB_URL = '';
-
-    const CATEGORY_TRANSLATIONS = {
-      'Coffee': { vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
-      'Cà Phê': { vi: 'Cà Phê', en: 'Coffee', ru: 'Кофе', fr: 'Café' },
-      'Tea': { vi: 'Trà', en: 'Tea', ru: 'Чай', fr: 'Thé' },
-      'Trà': { vi: 'Trà', en: 'Tea', ru: 'Чай', fr: 'Thé' },
-      'Milk Tea': { vi: 'Trà Sữa', en: 'Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
-      'Trà Sữa': { vi: 'Trà Sữa', en: 'Milk Tea', ru: 'Чай с молоком', fr: 'Thé au Lait' },
-      'Juice': { vi: 'Nước Ép', en: 'Juice', ru: 'Соки', fr: 'Jus Frais' },
-      'Nước Ép': { vi: 'Nước Ép', en: 'Juice', ru: 'Соки', fr: 'Jus Frais' },
-      'Breakfast': { vi: 'Điểm Tâm', en: 'Breakfast', ru: 'Завтрак', fr: 'Déjeuner' },
-      'Điểm Tâm': { vi: 'Điểm Tâm', en: 'Breakfast', ru: 'Завтрак', fr: 'Déjeuner' },
-      'Sandwich': { vi: 'Bánh Mì', en: 'Sandwich', ru: 'Сэндвичи', fr: 'Sandwichs' },
-      'Bánh Mì': { vi: 'Bánh Mì', en: 'Sandwich', ru: 'Сэндвичи', fr: 'Sandwichs' },
-      'Combo': { vi: 'Combo', en: 'Combos', ru: 'Комбо', fr: 'Formules' },
-      'Bakery': { vi: 'Bánh Ngọt', en: 'Bakery', ru: 'Выпечка', fr: 'Pâtisserie' },
-      'Bánh Ngọt': { vi: 'Bánh Ngọt', en: 'Bakery', ru: 'Выпечка', fr: 'Pâtisserie' },
-      'Dessert': { vi: 'Tráng Miệng', en: 'Dessert', ru: 'Десерты', fr: 'Dessert' },
-      'Tráng Miệng': { vi: 'Tráng Miệng', en: 'Dessert', ru: 'Десерты', fr: 'Dessert' },
-      'Snack': { vi: 'Ăn Vặt', en: 'Snacks', ru: 'Закуски', fr: 'En-cas' },
-      'Ăn Vặt': { vi: 'Ăn Vặt', en: 'Snacks', ru: 'Закуски', fr: 'En-cas' },
-    };
-
-    function getCategoryVi(cat) {
-      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].vi;
-      return cat;
-    }
-    function getCategoryEn(cat) {
-      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].en;
-      return cat;
-    }
-    function getCategoryRu(cat) {
-      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].ru;
-      return cat;
-    }
-    function getCategoryFr(cat) {
-      if (CATEGORY_TRANSLATIONS[cat]) return CATEGORY_TRANSLATIONS[cat].fr;
-      return cat;
-    }
-
-    const FALLBACK_CATEGORY_IMAGES = {
-      'Coffee': 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80',
-      'Tea': 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=300&auto=format&fit=crop&q=80',
-      'Milk Tea': 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&auto=format&fit=crop&q=80',
-      'Juice': 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300&auto=format&fit=crop&q=80',
-      'Breakfast': 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300&auto=format&fit=crop&q=80',
-      'Sandwich': 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=80',
-      'Combo': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&auto=format&fit=crop&q=80'
-    };
-
-    function applyMenuPayload(data, source) {
-      if (!data || !data.products || !Array.isArray(data.products)) return;
-
-      // 1. Sync Store Information from POS / Cloud
-      if (data.store) {
-        if (data.store.name) {
-          const el = document.getElementById('store-name-title');
-          if (el) el.innerText = data.store.name;
-        }
-        if (data.store.address) {
-          const el = document.getElementById('store-address-subtitle');
-          if (el) el.innerText = data.store.address;
-        }
-      }
-
-      // 2. Sync Categories dynamically
-      let categoriesChanged = false;
-      if (data.categories && Array.isArray(data.categories)) {
-        data.categories.forEach(catName => {
-          if (!CATEGORIES.some(c => c.id === catName)) {
-            CATEGORIES.push({
-              id: catName,
-              vi: getCategoryVi(catName),
-              en: getCategoryEn(catName),
-              ru: getCategoryRu(catName),
-              fr: getCategoryFr(catName)
-            });
-            categoriesChanged = true;
+    // Scroll spy for left sidebar sync
+    const rightScroll = document.getElementById('right-scroll-pane');
+    if (rightScroll) {
+      rightScroll.addEventListener('scroll', () => {
+        const sections = rightScroll.querySelectorAll('section');
+        let currentSec = '';
+        sections.forEach(sec => {
+          const top = sec.getBoundingClientRect().top;
+          if (top <= 180) {
+            currentSec = sec.id.replace('sec-', '');
           }
         });
-      }
-
-      // 3. Sync Products Map
-      const existingMap = new Map();
-      POS_PRODUCTS.forEach(p => existingMap.set(p.id, p));
-
-      const updatedProducts = data.products.map(item => {
-        const existing = existingMap.get(item.id);
-        const fallbackImg = FALLBACK_CATEGORY_IMAGES[item.category] || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=300&auto=format&fit=crop&q=80';
-
-        const nameVi = (item.name || (existing ? existing.nameVi : '') || '').trim();
-        const nameEn = (item.nameEn && item.nameEn.trim() !== nameVi) ? item.nameEn : (existing && existing.nameEn && existing.nameEn.trim() !== nameVi ? existing.nameEn : '');
-        const nameRu = (item.nameRu && item.nameRu.trim() !== nameVi) ? item.nameRu : (existing && existing.nameRu && existing.nameRu.trim() !== nameVi ? existing.nameRu : '');
-        const nameFr = (item.nameFr && item.nameFr.trim() !== nameVi) ? item.nameFr : (existing && existing.nameFr && existing.nameFr.trim() !== nameVi ? existing.nameFr : '');
-
-        return {
-          id: item.id,
-          name: item.name,
-          nameVi: nameVi,
-          nameEn: nameEn,
-          nameRu: nameRu,
-          nameFr: nameFr,
-          badge: item.badge || (existing ? existing.badge : ''),
-          badgeVi: item.badge || (existing ? existing.badgeVi : ''),
-          badgeEn: item.badgeEn || (existing ? existing.badgeEn : ''),
-          badgeRu: item.badgeRu || (existing ? existing.badgeRu : ''),
-          badgeFr: item.badgeFr || (existing ? existing.badgeFr : ''),
-          price: item.price,
-          originalPrice: (typeof item.originalPrice === 'number' || typeof item.oldPrice === 'number' || typeof item.compareAtPrice === 'number') 
-            ? (item.originalPrice || item.oldPrice || item.compareAtPrice) 
-            : (existing ? existing.originalPrice : undefined),
-          savingsBadge: item.savingsBadge || item.savings || (existing ? existing.savingsBadge : undefined),
-          category: item.category,
-          categoryVi: getCategoryVi(item.category),
-          categoryEn: getCategoryEn(item.category),
-          categoryRu: getCategoryRu(item.category),
-          categoryFr: getCategoryFr(item.category),
-          emoji: item.emoji || (existing ? existing.emoji : '🍽️'),
-          image: (item.image && item.image.trim()) ? item.image.trim() : (existing && existing.image ? existing.image : fallbackImg),
-          available: item.available !== false,
-          isFeatured: item.isFeatured === true,
-          isComboBanner: item.isComboBanner !== false,
-          description: item.description || '',
-          descVi: item.description || (existing ? existing.descVi : ''),
-          descEn: item.descEn || (existing ? existing.descEn : (item.description || '')),
-          descRu: item.descRu || (existing ? existing.descRu : (item.description || '')),
-          descFr: item.descFr || (existing ? existing.descFr : (item.description || '')),
-          ingredients: item.ingredients || '',
-          ingredientsVi: parseIngredientsList(item.ingredients || (existing ? existing.ingredientsVi : item.description)),
-          ingredientsEn: parseIngredientsList(item.ingredientsEn || (existing ? existing.ingredientsEn : item.description)),
-          ingredientsRu: parseIngredientsList(item.ingredientsRu || (existing ? existing.ingredientsRu : item.description)),
-          ingredientsFr: parseIngredientsList(item.ingredientsFr || (existing ? existing.ingredientsFr : item.description)),
-        };
-      });
-
-      const getFeatSig = () => getFeaturedItems().map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
-      const getAllSig = () => POS_PRODUCTS.map(i => `${i.id}_${i.price}_${i.name || i.nameVi || ''}_${i.badge || i.badgeVi || ''}_${i.available !== false}_${i.image || ''}`).join('|');
-
-      const prevFeaturedSig = getFeatSig();
-      const prevAllSig = getAllSig();
-
-      POS_PRODUCTS = updatedProducts;
-
-      const newFeaturedSig = getFeatSig();
-      const newAllSig = getAllSig();
-
-      // 4. Update Status Badge
-      const statusEl = document.getElementById('pos-status-badge');
-      if (statusEl) {
-        if (source === 'live') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200";
-          statusEl.innerHTML = "🟢 Trực tiếp tại Quán";
-        } else if (source === 'firebase') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-orange-50 text-orange-700 border border-orange-200";
-          statusEl.innerHTML = "🔥 Thực đơn cập nhật nhanh";
-        } else if (source === 'cloud') {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-sky-50 text-sky-700 border border-sky-200";
-          statusEl.innerHTML = "☁️ Thực đơn 24/7";
-        } else {
-          statusEl.className = "text-[10px] font-bold px-2 py-0.5 rounded-full inline-flex items-center gap-1 bg-slate-100 text-slate-700 border border-slate-200";
-          statusEl.innerHTML = "⚡ Ngoại tuyến";
+        if (currentSec && currentSec !== activeCategoryId) {
+          activeCategoryId = currentSec;
+          document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+          document.getElementById('cat-btn-' + currentSec)?.classList.add('active');
         }
-      }
+      });
+    }
 
-      if (categoriesChanged || prevAllSig !== newAllSig) {
-        renderCategories();
-        renderComboBanners();
-        renderMenuList();
-      }
-      if (prevFeaturedSig !== newFeaturedSig) {
-        renderFeaturedCarousel(true);
+    // ================= Interactive Handlers =================
+    function setCurrency(curr) {
+      currentCurrency = curr;
+      document.querySelectorAll('#curr-vnd, #curr-usd, #curr-eur').forEach(b => b.className = 'px-1.5 py-0.5 rounded text-gray-600');
+      document.getElementById(`curr-${curr.toLowerCase()}`).className = 'px-1.5 py-0.5 rounded bg-black text-white font-bold';
+      renderMenu();
+      showToast(`Tiền tệ: ${curr}`);
+    }
+
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.querySelectorAll('#lang-en, #lang-vi, #lang-ru, #lang-fr').forEach(b => b.className = 'px-1.5 py-0.5 rounded text-gray-600');
+      document.getElementById(`lang-${lang}`).className = 'px-1.5 py-0.5 rounded bg-black text-white';
+
+      document.getElementById('modal-label-price').innerText = I18N[lang].priceLabel;
+      document.getElementById('modal-btn-done').innerText = I18N[lang].closeBtn;
+
+      renderMenu();
+      showToast(`Ngôn ngữ: ${lang.toUpperCase()}`);
+    }
+
+    function copyWifiPassword() {
+      navigator.clipboard.writeText('999999999').then(() => {
+        showToast(I18N[currentLanguage].wifiCopied);
+      }).catch(() => {
+        showToast('📶 Pass WiFi: 999999999');
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast-message');
+      const text = document.getElementById('toast-text');
+      if (t && text) {
+        text.innerText = msg;
+        t.classList.remove('hidden');
+        setTimeout(() => t.classList.add('hidden'), 3000);
       }
     }
-    async function syncLivePOSData() {
-      // Layer 1: Thử kết nối trực tiếp POS (chỉ hoạt động khi POS đang bật và cùng mạng/tunnel)
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1500);
-        const res = await fetch('/api/public-menu', { signal: controller.signal });
-        clearTimeout(timeoutId);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.products && Array.isArray(data.products)) {
-            try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
-            applyMenuPayload(data, 'live');
-            return;
-          }
-        }
-      } catch (err) {
-        // POS offline hoặc không tiếp cận được, chuyển sang Layer 2
-      }
+    function hideToast() { document.getElementById('toast-message')?.classList.add('hidden'); }
 
-      // Layer 2 (Fallback): Firebase REST fetch một lần (dự phòng khi SSE chưa kết nối)
-      if (FIREBASE_DB_URL) {
+    function openDishModal(id) {
+      const item = (currentData.products || []).find(p => p.id === id);
+      if (!item) return;
+
+      const name = getLocalizedProductName(item);
+      const desc = getLocalizedProductDesc(item);
+      const defaultFallbackImg = 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500&auto=format&fit=crop&q=80';
+      const imgSrc = item.image || defaultFallbackImg;
+
+      document.getElementById('modal-price').innerText = formatPrice(item.price);
+      document.getElementById('modal-content').innerHTML = `
+        <div class="h-48 w-full rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
+          <img src="${imgSrc}" alt="${name}" onerror="this.src='${defaultFallbackImg}'" class="w-full h-full object-cover">
+        </div>
+        <div class="flex items-center gap-2 mt-2">
+          ${item.badge ? `<span class="text-[9px] font-mono px-2 py-0.5 rounded bg-black text-white font-bold">${item.badge}</span>` : ''}
+          <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-neutral-800 font-bold">${getLocalizedCategoryName(item.category || 'Món')}</span>
+          ${item.available === false ? `<span class="text-[9px] font-mono px-2 py-0.5 rounded bg-red-100 text-red-700 font-bold">${I18N[currentLanguage].soldOut}</span>` : ''}
+        </div>
+        <h3 class="text-base font-black text-black mt-1">${name}</h3>
+        ${desc ? `<p class="text-xs text-neutral-600 leading-relaxed">${desc}</p>` : ''}
+        ${item.ingredients ? `
+          <div class="pt-2 border-t border-neutral-100 mt-2">
+            <span class="text-[10px] font-bold text-neutral-400 block uppercase tracking-wider">${I18N[currentLanguage].ingredients}</span>
+            <p class="text-xs text-neutral-700 mt-0.5 font-medium">${item.ingredients}</p>
+          </div>
+        ` : ''}
+      `;
+      document.getElementById('dish-modal').classList.remove('hidden');
+    }
+    function closeDishModal() { document.getElementById('dish-modal').classList.add('hidden'); }
+
+    // ================= Dynamic Multi-Layer Data Sync Engine =================
+    async function fetchMenuFromPOS() {
+      // Layer 1: Try Local POS API directly
+      const endpoints = [
+        '/api/public-menu',
+        `${window.location.protocol}//${window.location.hostname}:3000/api/public-menu`,
+        `./menu.json?v=${Date.now()}`
+      ];
+
+      for (const ep of endpoints) {
         try {
-          const timestamp = Date.now();
-          const res = await fetch(`${FIREBASE_DB_URL}/menu.json?shallow=false&v=${timestamp}`);
+          const controller = new AbortController();
+          const tid = setTimeout(() => controller.abort(), 2000);
+          const res = await fetch(ep, { signal: controller.signal });
+          clearTimeout(tid);
           if (res.ok) {
             const data = await res.json();
             if (data && data.products && Array.isArray(data.products)) {
+              currentData = data;
               try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
-              applyMenuPayload(data, 'firebase');
+              renderMenu();
               return;
             }
           }
-        } catch (err) {
-          // Firebase không tiếp cận được, chuyển xuống cache
+        } catch (e) {
+          // Next endpoint
         }
       }
 
-      // Layer 3: LocalStorage Cache (hiển thị menu cũ, vẫn tốt hơn trang trắng)
+      // Layer 2: LocalStorage cache fallback
       try {
         const cached = localStorage.getItem('gm_cloud_menu_cache');
         if (cached) {
           const data = JSON.parse(cached);
           if (data && data.products && Array.isArray(data.products)) {
-            applyMenuPayload(data, 'cache');
-            return;
+            currentData = data;
+            renderMenu();
           }
         }
       } catch (e) {}
     }
 
-    // ================= Firebase SSE Real-time Engine =================
-    // Kết nối EventSource tới Firebase RTDB — nhận data ngay khi POS thay đổi
-    let firebaseSseSource = null;
-    let firebaseSseRetryCount = 0;
-    const FIREBASE_SSE_MAX_RETRY = 10;
-    const FIREBASE_SSE_RETRY_DELAYS = [1000, 2000, 3000, 5000, 8000, 13000, 21000, 34000, 55000, 89000];
-
-    function connectFirebaseSSE() {
-      if (!FIREBASE_DB_URL) return; // Firebase chưa được cấu hình
-
-      // Đóng kết nối cũ nếu có
-      if (firebaseSseSource) {
-        try { firebaseSseSource.close(); } catch (e) {}
-        firebaseSseSource = null;
-      }
-
-      const sseUrl = `${FIREBASE_DB_URL}/menu.json?alt=sse`;
-      const source = new EventSource(sseUrl);
-      firebaseSseSource = source;
-
-      // Firebase gửi event "put" khi data thay đổi
-      source.addEventListener('put', (event) => {
-        try {
-          const parsed = JSON.parse(event.data);
-          const data = parsed && parsed.data;
-          if (data && data.products && Array.isArray(data.products)) {
-            firebaseSseRetryCount = 0; // Reset retry counter khi nhận được data
-            try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
-            applyMenuPayload(data, 'firebase');
-          }
-        } catch (e) {}
-      });
-
-      // Firebase gửi event "patch" khi một phần data thay đổi (hiếm gặp)
-      source.addEventListener('patch', () => {
-        // Khi có patch, fetch lại toàn bộ để đảm bảo nhất quán
-        syncLivePOSData().catch(() => {});
-      });
-
-      source.onerror = () => {
-        if (source.readyState === EventSource.CLOSED) {
-          // Kết nối bị đóng — thử kết nối lại với exponential backoff
-          firebaseSseRetryCount++;
-          if (firebaseSseRetryCount <= FIREBASE_SSE_MAX_RETRY) {
-            const delay = FIREBASE_SSE_RETRY_DELAYS[Math.min(firebaseSseRetryCount - 1, FIREBASE_SSE_RETRY_DELAYS.length - 1)];
-            setTimeout(connectFirebaseSSE, delay);
-          }
+    // Load initial cache for 0ms visual rendering
+    try {
+      const cached = localStorage.getItem('gm_cloud_menu_cache');
+      if (cached) {
+        const data = JSON.parse(cached);
+        if (data && data.products) {
+          currentData = data;
+          renderMenu();
         }
-      };
-    }
+      }
+    } catch (e) {}
 
-    // Initial Render
-    applyTranslations();
-    renderCategories();
-    renderFeaturedCarousel();
-    renderComboBanners();
-    renderMenuList();
+    // Initial fetch from POS
+    fetchMenuFromPOS();
 
-    // Trigger immediate sync từ mọi nguồn có sẵn
-    syncLivePOSData();
+    // Re-fetch every 15 seconds to catch changes from POS Menu Management in real time
+    setInterval(fetchMenuFromPOS, 15000);
 
-    // Kết nối Firebase SSE (real-time push, <1 giây)
-    connectFirebaseSSE();
-
-    // Poll nhẹ mỗi 15 giây — fallback khi SSE không kết nối được
-    // (SSE là nguồn chính, poll chỉ là lưới an toàn)
-    setInterval(syncLivePOSData, 15000);
-
-    // Refresh ngay khi user quay lại tab
+    // Refresh when user switches back to tab
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) {
-        syncLivePOSData();
-        // Tái kết nối SSE nếu đã bị ngắt khi tab ẩn
-        if (!firebaseSseSource || firebaseSseSource.readyState === EventSource.CLOSED) {
-          firebaseSseRetryCount = 0;
-          connectFirebaseSSE();
-        }
-      }
+      if (!document.hidden) fetchMenuFromPOS();
     });
   </script>
 </body>
