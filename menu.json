@@ -43,7 +43,7 @@
       "ingredientsEn": "",
       "ingredientsFr": "",
       "ingredientsRu": "",
-      "isFeatured": true,
+      "isFeatured": false,
       "isComboBanner": true
     },
     {
@@ -67,7 +67,7 @@
       "ingredientsFr": "",
       "ingredientsRu": "",
       "isFeatured": false,
-      "isComboBanner": true
+      "isComboBanner": false
     },
     {
       "id": 2,
@@ -89,7 +89,7 @@
       "ingredientsEn": "",
       "ingredientsFr": "",
       "ingredientsRu": "",
-      "isFeatured": true,
+      "isFeatured": false,
       "isComboBanner": true
     },
     {
@@ -158,7 +158,7 @@
       "ingredientsEn": "",
       "ingredientsFr": "",
       "ingredientsRu": "",
-      "isFeatured": true,
+      "isFeatured": false,
       "isComboBanner": true
     },
     {
@@ -181,7 +181,7 @@
       "ingredientsEn": "",
       "ingredientsFr": "",
       "ingredientsRu": "",
-      "isFeatured": true,
+      "isFeatured": false,
       "isComboBanner": true
     },
     {
@@ -343,5 +343,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-12T07:02:57.839Z"
+  "updatedAt": "2026-09-12T07:03:03.247Z"
 }
