@@ -135,7 +135,7 @@
       "ingredientsEn": "",
       "ingredientsFr": "",
       "ingredientsRu": "",
-      "isFeatured": true,
+      "isFeatured": false,
       "isComboBanner": true
     },
     {
@@ -343,5 +343,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-12T06:52:09.761Z"
+  "updatedAt": "2026-09-12T07:02:57.839Z"
 }
