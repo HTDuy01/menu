@@ -334,7 +334,7 @@
     "Tea"
   ],
   "store": {
-    "name": "Good Morning Café",
+    "name": "Nâu",
     "address": "49 Phan Tình, Hội An",
     "phone": "0905 123 456",
     "logoEmoji": "☕",
@@ -343,5 +343,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-12T07:16:24.986Z"
+  "updatedAt": "2026-09-25T15:19:25.027Z"
 }
