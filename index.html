@@ -460,9 +460,14 @@
     }
 
     function renderMarquee(products) {
+      const marqueeContainer = document.getElementById('marquee-container');
       const marqueeTrack = document.getElementById('marquee-track');
-      const featured = products.filter(p => p.isFeatured || (p.badge && p.badge.length > 0) || p.price > 0).slice(0, 8);
-      if (featured.length === 0) return;
+      const featured = products.filter(p => p.isFeatured === true);
+      if (featured.length === 0) {
+        if (marqueeContainer) marqueeContainer.style.display = 'none';
+        return;
+      }
+      if (marqueeContainer) marqueeContainer.style.display = 'block';
 
       const itemsHtml = featured.map(p => {
         const name = getLocalizedProductName(p);
