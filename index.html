@@ -538,7 +538,420 @@
     ];
 
     let currentLanguage = 'vi';
-    let currentData = { products: [], categories: [], store: {} };
+    let currentData = {
+  "products": [
+    {
+      "id": 1,
+      "name": "Latte",
+      "price": 55000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Latte",
+      "nameKo": "라떼",
+      "nameHe": "לאטה",
+      "nameFr": "Café Latte",
+      "nameRu": "Латте",
+      "descEn": "Rich espresso with silky steamed milk",
+      "descKo": "진한 에스프레소와 부드러운 스팀 밀크",
+      "descHe": "אספרסו עשיר עם חלב מוקצף קטיפתי",
+      "descFr": "Espresso corsé et lait chaud velouté",
+      "descRu": "Насыщенный эспрессо с бархатистым молоком",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": true,
+      "isComboBanner": true
+    },
+    {
+      "id": 13,
+      "name": "Cà Phê Muối",
+      "price": 45000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Salt Coffee",
+      "nameKo": "소금 커피",
+      "nameHe": "קפה מלח",
+      "nameFr": "Café au Sel",
+      "nameRu": "Кофе с солью",
+      "descEn": "Robusta drip, sweet condensed milk and sea salt cream",
+      "descKo": "로부스타 원두, 달콤한 연유와 부드러운 소금 크림",
+      "descHe": "רובוסטה מסורתית, חלב מרוכז וקרם מלח ים",
+      "descFr": "Café robusta traditionnel au lait concentré et crème au sel",
+      "descRu": "Вьетнамский кофе со сгущенкой и солеными сливками",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 14,
+      "name": "Combo Trưa",
+      "price": 150000,
+      "category": "Combo",
+      "emoji": "☕",
+      "description": "Coffee và Pain out",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Lunch Combo (Meal & Drink)",
+      "nameKo": "런치 콤보 (식사 & 음료)",
+      "nameHe": "קומבו צהריים (מנה ומשקה)",
+      "nameFr": "Formule Déjeuner",
+      "nameRu": "Обеденный комбо-набор",
+      "descEn": "Hearty lunch dish served with fresh juice or iced tea",
+      "descKo": "든든한 점심 식사와 상큼한 음료 세트",
+      "descHe": "ארוחת צהריים משביעה עם מיץ טבעי או תה קר",
+      "descFr": "Plat du midi copieux avec un jus frais ou thé glacé",
+      "descRu": "Сытное обеденное блюдо с соком или чаем",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": false
+    },
+    {
+      "id": 2,
+      "name": "Cappuccino",
+      "price": 60000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Cappuccino",
+      "nameKo": "카푸치노",
+      "nameHe": "קפוצ'ינו",
+      "nameFr": "Cappuccino",
+      "nameRu": "Капучино",
+      "descEn": "Espresso, steamed milk and velvety foam",
+      "descKo": "에스프레소, 스팀 밀크 및 풍성한 우유 거품",
+      "descHe": "אספרסו, חלב חם וקצף עשיר",
+      "descFr": "Espresso, lait chaud et mousse onctueuse",
+      "descRu": "Эспрессо, горячее молоко и пышная пена",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 3,
+      "name": "Americano",
+      "price": 45000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Americano",
+      "nameKo": "아메리카노",
+      "nameHe": "אמריקנו",
+      "nameFr": "Café Américain",
+      "nameRu": "Американо",
+      "descEn": "Double espresso blended with hot water",
+      "descKo": "더블 에스프레소에 뜨거운 물을 더한 깔끔한 커피",
+      "descHe": "אספרסו כפול עם מים חמים בטעם עדין",
+      "descFr": "Double espresso allongé d'eau chaude",
+      "descRu": "Двойной эспрессо с горячей водой",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": false,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 4,
+      "name": "Espresso",
+      "price": 40000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Espresso",
+      "nameKo": "에스프레소",
+      "nameHe": "אספרסו",
+      "nameFr": "Espresso",
+      "nameRu": "Эспрессо",
+      "descEn": "Double shot pure aromatic espresso",
+      "descKo": "진한 더블 샷 프리미엄 에스프레소",
+      "descHe": "שוט כפול של אספרסו טהור ועשיר",
+      "descFr": "Double dose d'espresso intense et aromatique",
+      "descRu": "Двойной шот ароматного крепкого эспрессо",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 5,
+      "name": "Mocha",
+      "price": 65000,
+      "category": "Coffee",
+      "emoji": "☕",
+      "description": "Cacao, Condantion Milk , Expresso",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Mocha",
+      "nameKo": "모카",
+      "nameHe": "מוקה",
+      "nameFr": "Café Mocha",
+      "nameRu": "Мокка",
+      "descEn": "Espresso, dark cocoa and warm milk",
+      "descKo": "에스프레소, 다크 초콜릿과 따뜻한 우유",
+      "descHe": "אספרסו, קקאו מובחר וחלב חם",
+      "descFr": "Espresso, cacao pur et lait chaud",
+      "descRu": "Эспрессо, темный шоколад и горячее молоко",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 6,
+      "name": "Matcha Latte",
+      "price": 60000,
+      "category": "Tea",
+      "emoji": "🍵",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Matcha Latte",
+      "nameKo": "말차 라떼",
+      "nameHe": "מאצ'ה לאטה",
+      "nameFr": "Matcha Latte",
+      "nameRu": "Матча Латте",
+      "descEn": "Premium Japanese green tea with steamed milk",
+      "descKo": "일본산 프리미엄 녹차와 부드러운 우유",
+      "descHe": "אבקת תה ירוק יפני עם חלב מוקצף",
+      "descFr": "Thé vert matcha japonais et lait chaud",
+      "descRu": "Японский чай матча с молоком",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 7,
+      "name": "Milk Tea",
+      "price": 50000,
+      "category": "Milk Tea",
+      "emoji": "🧋",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Signature Milk Tea",
+      "nameKo": "나우 시그니처 밀크티",
+      "nameHe": "תה חלב מיוחד",
+      "nameFr": "Thé au Lait Signature",
+      "nameRu": "Фирменный чай с молоком",
+      "descEn": "Freshly brewed black tea infused with creamy milk",
+      "descKo": "깊게 우려낸 홍차와 부드러운 밀크",
+      "descHe": "תה שחור עשיר עם חלב קרמי",
+      "descFr": "Thé noir infusé au lait crémeux",
+      "descRu": "Заваренный черный чай со сливочным молоком",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 8,
+      "name": "Orange Juice",
+      "price": 45000,
+      "category": "Juice",
+      "emoji": "🍊",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Fresh Orange Juice",
+      "nameKo": "생 오렌지 주스",
+      "nameHe": "מיץ תפוזים טבעי",
+      "nameFr": "Jus d'Orange Pressé",
+      "nameRu": "Свежевыжатый апельсиновый сок",
+      "descEn": "100% freshly squeezed local sweet oranges",
+      "descKo": "100% 생 오렌지 착즙 주스",
+      "descHe": "מיץ תפוזים טבעי סחוט במקום",
+      "descFr": "Jus d'orange frais pressé à la commande",
+      "descRu": "Свежевыжатый натуральный апельсиновый сок",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": true,
+      "isComboBanner": true
+    },
+    {
+      "id": 9,
+      "name": "Croissant",
+      "price": 35000,
+      "originalPrice": 40000,
+      "category": "Breakfast",
+      "emoji": "🥐",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Butter Croissant",
+      "nameKo": "버터 크루아상",
+      "nameHe": "קרואסון חמאה",
+      "nameFr": "Croissant au Beurre",
+      "nameRu": "Масляный круассан",
+      "descEn": "Flaky, buttery pastry freshly baked daily",
+      "descKo": "매일 갓 구워낸 바삭하고 고소한 버터 크루아상",
+      "descHe": "מאפה שכבות פריך ועשיר בחמאה שנאפה מדי יום",
+      "descFr": "Pâtisserie feuilletée pur beurre cuite sur place",
+      "descRu": "Хрустящий слоеный круассан на сливочном масле",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 10,
+      "name": "Pancake",
+      "price": 70000,
+      "category": "Breakfast",
+      "emoji": "🥞",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Honey Granola Pancake",
+      "nameKo": "팬케이크",
+      "nameHe": "פנקייק",
+      "nameFr": "Pancakes Moelleux",
+      "nameRu": "Панкейки",
+      "descEn": "Fluffy warm pancakes served with honey and crunchy granola",
+      "descKo": "부드러운 팬케이크에 달콤한 꿀과 그래놀라",
+      "descHe": "פנקייק אוורירי חם עם דבש וגרנולה פריכה",
+      "descFr": "Pancakes moelleux servis avec miel et granola",
+      "descRu": "Пышные блинчики с медом и хрустящей гранолой",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 11,
+      "name": "Sandwich",
+      "price": 65000,
+      "category": "Sandwich",
+      "emoji": "🥪",
+      "description": "",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Hoi An Artisan Banh Mi",
+      "nameKo": "호이안 전통 반미",
+      "nameHe": "באן מי הוי אן",
+      "nameFr": "Banh Mi Artisanal de Hoi An",
+      "nameRu": "Традиционный Бань Ми Хойан",
+      "descEn": "Crispy baguette with pork pate, fresh herbs and house sauce",
+      "descKo": "바삭한 바게트 속 수제 파테, 신선한 야채와 특제 소스",
+      "descHe": "באגט פריך עם פאטה, ירקות טריים ורוטב הבית",
+      "descFr": "Baguette croustillante garnie de pâté et herbes fraîches",
+      "descRu": "Хрустящий багет с мясным паштетом и свежей зеленью",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": true
+    },
+    {
+      "id": 12,
+      "name": "Combo Breakfast",
+      "price": 120000,
+      "category": "Combo",
+      "emoji": "⭐",
+      "description": "Egg Avocado \nCoconut coffee",
+      "badge": "",
+      "ingredients": "",
+      "nameEn": "Morning Coffee & Pastry Combo",
+      "nameKo": "모닝 알뜰 콤보",
+      "nameHe": "קומבו בוקר משתלם",
+      "nameFr": "Formule Matin Éco",
+      "nameRu": "Утренний комбо-набор",
+      "descEn": "Your choice of morning coffee paired with warm croissant",
+      "descKo": "선택 가능한 모닝 커피 한 잔과 갓 구운 크루아상",
+      "descHe": "קפה בוקר לבחירה בליווי קרואסון חם",
+      "descFr": "Un café au choix accompagné d'un croissant chaud",
+      "descRu": "Утренний кофе на выбор со свежим круассаном",
+      "ingredientsEn": "",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
+      "ingredientsFr": "",
+      "ingredientsRu": "",
+      "available": true,
+      "isFeatured": false,
+      "isComboBanner": false
+    }
+  ],
+  "categories": [
+    "Breakfast",
+    "Coffee",
+    "Combo",
+    "Juice",
+    "Milk Tea",
+    "Sandwich",
+    "Tea"
+  ],
+  "store": {
+    "name": "Nâu",
+    "address": "49 Phan Tình, Hội An",
+    "phone": "",
+    "logoEmoji": "☕",
+    "isOpen": true,
+    "openHours": "06:30 - 22:30"
+  }
+};
     let activeCategoryId = '';
     let lastDataFingerprint = '';
 
@@ -596,10 +1009,33 @@
 
     // ================= TÌM TỪ ĐIỂN MÓN ĂN & RENDER TÊN KÉP =================
     function findDishDictionary(dishName) {
-      const norm = String(dishName || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      if (!dishName) return null;
+      const raw = String(dishName).trim();
+      const norm = raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      // 1. So khớp chính xác hoàn toàn trước
       for (const item of DISH_DICTIONARY) {
-        if (item.keys.some(k => norm.includes(k) || k.includes(norm))) {
+        if (item.keys.some(k => k === norm || k === raw.toLowerCase())) {
           return item;
+        }
+      }
+
+      // 2. Sắp xếp từ khóa dài nhất trước (Composite-first)
+      const sorted = [...DISH_DICTIONARY].sort((a, b) => {
+        const maxA = Math.max(...a.keys.map(k => k.length));
+        const maxB = Math.max(...b.keys.map(k => k.length));
+        return maxB - maxA;
+      });
+
+      for (const item of sorted) {
+        for (const k of item.keys) {
+          // Tránh lỗi từ khóa ngắn 2-3 ký tự như 'oi' (ổi) ăn nhầm vào 'croissant'
+          if (k.length <= 3) {
+            const regex = new RegExp(`\\b${k}\\b`, 'i');
+            if (regex.test(norm)) return item;
+          } else {
+            if (norm.includes(k)) return item;
+          }
         }
       }
       return null;
@@ -607,37 +1043,41 @@
 
     // Hiển thị chuẩn Tên Kép: [Tên Bản Ngữ] (Tên Tiếng Anh)
     function getLocalizedDishNameHtml(p) {
-      const dict = findDishDictionary(p.name);
-      const engName = dict ? dict.en : (p.nameEn || p.name);
+      // 1. Lấy trực tiếp từ trường dịch nếu máy POS đã cung cấp
+      let engName = p.nameEn;
+      let localName = '';
 
-      // 1. Nếu khách chọn Tiếng Anh: Chỉ hiển thị tiếng Anh chuẩn
+      if (currentLanguage === 'ru' && p.nameRu) localName = p.nameRu;
+      else if (currentLanguage === 'fr' && p.nameFr) localName = p.nameFr;
+      else if (currentLanguage === 'ko' && p.nameKo) localName = p.nameKo;
+      else if (currentLanguage === 'he' && p.nameHe) localName = p.nameHe;
+      else if (currentLanguage === 'vi' && (p.nameVi || p.name)) localName = p.nameVi || p.name;
+
+      // 2. Nếu thiếu, tra cứu từ điển ẩm thực
+      const dict = findDishDictionary(p.name);
+      if (dict) {
+        if (!engName) engName = dict.en;
+        if (!localName) localName = dict[currentLanguage] || dict.en;
+      }
+
+      if (!engName) engName = p.nameEn || p.name;
+      if (!localName) localName = p.name;
+
+      // 3. Nếu khách chọn Tiếng Anh: Chỉ hiển thị tiếng Anh chuẩn
       if (currentLanguage === 'en') {
         return `<span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${engName}</span>`;
       }
 
-      // 2. Nếu khách chọn Tiếng Việt: Tên Việt (Tên Tiếng Anh)
+      // 4. Nếu khách chọn Tiếng Việt: Tên Việt (Tên Tiếng Anh)
       if (currentLanguage === 'vi') {
-        const viName = dict ? dict.vi : (p.nameVi || p.name);
+        const viName = localName || p.name;
         return `
           <span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${viName}</span>
           <span class="text-[11.5px] font-normal text-[#8C5332] font-serif-brand tracking-normal">(${engName})</span>
         `;
       }
 
-      // 3. Khách chọn Tiếng Nga (RU), Hàn Quốc (KO), Israel (HE), Pháp (FR):
-      let localName = p.name;
-      if (dict && dict[currentLanguage]) {
-        localName = dict[currentLanguage];
-      } else if (currentLanguage === 'ru' && p.nameRu) {
-        localName = p.nameRu;
-      } else if (currentLanguage === 'fr' && p.nameFr) {
-        localName = p.nameFr;
-      } else if (currentLanguage === 'ko' && p.nameKo) {
-        localName = p.nameKo;
-      } else if (currentLanguage === 'he' && p.nameHe) {
-        localName = p.nameHe;
-      }
-
+      // 5. Khách chọn Tiếng Nga (RU), Hàn Quốc (KO), Israel (HE), Pháp (FR): Tên Bản Ngữ (Tên Tiếng Anh)
       return `
         <span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${localName}</span>
         <span class="text-[11.5px] font-normal text-[#8C5332] font-serif-brand tracking-normal">(${engName})</span>
@@ -645,18 +1085,19 @@
     }
 
     function getLocalizedProductDesc(p) {
+      if (currentLanguage === 'vi' && (p.descVi || p.description)) return p.descVi || p.description;
+      if (currentLanguage === 'en' && p.descEn) return p.descEn;
+      if (currentLanguage === 'ru' && p.descRu) return p.descRu;
+      if (currentLanguage === 'ko' && p.descKo) return p.descKo;
+      if (currentLanguage === 'he' && p.descHe) return p.descHe;
+      if (currentLanguage === 'fr' && p.descFr) return p.descFr;
+
       const dict = findDishDictionary(p.name);
       if (dict) {
         const descKey = 'desc' + currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1);
         if (dict[descKey]) return dict[descKey];
         if (dict.descEn) return dict.descEn;
       }
-      if (currentLanguage === 'vi') return p.descVi || p.description;
-      if (currentLanguage === 'en') return p.descEn || p.description;
-      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
-      if (currentLanguage === 'fr') return p.descFr || p.descEn || p.description;
-      if (currentLanguage === 'ko') return p.descKo || p.descEn || p.description;
-      if (currentLanguage === 'he') return p.descHe || p.descEn || p.description;
       return p.descEn || p.description || '';
     }
 
@@ -944,7 +1385,11 @@
 
     // ================= Dynamic Multi-Layer Data Sync Engine with Fingerprinting =================
     async function fetchMenuFromPOS() {
-      const endpoints = [
+      const isCloud = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+      const endpoints = isCloud ? [
+        `./menu.json?v=${Date.now()}`,
+        '/api/public-menu'
+      ] : [
         '/api/public-menu',
         `${window.location.protocol}//${window.location.hostname}:3000/api/public-menu`,
         `./menu.json?v=${Date.now()}`
@@ -958,8 +1403,8 @@
           clearTimeout(tid);
           if (res.ok) {
             const data = await res.json();
-            if (data && data.products && Array.isArray(data.products)) {
-              const newFingerprint = (data.products || []).map(i => `${i.id}_${i.price}_${i.name || ''}_${i.available !== false}`).join('|');
+            if (data && data.products && Array.isArray(data.products) && data.products.length > 0) {
+              const newFingerprint = (data.products || []).map(i => `${i.id}_${i.price}_${i.name || ''}_${i.available !== false}_${i.nameEn || ''}_${i.nameRu || ''}`).join('|');
               if (newFingerprint !== lastDataFingerprint) {
                 lastDataFingerprint = newFingerprint;
                 currentData = data;
@@ -1002,19 +1447,21 @@
         }
       });
 
-      // Tải cache trước nếu có để hiển thị tức thì 0ms
+      // Tải cache trước nếu có
       try {
         const cached = localStorage.getItem('gm_cloud_menu_cache');
         if (cached) {
           const data = JSON.parse(cached);
-          if (data && data.products) {
+          if (data && data.products && data.products.length > 0) {
             currentData = data;
-            renderMenu();
           }
         }
       } catch (e) {}
 
-      // Đồng bộ từ POS
+      // HIỂN THỊ TỨC THÌ 0ms VỚI DỮ LIỆU ĐÃ NẠP SẴN
+      renderMenu();
+
+      // Đồng bộ ngầm từ POS
       fetchMenuFromPOS();
     });
 
