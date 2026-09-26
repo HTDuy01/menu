@@ -87,7 +87,7 @@
     <!-- Toast Notification -->
     <div id="toast-message" class="hidden fixed top-14 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] p-3 rounded-2xl bg-[#2B1E16] text-[#FAF6F0] shadow-2xl border border-[#8C5332]/40 flex items-center justify-between text-xs font-semibold transition-all">
       <span id="toast-text">📶 Đã sao chép mật khẩu Wifi!</span>
-      <button onclick="hideToast()" class="text-[#C4B5A5] hover:text-white p-1">✕</button>
+      <button onclick="hideToast()" class="text-[#C4B5A5] hover:text-white p-1 cursor-pointer">✕</button>
     </div>
 
     <!-- ================= HEADER SECTION: BRAND & NAVIGATION ================= -->
@@ -99,7 +99,7 @@
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
           <span id="store-status" class="text-emerald-700 font-bold">🟢 Open 06:30-22:30</span>
           <span>•</span>
-          <span id="store-address">📍 Hội An</span>
+          <span id="store-address">📍 49 Phan Tình, Hội An</span>
         </div>
 
         <!-- Hidden Currency Element to preserve backward-compatibility with backend test suites -->
@@ -107,16 +107,16 @@
 
         <!-- 6-Language Switcher (VI, EN, KO, HE, FR, RU) -->
         <div class="flex items-center bg-[#F2ECE1] p-0.5 rounded-full text-[9px] font-bold text-[#5C4B3E] shadow-xs">
-          <button onclick="setLanguage('vi')" id="lang-vi" class="px-1.5 py-0.5 rounded-full transition-all bg-[#8C5332] text-white">VI</button>
-          <button onclick="setLanguage('en')" id="lang-en" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">EN</button>
-          <button onclick="setLanguage('ko')" id="lang-ko" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">한국어</button>
-          <button onclick="setLanguage('he')" id="lang-he" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">עברית</button>
-          <button onclick="setLanguage('fr')" id="lang-fr" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">FR</button>
-          <button onclick="setLanguage('ru')" id="lang-ru" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">RU</button>
+          <button onclick="setLanguage('vi')" id="lang-vi" class="px-1.5 py-0.5 rounded-full transition-all bg-[#8C5332] text-white cursor-pointer">VI</button>
+          <button onclick="setLanguage('en')" id="lang-en" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer">EN</button>
+          <button onclick="setLanguage('ko')" id="lang-ko" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer">한국어</button>
+          <button onclick="setLanguage('he')" id="lang-he" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer">עברית</button>
+          <button onclick="setLanguage('fr')" id="lang-fr" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer">FR</button>
+          <button onclick="setLanguage('ru')" id="lang-ru" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer">RU</button>
         </div>
       </div>
 
-      <!-- Main Brand Identity -->
+      <!-- Main Brand Identity (Tên quán luôn giữ nguyên theo yêu cầu) -->
       <div class="text-center pt-1 pb-0.5">
         <h1 id="store-name" class="font-serif-brand text-2xl font-bold tracking-widest text-[#2B1E16] uppercase">Nâu</h1>
         <p id="ui-tagline" class="font-serif-brand text-[9.5px] tracking-[0.25em] text-[#8C5332] uppercase font-semibold">
@@ -124,18 +124,18 @@
         </p>
       </div>
 
-      <!-- Quick 1-Touch WiFi Card (Giữ nguyên SSID theo yêu cầu) -->
+      <!-- Quick 1-Touch WiFi Card -->
       <div class="py-1.5 px-3 bg-[#F3ECE1] rounded-xl border border-[#E8DED2] flex items-center justify-between text-[11px] text-[#695345]">
         <div class="flex items-center space-x-1.5">
           <svg class="w-3.5 h-3.5 text-[#8C5332]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
           <span>WiFi: <strong class="text-[#2B1E16]">Thi Thi Spa 2</strong> <span class="text-[#A69586]">|</span> Pass: <strong class="font-mono text-[#2B1E16]">999999999</strong></span>
         </div>
         <button onclick="copyWifiPassword()" id="btn-copy-wifi" class="text-[#8C5332] font-bold text-[10px] uppercase hover:underline cursor-pointer">
-          Copy
+          Sao chép
         </button>
       </div>
 
-      <!-- Best Seller Running Marquee (Không icon hoạt hình, màu cà phê sang trọng) -->
+      <!-- Best Seller Running Marquee -->
       <div id="marquee-container" class="overflow-hidden py-1 bg-[#F5EDE3]/70 rounded-lg border border-[#EFE6DA]">
         <div id="marquee-track" class="marquee-track flex items-center gap-3 text-[10.5px]">
           <span id="ui-bestsellers-label" class="text-[#8C5332] font-serif-brand font-bold uppercase tracking-wider">🔥 BÁN CHẠY:</span>
@@ -147,12 +147,12 @@
     <!-- ================= 2-COLUMN SPLIT VIEWPORT ================= -->
     <div class="flex-1 flex overflow-hidden">
       
-      <!-- CỘT DANH MỤC TRÁI (LEFT SIDEBAR): 100% Chữ Thanh Lịch, Không Icon Trẻ Con -->
-      <aside id="sidebar-pane" class="w-[30%] max-w-[110px] bg-[#F2ECE1] border-r border-[#E8DEC\-D] overflow-y-auto no-scrollbar py-1 flex flex-col text-xs shrink-0">
+      <!-- CỘT DANH MỤC TRÁI (LEFT SIDEBAR): Tự động đổi 100% theo ngôn ngữ -->
+      <aside id="sidebar-pane" class="w-[30%] max-w-[110px] bg-[#F2ECE1] border-r border-[#E8DED2] overflow-y-auto no-scrollbar py-1 flex flex-col text-xs shrink-0">
         <!-- Render động từ danh mục POS -->
       </aside>
 
-      <!-- CỘT MÓN ĂN PHẢI (RIGHT CONTENT): 100% Chữ & Giá VNĐ, Không Ảnh Rườm Rà -->
+      <!-- CỘT MÓN ĂN PHẢI (RIGHT CONTENT): 100% Chữ & Giá VNĐ, Tên Kép [Bản Ngữ] (Tiếng Anh) -->
       <main id="right-scroll-pane" class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-5 bg-[#FAF6F0]">
         <div class="py-16 text-center text-xs text-[#8F7D70]">
           <span class="inline-block animate-spin text-lg mb-2">⏳</span>
@@ -163,14 +163,14 @@
     </div>
 
     <!-- ================= FOOTER ================= -->
-    <footer class="bg-[#FAF6F0] border-t border-[#EFE6DA] px-4 py-2 text-center text-[10px] text-[#8F7D70] shrink-0">
+    <footer class="bg-[#FAF6F0] border-t border-[#EFE6DA] px-4 py-2.5 text-center text-[10px] text-[#8F7D70] shrink-0">
       <p class="font-serif-brand italic" id="ui-footer-brand">Nâu Coffee &amp; Breakfast • 49 Phan Tình, Hội An</p>
-      <p class="text-[9px] text-[#B0A398] mt-0.5" id="ui-footer-note">Thanh toán bằng VNĐ tại quầy hoặc tại bàn</p>
+      <p class="text-[9.5px] text-[#8C5332] font-medium mt-0.5" id="ui-footer-note">Thanh toán bằng VNĐ tại quầy hoặc tại bàn</p>
     </footer>
 
-    <!-- ================= DISH MODAL: THÔNG TIN CHI TIẾT & ĂN KIÊNG (PHƯƠNG ÁN A: 100% CHỮ) ================= -->
+    <!-- ================= DISH MODAL ================= -->
     <div id="dish-modal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-xs">
-      <div class="w-full max-w-md bg-[#FAF6F0] rounded-t-[32px] p-5 shadow-2xl max-h-[85vh] flex flex-col relative border-t border-[#E8DEC\-C]">
+      <div class="w-full max-w-md bg-[#FAF6F0] rounded-t-[32px] p-5 shadow-2xl max-h-[85vh] flex flex-col relative border-t border-[#E8DED2]">
         <button onclick="closeDishModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-[#EFE6DA] text-[#5C4B3E] hover:text-[#2B1E16] flex items-center justify-center font-bold text-xs cursor-pointer">✕</button>
         <div id="modal-content" class="overflow-y-auto no-scrollbar space-y-3 flex-1 mt-1 pr-1"></div>
         <div class="pt-3 mt-2 border-t border-[#EFE6DA] flex items-center justify-between shrink-0">
@@ -187,15 +187,14 @@
 
   </div>
 
-  <!-- ================= JAVASCRIPT LOGIC & LOCALIZATION ENGINE ================= -->
+  <!-- ================= JAVASCRIPT LOGIC & SMART DUAL-NAME ENGINE ================= -->
   <script>
-    // Dữ liệu từ điển 6 ngôn ngữ (VI, EN, KO, HE, FR, RU)
+    // 1. Dữ liệu dịch các phần tử giao diện chung (UI Strings)
     const I18N = {
       vi: {
         tagline: "Cà phê & Điểm tâm sáng",
         openStatus: "🟢 Mở cửa 06:30 - 22:30",
-        address: "📍 49 Phan Tình, Hội An",
-        wifiCopied: "📶 Đã sao chép WiFi: 999999999",
+        wifiCopied: "📶 Đã sao chép mật khẩu WiFi: 999999999",
         bestSellers: "BÁN CHẠY NHẤT:",
         dishesSuffix: "món",
         soldOut: "HẾT HÀNG",
@@ -205,23 +204,12 @@
         ingredients: "Thành phần & Lưu ý ăn kiêng",
         emptyMenu: "Chưa có món trong danh mục này.",
         footerNote: "Thanh toán bằng VNĐ tại quầy hoặc tại bàn",
-        loading: "Đang đồng bộ thực đơn từ máy POS...",
-        categoryNames: {
-          'Coffee': 'Cà Phê', 'Cà phê': 'Cà Phê', 'Espresso': 'Cà Phê Máy', 'Espresso Machine': 'Cà Phê Máy',
-          'Vietnamese Coffee': 'Cà Phê Việt', 'Specialty Latte': 'Specialty Latte',
-          'Tea': 'Trà & Trà Hoa', 'Trà': 'Trà & Trà Hoa', 'Milk Tea': 'Trà Sữa', 'Trà sữa': 'Trà Sữa',
-          'Juice': 'Nước Ép Tươi', 'Nước ép': 'Nước Ép Tươi', 'Fresh Juice': 'Nước Ép Tươi',
-          'Breakfast': 'Điểm Tâm & Bánh', 'Điểm tâm': 'Điểm Tâm & Bánh', 'Bread & Toast': 'Bánh Mì & Toast',
-          'Sandwich': 'Bánh Mì Hội An', 'Bánh mì': 'Bánh Mì Hội An', 'Combo': 'Combo Sáng Tiết Kiệm',
-          'Bowls': 'Healthy Bowls', 'Pancakes': 'Bánh Pancake', 'Smoothie & Lassi': 'Sinh Tố & Lassi',
-          'Beer': 'Bia', 'Freeze': 'Đá Xay', 'Lemon': 'Chanh & Soda'
-        }
+        loading: "Đang đồng bộ thực đơn từ máy POS..."
       },
       en: {
         tagline: "Coffee & Breakfast",
         openStatus: "🟢 Open 06:30 - 22:30",
-        address: "📍 49 Phan Tinh, Hoi An",
-        wifiCopied: "📶 Copied WiFi: 999999999",
+        wifiCopied: "📶 Copied WiFi Password: 999999999",
         bestSellers: "BEST SELLERS:",
         dishesSuffix: "items",
         soldOut: "SOLD OUT",
@@ -230,23 +218,12 @@
         copyBtn: "Copy",
         ingredients: "Ingredients & Dietary Notes",
         emptyMenu: "No dishes found in this category.",
-        footerNote: "Settled in VND at the cashier or your table",
-        loading: "Syncing menu with POS terminal...",
-        categoryNames: {
-          'Coffee': 'Coffee', 'Cà phê': 'Coffee', 'Espresso': 'Espresso Machine', 'Espresso Machine': 'Espresso Machine',
-          'Vietnamese Coffee': 'Vietnamese Coffee', 'Specialty Latte': 'Specialty Latte',
-          'Tea': 'Artisan Tea', 'Trà': 'Artisan Tea', 'Milk Tea': 'Milk Tea', 'Trà sữa': 'Milk Tea',
-          'Juice': 'Fresh Juice', 'Nước ép': 'Fresh Juice', 'Fresh Juice': 'Fresh Juice',
-          'Breakfast': 'Brunch & Bakery', 'Điểm tâm': 'Brunch & Bakery', 'Bread & Toast': 'Bread & Toast',
-          'Sandwich': 'Hoi An Banh Mi', 'Bánh mì': 'Hoi An Banh Mi', 'Combo': 'Morning Combos',
-          'Bowls': 'Healthy Bowls', 'Pancakes': 'Pancakes', 'Smoothie & Lassi': 'Smoothie & Lassi',
-          'Beer': 'Local Beers', 'Freeze': 'Freeze Blends', 'Lemon': 'Lemon Drinks'
-        }
+        footerNote: "Settled in VND at the cashier or at your table",
+        loading: "Syncing menu with POS terminal..."
       },
       ko: {
         tagline: "커피 & 아침 식사",
         openStatus: "🟢 영업 중 06:30 - 22:30",
-        address: "📍 판띤 49번지, 호이안",
         wifiCopied: "📶 와이파이 비밀번호 복사 완료: 999999999",
         bestSellers: "인기 메뉴:",
         dishesSuffix: "개 메뉴",
@@ -256,24 +233,13 @@
         copyBtn: "복사",
         ingredients: "원재료 및 알레르기 안내",
         emptyMenu: "해당 카테고리에 메뉴가 없습니다.",
-        footerNote: "카운터 또는 테이블에서 베트남 동(VND)으로 결제",
-        loading: "메뉴를 실시간 동기화 중입니다...",
-        categoryNames: {
-          'Coffee': '커피', 'Cà phê': '커피', 'Espresso': '에스프레소 머신', 'Espresso Machine': '에스프레소 머신',
-          'Vietnamese Coffee': '베트남 전통 커피', 'Specialty Latte': '스페셜티 라떼',
-          'Tea': '차 & 허브티', 'Trà': '차 & 허브티', 'Milk Tea': '밀크티', 'Trà sữa': '밀크티',
-          'Juice': '생과일 주스', 'Nước ép': '생과일 주스', 'Fresh Juice': '생과일 주스',
-          'Breakfast': '브런치 & 베이커리', 'Điểm tâm': '브런치 & 베이커리', 'Bread & Toast': '토스트 & 사워도우',
-          'Sandwich': '호이안 반미', 'Bánh mì': '호이안 반미', 'Combo': '모닝 콤보 세트',
-          'Bowls': '요거트 & 그래놀라 볼', 'Pancakes': '팬케이크', 'Smoothie & Lassi': '스무디 & 라씨',
-          'Beer': '맥주', 'Freeze': '프리즈', 'Lemon': '레몬 & 에이드'
-        }
+        footerNote: "카운터 또는 테이블에서 베트남 동(VND)으로 결제해 주세요",
+        loading: "메뉴를 실시간 동기화 중입니다..."
       },
       he: {
         tagline: "קפה וארוחות בוקר",
         openStatus: "🟢 פתוח 06:30 - 22:30",
-        address: "📍 פאן טין 49, הוי אן",
-        wifiCopied: "📶 סיסמת WiFi הועתקה: 999999999",
+        wifiCopied: "📶 סיסמת ה-WiFi הועתקה: 999999999",
         bestSellers: "הכי נמכרים:",
         dishesSuffix: "פריטים",
         soldOut: "אזל מהמלאי",
@@ -283,23 +249,12 @@
         ingredients: "רכיבים ומידע על אלרגנים",
         emptyMenu: "אין פריטים בקטגוריה זו.",
         footerNote: "התשלום בוויאטנם דונג (VND) בדלפק או בשולחן",
-        loading: "טוען תפריט ממערכת ה-POS...",
-        categoryNames: {
-          'Coffee': 'קפה', 'Cà phê': 'קפה', 'Espresso': 'מכונת אספרסו', 'Espresso Machine': 'מכונת אספרסו',
-          'Vietnamese Coffee': 'קפה וייטנאמי', 'Specialty Latte': 'ספיישל לאטה',
-          'Tea': 'תה', 'Trà': 'תה', 'Milk Tea': 'תה חלב', 'Trà sữa': 'תה חלב',
-          'Juice': 'מיץ סחוט טרי', 'Nước ép': 'מיץ סחוט טרי', 'Fresh Juice': 'מיץ סחוט טרי',
-          'Breakfast': 'ארוחות בוקר ומאפים', 'Điểm tâm': 'ארוחות בוקר ומאפים', 'Bread & Toast': 'טוסט ולחם מחמצת',
-          'Sandwich': 'באן מי הוי אן', 'Bánh mì': 'באן מי הוי אן', 'Combo': 'ארוחות קומבו בוקר',
-          'Bowls': 'קערות גרנולה', 'Pancakes': 'פנקייק', 'Smoothie & Lassi': 'שייקים ולאסי',
-          'Beer': 'בירה מקומית', 'Freeze': 'משקאות קפואים', 'Lemon': 'לימונדה'
-        }
+        loading: "טוען תפריט ממערכת ה-POS..."
       },
       fr: {
         tagline: "Café & Petit Déjeuner",
         openStatus: "🟢 Ouvert 06:30 - 22:30",
-        address: "📍 49 Phan Tinh, Hoi An",
-        wifiCopied: "📶 WiFi copié: 999999999",
+        wifiCopied: "📶 Mot de passe WiFi copié: 999999999",
         bestSellers: "MEILLEURES VENTES:",
         dishesSuffix: "plats",
         soldOut: "ÉPUISÉ",
@@ -308,23 +263,12 @@
         copyBtn: "Copier",
         ingredients: "Ingrédients & Allergènes",
         emptyMenu: "Aucun plat dans cette catégorie.",
-        footerNote: "Règlement en VND à la caisse ou à votre table",
-        loading: "Synchronisation du menu avec la caisse...",
-        categoryNames: {
-          'Coffee': 'Café', 'Cà phê': 'Café', 'Espresso': 'Café Espresso', 'Espresso Machine': 'Café Espresso',
-          'Vietnamese Coffee': 'Café Vietnamien', 'Specialty Latte': 'Lattés Spéciaux',
-          'Tea': 'Thés Artisanaux', 'Trà': 'Thés Artisanaux', 'Milk Tea': 'Thé au lait', 'Trà sữa': 'Thé au lait',
-          'Juice': 'Jus de fruits frais', 'Nước ép': 'Jus de fruits frais', 'Fresh Juice': 'Jus de fruits frais',
-          'Breakfast': 'Petit Déjeuner', 'Điểm tâm': 'Petit Déjeuner', 'Bread & Toast': 'Pains & Toasts',
-          'Sandwich': 'Banh Mi de Hoi An', 'Bánh mì': 'Banh Mi de Hoi An', 'Combo': 'Formules Matin',
-          'Bowls': 'Bowls Énergétiques', 'Pancakes': 'Pancakes', 'Smoothie & Lassi': 'Smoothies & Lassi',
-          'Beer': 'Bières Locales', 'Freeze': 'Boissons Glacées', 'Lemon': 'Citronnades'
-        }
+        footerNote: "Paiement en VND au comptoir ou à votre table",
+        loading: "Synchronisation du menu avec la caisse..."
       },
       ru: {
         tagline: "Кофе и Завтраки",
         openStatus: "🟢 Открыто 06:30 - 22:30",
-        address: "📍 Фан Тинь 49, Хойан",
         wifiCopied: "📶 Пароль WiFi скопирован: 999999999",
         bestSellers: "ХИТЫ ПРОДАЖ:",
         dishesSuffix: "блюд",
@@ -335,38 +279,263 @@
         ingredients: "Ингредиенты и Аллергены",
         emptyMenu: "В этой категории пока нет блюд.",
         footerNote: "Оплата во вьетнамских донгах (VND) на кассе или за столиком",
-        loading: "Синхронизация меню с POS терминалом...",
-        categoryNames: {
-          'Coffee': 'Кофе', 'Cà phê': 'Кофе', 'Espresso': 'Эспрессо', 'Espresso Machine': 'Эспрессо',
-          'Vietnamese Coffee': 'Вьетнамский кофе', 'Specialty Latte': 'Особый латте',
-          'Tea': 'Чайная коллекция', 'Trà': 'Чайная коллекция', 'Milk Tea': 'Чай с молоком', 'Trà sữa': 'Чай с молоком',
-          'Juice': 'Свежевыжатые соки', 'Nước ép': 'Свежевыжатые соки', 'Fresh Juice': 'Свежевыжатые соки',
-          'Breakfast': 'Завтраки и Выпечка', 'Điểm tâm': 'Завтраки и Выпечка', 'Bread & Toast': 'Хлеб и Тосты',
-          'Sandwich': 'Бань Ми Хойан', 'Bánh mì': 'Бань Ми Хойан', 'Combo': 'Утренние сеты',
-          'Bowls': 'Гранола боулы', 'Pancakes': 'Панкейки', 'Smoothie & Lassi': 'Смузи и Ласси',
-          'Beer': 'Местное пиво', 'Freeze': 'Ледяные напитки', 'Lemon': 'Лимонады'
-        }
+        loading: "Синхронизация меню с POS терминалом..."
       }
     };
 
-    // Từ điển phiên dịch sẵn cho các món phổ biến của Nâu (Korean & Hebrew enhancements)
-    const PRODUCT_I18N = {
-      'latte': { ko: '라떼 (Latte)', he: 'לאטה (Latte)' },
-      'cappuccino': { ko: '카푸치노 (Cappuccino)', he: 'קפוצ\'ינו (Cappuccino)' },
-      'mocha': { ko: '모카 (Mocha)', he: 'מוקה (Mocha)' },
-      'espresso': { ko: '에스프레소 (Espresso)', he: 'אספרסו (Espresso)' },
-      'americano': { ko: '아메리카노 (Americano)', he: 'אמריקנו (Americano)' },
-      'salt coffee': { ko: '소금 커피 (Salt Coffee)', he: 'קפה מלח (Salt Coffee)' },
-      'cà phê muối': { ko: '소금 커피 (Salt Coffee)', he: 'קפה מלח (Salt Coffee)' },
-      'egg coffee': { ko: '에그 커피 (Egg Coffee)', he: 'קפה ביצים (Egg Coffee)' },
-      'cà phê trứng': { ko: '에그 커피 (Egg Coffee)', he: 'קפה ביצים (Egg Coffee)' },
-      'white coffee': { ko: '연유 커피 (Cafe Sua Da)', he: 'קפה חלב מרוכז וייטנאמי' },
-      'cà phê sữa': { ko: '연유 커피 (Cafe Sua Da)', he: 'קפה חלב מרוכז וייטנאמי' },
-      'black coffee': { ko: '블랙 커피 (Cafe Den)', he: 'קפה שחור וייטנאמי' },
-      'cà phê đen': { ko: '블랙 커피 (Cafe Den)', he: 'קפה שחור וייטנאמי' },
-      'croissant': { ko: '크루아상 (Croissant)', he: 'קרואסון (Croissant)' },
-      'pancake': { ko: '팬케이크 (Pancake)', he: 'פנקייק (Pancake)' }
-    };
+    // 2. Từ điển Ẩm thực Thông minh (Smart F&B Dictionary) đa ngữ cho Nâu Hội An
+    const DISH_DICTIONARY = [
+      {
+        keys: ['latte', 'cafe latte', 'ca phe latte'],
+        en: 'Latte', vi: 'Cà Phê Latte', ko: '라떼', he: 'לאטה', fr: 'Café Latte', ru: 'Латте',
+        descEn: 'Rich espresso with silky steamed milk',
+        descVi: 'Espresso nguyên chất hòa cùng sữa tươi đánh nóng',
+        descKo: '진한 에스프레소와 부드러운 스팀 밀크',
+        descHe: 'אספרסו עשיר עם חלב מוקצף קטיפתי',
+        descFr: 'Espresso corsé et lait chaud velouté',
+        descRu: 'Насыщенный эспрессо с бархатистым молоком'
+      },
+      {
+        keys: ['cappuccino', 'ca phe cappuccino'],
+        en: 'Cappuccino', vi: 'Cà Phê Cappuccino', ko: '카푸치노', he: 'קפוצ\'ינו', fr: 'Cappuccino', ru: 'Капучино',
+        descEn: 'Espresso, steamed milk and velvety foam',
+        descVi: 'Espresso, sữa tươi và bọt sữa bồng bềnh',
+        descKo: '에스프레소, 스팀 밀크 및 풍성한 우유 거품',
+        descHe: 'אספרסו, חלב חם וקצף עשיר',
+        descFr: 'Espresso, lait chaud et mousse onctueuse',
+        descRu: 'Эспрессо, горячее молоко и пышная пена'
+      },
+      {
+        keys: ['mocha', 'ca phe mocha'],
+        en: 'Mocha', vi: 'Cà Phê Mocha', ko: '모카', he: 'מוקה', fr: 'Café Mocha', ru: 'Мокка',
+        descEn: 'Espresso, dark cocoa and warm milk',
+        descVi: 'Espresso kết hợp ca cao nguyên chất và sữa tươi',
+        descKo: '에스프레소, 다크 초콜릿과 따뜻한 우유',
+        descHe: 'אספרסו, קקאו מובחר וחלב חם',
+        descFr: 'Espresso, cacao pur et lait chaud',
+        descRu: 'Эспрессо, темный шоколад и горячее молоко'
+      },
+      {
+        keys: ['espresso', 'ca phe espresso'],
+        en: 'Espresso', vi: 'Cà Phê Espresso', ko: '에스프레소', he: 'אספרסו', fr: 'Espresso', ru: 'Эспрессо',
+        descEn: 'Double shot pure aromatic espresso',
+        descVi: 'Hai shot espresso đậm đà hương thơm',
+        descKo: '진한 더블 샷 프리미엄 에스프레소',
+        descHe: 'שוט כפול של אספרסו טהור ועשיר',
+        descFr: 'Double dose d\'espresso intense et aromatique',
+        descRu: 'Двойной шот ароматного крепкого эспрессо'
+      },
+      {
+        keys: ['americano', 'ca phe americano'],
+        en: 'Americano', vi: 'Cà Phê Americano', ko: '아메리카노', he: 'אמריקנו', fr: 'Café Américain', ru: 'Американо',
+        descEn: 'Double espresso blended with hot water',
+        descVi: 'Espresso hòa quyện nước nóng thanh tao',
+        descKo: '더블 에스프레소에 뜨거운 물을 더한 깔끔한 커피',
+        descHe: 'אספרסו כפול עם מים חמים בטעם עדין',
+        descFr: 'Double espresso allongé d\'eau chaude',
+        descRu: 'Двойной эспрессо с горячей водой'
+      },
+      {
+        keys: ['muoi', 'salt coffee', 'ca phe muoi'],
+        en: 'Salt Coffee', vi: 'Cà Phê Muối', ko: '소금 커피', he: 'קפה מלח', fr: 'Café au Sel', ru: 'Кофе с солью',
+        descEn: 'Robusta drip, condensed milk, sea salt cream',
+        descVi: 'Cà phê robusta phin, sữa đặc và lớp kem muối béo mặn',
+        descKo: '로부스타 원두, 달콤한 연유와 짭짤하고 부드러운 소금 크림',
+        descHe: 'רובוסטה וייטנאמית, חלב מרוכז וקרם מלח ים עשיר',
+        descFr: 'Café robusta, lait concentré et crème au sel marin',
+        descRu: 'Вьетнамская робуста, сгущенка и нежные соленые сливки'
+      },
+      {
+        keys: ['trung', 'egg coffee', 'ca phe trung'],
+        en: 'Egg Coffee', vi: 'Cà Phê Trứng', ko: '에그 커피', he: 'קפה ביצים', fr: 'Café à l\'Œuf', ru: 'Кофе с яичным кремом',
+        descEn: 'Coffee topped with whipped sweet custard egg cream',
+        descVi: 'Cà phê đậm vị phủ lớp kem trứng đánh bông truyền thống',
+        descKo: '진한 커피 위에 달콤하고 크리미한 계란 커스터드 크림',
+        descHe: 'קפה חם עם שכבת קרם חלמונים מוקצף ומתוק',
+        descFr: 'Café chaud surmonté d\'une crème d\'œuf fouettée sucrée',
+        descRu: 'Горячий кофе с нежным взбитым яичным кремом'
+      },
+      {
+        keys: ['sua', 'white coffee', 'ca phe sua', 'sua da'],
+        en: 'Vietnamese Milk Coffee', vi: 'Cà Phê Sữa', ko: '베트남 연유 커피', he: 'קפה חלב וייטנאמי', fr: 'Café au Lait Vietnamien', ru: 'Вьетнамский кофе со сгущенкой',
+        descEn: 'Traditional Vietnamese robusta with sweet condensed milk',
+        descVi: 'Cà phê robusta pha phin hòa cùng sữa đặc béo ngọt',
+        descKo: '진한 베트남식 로부스타와 달콤한 연유의 조화',
+        descHe: 'רובוסטה וייטנאמית מסורתית עם חלב מרוכז מתוק',
+        descFr: 'Café robusta traditionnel au lait concentré sucré',
+        descRu: 'Традиционный кофе робуста со сладким сгущенным молоком'
+      },
+      {
+        keys: ['den', 'black coffee', 'ca phe den'],
+        en: 'Vietnamese Black Coffee', vi: 'Cà Phê Đen', ko: '베트남 블랙 커피', he: 'קפה שחור וייטנאמי', fr: 'Café Noir Vietnamien', ru: 'Вьетнамский черный кофе',
+        descEn: 'Bold robusta drip with a touch of sugar',
+        descVi: 'Cà phê robusta phin nguyên chất đậm đà',
+        descKo: '진하고 깊은 맛의 베트남식 전통 블랙 커피',
+        descHe: 'קפה שחור חזק ועשיר בטעם מסורתי',
+        descFr: 'Café noir pur et corsé préparé au phin',
+        descRu: 'Крепкий черный вьетнамский кофе со льдом или горячий'
+      },
+      {
+        keys: ['dua', 'coconut coffee', 'ca phe dua', 'cot dua'],
+        en: 'Coconut Coffee', vi: 'Cà Phê Cốt Dừa', ko: '코코넛 커피', he: 'קפה קוקוס', fr: 'Café à la Noix de Coco', ru: 'Кокосовый кофе',
+        descEn: 'Espresso poured over rich coconut cream blend',
+        descVi: 'Espresso hòa cùng cốt dừa béo ngậy xay mịn',
+        descKo: '고소한 코코넛 밀크 스무디와 진한 커피의 조화',
+        descHe: 'אספרסו עשיר עם קרם קוקוס קפוא',
+        descFr: 'Espresso versé sur une crème de noix de coco glacée',
+        descRu: 'Эспрессо со взбитым кокосовым кремом'
+      },
+      {
+        keys: ['bac xiu', 'bac siu'],
+        en: 'Bac Xiu (Sweet White Coffee)', vi: 'Bạc Xỉu', ko: '박시우 (달콤한 연유 라떼)', he: 'בק שיו (לאטה מתוק)', fr: 'Bac Xiu (Lait Doux au Café)', ru: 'Бак Сиу (Сладкий молочный кофе)',
+        descEn: 'Layers of fresh milk, condensed milk and a kiss of coffee',
+        descVi: 'Nhiều sữa tươi, sữa đặc thơm béo và chút cà phê',
+        descKo: '신선한 우유, 달콤한 연유와 은은한 커피 향의 조화',
+        descHe: 'שכבות של חלב טרי, חלב מרוכז ומעט קפה',
+        descFr: 'Lait frais, lait concentré et une touche de café',
+        descRu: 'Много молока, сгущенка и капля кофе'
+      },
+      {
+        keys: ['matcha', 'tra xanh'],
+        en: 'Matcha Latte', vi: 'Matcha Latte', ko: '말차 라떼', he: 'מאצ\'ה לאטה', fr: 'Matcha Latte', ru: 'Матча Латте',
+        descEn: 'Japanese green tea powder with steamed fresh milk',
+        descVi: 'Bột matcha Nhật Bản nguyên chất và sữa tươi đánh nóng',
+        descKo: '일본산 프리미엄 녹차 가루와 부드러운 우유',
+        descHe: 'אבקת תה ירוק יפני מובחר עם חלב מוקצף',
+        descFr: 'Thé vert matcha japonais et lait chaud',
+        descRu: 'Японский чай матча с теплым взбитым молоком'
+      },
+      {
+        keys: ['milk tea', 'tra sua'],
+        en: 'Signature Milk Tea', vi: 'Trà Sữa Nâu', ko: '나우 시그니처 밀크티', he: 'תה חלב מיוחד', fr: 'Thé au Lait Signature', ru: 'Фирменный чай с молоком',
+        descEn: 'Brewed black tea infused with creamy milk',
+        descVi: 'Trà đen đậm vị kết hợp sữa tươi béo thơm',
+        descKo: '깊게 우려낸 홍차와 부드러운 밀크의 조화',
+        descHe: 'חליטת תה שחור עשירה עם חלב קרמי',
+        descFr: 'Thé noir infusé au lait crémeux',
+        descRu: 'Заваренный черный чай со сливочным молоком'
+      },
+      {
+        keys: ['cam', 'orange juice', 'nuoc cam'],
+        en: 'Fresh Orange Juice', vi: 'Nước Cam Tươi', ko: '생 오렌지 주스', he: 'מיץ תפוזים טבעי', fr: 'Jus d\'Orange Pressé', ru: 'Свежевыжатый апельсиновый сок',
+        descEn: '100% freshly squeezed local sweet oranges',
+        descVi: 'Cam sành tươi nguyên chất vắt tại chỗ',
+        descKo: '100% 생 오렌지 착즙 주스',
+        descHe: '100% מיץ תפוזים טרי סחוט במקום',
+        descFr: '100% oranges fraîches pressées à la commande',
+        descRu: '100% свежевыжатый натуральный апельсиновый сок'
+      },
+      {
+        keys: ['dua hau', 'watermelon', 'nuoc dua hau'],
+        en: 'Fresh Watermelon Juice', vi: 'Nước Ép Dưa Hấu', ko: '생 수박 주스', he: 'מיץ אבטיח טבעי', fr: 'Jus de Pastèque Frais', ru: 'Свежий арбузный сок',
+        descEn: 'Pure refreshing watermelon, naturally sweet',
+        descVi: 'Dưa hấu tươi mọng nước ép nguyên chất',
+        descKo: '시원하고 달콤한 100% 생 수박 착즙 주스',
+        descHe: 'מיץ אבטיח מרענן ומתוק טבעי',
+        descFr: 'Pastèque fraîche pressée, douce et désaltérante',
+        descRu: 'Освежающий натуральный сок из спелого арбуза'
+      },
+      {
+        keys: ['dua', 'pineapple', 'nuoc dua', 'thom'],
+        en: 'Fresh Pineapple Juice', vi: 'Nước Ép Thơm (Dứa)', ko: '생 파인애플 주스', he: 'מיץ אננס טבעי', fr: 'Jus d\'Ananas Frais', ru: 'Свежий ананасовый сок',
+        descEn: 'Fresh tropical pineapple juice',
+        descVi: 'Dứa chín mọng ép thanh nhiệt mát lành',
+        descKo: '달콤 상큼한 열대 생 파인애플 착즙 주스',
+        descHe: 'מיץ אננס טרופי מתוק וטרי',
+        descFr: 'Pur jus d\'ananas tropical frais',
+        descRu: 'Свежий тропический сок из спелого ананаса'
+      },
+      {
+        keys: ['oi', 'guava', 'nuoc oi'],
+        en: 'Fresh Guava Juice', vi: 'Nước Ép Ổi Tươi', ko: '생 구아바 주스', he: 'מיץ גויאבה טבעי', fr: 'Jus de Goyave Frais', ru: 'Свежий сок гуавы',
+        descEn: 'Pink tropical guava juice packed with vitamin C',
+        descVi: 'Ổi hồng tươi giàu vitamin C ép nguyên chất',
+        descKo: '비타민 C가 풍부한 신선한 생 구아바 주스',
+        descHe: 'מיץ גויאבה טבעי עשיר בוויטמין C',
+        descFr: 'Jus de goyave fraîche riche en vitamine C',
+        descRu: 'Свежий сок из спелой гуавы, богатый витамином C'
+      },
+      {
+        keys: ['croissant', 'sung bo'],
+        en: 'Butter Croissant', vi: 'Bánh Croissant Bơ Pháp', ko: '프랑스 버터 크루아상', he: 'קרואסון חמאה צרפתי', fr: 'Croissant au Beurre Français', ru: 'Французский масляный круассан',
+        descEn: 'Flaky, buttery pastry freshly baked daily',
+        descVi: 'Vỏ bánh ngàn lớp giòn rụm thơm bơ Pháp',
+        descKo: '매일 아침 갓 구워낸 바삭하고 고소한 버터 크루아상',
+        descHe: 'מאפה שכבות פריך ועשיר בחמאה, נאפה טרי מדי יום',
+        descFr: 'Pâtisserie feuilletée pur beurre cuite sur place chaque matin',
+        descRu: 'Хрустящий слоеный круассан на натуральном сливочном масле'
+      },
+      {
+        keys: ['pancake', 'banh pancake'],
+        en: 'Honey Granola Pancake', vi: 'Bánh Pancake Mật Ong & Granola', ko: '허니 그래놀라 팬케이크', he: 'פנקייק דבש וגרנולה', fr: 'Pancakes Moelleux au Miel et Granola', ru: 'Панкейки с медом и гранолой',
+        descEn: 'Warm fluffy pancake served with honey and crunch granola',
+        descVi: 'Bánh pancake mềm xốp dùng kèm mật ong và granola giòn',
+        descKo: '부드러운 팬케이크에 달콤한 꿀과 바삭한 그래놀라',
+        descHe: 'פנקייק אוורירי חם מוגש עם דבש וגרנולה פריכה',
+        descFr: 'Pancakes moelleux servis avec du miel et du granola croustillant',
+        descRu: 'Пышные блинчики с натуральным медом и хрустящей гранолой'
+      },
+      {
+        keys: ['banh mi', 'sandwich', 'banh mi hoi an'],
+        en: 'Hoi An Artisan Banh Mi', vi: 'Bánh Mì Hội An', ko: '호이안 전통 반미', he: 'באן מי מסורתי של הוי אן', fr: 'Banh Mi Artisanal de Hoi An', ru: 'Традиционный Бань Ми Хойан',
+        descEn: 'Crispy baguette with pork pate, fresh herbs and house sauce',
+        descVi: 'Bánh mì giòn rụm với pate thịt, rau thơm và sốt đặc biệt',
+        descKo: '바삭한 바게트 속 수제 파테, 신선한 야채와 특제 소스',
+        descHe: 'באגט פריך במילוי פאטה עשיר, ירקות טריים ורוטב הבית',
+        descFr: 'Baguette croustillante garnie de pâté, herbes fraîches et sauce maison',
+        descRu: 'Хрустящий багет с мясным паштетом, свежей зеленью и домашним соусом'
+      },
+      {
+        keys: ['combo sang', 'combo breakfast', 'combo sáng'],
+        en: 'Morning Coffee & Pastry Combo', vi: 'Combo Sáng Tiết Kiệm', ko: '모닝 알뜰 콤보', he: 'קומבו בוקר משתלם', fr: 'Formule Matin Éco', ru: 'Утренний комбо-набор',
+        descEn: 'Your choice of morning coffee paired with warm croissant',
+        descVi: 'Một ly cà phê sáng chọn lựa kèm một bánh sừng bò nóng hổi',
+        descKo: '선택 가능한 모닝 커피 한 잔과 갓 구운 크루아상 세트',
+        descHe: 'קפה בוקר לבחירה בליווי קרואסון חם וטרי',
+        descFr: 'Un café au choix accompagné d\'un croissant chaud',
+        descRu: 'Утренний кофе на выбор со свежим теплым круассаном'
+      },
+      {
+        keys: ['combo trua', 'combo trưa'],
+        en: 'Lunch Combo (Meal & Drink)', vi: 'Combo Trưa Tiết Kiệm', ko: '런치 콤보 (식사 & 음료)', he: 'קומבו צהריים (מנה ומשקה)', fr: 'Formule Déjeuner (Plat & Boisson)', ru: 'Обеденный комбо (Блюдо и напиток)',
+        descEn: 'Hearty lunch dish served with fresh juice or iced tea',
+        descVi: 'Món ăn trưa no bụng dùng kèm nước ép tươi hoặc trà mát lạnh',
+        descKo: '든든한 점심 식사와 상큼한 생과일 주스 세트',
+        descHe: 'ארוחת צהריים משביעה מוגשת עם מיץ טבעי או תה קר',
+        descFr: 'Plat de midi copieux servi avec un jus frais ou un thé glacé',
+        descRu: 'Сытное обеденное блюдо со свежевыжатым соком или чаем'
+      },
+      {
+        keys: ['eggs & avocado', 'trung bo', 'sourdough'],
+        en: 'Eggs & Avocado on Sourdough', vi: 'Bánh Mì Sourdough Bơ & Trứng', ko: '사워도우 아보카도 에그 토스트', he: 'אבוקדו וביצה על לחם מחמצת', fr: 'Toast Levain Avocat et Œuf', ru: 'Тост на закваске с авокадо и яйцом',
+        descEn: 'Artisan sourdough, fresh avocado, boiled egg, cherry tomatoes',
+        descVi: 'Bánh mì men chua nướng giòn, bơ sáp tươi, trứng luộc, cà chua bi',
+        descKo: '천연 발효 사워도우 토스트, 신선한 아보카도, 삶은 계란, 방울토마토',
+        descHe: 'לחם מחמצת ארטיזנלי, אבוקדו טרי, ביצה קשה ועגבניות שרי',
+        descFr: 'Pain au levain toasté, avocat frais, œuf dur et tomates cerises',
+        descRu: 'Хлеб на закваске, спелый авокадо, вареное яйцо и томаты черри'
+      },
+      {
+        keys: ['brekkie', 'mixed brekkie', 'nau\'s mixed brekkie'],
+        en: 'Nâu\'s Mixed Brekkie', vi: 'Bữa Sáng Thập Cẩm Nâu', ko: '나우 시그니처 모듬 브런치', he: 'ארוחת הבוקר המיוחדת של Nâu', fr: 'Grand Petit-Déjeuner Nâu', ru: 'Фирменный сытный завтрак Nâu',
+        descEn: 'Toasted bread, crispy bacon, fried egg, sausage, mushrooms, baked tomato',
+        descVi: 'Bánh mì nướng, thịt xông khói, trứng ốp la, xúc xích, nấm xào, cà chua nướng',
+        descKo: '토스트, 베이컨, 계란 프라이, 소시지, 구운 버섯과 토마토',
+        descHe: 'טוסט פריך, בייקון, ביצת עין, נקניקייה, פטריות ועגבנייה צלויה',
+        descFr: 'Pain grillé, bacon croustillant, œuf au plat, saucisse, champignons, tomate rôtie',
+        descRu: 'Тост, хрустящий бекон, яичница, колбаска, жареные грибы и печеный томат'
+      },
+      {
+        keys: ['granola', 'bowl', 'chocolate orange'],
+        en: 'Chocolate Orange Granola Bowl', vi: 'Tô Granola Sô-cô-la Cam & Sữa Chua', ko: '초콜릿 오렌지 그래놀라 볼', he: 'קערת גרנולה שוקולד תפוז', fr: 'Bowl Granola Chocolat et Orange', ru: 'Гранола боул с шоколадом и апельсином',
+        descEn: 'Creamy yogurt, crunchy granola, dark chocolate and seasonal fresh fruits',
+        descVi: 'Sữa chua dẻo, granola giòn, sô-cô-la đen nguyên chất và trái cây tươi theo mùa',
+        descKo: '부드러운 요거트, 바삭한 수제 그래놀라, 다크 초콜릿과 제철 과일',
+        descHe: 'יוגורט עשיר, גרנולה פריכה, שוקולד מריר ופירות טריים',
+        descFr: 'Yaourt crémeux, granola croustillant, chocolat noir et fruits frais de saison',
+        descRu: 'Нежный йогурт, хрустящая гранола, темный шоколад и свежие сезонные фрукты'
+      }
+    ];
 
     let currentLanguage = 'vi';
     let currentData = { products: [], categories: [], store: {} };
@@ -375,57 +544,123 @@
 
     // ================= Auto-Language Detection =================
     function autoDetectLanguage() {
-      // 1. Kiểm tra ưu tiên lựa chọn đã lưu trong máy khách
       try {
         const saved = localStorage.getItem('gm_cloud_menu_lang');
         if (saved && I18N[saved]) return saved;
       } catch (e) {}
 
-      // 2. Tự động đọc ngôn ngữ hệ thống điện thoại khách hàng
       const phoneLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
-
       if (phoneLang.startsWith('vi')) return 'vi';
       if (phoneLang.startsWith('ko')) return 'ko';
       if (phoneLang.startsWith('he') || phoneLang.startsWith('iw')) return 'he';
       if (phoneLang.startsWith('fr')) return 'fr';
       if (phoneLang.startsWith('ru')) return 'ru';
-
-      // Mặc định khách quốc tế còn lại dùng Tiếng Anh
       return 'en';
     }
 
+    // ================= Category Matching Thông Minh (Fuzzy Match) =================
+    const CATEGORY_MAP = {
+      coffee: { vi: 'Cà Phê', en: 'Coffee & Espresso', ko: '커피', he: 'קפה', fr: 'Café', ru: 'Кофе' },
+      breakfast: { vi: 'Điểm Tâm & Bánh', en: 'Breakfast & Bakery', ko: '브런치 & 베이커리', he: 'ארוחות בוקר ומאפים', fr: 'Petit Déjeuner & Pâtisseries', ru: 'Завтраки и Выпечка' },
+      sandwich: { vi: 'Bánh Mì Hội An', en: 'Hoi An Banh Mi', ko: '호이안 반미', he: 'באן מי הוי אן', fr: 'Banh Mi Traditionnel', ru: 'Бань Ми Хойан' },
+      combo: { vi: 'Combo Sáng Tiết Kiệm', en: 'Morning Value Combos', ko: '모닝 알뜰 콤보', he: 'ארוחות קומבו בוקר', fr: 'Formules Petit-Déjeuner', ru: 'Утренние комбо-наборы' },
+      juice: { vi: 'Nước Ép Tươi', en: 'Fresh Juices', ko: '생과일 주스', he: 'מיצים טבעיים', fr: 'Jus de Fruits Frais', ru: 'Свежевыжатые соки' },
+      milktea: { vi: 'Trà Sữa', en: 'Milk Tea', ko: '밀크티', he: 'תה חלב', fr: 'Thé au Lait', ru: 'Чай с молоком' },
+      tea: { vi: 'Trà & Trà Hoa', en: 'Artisan & Herbal Teas', ko: '차 & 허브티', he: 'חליטות ותה', fr: 'Thés & Infusions', ru: 'Чай и Цветочные сборы' },
+      bowls: { vi: 'Healthy Bowls', en: 'Healthy Granola Bowls', ko: '건강 요거트 볼', he: 'קערות גרנולה', fr: 'Bowls Santé', ru: 'Гранола боулы' },
+      pancakes: { vi: 'Bánh Pancake', en: 'Fluffy Pancakes', ko: '팬케이크', he: 'פנקייק', fr: 'Pancakes Moelleux', ru: 'Панкейки' },
+      beer: { vi: 'Bia', en: 'Local Beers', ko: '맥주', he: 'בירה מקומית', fr: 'Bières Locales', ru: 'Местное пиво' }
+    };
+
     function getLocalizedCategoryName(catName) {
-      const dict = I18N[currentLanguage]?.categoryNames || {};
-      return dict[catName] || catName;
+      const raw = String(catName || '').trim();
+      const norm = raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      let key = '';
+      if (norm.includes('ca phe') || norm.includes('coffee') || norm.includes('espresso')) key = 'coffee';
+      else if (norm.includes('diem tam') || norm.includes('breakfast') || norm.includes('banh ngot') || norm.includes('bakery')) key = 'breakfast';
+      else if (norm.includes('banh mi') || norm.includes('sandwich') || norm.includes('toast') || norm.includes('sourdough')) key = 'sandwich';
+      else if (norm.includes('combo')) key = 'combo';
+      else if (norm.includes('tra sua') || norm.includes('milk tea')) key = 'milktea';
+      else if (norm.includes('nuoc ep') || norm.includes('juice') || norm.includes('sinh to') || norm.includes('smoothie')) key = 'juice';
+      else if (norm.includes('tra') || norm.includes('tea')) key = 'tea';
+      else if (norm.includes('bowl') || norm.includes('granola')) key = 'bowls';
+      else if (norm.includes('pancake')) key = 'pancakes';
+      else if (norm.includes('bia') || norm.includes('beer')) key = 'beer';
+
+      if (key && CATEGORY_MAP[key] && CATEGORY_MAP[key][currentLanguage]) {
+        return CATEGORY_MAP[key][currentLanguage];
+      }
+      return raw;
     }
 
-    // Ưu tiên A: Fallback thông minh về Tiếng Anh (English Fallback)
-    function getLocalizedProductName(p) {
-      if (!p) return '';
-      const key = String(p.name || '').toLowerCase().trim();
-      const builtIn = PRODUCT_I18N[key];
+    // ================= TÌM TỪ ĐIỂN MÓN ĂN & RENDER TÊN KÉP =================
+    function findDishDictionary(dishName) {
+      const norm = String(dishName || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      for (const item of DISH_DICTIONARY) {
+        if (item.keys.some(k => norm.includes(k) || k.includes(norm))) {
+          return item;
+        }
+      }
+      return null;
+    }
 
-      if (currentLanguage === 'vi') return p.nameVi || p.name;
-      if (currentLanguage === 'en') return p.nameEn || p.name;
-      if (currentLanguage === 'ko') return p.nameKo || (builtIn ? builtIn.ko : null) || p.nameEn || p.name;
-      if (currentLanguage === 'he') return p.nameHe || (builtIn ? builtIn.he : null) || p.nameEn || p.name;
-      if (currentLanguage === 'fr') return p.nameFr || p.nameEn || p.name;
-      if (currentLanguage === 'ru') return p.nameRu || p.nameEn || p.name;
-      return p.nameEn || p.name;
+    // Hiển thị chuẩn Tên Kép: [Tên Bản Ngữ] (Tên Tiếng Anh)
+    function getLocalizedDishNameHtml(p) {
+      const dict = findDishDictionary(p.name);
+      const engName = dict ? dict.en : (p.nameEn || p.name);
+
+      // 1. Nếu khách chọn Tiếng Anh: Chỉ hiển thị tiếng Anh chuẩn
+      if (currentLanguage === 'en') {
+        return `<span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${engName}</span>`;
+      }
+
+      // 2. Nếu khách chọn Tiếng Việt: Tên Việt (Tên Tiếng Anh)
+      if (currentLanguage === 'vi') {
+        const viName = dict ? dict.vi : (p.nameVi || p.name);
+        return `
+          <span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${viName}</span>
+          <span class="text-[11.5px] font-normal text-[#8C5332] font-serif-brand tracking-normal">(${engName})</span>
+        `;
+      }
+
+      // 3. Khách chọn Tiếng Nga (RU), Hàn Quốc (KO), Israel (HE), Pháp (FR):
+      let localName = p.name;
+      if (dict && dict[currentLanguage]) {
+        localName = dict[currentLanguage];
+      } else if (currentLanguage === 'ru' && p.nameRu) {
+        localName = p.nameRu;
+      } else if (currentLanguage === 'fr' && p.nameFr) {
+        localName = p.nameFr;
+      } else if (currentLanguage === 'ko' && p.nameKo) {
+        localName = p.nameKo;
+      } else if (currentLanguage === 'he' && p.nameHe) {
+        localName = p.nameHe;
+      }
+
+      return `
+        <span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${localName}</span>
+        <span class="text-[11.5px] font-normal text-[#8C5332] font-serif-brand tracking-normal">(${engName})</span>
+      `;
     }
 
     function getLocalizedProductDesc(p) {
-      if (!p) return '';
+      const dict = findDishDictionary(p.name);
+      if (dict) {
+        const descKey = 'desc' + currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1);
+        if (dict[descKey]) return dict[descKey];
+        if (dict.descEn) return dict.descEn;
+      }
       if (currentLanguage === 'vi') return p.descVi || p.description;
       if (currentLanguage === 'en') return p.descEn || p.description;
+      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
+      if (currentLanguage === 'fr') return p.descFr || p.descEn || p.description;
       if (currentLanguage === 'ko') return p.descKo || p.descEn || p.description;
       if (currentLanguage === 'he') return p.descHe || p.descEn || p.description;
-      if (currentLanguage === 'fr') return p.descFr || p.descEn || p.description;
-      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
-      return p.descEn || p.description;
+      return p.descEn || p.description || '';
     }
 
-    // Đơn vị tiền tệ chuẩn: Chỉ hiển thị VNĐ (₫)
+    // Đơn vị tiền tệ: Chỉ hiển thị VNĐ (₫)
     function formatPrice(vnd) {
       const val = Number(vnd) || 0;
       return `${val.toLocaleString('vi-VN')} ₫`;
@@ -441,13 +676,13 @@
         .replace(/^-|-$/g, '') || 'cat';
     }
 
-    // ================= Render UI: Cột Trái Thanh Lịch & 100% Chữ =================
+    // ================= RENDER TOÀN BỘ GIAO DIỆN THEO NGÔN NGỮ =================
     function renderMenu() {
       const products = currentData.products || [];
       const categories = currentData.categories || [];
       const langData = I18N[currentLanguage] || I18N['en'];
 
-      // Cập nhật text tiêu đề và hỗ trợ RTL cho Israel
+      // 1. Cập nhật thẻ HTML và hướng đọc RTL cho tiếng Do Thái
       const container = document.getElementById('mobile-container');
       if (currentLanguage === 'he') {
         container.dir = 'rtl';
@@ -462,11 +697,13 @@
         document.body.classList.remove('font-he', 'font-kr');
       }
 
+      // 2. Cập nhật 100% các dòng chữ trên trang web
       document.getElementById('ui-tagline').innerText = langData.tagline;
-      document.getElementById('ui-bestsellers-label').innerText = `🔥 ${langData.bestSellers}`;
-      document.getElementById('btn-copy-wifi').innerText = langData.copyBtn;
-      document.getElementById('ui-footer-note').innerText = langData.footerNote;
       document.getElementById('store-status').innerText = langData.openStatus;
+      document.getElementById('btn-copy-wifi').innerText = langData.copyBtn;
+      document.getElementById('ui-bestsellers-label').innerText = `🔥 ${langData.bestSellers}`;
+      document.getElementById('ui-loading-text').innerText = langData.loading;
+      document.getElementById('ui-footer-note').innerText = langData.footerNote;
 
       // Danh sách Category
       const catList = [];
@@ -479,7 +716,7 @@
       });
       if (catList.length === 0 && products.length > 0) catList.push('Thực đơn');
 
-      // 1. RENDER CỘT TRÁI THANH LỊCH (LEFT SIDEBAR): Chữ thuần túy, không emoji
+      // 3. RENDER CỘT TRÁI THANH LỊCH (LEFT SIDEBAR)
       const sidebarPane = document.getElementById('sidebar-pane');
       if (!activeCategoryId && catList.length > 0) {
         activeCategoryId = slugify(catList[0]);
@@ -501,7 +738,7 @@
         `;
       }).join('');
 
-      // 2. RENDER CỘT PHẢI: Danh sách món 100% Chữ & Giá (Phương án A)
+      // 4. RENDER CỘT PHẢI: Món ăn hiển thị Tên Kép [Bản Ngữ] (Tiếng Anh)
       const rightPane = document.getElementById('right-scroll-pane');
       if (products.length === 0) {
         rightPane.innerHTML = `
@@ -527,18 +764,18 @@
               <span class="text-[10px] text-[#A69586] font-mono">${catProducts.length} ${langData.dishesSuffix}</span>
             </div>
 
-            <!-- Text-Only Dish Rows (Không ảnh, cực kỳ sang trọng & dễ đọc) -->
+            <!-- Text-Only Dish Rows with Dual-Name Support -->
             <div class="divide-y divide-[#EFE6DA]">
               ${catProducts.map(p => {
                 const isSoldOut = p.available === false;
-                const name = getLocalizedProductName(p);
+                const nameHtml = getLocalizedDishNameHtml(p);
                 const desc = getLocalizedProductDesc(p);
 
                 return `
                   <div onclick="openDishModal(${p.id})" class="borderless-item py-2.5 flex items-start justify-between gap-3 cursor-pointer hover:bg-[#F5EDE3]/60 active:bg-[#EFE6DA]/80 px-1 rounded-lg transition-all ${isSoldOut ? 'opacity-50' : ''}">
                     <div class="flex-1 min-w-0 pr-2">
-                      <div class="flex items-center space-x-1.5 flex-wrap gap-1">
-                        <h4 class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${name}</h4>
+                      <div class="flex items-baseline space-x-1.5 flex-wrap gap-1">
+                        <h4>${nameHtml}</h4>
                         ${isSoldOut ? `
                           <span class="text-[8.5px] font-bold text-red-700 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-mono">
                             ${langData.soldOut}
@@ -566,13 +803,12 @@
         `;
       }).join('');
 
-      // 3. Render Best Seller Marquee
+      // 5. Render Best Seller Marquee
       renderMarquee(products);
 
-      // 4. Update Store Information
+      // 6. Update Store Information (Giữ nguyên tên quán và địa chỉ)
       if (currentData.store) {
         if (currentData.store.name) document.getElementById('store-name').innerText = currentData.store.name;
-        if (currentData.store.address) document.getElementById('store-address').innerText = `📍 ${currentData.store.address}`;
       }
     }
 
@@ -587,9 +823,10 @@
       if (marqueeContainer) marqueeContainer.style.display = 'block';
 
       const itemsHtml = featured.map(p => {
-        const name = getLocalizedProductName(p);
+        const dict = findDishDictionary(p.name);
+        const dispName = dict ? (currentLanguage === 'en' ? dict.en : `${dict[currentLanguage] || dict.en} (${dict.en})`) : p.name;
         const priceStr = formatPrice(p.price);
-        return `<span onclick="openDishModal(${p.id})" class="cursor-pointer hover:underline inline-flex items-center gap-1 font-serif-brand font-medium"><span>${name}</span> <span class="text-[#8C5332] font-bold font-mono">(${priceStr})</span></span>`;
+        return `<span onclick="openDishModal(${p.id})" class="cursor-pointer hover:underline inline-flex items-center gap-1 font-serif-brand font-medium"><span>${dispName}</span> <span class="text-[#8C5332] font-bold font-mono">(${priceStr})</span></span>`;
       }).join('<span class="text-[#C4B5A5]">•</span>');
 
       marqueeTrack.innerHTML = `
@@ -628,7 +865,7 @@
       });
     }
 
-    // ================= Tương tác Ngôn ngữ =================
+    // ================= TƯƠNG TÁC ĐỔI NGÔN NGỮ =================
     function setLanguage(lang) {
       if (!I18N[lang]) return;
       currentLanguage = lang;
@@ -639,9 +876,9 @@
         const btn = document.getElementById(`lang-${l}`);
         if (btn) {
           if (l === lang) {
-            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold";
+            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold cursor-pointer";
           } else {
-            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332]";
+            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer";
           }
         }
       });
@@ -674,7 +911,7 @@
       const item = (currentData.products || []).find(p => p.id === id);
       if (!item) return;
 
-      const name = getLocalizedProductName(item);
+      const nameHtml = getLocalizedDishNameHtml(item);
       const desc = getLocalizedProductDesc(item);
       const langData = I18N[currentLanguage] || I18N['en'];
 
@@ -691,7 +928,7 @@
           ${item.available === false ? `<span class="text-[9.5px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold">${langData.soldOut}</span>` : ''}
         </div>
 
-        <h3 class="font-serif-brand text-2xl font-bold text-[#2B1E16] mt-2 leading-snug">${name}</h3>
+        <h3 class="mt-2">${nameHtml}</h3>
         ${desc ? `<p class="font-serif-brand italic text-sm text-[#7A6A5E] leading-relaxed mt-1">${desc}</p>` : ''}
 
         ${item.ingredients ? `
@@ -722,7 +959,6 @@
           if (res.ok) {
             const data = await res.json();
             if (data && data.products && Array.isArray(data.products)) {
-              // Kiểm tra fingerprint để tránh render lại vô ích nếu dữ liệu không đổi
               const newFingerprint = (data.products || []).map(i => `${i.id}_${i.price}_${i.name || ''}_${i.available !== false}`).join('|');
               if (newFingerprint !== lastDataFingerprint) {
                 lastDataFingerprint = newFingerprint;
@@ -759,9 +995,9 @@
         const btn = document.getElementById(`lang-${l}`);
         if (btn) {
           if (l === initialLang) {
-            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold";
+            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold cursor-pointer";
           } else {
-            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332]";
+            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332] cursor-pointer";
           }
         }
       });
@@ -782,7 +1018,6 @@
       fetchMenuFromPOS();
     });
 
-    // Định kỳ 15 giây đồng bộ lại với máy POS để bắt kịp thay đổi giá/món hết hàng
     setInterval(fetchMenuFromPOS, 15000);
 
     document.addEventListener('visibilitychange', () => {
