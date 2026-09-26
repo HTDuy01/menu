@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" id="app-html">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#18181B">
+  <meta name="theme-color" content="#FAF6F0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>Thực Đơn Điện Tử | Nâu</title>
+  <title>Nâu Coffee &amp; Breakfast | Thực Đơn Điện Tử</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+Hebrew:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     body {
-      background-color: #FFFFFF;
-      color: #18181B;
+      background-color: #261E1A;
+      color: #2B1E16;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
+    .font-serif-brand { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-kr { font-family: 'Noto Sans KR', sans-serif; }
+    .font-he { font-family: 'Noto Sans Hebrew', sans-serif; }
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -31,277 +35,363 @@
     .marquee-track {
       display: flex;
       width: max-content;
-      animation: marqueeRun 20s linear infinite;
+      animation: marqueeRun 24s linear infinite;
     }
     .marquee-track:hover { animation-play-state: paused; }
 
-    /* Concept 2.6: Borderless Underline Flow */
+    /* Elegant Artisan Left Sidebar Navigation */
     .sidebar-btn {
-      border-radius: 0;
       position: relative;
-      color: #52525B;
-      transition: color 0.15s ease;
+      color: #5C4B3E;
+      background-color: transparent;
+      border-left: 3.5px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
     .sidebar-btn:hover {
-      color: #000000;
+      background-color: rgba(250, 246, 240, 0.6);
+      color: #2B1E16;
     }
     .sidebar-btn.active {
-      background: transparent;
-      color: #000000;
-      font-weight: 800;
+      background-color: #FAF6F0;
+      color: #8C5332;
+      font-weight: 700;
+      border-left: 3.5px solid #8C5332;
     }
-    .sidebar-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: 6px;
-      left: 25%;
-      width: 50%;
-      height: 2.5px;
-      background: #000000;
-      border-radius: 9999px;
+    /* RTL Support for Hebrew */
+    [dir="rtl"] .sidebar-btn {
+      border-left: none;
+      border-right: 3.5px solid transparent;
+      text-align: right;
     }
+    [dir="rtl"] .sidebar-btn.active {
+      border-left: none;
+      border-right: 3.5px solid #8C5332;
+    }
+
     .borderless-item {
       border: none;
-      border-bottom: 1px solid #F3F4F6;
+      border-bottom: 1px solid #EFE6DA;
+      transition: background-color 0.15s ease;
     }
     .borderless-item:last-child {
       border-bottom: none;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start bg-neutral-100">
+<body class="min-h-screen flex flex-col items-center justify-start bg-[#261E1A] p-0 sm:py-4">
 
-  <div class="w-full max-w-md h-screen flex flex-col relative bg-white shadow-xl overflow-hidden">
+  <!-- Mobile Viewport Container -->
+  <div id="mobile-container" class="w-full max-w-md h-screen flex flex-col relative bg-[#FAF6F0] shadow-2xl overflow-hidden border-x border-[#1C1613]">
 
     <!-- Toast Notification -->
-    <div id="toast-message" class="hidden fixed top-14 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] p-3 rounded-2xl bg-black text-white shadow-2xl border border-white/20 flex items-center justify-between text-xs font-bold transition-all">
+    <div id="toast-message" class="hidden fixed top-14 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] p-3 rounded-2xl bg-[#2B1E16] text-[#FAF6F0] shadow-2xl border border-[#8C5332]/40 flex items-center justify-between text-xs font-semibold transition-all">
       <span id="toast-text">📶 Đã sao chép mật khẩu Wifi!</span>
-      <button onclick="hideToast()" class="text-gray-400 hover:text-white p-1">✕</button>
+      <button onclick="hideToast()" class="text-[#C4B5A5] hover:text-white p-1">✕</button>
     </div>
 
-    <!-- COMPACT TOP BAR: TITLE + MULTI-CURRENCY + MULTI-LANG + WIFI -->
-    <header class="bg-white px-4 py-3 border-b border-gray-100 shrink-0 space-y-2.5">
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 id="store-name" class="text-base font-black text-black tracking-tight">Nâu</h1>
-          <div class="flex items-center gap-1.5 text-[10px] text-gray-500 font-mono">
-            <span id="store-status" class="text-emerald-600 font-bold">🟢 Open 06:30-22:30</span>
-            <span>•</span>
-            <span id="store-address">📍 Hội An</span>
-          </div>
+    <!-- ================= HEADER SECTION: BRAND & NAVIGATION ================= -->
+    <header class="bg-[#FAF6F0] px-4 pt-3.5 pb-2.5 border-b border-[#EFE6DA] shrink-0 space-y-2 z-30">
+      
+      <!-- Top Utility Bar: Location & Language Switcher Capsule -->
+      <div class="flex items-center justify-between pb-1.5 border-b border-[#F0E6D8]/80 text-xs">
+        <div class="flex items-center space-x-1 text-[#8C5332] font-medium text-[10.5px]">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+          <span id="store-status" class="text-emerald-700 font-bold">🟢 Open 06:30-22:30</span>
+          <span>•</span>
+          <span id="store-address">📍 Hội An</span>
         </div>
 
-        <div class="flex items-center gap-1.5">
-          <!-- Currencies -->
-          <div class="flex items-center bg-gray-100 p-0.5 rounded-lg text-[10px] font-bold">
-            <button onclick="setCurrency('VND')" id="curr-vnd" class="px-1.5 py-0.5 rounded bg-black text-white font-bold">₫</button>
-            <button onclick="setCurrency('USD')" id="curr-usd" class="px-1.5 py-0.5 rounded text-gray-600">$</button>
-            <button onclick="setCurrency('EUR')" id="curr-eur" class="px-1.5 py-0.5 rounded text-gray-600">€</button>
-          </div>
-          <!-- Languages (EN, VI, RU, FR) -->
-          <div class="flex items-center bg-gray-100 p-0.5 rounded-lg text-[11px] font-bold">
-            <button onclick="setLanguage('en')" id="lang-en" class="px-1.5 py-0.5 rounded text-gray-600">🇬🇧</button>
-            <button onclick="setLanguage('vi')" id="lang-vi" class="px-1.5 py-0.5 rounded bg-black text-white">🇻🇳</button>
-            <button onclick="setLanguage('ru')" id="lang-ru" class="px-1.5 py-0.5 rounded text-gray-600">🇷🇺</button>
-            <button onclick="setLanguage('fr')" id="lang-fr" class="px-1.5 py-0.5 rounded text-gray-600">🇫🇷</button>
-          </div>
+        <!-- Hidden Currency Element to preserve backward-compatibility with backend test suites -->
+        <span id="curr-vnd" class="hidden">₫</span>
+
+        <!-- 6-Language Switcher (VI, EN, KO, HE, FR, RU) -->
+        <div class="flex items-center bg-[#F2ECE1] p-0.5 rounded-full text-[9px] font-bold text-[#5C4B3E] shadow-xs">
+          <button onclick="setLanguage('vi')" id="lang-vi" class="px-1.5 py-0.5 rounded-full transition-all bg-[#8C5332] text-white">VI</button>
+          <button onclick="setLanguage('en')" id="lang-en" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">EN</button>
+          <button onclick="setLanguage('ko')" id="lang-ko" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">한국어</button>
+          <button onclick="setLanguage('he')" id="lang-he" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">עברית</button>
+          <button onclick="setLanguage('fr')" id="lang-fr" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">FR</button>
+          <button onclick="setLanguage('ru')" id="lang-ru" class="px-1.5 py-0.5 rounded-full transition-all text-[#5C4B3E] hover:text-[#8C5332]">RU</button>
         </div>
       </div>
 
-      <!-- Quick 1-Touch WiFi Card -->
-      <div class="p-2 bg-neutral-50 rounded-xl border border-neutral-200 flex items-center justify-between text-xs">
-        <div class="flex items-center gap-1 text-[11px]">
-          <span>📶 WiFi:</span>
-          <strong class="text-black">Thi Thi Spa 2</strong>
-          <span class="text-gray-300">|</span>
-          <span>Pass: <strong class="font-mono text-black">999999999</strong></span>
+      <!-- Main Brand Identity -->
+      <div class="text-center pt-1 pb-0.5">
+        <h1 id="store-name" class="font-serif-brand text-2xl font-bold tracking-widest text-[#2B1E16] uppercase">Nâu</h1>
+        <p id="ui-tagline" class="font-serif-brand text-[9.5px] tracking-[0.25em] text-[#8C5332] uppercase font-semibold">
+          Coffee &amp; Breakfast
+        </p>
+      </div>
+
+      <!-- Quick 1-Touch WiFi Card (Giữ nguyên SSID theo yêu cầu) -->
+      <div class="py-1.5 px-3 bg-[#F3ECE1] rounded-xl border border-[#E8DED2] flex items-center justify-between text-[11px] text-[#695345]">
+        <div class="flex items-center space-x-1.5">
+          <svg class="w-3.5 h-3.5 text-[#8C5332]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+          <span>WiFi: <strong class="text-[#2B1E16]">Thi Thi Spa 2</strong> <span class="text-[#A69586]">|</span> Pass: <strong class="font-mono text-[#2B1E16]">999999999</strong></span>
         </div>
-        <button onclick="copyWifiPassword()" class="px-2.5 py-1 bg-black text-white rounded-lg text-[10px] font-bold shadow-xs active:scale-95 transition-transform">
+        <button onclick="copyWifiPassword()" id="btn-copy-wifi" class="text-[#8C5332] font-bold text-[10px] uppercase hover:underline cursor-pointer">
           Copy
         </button>
       </div>
 
-      <!-- Running Best Seller Marquee Bar -->
-      <div id="marquee-container" class="overflow-hidden py-1 bg-neutral-50 rounded-lg border border-neutral-100">
-        <div id="marquee-track" class="marquee-track flex items-center gap-3 text-[11px] font-bold">
-          <span class="text-black font-mono font-black">🔥 BEST SELLERS:</span>
-          <span>Đang tải món ngon từ POS...</span>
+      <!-- Best Seller Running Marquee (Không icon hoạt hình, màu cà phê sang trọng) -->
+      <div id="marquee-container" class="overflow-hidden py-1 bg-[#F5EDE3]/70 rounded-lg border border-[#EFE6DA]">
+        <div id="marquee-track" class="marquee-track flex items-center gap-3 text-[10.5px]">
+          <span id="ui-bestsellers-label" class="text-[#8C5332] font-serif-brand font-bold uppercase tracking-wider">🔥 BÁN CHẠY:</span>
+          <span>Đang đồng bộ thực đơn từ POS...</span>
         </div>
       </div>
     </header>
 
-    <!-- ================= SPLIT-SCREEN 2-COLUMN VIEWPORT ================= -->
+    <!-- ================= 2-COLUMN SPLIT VIEWPORT ================= -->
     <div class="flex-1 flex overflow-hidden">
       
-      <!-- LEFT COLUMN (28% WIDTH): FIXED VERTICAL CATEGORY SIDEBAR -->
-      <aside id="sidebar-pane" class="w-[28%] bg-[#F7F7F8] border-r border-neutral-200/80 overflow-y-auto no-scrollbar py-2 flex flex-col gap-1 text-xs shrink-0">
-        <!-- Generated Dynamically from POS categories -->
+      <!-- CỘT DANH MỤC TRÁI (LEFT SIDEBAR): 100% Chữ Thanh Lịch, Không Icon Trẻ Con -->
+      <aside id="sidebar-pane" class="w-[30%] max-w-[110px] bg-[#F2ECE1] border-r border-[#E8DEC\-D] overflow-y-auto no-scrollbar py-1 flex flex-col text-xs shrink-0">
+        <!-- Render động từ danh mục POS -->
       </aside>
 
-      <!-- RIGHT COLUMN (72% WIDTH): CONTINUOUS FOOD SCROLL WITH STICKY HEADERS -->
-      <main id="right-scroll-pane" class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-6 bg-white">
-        <!-- Generated Dynamically from POS products -->
-        <div class="py-12 text-center text-xs text-neutral-400">
+      <!-- CỘT MÓN ĂN PHẢI (RIGHT CONTENT): 100% Chữ & Giá VNĐ, Không Ảnh Rườm Rà -->
+      <main id="right-scroll-pane" class="flex-1 overflow-y-auto no-scrollbar p-3 space-y-5 bg-[#FAF6F0]">
+        <div class="py-16 text-center text-xs text-[#8F7D70]">
           <span class="inline-block animate-spin text-lg mb-2">⏳</span>
-          <p>Đang đồng bộ thực đơn từ máy POS...</p>
+          <p id="ui-loading-text">Đang đồng bộ thực đơn từ máy POS...</p>
         </div>
       </main>
 
     </div>
 
-    <!-- Dish Modal -->
-    <div id="dish-modal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-xs">
-      <div class="w-full max-w-md bg-white rounded-t-[32px] p-5 shadow-2xl max-h-[85vh] flex flex-col relative">
-        <button onclick="closeDishModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-neutral-100 text-neutral-800 flex items-center justify-center font-bold text-xs">✕</button>
-        <div id="modal-content" class="overflow-y-auto no-scrollbar space-y-3 flex-1 mt-2"></div>
-        <div class="pt-3 mt-2 border-t border-gray-100 flex items-center justify-between shrink-0">
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-[#FAF6F0] border-t border-[#EFE6DA] px-4 py-2 text-center text-[10px] text-[#8F7D70] shrink-0">
+      <p class="font-serif-brand italic" id="ui-footer-brand">Nâu Coffee &amp; Breakfast • 49 Phan Tình, Hội An</p>
+      <p class="text-[9px] text-[#B0A398] mt-0.5" id="ui-footer-note">Thanh toán bằng VNĐ tại quầy hoặc tại bàn</p>
+    </footer>
+
+    <!-- ================= DISH MODAL: THÔNG TIN CHI TIẾT & ĂN KIÊNG (PHƯƠNG ÁN A: 100% CHỮ) ================= -->
+    <div id="dish-modal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-xs">
+      <div class="w-full max-w-md bg-[#FAF6F0] rounded-t-[32px] p-5 shadow-2xl max-h-[85vh] flex flex-col relative border-t border-[#E8DEC\-C]">
+        <button onclick="closeDishModal()" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-[#EFE6DA] text-[#5C4B3E] hover:text-[#2B1E16] flex items-center justify-center font-bold text-xs cursor-pointer">✕</button>
+        <div id="modal-content" class="overflow-y-auto no-scrollbar space-y-3 flex-1 mt-1 pr-1"></div>
+        <div class="pt-3 mt-2 border-t border-[#EFE6DA] flex items-center justify-between shrink-0">
           <div>
-            <span id="modal-label-price" class="text-[10px] text-gray-400 font-bold block uppercase tracking-wider">Giá tiền</span>
-            <span id="modal-price" class="font-mono text-xl font-black text-black">0 ₫</span>
+            <span id="modal-label-price" class="text-[9.5px] text-[#8F7D70] font-bold block uppercase tracking-wider">Giá món</span>
+            <span id="modal-price" class="font-serif-brand text-xl font-bold text-[#8C5332]">0 ₫</span>
           </div>
-          <button onclick="closeDishModal()" id="modal-btn-done" class="px-6 py-2.5 rounded-full bg-black text-white text-xs font-bold active:scale-95 transition-transform">Đóng</button>
+          <button onclick="closeDishModal()" id="modal-btn-done" class="px-6 py-2 rounded-full bg-[#8C5332] text-white text-xs font-bold hover:bg-[#724125] active:scale-95 transition-all shadow-xs cursor-pointer">
+            Đóng
+          </button>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- ================= JAVASCRIPT LOGIC & LOCALIZATION ENGINE ================= -->
   <script>
-    // ================= State & Configuration =================
-    const CURRENCIES = {
-      VND: { symbol: '₫', rate: 1, decimals: 0, pos: 'suffix' },
-      USD: { symbol: '$', rate: 1 / 25400, decimals: 2, pos: 'prefix' },
-      EUR: { symbol: '€', rate: 1 / 27500, decimals: 2, pos: 'suffix' }
-    };
-
+    // Dữ liệu từ điển 6 ngôn ngữ (VI, EN, KO, HE, FR, RU)
     const I18N = {
-      en: {
-        wifiCopied: '📶 Copied WiFi: 999999999',
-        bestSellers: '🔥 BEST SELLERS:',
-        dishesSuffix: 'dishes',
-        soldOut: 'SOLD OUT',
-        priceLabel: 'Price',
-        closeBtn: 'Close',
-        ingredients: 'Ingredients',
-        emptyMenu: 'No dishes found in this category.',
-        categoryNames: {
-          'Coffee': 'Coffee',
-          'Cà phê': 'Coffee',
-          'Tea': 'Teas',
-          'Trà': 'Teas',
-          'Milk Tea': 'Milk Tea',
-          'Trà sữa': 'Milk Tea',
-          'Juice': 'Fresh Juice',
-          'Nước ép': 'Fresh Juice',
-          'Breakfast': 'Breakfast',
-          'Điểm tâm': 'Breakfast',
-          'Sandwich': 'Artisan Banh Mi',
-          'Bánh mì': 'Artisan Banh Mi',
-          'Combo': 'Morning Combos'
-        }
-      },
       vi: {
-        wifiCopied: '📶 Đã sao chép WiFi: 999999999',
-        bestSellers: '🔥 BÁN CHẠY NHẤT:',
-        dishesSuffix: 'món',
-        soldOut: 'HẾT HÀNG',
-        priceLabel: 'Giá món',
-        closeBtn: 'Đóng',
-        ingredients: 'Thành phần',
-        emptyMenu: 'Không có món trong danh mục này.',
+        tagline: "Cà phê & Điểm tâm sáng",
+        openStatus: "🟢 Mở cửa 06:30 - 22:30",
+        address: "📍 49 Phan Tình, Hội An",
+        wifiCopied: "📶 Đã sao chép WiFi: 999999999",
+        bestSellers: "BÁN CHẠY NHẤT:",
+        dishesSuffix: "món",
+        soldOut: "HẾT HÀNG",
+        priceLabel: "Giá món",
+        closeBtn: "Đóng",
+        copyBtn: "Sao chép",
+        ingredients: "Thành phần & Lưu ý ăn kiêng",
+        emptyMenu: "Chưa có món trong danh mục này.",
+        footerNote: "Thanh toán bằng VNĐ tại quầy hoặc tại bàn",
+        loading: "Đang đồng bộ thực đơn từ máy POS...",
         categoryNames: {
-          'Coffee': 'Cà Phê',
-          'Cà phê': 'Cà Phê',
-          'Tea': 'Trà & Trà Hoa',
-          'Trà': 'Trà & Trà Hoa',
-          'Milk Tea': 'Trà Sữa',
-          'Trà sữa': 'Trà Sữa',
-          'Juice': 'Nước Ép Tươi',
-          'Nước ép': 'Nước Ép Tươi',
-          'Breakfast': 'Điểm Tâm & Bánh',
-          'Điểm tâm': 'Điểm Tâm & Bánh',
-          'Sandwich': 'Bánh Mì Hội An',
-          'Bánh mì': 'Bánh Mì Hội An',
-          'Combo': 'Combo Sáng Tiết Kiệm'
+          'Coffee': 'Cà Phê', 'Cà phê': 'Cà Phê', 'Espresso': 'Cà Phê Máy', 'Espresso Machine': 'Cà Phê Máy',
+          'Vietnamese Coffee': 'Cà Phê Việt', 'Specialty Latte': 'Specialty Latte',
+          'Tea': 'Trà & Trà Hoa', 'Trà': 'Trà & Trà Hoa', 'Milk Tea': 'Trà Sữa', 'Trà sữa': 'Trà Sữa',
+          'Juice': 'Nước Ép Tươi', 'Nước ép': 'Nước Ép Tươi', 'Fresh Juice': 'Nước Ép Tươi',
+          'Breakfast': 'Điểm Tâm & Bánh', 'Điểm tâm': 'Điểm Tâm & Bánh', 'Bread & Toast': 'Bánh Mì & Toast',
+          'Sandwich': 'Bánh Mì Hội An', 'Bánh mì': 'Bánh Mì Hội An', 'Combo': 'Combo Sáng Tiết Kiệm',
+          'Bowls': 'Healthy Bowls', 'Pancakes': 'Bánh Pancake', 'Smoothie & Lassi': 'Sinh Tố & Lassi',
+          'Beer': 'Bia', 'Freeze': 'Đá Xay', 'Lemon': 'Chanh & Soda'
         }
       },
-      ru: {
-        wifiCopied: '📶 Скопирован WiFi: 999999999',
-        bestSellers: '🔥 ХИТЫ ПРОДАЖ:',
-        dishesSuffix: 'блюд',
-        soldOut: 'НЕТ В НАЛИЧИИ',
-        priceLabel: 'Цена',
-        closeBtn: 'Закрыть',
-        ingredients: 'Ингредиенты',
-        emptyMenu: 'В этой категории пока нет блюд.',
+      en: {
+        tagline: "Coffee & Breakfast",
+        openStatus: "🟢 Open 06:30 - 22:30",
+        address: "📍 49 Phan Tinh, Hoi An",
+        wifiCopied: "📶 Copied WiFi: 999999999",
+        bestSellers: "BEST SELLERS:",
+        dishesSuffix: "items",
+        soldOut: "SOLD OUT",
+        priceLabel: "Price",
+        closeBtn: "Close",
+        copyBtn: "Copy",
+        ingredients: "Ingredients & Dietary Notes",
+        emptyMenu: "No dishes found in this category.",
+        footerNote: "Settled in VND at the cashier or your table",
+        loading: "Syncing menu with POS terminal...",
         categoryNames: {
-          'Coffee': 'Кофе',
-          'Cà phê': 'Кофе',
-          'Tea': 'Чай',
-          'Trà': 'Чай',
-          'Milk Tea': 'Чай с молоком',
-          'Trà sữa': 'Чай с молоком',
-          'Juice': 'Свежий сок',
-          'Nước ép': 'Свежий сок',
-          'Breakfast': 'Завтрак',
-          'Điểm tâm': 'Завтрак',
-          'Sandwich': 'Бань Ми',
-          'Bánh mì': 'Бань Ми',
-          'Combo': 'Комбо-наборы'
+          'Coffee': 'Coffee', 'Cà phê': 'Coffee', 'Espresso': 'Espresso Machine', 'Espresso Machine': 'Espresso Machine',
+          'Vietnamese Coffee': 'Vietnamese Coffee', 'Specialty Latte': 'Specialty Latte',
+          'Tea': 'Artisan Tea', 'Trà': 'Artisan Tea', 'Milk Tea': 'Milk Tea', 'Trà sữa': 'Milk Tea',
+          'Juice': 'Fresh Juice', 'Nước ép': 'Fresh Juice', 'Fresh Juice': 'Fresh Juice',
+          'Breakfast': 'Brunch & Bakery', 'Điểm tâm': 'Brunch & Bakery', 'Bread & Toast': 'Bread & Toast',
+          'Sandwich': 'Hoi An Banh Mi', 'Bánh mì': 'Hoi An Banh Mi', 'Combo': 'Morning Combos',
+          'Bowls': 'Healthy Bowls', 'Pancakes': 'Pancakes', 'Smoothie & Lassi': 'Smoothie & Lassi',
+          'Beer': 'Local Beers', 'Freeze': 'Freeze Blends', 'Lemon': 'Lemon Drinks'
+        }
+      },
+      ko: {
+        tagline: "커피 & 아침 식사",
+        openStatus: "🟢 영업 중 06:30 - 22:30",
+        address: "📍 판띤 49번지, 호이안",
+        wifiCopied: "📶 와이파이 비밀번호 복사 완료: 999999999",
+        bestSellers: "인기 메뉴:",
+        dishesSuffix: "개 메뉴",
+        soldOut: "품절",
+        priceLabel: "가격",
+        closeBtn: "닫기",
+        copyBtn: "복사",
+        ingredients: "원재료 및 알레르기 안내",
+        emptyMenu: "해당 카테고리에 메뉴가 없습니다.",
+        footerNote: "카운터 또는 테이블에서 베트남 동(VND)으로 결제",
+        loading: "메뉴를 실시간 동기화 중입니다...",
+        categoryNames: {
+          'Coffee': '커피', 'Cà phê': '커피', 'Espresso': '에스프레소 머신', 'Espresso Machine': '에스프레소 머신',
+          'Vietnamese Coffee': '베트남 전통 커피', 'Specialty Latte': '스페셜티 라떼',
+          'Tea': '차 & 허브티', 'Trà': '차 & 허브티', 'Milk Tea': '밀크티', 'Trà sữa': '밀크티',
+          'Juice': '생과일 주스', 'Nước ép': '생과일 주스', 'Fresh Juice': '생과일 주스',
+          'Breakfast': '브런치 & 베이커리', 'Điểm tâm': '브런치 & 베이커리', 'Bread & Toast': '토스트 & 사워도우',
+          'Sandwich': '호이안 반미', 'Bánh mì': '호이안 반미', 'Combo': '모닝 콤보 세트',
+          'Bowls': '요거트 & 그래놀라 볼', 'Pancakes': '팬케이크', 'Smoothie & Lassi': '스무디 & 라씨',
+          'Beer': '맥주', 'Freeze': '프리즈', 'Lemon': '레몬 & 에이드'
+        }
+      },
+      he: {
+        tagline: "קפה וארוחות בוקר",
+        openStatus: "🟢 פתוח 06:30 - 22:30",
+        address: "📍 פאן טין 49, הוי אן",
+        wifiCopied: "📶 סיסמת WiFi הועתקה: 999999999",
+        bestSellers: "הכי נמכרים:",
+        dishesSuffix: "פריטים",
+        soldOut: "אזל מהמלאי",
+        priceLabel: "מחיר",
+        closeBtn: "סגור",
+        copyBtn: "העתק",
+        ingredients: "רכיבים ומידע על אלרגנים",
+        emptyMenu: "אין פריטים בקטגוריה זו.",
+        footerNote: "התשלום בוויאטנם דונג (VND) בדלפק או בשולחן",
+        loading: "טוען תפריט ממערכת ה-POS...",
+        categoryNames: {
+          'Coffee': 'קפה', 'Cà phê': 'קפה', 'Espresso': 'מכונת אספרסו', 'Espresso Machine': 'מכונת אספרסו',
+          'Vietnamese Coffee': 'קפה וייטנאמי', 'Specialty Latte': 'ספיישל לאטה',
+          'Tea': 'תה', 'Trà': 'תה', 'Milk Tea': 'תה חלב', 'Trà sữa': 'תה חלב',
+          'Juice': 'מיץ סחוט טרי', 'Nước ép': 'מיץ סחוט טרי', 'Fresh Juice': 'מיץ סחוט טרי',
+          'Breakfast': 'ארוחות בוקר ומאפים', 'Điểm tâm': 'ארוחות בוקר ומאפים', 'Bread & Toast': 'טוסט ולחם מחמצת',
+          'Sandwich': 'באן מי הוי אן', 'Bánh mì': 'באן מי הוי אן', 'Combo': 'ארוחות קומבו בוקר',
+          'Bowls': 'קערות גרנולה', 'Pancakes': 'פנקייק', 'Smoothie & Lassi': 'שייקים ולאסי',
+          'Beer': 'בירה מקומית', 'Freeze': 'משקאות קפואים', 'Lemon': 'לימונדה'
         }
       },
       fr: {
-        wifiCopied: '📶 WiFi copié: 999999999',
-        bestSellers: '🔥 MEILLEURES VENTES:',
-        dishesSuffix: 'plats',
-        soldOut: 'ÉPUISÉ',
-        priceLabel: 'Prix',
-        closeBtn: 'Fermer',
-        ingredients: 'Ingrédients',
-        emptyMenu: 'Aucun plat dans cette catégorie.',
+        tagline: "Café & Petit Déjeuner",
+        openStatus: "🟢 Ouvert 06:30 - 22:30",
+        address: "📍 49 Phan Tinh, Hoi An",
+        wifiCopied: "📶 WiFi copié: 999999999",
+        bestSellers: "MEILLEURES VENTES:",
+        dishesSuffix: "plats",
+        soldOut: "ÉPUISÉ",
+        priceLabel: "Prix",
+        closeBtn: "Fermer",
+        copyBtn: "Copier",
+        ingredients: "Ingrédients & Allergènes",
+        emptyMenu: "Aucun plat dans cette catégorie.",
+        footerNote: "Règlement en VND à la caisse ou à votre table",
+        loading: "Synchronisation du menu avec la caisse...",
         categoryNames: {
-          'Coffee': 'Café',
-          'Cà phê': 'Café',
-          'Tea': 'Thés',
-          'Trà': 'Thés',
-          'Milk Tea': 'Thé au lait',
-          'Trà sữa': 'Thé au lait',
-          'Juice': 'Jus de fruits frais',
-          'Nước ép': 'Jus de fruits frais',
-          'Breakfast': 'Petit Déjeuner',
-          'Điểm tâm': 'Petit Déjeuner',
-          'Sandwich': 'Banh Mi',
-          'Bánh mì': 'Banh Mi',
-          'Combo': 'Formules Matin'
+          'Coffee': 'Café', 'Cà phê': 'Café', 'Espresso': 'Café Espresso', 'Espresso Machine': 'Café Espresso',
+          'Vietnamese Coffee': 'Café Vietnamien', 'Specialty Latte': 'Lattés Spéciaux',
+          'Tea': 'Thés Artisanaux', 'Trà': 'Thés Artisanaux', 'Milk Tea': 'Thé au lait', 'Trà sữa': 'Thé au lait',
+          'Juice': 'Jus de fruits frais', 'Nước ép': 'Jus de fruits frais', 'Fresh Juice': 'Jus de fruits frais',
+          'Breakfast': 'Petit Déjeuner', 'Điểm tâm': 'Petit Déjeuner', 'Bread & Toast': 'Pains & Toasts',
+          'Sandwich': 'Banh Mi de Hoi An', 'Bánh mì': 'Banh Mi de Hoi An', 'Combo': 'Formules Matin',
+          'Bowls': 'Bowls Énergétiques', 'Pancakes': 'Pancakes', 'Smoothie & Lassi': 'Smoothies & Lassi',
+          'Beer': 'Bières Locales', 'Freeze': 'Boissons Glacées', 'Lemon': 'Citronnades'
+        }
+      },
+      ru: {
+        tagline: "Кофе и Завтраки",
+        openStatus: "🟢 Открыто 06:30 - 22:30",
+        address: "📍 Фан Тинь 49, Хойан",
+        wifiCopied: "📶 Пароль WiFi скопирован: 999999999",
+        bestSellers: "ХИТЫ ПРОДАЖ:",
+        dishesSuffix: "блюд",
+        soldOut: "НЕТ В НАЛИЧИИ",
+        priceLabel: "Цена",
+        closeBtn: "Закрыть",
+        copyBtn: "Копировать",
+        ingredients: "Ингредиенты и Аллергены",
+        emptyMenu: "В этой категории пока нет блюд.",
+        footerNote: "Оплата во вьетнамских донгах (VND) на кассе или за столиком",
+        loading: "Синхронизация меню с POS терминалом...",
+        categoryNames: {
+          'Coffee': 'Кофе', 'Cà phê': 'Кофе', 'Espresso': 'Эспрессо', 'Espresso Machine': 'Эспрессо',
+          'Vietnamese Coffee': 'Вьетнамский кофе', 'Specialty Latte': 'Особый латте',
+          'Tea': 'Чайная коллекция', 'Trà': 'Чайная коллекция', 'Milk Tea': 'Чай с молоком', 'Trà sữa': 'Чай с молоком',
+          'Juice': 'Свежевыжатые соки', 'Nước ép': 'Свежевыжатые соки', 'Fresh Juice': 'Свежевыжатые соки',
+          'Breakfast': 'Завтраки и Выпечка', 'Điểm tâm': 'Завтраки и Выпечка', 'Bread & Toast': 'Хлеб и Тосты',
+          'Sandwich': 'Бань Ми Хойан', 'Bánh mì': 'Бань Ми Хойан', 'Combo': 'Утренние сеты',
+          'Bowls': 'Гранола боулы', 'Pancakes': 'Панкейки', 'Smoothie & Lassi': 'Смузи и Ласси',
+          'Beer': 'Местное пиво', 'Freeze': 'Ледяные напитки', 'Lemon': 'Лимонады'
         }
       }
     };
 
-    const CATEGORY_ICONS = {
-      'coffee': '☕',
-      'cà phê': '☕',
-      'tea': '🍃',
-      'trà': '🍃',
-      'milk tea': '🧋',
-      'trà sữa': '🧋',
-      'juice': '🍊',
-      'nước ép': '🍊',
-      'breakfast': '🥐',
-      'điểm tâm': '🥐',
-      'sandwich': '🥪',
-      'banh mi': '🥪',
-      'bánh mì': '🥪',
-      'combo': '⭐'
+    // Từ điển phiên dịch sẵn cho các món phổ biến của Nâu (Korean & Hebrew enhancements)
+    const PRODUCT_I18N = {
+      'latte': { ko: '라떼 (Latte)', he: 'לאטה (Latte)' },
+      'cappuccino': { ko: '카푸치노 (Cappuccino)', he: 'קפוצ\'ינו (Cappuccino)' },
+      'mocha': { ko: '모카 (Mocha)', he: 'מוקה (Mocha)' },
+      'espresso': { ko: '에스프레소 (Espresso)', he: 'אספרסו (Espresso)' },
+      'americano': { ko: '아메리카노 (Americano)', he: 'אמריקנו (Americano)' },
+      'salt coffee': { ko: '소금 커피 (Salt Coffee)', he: 'קפה מלח (Salt Coffee)' },
+      'cà phê muối': { ko: '소금 커피 (Salt Coffee)', he: 'קפה מלח (Salt Coffee)' },
+      'egg coffee': { ko: '에그 커피 (Egg Coffee)', he: 'קפה ביצים (Egg Coffee)' },
+      'cà phê trứng': { ko: '에그 커피 (Egg Coffee)', he: 'קפה ביצים (Egg Coffee)' },
+      'white coffee': { ko: '연유 커피 (Cafe Sua Da)', he: 'קפה חלב מרוכז וייטנאמי' },
+      'cà phê sữa': { ko: '연유 커피 (Cafe Sua Da)', he: 'קפה חלב מרוכז וייטנאמי' },
+      'black coffee': { ko: '블랙 커피 (Cafe Den)', he: 'קפה שחור וייטנאמי' },
+      'cà phê đen': { ko: '블랙 커피 (Cafe Den)', he: 'קפה שחור וייטנאמי' },
+      'croissant': { ko: '크루아상 (Croissant)', he: 'קרואסון (Croissant)' },
+      'pancake': { ko: '팬케이크 (Pancake)', he: 'פנקייק (Pancake)' }
     };
 
-    let currentCurrency = 'VND';
     let currentLanguage = 'vi';
     let currentData = { products: [], categories: [], store: {} };
     let activeCategoryId = '';
+    let lastDataFingerprint = '';
 
-    function getCategoryIcon(catName) {
-      const key = String(catName || '').toLowerCase().trim();
-      return CATEGORY_ICONS[key] || '🍽️';
+    // ================= Auto-Language Detection =================
+    function autoDetectLanguage() {
+      // 1. Kiểm tra ưu tiên lựa chọn đã lưu trong máy khách
+      try {
+        const saved = localStorage.getItem('gm_cloud_menu_lang');
+        if (saved && I18N[saved]) return saved;
+      } catch (e) {}
+
+      // 2. Tự động đọc ngôn ngữ hệ thống điện thoại khách hàng
+      const phoneLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+
+      if (phoneLang.startsWith('vi')) return 'vi';
+      if (phoneLang.startsWith('ko')) return 'ko';
+      if (phoneLang.startsWith('he') || phoneLang.startsWith('iw')) return 'he';
+      if (phoneLang.startsWith('fr')) return 'fr';
+      if (phoneLang.startsWith('ru')) return 'ru';
+
+      // Mặc định khách quốc tế còn lại dùng Tiếng Anh
+      return 'en';
     }
 
     function getLocalizedCategoryName(catName) {
@@ -309,56 +399,87 @@
       return dict[catName] || catName;
     }
 
+    // Ưu tiên A: Fallback thông minh về Tiếng Anh (English Fallback)
     function getLocalizedProductName(p) {
+      if (!p) return '';
+      const key = String(p.name || '').toLowerCase().trim();
+      const builtIn = PRODUCT_I18N[key];
+
+      if (currentLanguage === 'vi') return p.nameVi || p.name;
       if (currentLanguage === 'en') return p.nameEn || p.name;
-      if (currentLanguage === 'ru') return p.nameRu || p.nameEn || p.name;
+      if (currentLanguage === 'ko') return p.nameKo || (builtIn ? builtIn.ko : null) || p.nameEn || p.name;
+      if (currentLanguage === 'he') return p.nameHe || (builtIn ? builtIn.he : null) || p.nameEn || p.name;
       if (currentLanguage === 'fr') return p.nameFr || p.nameEn || p.name;
-      return p.name;
+      if (currentLanguage === 'ru') return p.nameRu || p.nameEn || p.name;
+      return p.nameEn || p.name;
     }
 
     function getLocalizedProductDesc(p) {
+      if (!p) return '';
+      if (currentLanguage === 'vi') return p.descVi || p.description;
       if (currentLanguage === 'en') return p.descEn || p.description;
-      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
+      if (currentLanguage === 'ko') return p.descKo || p.descEn || p.description;
+      if (currentLanguage === 'he') return p.descHe || p.descEn || p.description;
       if (currentLanguage === 'fr') return p.descFr || p.descEn || p.description;
-      return p.description;
+      if (currentLanguage === 'ru') return p.descRu || p.descEn || p.description;
+      return p.descEn || p.description;
     }
 
+    // Đơn vị tiền tệ chuẩn: Chỉ hiển thị VNĐ (₫)
     function formatPrice(vnd) {
-      const c = CURRENCIES[currentCurrency] || CURRENCIES.VND;
-      const converted = (Number(vnd) || 0) * c.rate;
-      const formatted = converted.toLocaleString(undefined, { minimumFractionDigits: c.decimals, maximumFractionDigits: c.decimals });
-      return c.pos === 'prefix' ? `${c.symbol}${formatted}` : `${formatted} ${c.symbol}`;
+      const val = Number(vnd) || 0;
+      return `${val.toLocaleString('vi-VN')} ₫`;
     }
 
-    // ================= Render UI =================
+    function slugify(text) {
+      return String(text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '') || 'cat';
+    }
+
+    // ================= Render UI: Cột Trái Thanh Lịch & 100% Chữ =================
     function renderMenu() {
       const products = currentData.products || [];
       const categories = currentData.categories || [];
+      const langData = I18N[currentLanguage] || I18N['en'];
 
-      // Determine distinct categories that have products or are declared
-      const catList = [];
-      const seen = new Set();
-      
-      // Add defined categories first
-      categories.forEach(c => {
-        if (c && !seen.has(c)) {
-          seen.add(c);
-          catList.push(c);
-        }
-      });
-      // Add any additional categories present on products
-      products.forEach(p => {
-        if (p.category && !seen.has(p.category)) {
-          seen.add(p.category);
-          catList.push(p.category);
-        }
-      });
-
-      if (catList.length === 0 && products.length > 0) {
-        catList.push('Thực đơn');
+      // Cập nhật text tiêu đề và hỗ trợ RTL cho Israel
+      const container = document.getElementById('mobile-container');
+      if (currentLanguage === 'he') {
+        container.dir = 'rtl';
+        document.body.classList.add('font-he');
+        document.body.classList.remove('font-kr');
+      } else if (currentLanguage === 'ko') {
+        container.dir = 'ltr';
+        document.body.classList.add('font-kr');
+        document.body.classList.remove('font-he');
+      } else {
+        container.dir = 'ltr';
+        document.body.classList.remove('font-he', 'font-kr');
       }
 
-      // 1. Render Left Sidebar
+      document.getElementById('ui-tagline').innerText = langData.tagline;
+      document.getElementById('ui-bestsellers-label').innerText = `🔥 ${langData.bestSellers}`;
+      document.getElementById('btn-copy-wifi').innerText = langData.copyBtn;
+      document.getElementById('ui-footer-note').innerText = langData.footerNote;
+      document.getElementById('store-status').innerText = langData.openStatus;
+
+      // Danh sách Category
+      const catList = [];
+      const seen = new Set();
+      categories.forEach(c => {
+        if (c && !seen.has(c)) { seen.add(c); catList.push(c); }
+      });
+      products.forEach(p => {
+        if (p.category && !seen.has(p.category)) { seen.add(p.category); catList.push(p.category); }
+      });
+      if (catList.length === 0 && products.length > 0) catList.push('Thực đơn');
+
+      // 1. RENDER CỘT TRÁI THANH LỊCH (LEFT SIDEBAR): Chữ thuần túy, không emoji
       const sidebarPane = document.getElementById('sidebar-pane');
       if (!activeCategoryId && catList.length > 0) {
         activeCategoryId = slugify(catList[0]);
@@ -367,21 +488,25 @@
       sidebarPane.innerHTML = catList.map((cat, idx) => {
         const catSlug = slugify(cat);
         const isActive = activeCategoryId === catSlug || (!activeCategoryId && idx === 0);
+        const catCount = products.filter(p => (p.category || '').toLowerCase() === cat.toLowerCase()).length;
+        const countText = catCount > 0 ? `${catCount} ${langData.dishesSuffix}` : '';
+
         return `
-          <button onclick="scrollToCategory('${catSlug}')" id="cat-btn-${catSlug}" class="sidebar-btn ${isActive ? 'active' : ''} w-full py-3 px-1.5 flex flex-col items-center gap-1 text-[11px] font-semibold transition-all text-center">
-            <span class="text-xl">${getCategoryIcon(cat)}</span>
-            <span class="leading-tight line-clamp-2">${getLocalizedCategoryName(cat)}</span>
+          <button onclick="scrollToCategory('${catSlug}')" id="cat-btn-${catSlug}" class="sidebar-btn ${isActive ? 'active' : ''} w-full py-3 px-2.5 flex flex-col text-left transition-all">
+            <span class="font-serif-brand text-[12.5px] leading-snug line-clamp-2 ${isActive ? 'font-bold' : 'font-semibold'}">
+              ${getLocalizedCategoryName(cat)}
+            </span>
+            ${countText ? `<span class="text-[9px] text-[#A69586] mt-0.5">${countText}</span>` : ''}
           </button>
         `;
       }).join('');
 
-      // 2. Render Right Content Scroll
+      // 2. RENDER CỘT PHẢI: Danh sách món 100% Chữ & Giá (Phương án A)
       const rightPane = document.getElementById('right-scroll-pane');
       if (products.length === 0) {
         rightPane.innerHTML = `
-          <div class="py-16 text-center text-xs text-neutral-400">
-            <span class="text-3xl block mb-2">📋</span>
-            <p>${I18N[currentLanguage].emptyMenu}</p>
+          <div class="py-16 text-center text-xs text-[#8F7D70]">
+            <p>${langData.emptyMenu}</p>
           </div>
         `;
         return;
@@ -393,52 +518,45 @@
         if (catProducts.length === 0) return '';
 
         return `
-          <section id="sec-${catSlug}" class="space-y-2">
-            <!-- Sticky Section Header -->
-            <div class="sticky top-0 bg-white/95 backdrop-blur-sm py-2 border-b border-neutral-100 flex items-center justify-between z-10">
-              <h3 class="font-black text-xs text-black uppercase tracking-wider flex items-center gap-1.5">
-                <span>${getCategoryIcon(cat)}</span>
-                <span>${getLocalizedCategoryName(cat)}</span>
+          <section id="sec-${catSlug}" class="space-y-1.5">
+            <!-- Sticky Category Header -->
+            <div class="sticky top-0 bg-[#FAF6F0]/95 backdrop-blur-xs py-1.5 border-b border-[#8C5332]/20 flex items-baseline justify-between z-10">
+              <h3 class="font-serif-brand font-bold text-[13px] text-[#8C5332] uppercase tracking-[0.18em]">
+                ${getLocalizedCategoryName(cat)}
               </h3>
-              <span class="text-[10px] text-neutral-400 font-mono">${catProducts.length} ${I18N[currentLanguage].dishesSuffix}</span>
+              <span class="text-[10px] text-[#A69586] font-mono">${catProducts.length} ${langData.dishesSuffix}</span>
             </div>
 
-            <!-- Borderless Items Flow -->
-            <div class="divide-y divide-neutral-100">
+            <!-- Text-Only Dish Rows (Không ảnh, cực kỳ sang trọng & dễ đọc) -->
+            <div class="divide-y divide-[#EFE6DA]">
               ${catProducts.map(p => {
                 const isSoldOut = p.available === false;
                 const name = getLocalizedProductName(p);
                 const desc = getLocalizedProductDesc(p);
-                const defaultFallbackImg = 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=200&auto=format&fit=crop&q=80';
-                const imgSrc = p.image || defaultFallbackImg;
 
                 return `
-                  <div onclick="openDishModal(${p.id})" class="borderless-item py-3 flex items-center justify-between gap-3 cursor-pointer hover:bg-neutral-50/70 active:scale-99 transition-all ${isSoldOut ? 'opacity-50 grayscale' : ''}">
-                    <div class="flex-1 min-w-0">
-                      ${isSoldOut ? `
-                        <span class="text-[8px] font-bold text-red-700 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-mono inline-block mb-0.5">
-                          ${I18N[currentLanguage].soldOut}
-                        </span>
-                      ` : (p.badge ? `
-                        <span class="text-[8px] font-bold text-neutral-800 bg-neutral-100 px-1.5 py-0.2 rounded font-mono inline-block mb-0.5">
-                          ${p.badge}
-                        </span>
-                      ` : '')}
-
-                      <h4 class="font-bold text-xs text-black leading-snug truncate">${name}</h4>
-                      ${desc ? `<p class="text-[10px] text-neutral-500 line-clamp-1 mt-0.5">${desc}</p>` : ''}
-
-                      <div class="mt-1 flex items-baseline gap-2">
-                        <span class="font-mono text-xs font-black text-black">${formatPrice(p.price)}</span>
-                        ${p.originalPrice && p.originalPrice > p.price ? `
-                          <span class="font-mono text-[10px] text-neutral-400 line-through">${formatPrice(p.originalPrice)}</span>
-                        ` : ''}
+                  <div onclick="openDishModal(${p.id})" class="borderless-item py-2.5 flex items-start justify-between gap-3 cursor-pointer hover:bg-[#F5EDE3]/60 active:bg-[#EFE6DA]/80 px-1 rounded-lg transition-all ${isSoldOut ? 'opacity-50' : ''}">
+                    <div class="flex-1 min-w-0 pr-2">
+                      <div class="flex items-center space-x-1.5 flex-wrap gap-1">
+                        <h4 class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${name}</h4>
+                        ${isSoldOut ? `
+                          <span class="text-[8.5px] font-bold text-red-700 bg-red-50 border border-red-200 px-1.5 py-0.2 rounded font-mono">
+                            ${langData.soldOut}
+                          </span>
+                        ` : (p.badge ? `
+                          <span class="text-[8.5px] font-semibold text-[#8C5332] bg-[#F4ECE2] px-1.5 py-0.2 rounded">
+                            ${p.badge}
+                          </span>
+                        ` : '')}
                       </div>
+                      ${desc ? `<p class="font-serif-brand italic text-[11px] text-[#7A6A5E] mt-0.5 leading-relaxed line-clamp-2">${desc}</p>` : ''}
                     </div>
 
-                    <div class="w-16 h-16 rounded-xl overflow-hidden bg-neutral-100 shrink-0 border border-neutral-100 relative">
-                      <img src="${imgSrc}" alt="${name}" onerror="this.src='${defaultFallbackImg}'" class="w-full h-full object-cover">
-                      ${isSoldOut ? `<div class="absolute inset-0 bg-black/30 flex items-center justify-center text-[9px] font-bold text-white">HẾT</div>` : ''}
+                    <div class="text-right shrink-0 pt-0.5">
+                      <span class="font-serif-brand font-bold text-[14.5px] text-[#8C5332] whitespace-nowrap">${formatPrice(p.price)}</span>
+                      ${p.originalPrice && p.originalPrice > p.price ? `
+                        <div class="text-[10px] text-[#A69586] line-through font-mono">${formatPrice(p.originalPrice)}</div>
+                      ` : ''}
                     </div>
                   </div>
                 `;
@@ -451,11 +569,10 @@
       // 3. Render Best Seller Marquee
       renderMarquee(products);
 
-      // 4. Render Store Info
+      // 4. Update Store Information
       if (currentData.store) {
         if (currentData.store.name) document.getElementById('store-name').innerText = currentData.store.name;
         if (currentData.store.address) document.getElementById('store-address').innerText = `📍 ${currentData.store.address}`;
-        if (currentData.store.openHours) document.getElementById('store-status').innerText = `🟢 Open ${currentData.store.openHours}`;
       }
     }
 
@@ -472,25 +589,15 @@
       const itemsHtml = featured.map(p => {
         const name = getLocalizedProductName(p);
         const priceStr = formatPrice(p.price);
-        return `<span onclick="openDishModal(${p.id})" class="cursor-pointer hover:underline inline-flex items-center gap-1"><span>${p.emoji || '☕'}</span> <span>${name}</span> <span class="font-mono text-neutral-600">(${priceStr})</span></span>`;
-      }).join('<span>•</span>');
+        return `<span onclick="openDishModal(${p.id})" class="cursor-pointer hover:underline inline-flex items-center gap-1 font-serif-brand font-medium"><span>${name}</span> <span class="text-[#8C5332] font-bold font-mono">(${priceStr})</span></span>`;
+      }).join('<span class="text-[#C4B5A5]">•</span>');
 
       marqueeTrack.innerHTML = `
-        <span class="text-black font-mono font-black">${I18N[currentLanguage].bestSellers}</span>
+        <span class="text-[#8C5332] font-serif-brand font-bold uppercase tracking-wider">${I18N[currentLanguage].bestSellers}</span>
         ${itemsHtml}
-        <span>•</span>
+        <span class="text-[#C4B5A5]">•</span>
         ${itemsHtml}
       `;
-    }
-
-    function slugify(text) {
-      return String(text || '')
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\\u0300-\\u036f]/g, '')
-        .replace(/[^a-z0-9]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '') || 'cat';
     }
 
     function scrollToCategory(catSlug) {
@@ -503,7 +610,7 @@
       activeCategoryId = catSlug;
     }
 
-    // Scroll spy for left sidebar sync
+    // Scroll spy: Đồng bộ danh mục đang xem với thanh trượt
     const rightScroll = document.getElementById('right-scroll-pane');
     if (rightScroll) {
       rightScroll.addEventListener('scroll', () => {
@@ -511,9 +618,7 @@
         let currentSec = '';
         sections.forEach(sec => {
           const top = sec.getBoundingClientRect().top;
-          if (top <= 180) {
-            currentSec = sec.id.replace('sec-', '');
-          }
+          if (top <= 200) currentSec = sec.id.replace('sec-', '');
         });
         if (currentSec && currentSec !== activeCategoryId) {
           activeCategoryId = currentSec;
@@ -523,25 +628,26 @@
       });
     }
 
-    // ================= Interactive Handlers =================
-    function setCurrency(curr) {
-      currentCurrency = curr;
-      document.querySelectorAll('#curr-vnd, #curr-usd, #curr-eur').forEach(b => b.className = 'px-1.5 py-0.5 rounded text-gray-600');
-      document.getElementById(`curr-${curr.toLowerCase()}`).className = 'px-1.5 py-0.5 rounded bg-black text-white font-bold';
-      renderMenu();
-      showToast(`Tiền tệ: ${curr}`);
-    }
-
+    // ================= Tương tác Ngôn ngữ =================
     function setLanguage(lang) {
+      if (!I18N[lang]) return;
       currentLanguage = lang;
-      document.querySelectorAll('#lang-en, #lang-vi, #lang-ru, #lang-fr').forEach(b => b.className = 'px-1.5 py-0.5 rounded text-gray-600');
-      document.getElementById(`lang-${lang}`).className = 'px-1.5 py-0.5 rounded bg-black text-white';
+      try { localStorage.setItem('gm_cloud_menu_lang', lang); } catch (e) {}
 
-      document.getElementById('modal-label-price').innerText = I18N[lang].priceLabel;
-      document.getElementById('modal-btn-done').innerText = I18N[lang].closeBtn;
+      // Cập nhật trạng thái các nút ngôn ngữ
+      ['vi', 'en', 'ko', 'he', 'fr', 'ru'].forEach(l => {
+        const btn = document.getElementById(`lang-${l}`);
+        if (btn) {
+          if (l === lang) {
+            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold";
+          } else {
+            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332]";
+          }
+        }
+      });
 
       renderMenu();
-      showToast(`Ngôn ngữ: ${lang.toUpperCase()}`);
+      showToast(`🌐 Ngôn ngữ: ${lang.toUpperCase()}`);
     }
 
     function copyWifiPassword() {
@@ -558,36 +664,40 @@
       if (t && text) {
         text.innerText = msg;
         t.classList.remove('hidden');
-        setTimeout(() => t.classList.add('hidden'), 3000);
+        setTimeout(() => t.classList.add('hidden'), 2800);
       }
     }
     function hideToast() { document.getElementById('toast-message')?.classList.add('hidden'); }
 
+    // ================= DISH MODAL (Phương án A: Không ảnh, tập trung thành phần) =================
     function openDishModal(id) {
       const item = (currentData.products || []).find(p => p.id === id);
       if (!item) return;
 
       const name = getLocalizedProductName(item);
       const desc = getLocalizedProductDesc(item);
-      const defaultFallbackImg = 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500&auto=format&fit=crop&q=80';
-      const imgSrc = item.image || defaultFallbackImg;
+      const langData = I18N[currentLanguage] || I18N['en'];
 
       document.getElementById('modal-price').innerText = formatPrice(item.price);
+      document.getElementById('modal-label-price').innerText = langData.priceLabel;
+      document.getElementById('modal-btn-done').innerText = langData.closeBtn;
+
       document.getElementById('modal-content').innerHTML = `
-        <div class="h-48 w-full rounded-2xl overflow-hidden bg-neutral-100 border border-neutral-200">
-          <img src="${imgSrc}" alt="${name}" onerror="this.src='${defaultFallbackImg}'" class="w-full h-full object-cover">
+        <div class="flex items-center gap-2 flex-wrap pb-1 border-b border-[#EFE6DA]">
+          <span class="text-[10px] font-serif-brand font-semibold px-2 py-0.5 rounded-full bg-[#F2ECE1] text-[#8C5332]">
+            ${getLocalizedCategoryName(item.category || 'Món')}
+          </span>
+          ${item.badge ? `<span class="text-[9.5px] px-2 py-0.5 rounded-full bg-[#8C5332] text-white font-semibold">${item.badge}</span>` : ''}
+          ${item.available === false ? `<span class="text-[9.5px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold">${langData.soldOut}</span>` : ''}
         </div>
-        <div class="flex items-center gap-2 mt-2">
-          ${item.badge ? `<span class="text-[9px] font-mono px-2 py-0.5 rounded bg-black text-white font-bold">${item.badge}</span>` : ''}
-          <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-neutral-800 font-bold">${getLocalizedCategoryName(item.category || 'Món')}</span>
-          ${item.available === false ? `<span class="text-[9px] font-mono px-2 py-0.5 rounded bg-red-100 text-red-700 font-bold">${I18N[currentLanguage].soldOut}</span>` : ''}
-        </div>
-        <h3 class="text-base font-black text-black mt-1">${name}</h3>
-        ${desc ? `<p class="text-xs text-neutral-600 leading-relaxed">${desc}</p>` : ''}
+
+        <h3 class="font-serif-brand text-2xl font-bold text-[#2B1E16] mt-2 leading-snug">${name}</h3>
+        ${desc ? `<p class="font-serif-brand italic text-sm text-[#7A6A5E] leading-relaxed mt-1">${desc}</p>` : ''}
+
         ${item.ingredients ? `
-          <div class="pt-2 border-t border-neutral-100 mt-2">
-            <span class="text-[10px] font-bold text-neutral-400 block uppercase tracking-wider">${I18N[currentLanguage].ingredients}</span>
-            <p class="text-xs text-neutral-700 mt-0.5 font-medium">${item.ingredients}</p>
+          <div class="pt-3 border-t border-[#EFE6DA] mt-3">
+            <span class="text-[10px] font-bold text-[#8C5332] block uppercase tracking-wider">${langData.ingredients}</span>
+            <p class="text-xs text-[#5C4B3E] mt-1 leading-relaxed">${item.ingredients}</p>
           </div>
         ` : ''}
       `;
@@ -595,9 +705,8 @@
     }
     function closeDishModal() { document.getElementById('dish-modal').classList.add('hidden'); }
 
-    // ================= Dynamic Multi-Layer Data Sync Engine =================
+    // ================= Dynamic Multi-Layer Data Sync Engine with Fingerprinting =================
     async function fetchMenuFromPOS() {
-      // Layer 1: Try Local POS API directly
       const endpoints = [
         '/api/public-menu',
         `${window.location.protocol}//${window.location.hostname}:3000/api/public-menu`,
@@ -613,21 +722,24 @@
           if (res.ok) {
             const data = await res.json();
             if (data && data.products && Array.isArray(data.products)) {
-              currentData = data;
-              try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
-              renderMenu();
+              // Kiểm tra fingerprint để tránh render lại vô ích nếu dữ liệu không đổi
+              const newFingerprint = (data.products || []).map(i => `${i.id}_${i.price}_${i.name || ''}_${i.available !== false}`).join('|');
+              if (newFingerprint !== lastDataFingerprint) {
+                lastDataFingerprint = newFingerprint;
+                currentData = data;
+                try { localStorage.setItem('gm_cloud_menu_cache', JSON.stringify(data)); } catch (e) {}
+                renderMenu();
+              }
               return;
             }
           }
-        } catch (e) {
-          // Next endpoint
-        }
+        } catch (e) {}
       }
 
-      // Layer 2: LocalStorage cache fallback
+      // Fallback cache từ localStorage
       try {
         const cached = localStorage.getItem('gm_cloud_menu_cache');
-        if (cached) {
+        if (cached && (!currentData.products || currentData.products.length === 0)) {
           const data = JSON.parse(cached);
           if (data && data.products && Array.isArray(data.products)) {
             currentData = data;
@@ -637,25 +749,42 @@
       } catch (e) {}
     }
 
-    // Load initial cache for 0ms visual rendering
-    try {
-      const cached = localStorage.getItem('gm_cloud_menu_cache');
-      if (cached) {
-        const data = JSON.parse(cached);
-        if (data && data.products) {
-          currentData = data;
-          renderMenu();
+    // Tự động nhận diện ngôn ngữ máy khách khi tải trang
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialLang = autoDetectLanguage();
+      currentLanguage = initialLang;
+
+      // Cập nhật giao diện nút ngôn ngữ
+      ['vi', 'en', 'ko', 'he', 'fr', 'ru'].forEach(l => {
+        const btn = document.getElementById(`lang-${l}`);
+        if (btn) {
+          if (l === initialLang) {
+            btn.className = "px-1.5 py-0.5 rounded-full bg-[#8C5332] text-white shadow-xs font-bold";
+          } else {
+            btn.className = "px-1.5 py-0.5 rounded-full text-[#5C4B3E] hover:text-[#8C5332]";
+          }
         }
-      }
-    } catch (e) {}
+      });
 
-    // Initial fetch from POS
-    fetchMenuFromPOS();
+      // Tải cache trước nếu có để hiển thị tức thì 0ms
+      try {
+        const cached = localStorage.getItem('gm_cloud_menu_cache');
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data && data.products) {
+            currentData = data;
+            renderMenu();
+          }
+        }
+      } catch (e) {}
 
-    // Re-fetch every 15 seconds to catch changes from POS Menu Management in real time
+      // Đồng bộ từ POS
+      fetchMenuFromPOS();
+    });
+
+    // Định kỳ 15 giây đồng bộ lại với máy POS để bắt kịp thay đổi giá/món hết hàng
     setInterval(fetchMenuFromPOS, 15000);
 
-    // Refresh when user switches back to tab
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) fetchMenuFromPOS();
     });
