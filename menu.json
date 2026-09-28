@@ -2265,25 +2265,25 @@
     }
   ],
   "categories": [
+    "Bia",
+    "Bowls",
+    "Burger",
+    "Bánh Pancake",
+    "Bánh mì & Toast",
+    "Chanh & Sả",
     "Cà phê máy",
     "Cà phê phin",
-    "Sinh tố & Lassi",
-    "Đá xay Freeze",
     "Latte đặc biệt",
-    "Nước ép tươi",
-    "Chanh & Sả",
-    "Trà",
-    "Bia",
-    "Nước ngọt",
-    "Bowls",
-    "Salad",
-    "Bánh mì & Toast",
-    "Bánh Pancake",
     "Mixed Brekkie",
-    "Tacos & Burritos",
-    "Burger",
+    "Món thêm (Sides & Extras)",
     "Món trứng",
-    "Món thêm (Sides & Extras)"
+    "Nước ngọt",
+    "Nước ép tươi",
+    "Salad",
+    "Sinh tố & Lassi",
+    "Tacos & Burritos",
+    "Trà",
+    "Đá xay Freeze"
   ],
   "store": {
     "name": "Nâu",
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-28T18:10:32.972Z"
+  "updatedAt": "2026-09-28T18:11:33.382Z"
 }
