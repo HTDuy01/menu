@@ -5,8 +5,8 @@
       "name": "Bacon Sides",
       "price": 25000,
       "category": "Sides",
-      "emoji": "☕",
-      "image": "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=120&auto=format&fit=crop&q=60",
+      "emoji": "",
+      "image": "",
       "description": "",
       "available": true,
       "badge": "",
@@ -2044,5 +2044,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-28T17:51:34.325Z"
+  "updatedAt": "2026-09-28T17:52:31.233Z"
 }
