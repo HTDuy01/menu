@@ -1936,18 +1936,18 @@
       "nameVi": "Burger Gà Áp Chảo",
       "descVi": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
       "nameEn": "Chicken Burger",
-      "nameKo": "Chicken Burger",
-      "nameHe": "Chicken Burger",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Chicken Burger",
       "nameRu": "Chicken Burger",
       "descEn": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
-      "descKo": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
-      "descHe": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
+      "descKo": "",
+      "descHe": "",
       "descFr": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
       "descRu": "Vỏ burger nướng bơ áp chảo kẹp ức gà áp chảo đậm vị pesto thảo mộc, trứng ốp, phô mai béo ngậy. Kèm phần khoai tây chiên giòn rụm",
       "ingredientsEn": "Brioche bun, lettuce, pan-fried chicken breast, tomato, pickle, onion, cheddar slice, pesto sauce, fries, ketchup",
-      "ingredientsKo": "Brioche bun, lettuce, pan-fried chicken breast, tomato, pickle, onion, cheddar slice, pesto sauce, fries, ketchup",
-      "ingredientsHe": "Brioche bun, lettuce, pan-fried chicken breast, tomato, pickle, onion, cheddar slice, pesto sauce, fries, ketchup",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Brioche bun, lettuce, pan-fried chicken breast, tomato, pickle, onion, cheddar slice, pesto sauce, fries, ketchup",
       "ingredientsRu": "Brioche bun, lettuce, pan-fried chicken breast, tomato, pickle, onion, cheddar slice, pesto sauce, fries, ketchup",
       "isFeatured": false,
@@ -2012,5 +2012,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-28T17:46:55.128Z"
+  "updatedAt": "2026-09-28T17:47:33.926Z"
 }
