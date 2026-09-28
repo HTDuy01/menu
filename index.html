@@ -176,7 +176,7 @@
         <div class="pt-3 mt-2 border-t border-[#EFE6DA] flex items-center justify-between shrink-0">
           <div>
             <span id="modal-label-price" class="text-[9.5px] text-[#8F7D70] font-bold block uppercase tracking-wider">Giá món</span>
-            <span id="modal-price" class="font-serif-brand text-xl font-bold text-[#8C5332]">0 ₫</span>
+            <span id="modal-price" class="font-serif-brand text-xl font-bold text-[#8C5332]">0</span>
           </div>
           <button onclick="closeDishModal()" id="modal-btn-done" class="px-6 py-2 rounded-full bg-[#8C5332] text-white text-xs font-bold hover:bg-[#724125] active:scale-95 transition-all shadow-xs cursor-pointer">
             Đóng
@@ -203,7 +203,7 @@
         copyBtn: "Sao chép",
         ingredients: "Thành phần & Lưu ý ăn kiêng",
         emptyMenu: "Chưa có món trong danh mục này.",
-        footerNote: "Thanh toán bằng VNĐ tại quầy hoặc tại bàn",
+        footerNote: "Đơn vị tính: nghìn đồng ('000 VND). Thanh toán tại quầy hoặc tại bàn",
         loading: "Đang đồng bộ thực đơn từ máy POS..."
       },
       en: {
@@ -218,7 +218,7 @@
         copyBtn: "Copy",
         ingredients: "Ingredients & Dietary Notes",
         emptyMenu: "No dishes found in this category.",
-        footerNote: "Settled in VND at the cashier or at your table",
+        footerNote: "Prices in '000 VND (e.g. 140 = 140,000 VND). Settled at counter or table",
         loading: "Syncing menu with POS terminal..."
       },
       ko: {
@@ -233,7 +233,7 @@
         copyBtn: "복사",
         ingredients: "원재료 및 알레르기 안내",
         emptyMenu: "해당 카테고리에 메뉴가 없습니다.",
-        footerNote: "카운터 또는 테이블에서 베트남 동(VND)으로 결제해 주세요",
+        footerNote: "가격 단위: 1,000 VND (예: 140 = 140,000 VND). 카운터 hoặc 테이블에서 결제",
         loading: "메뉴를 실시간 동기화 중입니다..."
       },
       he: {
@@ -248,7 +248,7 @@
         copyBtn: "העתק",
         ingredients: "רכיבים ומידע על אלרגנים",
         emptyMenu: "אין פריטים בקטגוריה זו.",
-        footerNote: "התשלום בוויאטנם דונג (VND) בדלפק או בשולחן",
+        footerNote: "מחירים באלפי דונג (לדוגמה: 140 = 140,000 VND). תשלום בדלפק או בשולחן",
         loading: "טוען תפריט ממערכת ה-POS..."
       },
       fr: {
@@ -263,7 +263,7 @@
         copyBtn: "Copier",
         ingredients: "Ingrédients & Allergènes",
         emptyMenu: "Aucun plat dans cette catégorie.",
-        footerNote: "Paiement en VND au comptoir ou à votre table",
+        footerNote: "Prix en '000 VND (ex: 140 = 140 000 VND). Règlement au comptoir ou à table",
         loading: "Synchronisation du menu avec la caisse..."
       },
       ru: {
@@ -278,7 +278,7 @@
         copyBtn: "Копировать",
         ingredients: "Ингредиенты и Аллергены",
         emptyMenu: "В этой категории пока нет блюд.",
-        footerNote: "Оплата во вьетнамских донгах (VND) на кассе или за столиком",
+        footerNote: "Цены в тысячах донгов (напр. 140 = 140 000 VND). Оплата на кассе или за столиком",
         loading: "Синхронизация меню с POS терминалом..."
       }
     };
@@ -2871,10 +2871,12 @@
       return p.descEn || p.description || '';
     }
 
-    // Đơn vị tiền tệ: Chỉ hiển thị VNĐ (₫)
+    // Đơn vị tiền tệ: Bỏ đơn vị nghìn và ký hiệu đ (Ví dụ: 140.000 -> 140)
     function formatPrice(vnd) {
       const val = Number(vnd) || 0;
-      return `${val.toLocaleString('vi-VN')} ₫`;
+      if (val === 0) return '0';
+      const inThousands = val >= 1000 ? val / 1000 : val;
+      return inThousands.toLocaleString('vi-VN');
     }
 
     function slugify(text) {
@@ -2908,13 +2910,17 @@
         document.body.classList.remove('font-he', 'font-kr');
       }
 
-      // 2. Cập nhật 100% các dòng chữ trên trang web
-      document.getElementById('ui-tagline').innerText = langData.tagline;
-      document.getElementById('store-status').innerText = langData.openStatus;
-      document.getElementById('btn-copy-wifi').innerText = langData.copyBtn;
-      document.getElementById('ui-bestsellers-label').innerText = `🔥 ${langData.bestSellers}`;
-      document.getElementById('ui-loading-text').innerText = langData.loading;
-      document.getElementById('ui-footer-note').innerText = langData.footerNote;
+      // 2. Cập nhật 100% các dòng chữ trên trang web (an toàn chống lỗi null element)
+      const setElemText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = text;
+      };
+      setElemText('ui-tagline', langData.tagline);
+      setElemText('store-status', langData.openStatus);
+      setElemText('btn-copy-wifi', langData.copyBtn);
+      setElemText('ui-bestsellers-label', `🔥 ${langData.bestSellers}`);
+      setElemText('ui-loading-text', langData.loading);
+      setElemText('ui-footer-note', langData.footerNote);
 
       // Danh sách Category
       const catList = [];
