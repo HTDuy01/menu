@@ -1694,18 +1694,18 @@
       "badge": "",
       "ingredients": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
       "nameEn": "NÂU's Signature Mixed Brekkie",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "NÂU's Signature Mixed Brekkie",
+      "nameHe": "NÂU's Signature Mixed Brekkie",
       "nameFr": "NÂU's Signature Mixed Brekkie",
       "nameRu": "NÂU's Signature Mixed Brekkie",
       "descEn": "Đĩa điểm tâm trọn vẹn năng lượng đặc trưng quán NÂU: bánh mì giòn, xúc xích nướng, bacon, trứng theo ý thích, nấm xào thơm nức và đậu sốt",
-      "descKo": "",
-      "descHe": "",
+      "descKo": "Đĩa điểm tâm trọn vẹn năng lượng đặc trưng quán NÂU: bánh mì giòn, xúc xích nướng, bacon, trứng theo ý thích, nấm xào thơm nức và đậu sốt",
+      "descHe": "Đĩa điểm tâm trọn vẹn năng lượng đặc trưng quán NÂU: bánh mì giòn, xúc xích nướng, bacon, trứng theo ý thích, nấm xào thơm nức và đậu sốt",
       "descFr": "Đĩa điểm tâm trọn vẹn năng lượng đặc trưng quán NÂU: bánh mì giòn, xúc xích nướng, bacon, trứng theo ý thích, nấm xào thơm nức và đậu sốt",
       "descRu": "Đĩa điểm tâm trọn vẹn năng lượng đặc trưng quán NÂU: bánh mì giòn, xúc xích nướng, bacon, trứng theo ý thích, nấm xào thơm nức và đậu sốt",
       "ingredientsEn": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
+      "ingredientsHe": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
       "ingredientsFr": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
       "ingredientsRu": "Bánh mì áp chảo, thịt xông khói bacon, trứng chần/chiên, nấm xào thì là, đậu sốt cà chua, xúc xích Đức, bơ thơm",
       "isFeatured": false,
@@ -1884,5 +1884,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-28T17:32:08.661Z"
+  "updatedAt": "2026-09-28T17:32:48.855Z"
 }
