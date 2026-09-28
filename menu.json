@@ -1752,18 +1752,18 @@
       "badge": "",
       "ingredients": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
       "nameEn": "Bacon & Egg Breakfast Burritos",
-      "nameKo": "Bacon & Egg Breakfast Burritos",
-      "nameHe": "Bacon & Egg Breakfast Burritos",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Bacon & Egg Breakfast Burritos",
       "nameRu": "Bacon & Egg Breakfast Burritos",
       "descEn": "Cuộn bánh Tacos nướng vàng rụm ngập tràn bacon thơm phức, bơ trái tươi mát và phô mai kéo sợi, chấm cùng sốt bơ Guacamole chuẩn Mexico",
-      "descKo": "Cuộn bánh Tacos nướng vàng rụm ngập tràn bacon thơm phức, bơ trái tươi mát và phô mai kéo sợi, chấm cùng sốt bơ Guacamole chuẩn Mexico",
-      "descHe": "Cuộn bánh Tacos nướng vàng rụm ngập tràn bacon thơm phức, bơ trái tươi mát và phô mai kéo sợi, chấm cùng sốt bơ Guacamole chuẩn Mexico",
+      "descKo": "",
+      "descHe": "",
       "descFr": "Cuộn bánh Tacos nướng vàng rụm ngập tràn bacon thơm phức, bơ trái tươi mát và phô mai kéo sợi, chấm cùng sốt bơ Guacamole chuẩn Mexico",
       "descRu": "Cuộn bánh Tacos nướng vàng rụm ngập tràn bacon thơm phức, bơ trái tươi mát và phô mai kéo sợi, chấm cùng sốt bơ Guacamole chuẩn Mexico",
       "ingredientsEn": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
-      "ingredientsKo": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
-      "ingredientsHe": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
       "ingredientsRu": "Vỏ bánh Tacos áp chảo, thịt bacon, bơ sáp cắt hạt lựu, phô mai Mozzarella kéo sợi, cà chua, hành tây tím, xà lách, sốt bơ Guacamole",
       "isFeatured": false,
@@ -1884,5 +1884,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-28T17:22:36.824Z"
+  "updatedAt": "2026-09-28T17:23:16.800Z"
 }
