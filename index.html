@@ -2443,38 +2443,41 @@
       return 'en';
     }
 
-    // ================= Category Matching Thông Minh (Fuzzy Match) =================
+    // ================= Category Matching & Localization =================
     const CATEGORY_MAP = {
-      coffee: { vi: 'Cà Phê', en: 'Coffee & Espresso', ko: '커피', he: 'קפה', fr: 'Café', ru: 'Кофе' },
-      breakfast: { vi: 'Điểm Tâm & Bánh', en: 'Breakfast & Bakery', ko: '브런치 & 베이커리', he: 'ארוחות בוקר ומאפים', fr: 'Petit Déjeuner & Pâtisseries', ru: 'Завтраки и Выпечка' },
-      sandwich: { vi: 'Bánh Mì Hội An', en: 'Hoi An Banh Mi', ko: '호이안 반미', he: 'באן מי הוי אן', fr: 'Banh Mi Traditionnel', ru: 'Бань Ми Хойан' },
-      combo: { vi: 'Combo Sáng Tiết Kiệm', en: 'Morning Value Combos', ko: '모닝 알뜰 콤보', he: 'ארוחות קומבו בוקר', fr: 'Formules Petit-Déjeuner', ru: 'Утренние комбо-наборы' },
-      juice: { vi: 'Nước Ép Tươi', en: 'Fresh Juices', ko: '생과일 주스', he: 'מיצים טבעיים', fr: 'Jus de Fruits Frais', ru: 'Свежевыжатые соки' },
-      milktea: { vi: 'Trà Sữa', en: 'Milk Tea', ko: '밀크티', he: 'תה חלב', fr: 'Thé au Lait', ru: 'Чай с молоком' },
-      tea: { vi: 'Trà & Trà Hoa', en: 'Artisan & Herbal Teas', ko: '차 & 허브티', he: 'חליטות ותה', fr: 'Thés & Infusions', ru: 'Чай и Цветочные сборы' },
-      bowls: { vi: 'Healthy Bowls', en: 'Healthy Granola Bowls', ko: '건강 요거트 볼', he: 'קערות גרנולה', fr: 'Bowls Santé', ru: 'Гранола боулы' },
-      pancakes: { vi: 'Bánh Pancake', en: 'Fluffy Pancakes', ko: '팬케이크', he: 'פנקייק', fr: 'Pancakes Moelleux', ru: 'Панкейки' },
-      beer: { vi: 'Bia', en: 'Local Beers', ko: '맥주', he: 'בירה מקומית', fr: 'Bières Locales', ru: 'Местное пиво' }
+      "Cà phê máy": { vi: "Cà phê máy", en: "ESPRESSO MACHINE", ko: "에스프레소 커피", he: "מכונת אספרסו", fr: "Machine Espresso", ru: "Эспрессо Кофе" },
+      "Cà phê phin": { vi: "Cà phê phin", en: "VIETNAMESE COFFEE", ko: "베트남 핀 커피", he: "קפה וייטנאמי", fr: "Café Vietnamien", ru: "Вьетнамский Кофе" },
+      "Sinh tố & Lassi": { vi: "Sinh tố & Lassi", en: "SMOOTHIE & LASSI", ko: "스무디 & 라씨", he: "סמודי ולאסי", fr: "Smoothies & Lassi", ru: "Смузи и Ласси" },
+      "Đá xay Freeze": { vi: "Đá xay Freeze", en: "FREEZE", ko: "블렌디드 프리즈", he: "משקה קפוא", fr: "Boissons Givrés", ru: "Фриз / Ледяной шейк" },
+      "Latte đặc biệt": { vi: "Latte đặc biệt", en: "SPECIALTY LATTE", ko: "스페셜티 라떼", he: "לאטה מיוחד", fr: "Lattes Spéciaux", ru: "Фирменный Латте" },
+      "Nước ép tươi": { vi: "Nước ép tươi", en: "FRESH JUICE", ko: "생과일 주스", he: "מיצים טבעיים", fr: "Jus de Fruits Frais", ru: "Свежевыжатые Соки" },
+      "Chanh & Sả": { vi: "Chanh & Sả", en: "LIME & LEMONGRASS", ko: "라임 & 레몬그라스", he: "ליים ולמון גראס", fr: "Citron Vert & Citronnelle", ru: "Лайм и Лемонграсс" },
+      "Trà": { vi: "Trà", en: "TEA", ko: "차 & 티", he: "תה וחליטות", fr: "Thés & Infusions", ru: "Чай" },
+      "Bia": { vi: "Bia", en: "BEER", ko: "맥주", he: "בירה", fr: "Bières", ru: "Пиво" },
+      "Nước ngọt": { vi: "Nước ngọt", en: "SOFT DRINKS", ko: "탄산음료", he: "שתייה קלה", fr: "Boissons Gazeuses", ru: "Безалкогольные Напитки" },
+      "Bowls": { vi: "Bowls", en: "BOWLS", ko: "보울", he: "קערות בריאות", fr: "Bowls Santé", ru: "Боулы" },
+      "Salad": { vi: "Salad", en: "SALADS", ko: "샐러드", he: "סלטים", fr: "Salades", ru: "Салаты" },
+      "Bánh mì & Toast": { vi: "Bánh mì & Toast", en: "TOAST & BREAD", ko: "토스트 & 브레드", he: "טוסט ולחם", fr: "Toasts & Pains", ru: "Тосты и Хлеб" },
+      "Bánh Pancake": { vi: "Bánh Pancake", en: "PANCAKES", ko: "팬케이크", he: "פנקייק", fr: "Pancakes", ru: "Панкейки" },
+      "Mixed Brekkie": { vi: "Mixed Brekkie", en: "MIXED BREKKIE", ko: "믹스드 브렉키", he: "ארוחת בוקר מעורבת", fr: "Petit-Déjeuner Complet", ru: "Комплексный Завтрак" },
+      "Tacos & Burritos": { vi: "Tacos & Burritos", en: "TACOS & BURRITOS", ko: "타코 & 브리또", he: "טאקו ובוריטו", fr: "Tacos & Burritos", ru: "Тако и Буррито" },
+      "Burger": { vi: "Burger", en: "BURGERS", ko: "버거", he: "המבורגר", fr: "Burgers", ru: "Бургеры" },
+      "Món trứng": { vi: "Món trứng", en: "EGG DISHES", ko: "계란 요리", he: "מנות ביצים", fr: "Plats à Base d'Œufs", ru: "Блюда из Яиц" },
+      "Món thêm (Sides & Extras)": { vi: "Món thêm (Sides & Extras)", en: "SIDES & EXTRAS", ko: "사이드 & 추가 메뉴", he: "תוספות מיוחדות", fr: "Suppléments & Extras", ru: "Дополнительно / Гарниры" },
     };
 
     function getLocalizedCategoryName(catName) {
       const raw = String(catName || '').trim();
-      const norm = raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-
-      let key = '';
-      if (norm.includes('ca phe') || norm.includes('coffee') || norm.includes('espresso')) key = 'coffee';
-      else if (norm.includes('diem tam') || norm.includes('breakfast') || norm.includes('banh ngot') || norm.includes('bakery')) key = 'breakfast';
-      else if (norm.includes('banh mi') || norm.includes('sandwich') || norm.includes('toast') || norm.includes('sourdough')) key = 'sandwich';
-      else if (norm.includes('combo')) key = 'combo';
-      else if (norm.includes('tra sua') || norm.includes('milk tea')) key = 'milktea';
-      else if (norm.includes('nuoc ep') || norm.includes('juice') || norm.includes('sinh to') || norm.includes('smoothie')) key = 'juice';
-      else if (norm.includes('tra') || norm.includes('tea')) key = 'tea';
-      else if (norm.includes('bowl') || norm.includes('granola')) key = 'bowls';
-      else if (norm.includes('pancake')) key = 'pancakes';
-      else if (norm.includes('bia') || norm.includes('beer')) key = 'beer';
-
-      if (key && CATEGORY_MAP[key] && CATEGORY_MAP[key][currentLanguage]) {
-        return CATEGORY_MAP[key][currentLanguage];
+      // 1. Tra cứu chính xác trong CATEGORY_MAP 19 danh mục
+      if (CATEGORY_MAP[raw]) {
+        if (currentLanguage === 'vi') return CATEGORY_MAP[raw].vi || raw;
+        if (currentLanguage === 'en' || !currentLanguage) return CATEGORY_MAP[raw].en || raw;
+        return CATEGORY_MAP[raw][currentLanguage] || CATEGORY_MAP[raw].en || raw;
+      }
+      // 2. Tra cứu động categoryWebMap từ dữ liệu nạp
+      if (currentData && currentData.categoryWebMap && currentData.categoryWebMap[raw]) {
+        if (currentLanguage === 'en' || !currentLanguage) return currentData.categoryWebMap[raw];
+        if (currentLanguage === 'vi') return raw;
       }
       return raw;
     }
@@ -2545,6 +2548,9 @@
         const viName = localName || p.name;
         if (!viName || viName.trim().toLowerCase() === engName.trim().toLowerCase()) {
           return `<span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${engName}</span>`;
+        }
+        if (viName.trim().toLowerCase().endsWith(`(${engName.trim().toLowerCase()})`)) {
+          return `<span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${viName}</span>`;
         }
         return `
           <span class="font-serif-brand font-bold text-[15.5px] text-[#2B1E16] leading-snug">${viName}</span>
