@@ -1657,8 +1657,8 @@
       "nameVi": "Trứng Chần Bánh Muffin Sốt Bơ",
       "descVi": "",
       "nameEn": "Egg Benedict (VT)",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "에그 베네딕트 (VT)",
+      "nameHe": "בנדיקט בנדיקט (VT)",
       "nameFr": "Œuf Bénédicte (VT)",
       "nameRu": "Яйцо Бенедикт (ВТ)",
       "descEn": "",
@@ -1667,8 +1667,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Muffin, bacon, avocado, tomato, hollandaise sauce",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "머핀, 베이컨, 아보카도, 토마토, 홀랜다이즈 소스",
+      "ingredientsHe": "מאפין, בייקון, אבוקדו, עגבנייה, רוטב הולנדייז",
       "ingredientsFr": "Muffin, bacon, avocat, tomate, sauce hollandaise",
       "ingredientsRu": "Маффин, бекон, авокадо, помидоры, голландский соус",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-09-30T05:12:03.674Z"
+  "updatedAt": "2026-09-30T05:12:18.534Z"
 }
