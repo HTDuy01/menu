@@ -2122,8 +2122,8 @@
       "nameVi": "Bánh Mì Thêm",
       "descVi": "",
       "nameEn": "Bread",
-      "nameKo": "Bread",
-      "nameHe": "Bread",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Bread",
       "nameRu": "Bread",
       "descEn": "",
@@ -2132,8 +2132,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Toasted bread slices",
-      "ingredientsKo": "Toasted bread slices",
-      "ingredientsHe": "Toasted bread slices",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Toasted bread slices",
       "ingredientsRu": "Toasted bread slices",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-01T06:02:05.889Z"
+  "updatedAt": "2026-10-01T06:02:50.480Z"
 }
