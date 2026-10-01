@@ -2091,8 +2091,8 @@
       "nameVi": "Khoai Tây Chiên",
       "descVi": "",
       "nameEn": "French Fries",
-      "nameKo": "French Fries",
-      "nameHe": "French Fries",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "French Fries",
       "nameRu": "French Fries",
       "descEn": "",
@@ -2101,8 +2101,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Crispy golden French fries",
-      "ingredientsKo": "Crispy golden French fries",
-      "ingredientsHe": "Crispy golden French fries",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Crispy golden French fries",
       "ingredientsRu": "Crispy golden French fries",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-01T03:21:47.439Z"
+  "updatedAt": "2026-10-01T03:22:32.427Z"
 }
