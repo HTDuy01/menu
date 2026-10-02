@@ -24,10 +24,10 @@
       "descFr": "Espresso corsé et lait chaud velouté",
       "descRu": "Насыщенный эспрессо с бархатистым молоком",
       "ingredientsEn": "Espresso, steamed milk",
-      "ingredientsKo": "에스프레소, 스팀우유",
+      "ingredientsKo": "Espresso, steamed milk",
       "ingredientsHe": "Espresso, steamed milk",
       "ingredientsFr": "Espresso, steamed milk",
-      "ingredientsRu": "Эспрессо, паровое молоко",
+      "ingredientsRu": "Espresso, steamed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -57,7 +57,7 @@
       "ingredientsEn": "Espresso, steamed milk, foam",
       "ingredientsKo": "Espresso, steamed milk, foam",
       "ingredientsHe": "Espresso, steamed milk, foam",
-      "ingredientsFr": "Expresso, lait cuit à la vapeur, mousse",
+      "ingredientsFr": "Espresso, steamed milk, foam",
       "ingredientsRu": "Espresso, steamed milk, foam",
       "isFeatured": false,
       "isComboBanner": true
@@ -89,7 +89,7 @@
       "ingredientsKo": "Espresso, milk, cacao, chocolate",
       "ingredientsHe": "Espresso, milk, cacao, chocolate",
       "ingredientsFr": "Espresso, milk, cacao, chocolate",
-      "ingredientsRu": "Эспрессо, молоко, какао, шоколад",
+      "ingredientsRu": "Espresso, milk, cacao, chocolate",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -120,7 +120,7 @@
       "ingredientsKo": "Double shot",
       "ingredientsHe": "Double shot",
       "ingredientsFr": "Double shot",
-      "ingredientsRu": "Двойной выстрел",
+      "ingredientsRu": "Double shot",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-02T00:36:17.941Z"
+  "updatedAt": "2026-10-02T00:37:16.883Z"
 }
