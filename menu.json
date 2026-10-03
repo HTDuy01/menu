@@ -25,8 +25,8 @@
       "descRu": "Насыщенный эспрессо с бархатистым молоком",
       "ingredientsEn": "Espresso, steamed milk",
       "ingredientsKo": "Espresso, steamed milk",
-      "ingredientsHe": "אספרסו, חלב מאודה",
-      "ingredientsFr": "Expresso, lait cuit à la vapeur",
+      "ingredientsHe": "Espresso, steamed milk",
+      "ingredientsFr": "Espresso, steamed milk",
       "ingredientsRu": "Espresso, steamed milk",
       "isFeatured": false,
       "isComboBanner": true
@@ -57,8 +57,8 @@
       "ingredientsEn": "Espresso, steamed milk, foam",
       "ingredientsKo": "Espresso, steamed milk, foam",
       "ingredientsHe": "Espresso, steamed milk, foam",
-      "ingredientsFr": "Expresso, lait cuit à la vapeur, mousse",
-      "ingredientsRu": "Эспрессо, взбитое молоко, пена",
+      "ingredientsFr": "Espresso, steamed milk, foam",
+      "ingredientsRu": "Espresso, steamed milk, foam",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -88,8 +88,8 @@
       "ingredientsEn": "Espresso, milk, cacao, chocolate",
       "ingredientsKo": "Espresso, milk, cacao, chocolate",
       "ingredientsHe": "Espresso, milk, cacao, chocolate",
-      "ingredientsFr": "Expresso, lait, cacao, chocolat",
-      "ingredientsRu": "Эспрессо, молоко, какао, шоколад",
+      "ingredientsFr": "Espresso, milk, cacao, chocolate",
+      "ingredientsRu": "Espresso, milk, cacao, chocolate",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -119,8 +119,8 @@
       "ingredientsEn": "Double shot",
       "ingredientsKo": "Double shot",
       "ingredientsHe": "Double shot",
-      "ingredientsFr": "Coup double",
-      "ingredientsRu": "Двойной выстрел",
+      "ingredientsFr": "Double shot",
+      "ingredientsRu": "Double shot",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -141,7 +141,7 @@
       "nameKo": "Macchiato",
       "nameHe": "Macchiato",
       "nameFr": "Macchiato",
-      "nameRu": "Маккиато",
+      "nameRu": "Macchiato",
       "descEn": "",
       "descKo": "",
       "descHe": "",
@@ -149,9 +149,9 @@
       "descRu": "",
       "ingredientsEn": "Espresso, milk",
       "ingredientsKo": "Espresso, milk",
-      "ingredientsHe": "אספרסו, חלב",
-      "ingredientsFr": "Expresso, lait",
-      "ingredientsRu": "Эспрессо, молоко",
+      "ingredientsHe": "Espresso, milk",
+      "ingredientsFr": "Espresso, milk",
+      "ingredientsRu": "Espresso, milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -211,9 +211,9 @@
       "descRu": "",
       "ingredientsEn": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "ingredientsKo": "Espresso, vanilla syrup, whipping cream, salt, sugar",
-      "ingredientsHe": "אספרסו, סירופ וניל, שמנת להקצפה, מלח, סוכר",
+      "ingredientsHe": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "ingredientsFr": "Espresso, vanilla syrup, whipping cream, salt, sugar",
-      "ingredientsRu": "Эспрессо, ванильный сироп, взбитые сливки, соль, сахар.",
+      "ingredientsRu": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -243,8 +243,8 @@
       "ingredientsEn": "Espresso, whipping cream, peanut butter, condensed milk",
       "ingredientsKo": "Espresso, whipping cream, peanut butter, condensed milk",
       "ingredientsHe": "Espresso, whipping cream, peanut butter, condensed milk",
-      "ingredientsFr": "Expresso, crème fouettée, beurre de cacahuète, lait concentré",
-      "ingredientsRu": "Эспрессо, взбитые сливки, арахисовое масло, сгущенное молоко",
+      "ingredientsFr": "Espresso, whipping cream, peanut butter, condensed milk",
+      "ingredientsRu": "Espresso, whipping cream, peanut butter, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -274,8 +274,8 @@
       "ingredientsEn": "Espresso, butter, maple syrup, milk, salt",
       "ingredientsKo": "Espresso, butter, maple syrup, milk, salt",
       "ingredientsHe": "Espresso, butter, maple syrup, milk, salt",
-      "ingredientsFr": "Espresso, beurre, sirop d'érable, lait, sel",
-      "ingredientsRu": "Эспрессо, сливочное масло, кленовый сироп, молоко, соль",
+      "ingredientsFr": "Espresso, butter, maple syrup, milk, salt",
+      "ingredientsRu": "Espresso, butter, maple syrup, milk, salt",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -305,8 +305,8 @@
       "ingredientsEn": "Coffee, milk, condensed milk",
       "ingredientsKo": "Coffee, milk, condensed milk",
       "ingredientsHe": "Coffee, milk, condensed milk",
-      "ingredientsFr": "Café, lait, lait concentré",
-      "ingredientsRu": "Кофе, молоко, сгущенное молоко",
+      "ingredientsFr": "Coffee, milk, condensed milk",
+      "ingredientsRu": "Coffee, milk, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -336,8 +336,8 @@
       "ingredientsEn": "Coffee, condensed milk",
       "ingredientsKo": "Coffee, condensed milk",
       "ingredientsHe": "Coffee, condensed milk",
-      "ingredientsFr": "Café, lait concentré",
-      "ingredientsRu": "Кофе, сгущенное молоко",
+      "ingredientsFr": "Coffee, condensed milk",
+      "ingredientsRu": "Coffee, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -367,7 +367,7 @@
       "ingredientsEn": "Coffee",
       "ingredientsKo": "Coffee",
       "ingredientsHe": "Coffee",
-      "ingredientsFr": "Café",
+      "ingredientsFr": "Coffee",
       "ingredientsRu": "Coffee",
       "isFeatured": false,
       "isComboBanner": true
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-03T00:44:08.052Z"
+  "updatedAt": "2026-10-03T00:45:08.856Z"
 }
