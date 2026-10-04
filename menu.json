@@ -57,8 +57,8 @@
       "ingredientsEn": "Espresso, steamed milk, foam",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Expresso, lait cuit à la vapeur, mousse",
-      "ingredientsRu": "Эспрессо, взбитое молоко, пена",
+      "ingredientsFr": "Espresso, steamed milk, foam",
+      "ingredientsRu": "Espresso, steamed milk, foam",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -1163,8 +1163,8 @@
       "nameEn": "Matcha Freeze",
       "nameKo": "",
       "nameHe": "",
-      "nameFr": "Matcha glacé",
-      "nameRu": "Матча заморозка",
+      "nameFr": "Matcha Freeze",
+      "nameRu": "Matcha Freeze",
       "descEn": "",
       "descKo": "",
       "descHe": "",
@@ -1173,8 +1173,8 @@
       "ingredientsEn": "Earl Grey tea",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Thé Earl Grey",
-      "ingredientsRu": "Чай Эрл Грей",
+      "ingredientsFr": "Earl Grey tea",
+      "ingredientsRu": "Earl Grey tea",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-04T02:18:00.299Z"
+  "updatedAt": "2026-10-04T02:18:42.199Z"
 }
