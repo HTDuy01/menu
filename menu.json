@@ -2060,8 +2060,8 @@
       "nameVi": "Nấm Xào",
       "descVi": "",
       "nameEn": "Mushroom",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "Mushroom",
+      "nameHe": "Mushroom",
       "nameFr": "Mushroom",
       "nameRu": "Mushroom",
       "descEn": "",
@@ -2070,8 +2070,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Sauteed mushrooms with herbs",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "Sauteed mushrooms with herbs",
+      "ingredientsHe": "Sauteed mushrooms with herbs",
       "ingredientsFr": "Sauteed mushrooms with herbs",
       "ingredientsRu": "Sauteed mushrooms with herbs",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-04T02:18:42.199Z"
+  "updatedAt": "2026-10-04T02:19:24.357Z"
 }
