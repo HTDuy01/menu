@@ -58,7 +58,7 @@
       "ingredientsKo": "",
       "ingredientsHe": "",
       "ingredientsFr": "Espresso, steamed milk, foam",
-      "ingredientsRu": "Эспрессо, взбитое молоко, пена",
+      "ingredientsRu": "Espresso, steamed milk, foam",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -89,7 +89,7 @@
       "ingredientsKo": "",
       "ingredientsHe": "",
       "ingredientsFr": "Espresso, milk, cacao, chocolate",
-      "ingredientsRu": "Эспрессо, молоко, какао, шоколад",
+      "ingredientsRu": "Espresso, milk, cacao, chocolate",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -120,7 +120,7 @@
       "ingredientsKo": "",
       "ingredientsHe": "",
       "ingredientsFr": "Double shot",
-      "ingredientsRu": "Двойной выстрел",
+      "ingredientsRu": "Double shot",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -212,8 +212,8 @@
       "ingredientsEn": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Expresso, sirop de vanille, crème fouettée, sel, sucre",
-      "ingredientsRu": "Эспрессо, ванильный сироп, взбитые сливки, соль, сахар.",
+      "ingredientsFr": "Espresso, vanilla syrup, whipping cream, salt, sugar",
+      "ingredientsRu": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -243,8 +243,8 @@
       "ingredientsEn": "Espresso, whipping cream, peanut butter, condensed milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Expresso, crème fouettée, beurre de cacahuète, lait concentré",
-      "ingredientsRu": "Эспрессо, взбитые сливки, арахисовое масло, сгущенное молоко",
+      "ingredientsFr": "Espresso, whipping cream, peanut butter, condensed milk",
+      "ingredientsRu": "Espresso, whipping cream, peanut butter, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -274,8 +274,8 @@
       "ingredientsEn": "Espresso, butter, maple syrup, milk, salt",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Espresso, beurre, sirop d'érable, lait, sel",
-      "ingredientsRu": "Эспрессо, сливочное масло, кленовый сироп, молоко, соль",
+      "ingredientsFr": "Espresso, butter, maple syrup, milk, salt",
+      "ingredientsRu": "Espresso, butter, maple syrup, milk, salt",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -305,8 +305,8 @@
       "ingredientsEn": "Coffee, milk, condensed milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Café, lait, lait concentré",
-      "ingredientsRu": "Кофе, молоко, сгущенное молоко",
+      "ingredientsFr": "Coffee, milk, condensed milk",
+      "ingredientsRu": "Coffee, milk, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -336,8 +336,8 @@
       "ingredientsEn": "Coffee, condensed milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Café, lait concentré",
-      "ingredientsRu": "Кофе, сгущенное молоко",
+      "ingredientsFr": "Coffee, condensed milk",
+      "ingredientsRu": "Coffee, condensed milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -367,8 +367,8 @@
       "ingredientsEn": "Coffee",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Café",
-      "ingredientsRu": "Кофе",
+      "ingredientsFr": "Coffee",
+      "ingredientsRu": "Coffee",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -491,8 +491,8 @@
       "ingredientsEn": "Banana, sugar, condensed milk, milk, chia seeds",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Banane, sucre, lait concentré, lait, graines de chia",
-      "ingredientsRu": "Банан, сахар, сгущенное молоко, молоко, семена чиа.",
+      "ingredientsFr": "Banana, sugar, condensed milk, milk, chia seeds",
+      "ingredientsRu": "Banana, sugar, condensed milk, milk, chia seeds",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -522,8 +522,8 @@
       "ingredientsEn": "Mango, sugar, condensed milk, milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Mangue, sucre, lait concentré, lait",
-      "ingredientsRu": "Манго, сахар, сгущенное молоко, молоко",
+      "ingredientsFr": "Mango, sugar, condensed milk, milk",
+      "ingredientsRu": "Mango, sugar, condensed milk, milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -554,7 +554,7 @@
       "ingredientsKo": "",
       "ingredientsHe": "",
       "ingredientsFr": "Mango, coconut milk, sugar, condensed milk, milk",
-      "ingredientsRu": "Манго, кокосовое молоко, сахар, сгущенное молоко, молоко",
+      "ingredientsRu": "Mango, coconut milk, sugar, condensed milk, milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -863,8 +863,8 @@
       "ingredientsEn": "Chocolate, milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Lait au chocolat",
-      "ingredientsRu": "Шоколад, молоко",
+      "ingredientsFr": "Chocolate, milk",
+      "ingredientsRu": "Chocolate, milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -2091,8 +2091,8 @@
       "nameVi": "Khoai Tây Chiên",
       "descVi": "",
       "nameEn": "French Fries",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "French Fries",
+      "nameHe": "French Fries",
       "nameFr": "French Fries",
       "nameRu": "French Fries",
       "descEn": "",
@@ -2101,8 +2101,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Crispy golden French fries",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "Crispy golden French fries",
+      "ingredientsHe": "Crispy golden French fries",
       "ingredientsFr": "Crispy golden French fries",
       "ingredientsRu": "Crispy golden French fries",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-11T07:19:07.707Z"
+  "updatedAt": "2026-10-11T07:19:50.018Z"
 }
