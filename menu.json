@@ -1614,7 +1614,7 @@
     },
     {
       "id": 53,
-      "name": "Eggs & Avocado on Bread (VT)",
+      "name": "Eggs & Avocado on Bread",
       "price": 120000,
       "category": "Bánh mì & Toast",
       "emoji": "",
@@ -1645,7 +1645,7 @@
     },
     {
       "id": 54,
-      "name": "Egg Benedict (VT)",
+      "name": "Egg Benedict",
       "price": 130000,
       "category": "Bánh mì & Toast",
       "emoji": "",
@@ -2184,8 +2184,8 @@
       "nameVi": "Sữa Chua Thêm",
       "descVi": "",
       "nameEn": "Yogurt",
-      "nameKo": "Yogurt",
-      "nameHe": "Yogurt",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Yogurt",
       "nameRu": "Yogurt",
       "descEn": "",
@@ -2194,8 +2194,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Creamy fresh yogurt",
-      "ingredientsKo": "Creamy fresh yogurt",
-      "ingredientsHe": "Creamy fresh yogurt",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Creamy fresh yogurt",
       "ingredientsRu": "Creamy fresh yogurt",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-11T07:20:33.244Z"
+  "updatedAt": "2026-10-11T07:21:17.519Z"
 }
