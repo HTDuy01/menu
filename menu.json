@@ -1719,8 +1719,8 @@
       "nameVi": "Bánh Mì Nướng Phô Mai Mozzarella",
       "descVi": "",
       "nameEn": "Fresh Caprese Toast",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "신선한 카프레제 토스트",
+      "nameHe": "טוסט קפרזה טרי",
       "nameFr": "Toasts Caprese frais",
       "nameRu": "Свежий тост Капрезе",
       "descEn": "",
@@ -1729,8 +1729,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Toast bread, tomato, mozzarella cheese, olive oil, basil leaves",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "토스트빵, 토마토, 모짜렐라 치즈, 올리브 오일, 바질잎",
+      "ingredientsHe": "לחם טוסט, עגבנייה, גבינת מוצרלה, שמן זית, עלי בזיליקום",
       "ingredientsFr": "Pain grillé, tomate, mozzarella, huile d'olive, feuilles de basilic",
       "ingredientsRu": "Тостовый хлеб, помидоры, сыр моцарелла, оливковое масло, листья базилика",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-11T07:17:55.140Z"
+  "updatedAt": "2026-10-11T07:18:10.222Z"
 }
