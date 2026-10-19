@@ -832,8 +832,8 @@
       "ingredientsEn": "Matcha, milk",
       "ingredientsKo": "",
       "ingredientsHe": "",
-      "ingredientsFr": "Matcha, lait",
-      "ingredientsRu": "Матча, молоко",
+      "ingredientsFr": "Matcha, milk",
+      "ingredientsRu": "Matcha, milk",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-19T04:19:33.404Z"
+  "updatedAt": "2026-10-19T04:20:16.195Z"
 }
