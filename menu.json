@@ -211,7 +211,7 @@
       "descRu": "",
       "ingredientsEn": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "ingredientsKo": "에스프레소, 바닐라시럽, 휘핑크림, 소금, 설탕",
-      "ingredientsHe": "אספרסו, סירופ וניל, שמנת להקצפה, מלח, סוכר",
+      "ingredientsHe": "Espresso, vanilla syrup, whipping cream, salt, sugar",
       "ingredientsFr": "Expresso, sirop de vanille, crème fouettée, sel, sucre",
       "ingredientsRu": "Эспрессо, ванильный сироп, взбитые сливки, соль, сахар.",
       "isFeatured": false,
@@ -553,7 +553,7 @@
       "ingredientsEn": "Mango, coconut milk, sugar, condensed milk, milk",
       "ingredientsKo": "망고, 코코넛 밀크, 설탕, 연유, 우유",
       "ingredientsHe": "מנגו, חלב קוקוס, סוכר, חלב מרוכז, חלב",
-      "ingredientsFr": "Mango, coconut milk, sugar, condensed milk, milk",
+      "ingredientsFr": "Mangue, lait de coco, sucre, lait concentré, lait",
       "ingredientsRu": "Манго, кокосовое молоко, сахар, сгущенное молоко, молоко",
       "isFeatured": false,
       "isComboBanner": true
@@ -768,10 +768,10 @@
       "descFr": "Thé vert matcha japonais et lait chaud",
       "descRu": "Японский чай матча с молоком",
       "ingredientsEn": "Matcha, condensed milk, milk, whipping cream",
-      "ingredientsKo": "Matcha, condensed milk, milk, whipping cream",
-      "ingredientsHe": "Matcha, condensed milk, milk, whipping cream",
-      "ingredientsFr": "Matcha, condensed milk, milk, whipping cream",
-      "ingredientsRu": "Matcha, condensed milk, milk, whipping cream",
+      "ingredientsKo": "말차, 연유, 우유, 휘핑크림",
+      "ingredientsHe": "מאצ'ה, חלב מרוכז, חלב, שמנת להקצפה",
+      "ingredientsFr": "Matcha, lait concentré, lait, crème fouettée",
+      "ingredientsRu": "Матча, сгущенное молоко, молоко, взбитые сливки",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -833,7 +833,7 @@
       "ingredientsKo": "말차, 우유",
       "ingredientsHe": "מאצ'ה, חלב",
       "ingredientsFr": "Matcha, lait",
-      "ingredientsRu": "Matcha, milk",
+      "ingredientsRu": "Матча, молоко",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -1792,7 +1792,7 @@
       "descRu": "Нежный йогурт, хрустящая гранола и свежие фрукты",
       "ingredientsEn": "Pancake, seasonal fruit, yogurt, granola, chocolate syrup",
       "ingredientsKo": "팬케이크, 계절 과일, 요거트, 그래놀라, 초콜릿 시럽",
-      "ingredientsHe": "Pancake, seasonal fruit, yogurt, granola, chocolate syrup",
+      "ingredientsHe": "פנקייק, פירות העונה, יוגורט, גרנולה, סירופ שוקולד",
       "ingredientsFr": "Crêpe, fruits de saison, yaourt, granola, sirop de chocolat",
       "ingredientsRu": "Блинчик, сезонные фрукты, йогурт, гранола, шоколадный сироп",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-19T06:48:02.308Z"
+  "updatedAt": "2026-10-19T06:48:48.305Z"
 }
