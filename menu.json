@@ -1140,7 +1140,7 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Jasmine tea",
-      "ingredientsKo": "Jasmine tea",
+      "ingredientsKo": "자스민차",
       "ingredientsHe": "תֵה יַסמִין",
       "ingredientsFr": "Thé au jasmin",
       "ingredientsRu": "Жасминовый чай",
@@ -1565,7 +1565,7 @@
       "descVi": "",
       "nameEn": "Chicken Salad",
       "nameKo": "치킨 샐러드",
-      "nameHe": "Chicken Salad",
+      "nameHe": "סלט עוף",
       "nameFr": "Salade de poulet",
       "nameRu": "Куриный салат",
       "descEn": "",
@@ -1762,8 +1762,8 @@
       "ingredientsEn": "Sandwich, bacon, cheese, tomato, lettuce, egg, mayonnaise sauce",
       "ingredientsKo": "샌드위치, 베이컨, 치즈, 토마토, 양상추, 계란, 마요네즈 소스",
       "ingredientsHe": "כריך, בייקון, גבינה, עגבנייה, חסה, ביצה, רוטב מיונז",
-      "ingredientsFr": "Sandwich, bacon, cheese, tomato, lettuce, egg, mayonnaise sauce",
-      "ingredientsRu": "Sandwich, bacon, cheese, tomato, lettuce, egg, mayonnaise sauce",
+      "ingredientsFr": "Sandwich, bacon, fromage, tomate, laitue, œuf, sauce mayonnaise",
+      "ingredientsRu": "Сэндвич, бекон, сыр, помидоры, листья салата, яйцо, майонезный соус",
       "isFeatured": false,
       "isComboBanner": true
     },
@@ -1908,7 +1908,7 @@
       "nameKo": "스위트 부리토(VT)",
       "nameHe": "בוריטוס מתוק (VT)",
       "nameFr": "Burritos sucrés (VT)",
-      "nameRu": "Sweet Burritos (VT)",
+      "nameRu": "Сладкие буррито (ВТ)",
       "descEn": "",
       "descKo": "",
       "descHe": "",
@@ -1939,7 +1939,7 @@
       "nameKo": "치킨버거",
       "nameHe": "בורגר עוף",
       "nameFr": "Burger au poulet",
-      "nameRu": "Chicken Burger",
+      "nameRu": "Куриный бургер",
       "descEn": "",
       "descKo": "",
       "descHe": "",
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-23T04:35:30.378Z"
+  "updatedAt": "2026-10-23T04:35:49.114Z"
 }
