@@ -2122,8 +2122,8 @@
       "nameVi": "Bánh Mì Thêm",
       "descVi": "",
       "nameEn": "Bread",
-      "nameKo": "",
-      "nameHe": "",
+      "nameKo": "Bread",
+      "nameHe": "Bread",
       "nameFr": "Bread",
       "nameRu": "Bread",
       "descEn": "",
@@ -2132,8 +2132,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Toasted bread slices",
-      "ingredientsKo": "",
-      "ingredientsHe": "",
+      "ingredientsKo": "Toasted bread slices",
+      "ingredientsHe": "Toasted bread slices",
       "ingredientsFr": "Toasted bread slices",
       "ingredientsRu": "Toasted bread slices",
       "isFeatured": false,
@@ -2288,12 +2288,12 @@
   "store": {
     "name": "Nâu",
     "address": "49 Phan Tình, Hội An",
-    "phone": "0905 123 456",
+    "phone": "0706221192",
     "logoEmoji": "☕",
     "logoUrl": "",
     "isOpen": true,
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-26T16:14:39.968Z"
+  "updatedAt": "2026-10-26T16:15:25.641Z"
 }
