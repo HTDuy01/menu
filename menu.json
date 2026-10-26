@@ -95,7 +95,7 @@
     },
     {
       "id": 4,
-      "name": "Espresso (Double)",
+      "name": "Espresso",
       "price": 35000,
       "category": "Cà phê máy",
       "emoji": "",
@@ -106,7 +106,7 @@
       "ingredients": "Double shot",
       "nameVi": "Espresso (Double)",
       "descVi": "",
-      "nameEn": "Espresso (Double)",
+      "nameEn": "Espresso",
       "nameKo": "",
       "nameHe": "",
       "nameFr": "Espresso",
@@ -2122,8 +2122,8 @@
       "nameVi": "Bánh Mì Thêm",
       "descVi": "",
       "nameEn": "Bread",
-      "nameKo": "Bread",
-      "nameHe": "Bread",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Bread",
       "nameRu": "Bread",
       "descEn": "",
@@ -2132,8 +2132,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Toasted bread slices",
-      "ingredientsKo": "Toasted bread slices",
-      "ingredientsHe": "Toasted bread slices",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Toasted bread slices",
       "ingredientsRu": "Toasted bread slices",
       "isFeatured": false,
@@ -2295,5 +2295,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-26T16:15:25.641Z"
+  "updatedAt": "2026-10-26T16:16:51.353Z"
 }
