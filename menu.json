@@ -2215,8 +2215,8 @@
       "nameVi": "Sữa Chua Thêm",
       "descVi": "",
       "nameEn": "Yogurt",
-      "nameKo": "Yogurt",
-      "nameHe": "Yogurt",
+      "nameKo": "",
+      "nameHe": "",
       "nameFr": "Yogurt",
       "nameRu": "Yogurt",
       "descEn": "",
@@ -2225,8 +2225,8 @@
       "descFr": "",
       "descRu": "",
       "ingredientsEn": "Creamy fresh yogurt",
-      "ingredientsKo": "Creamy fresh yogurt",
-      "ingredientsHe": "Creamy fresh yogurt",
+      "ingredientsKo": "",
+      "ingredientsHe": "",
       "ingredientsFr": "Creamy fresh yogurt",
       "ingredientsRu": "Creamy fresh yogurt",
       "isFeatured": false,
@@ -2326,5 +2326,5 @@
     "openHours": "06:30 - 22:30"
   },
   "publicUrl": "https://htduy01.github.io/menu/",
-  "updatedAt": "2026-10-29T05:40:47.962Z"
+  "updatedAt": "2026-10-29T05:41:32.955Z"
 }
